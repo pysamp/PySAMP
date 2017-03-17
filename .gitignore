@@ -1,0 +1,6 @@
+Debug/
+.vs/
+Release/
+*.vcxproj
+*.vcxproj.filters
+src/SDK/*
