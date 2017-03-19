@@ -1,6 +1,11 @@
-Debug/
+Win32/
+build/*
+src/amx/*
+src/cmake/*
 .vs/
-Release/
-*.vcxproj
-*.vcxproj.filters
-src/SDK/*
+src/plugin.h
+src/sampgdk.h
+src/plugincommon.h
+src/sampgdk.c
+src/sampgdk.h
+src/amxplugin.cpp
