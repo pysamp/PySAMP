@@ -12,15 +12,34 @@ include(AddSAMPPlugin)
 include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}
   ${CMAKE_CURRENT_SOURCE_DIR}/amx
+  ${CMAKE_CURRENT_SOURCE_DIR}/bindings
+  ${CMAKE_CURRENT_SOURCE_DIR}/pySAMP
   ${PYTHON_INCLUDE_DIR}
 )
 
-add_definitions(-DSAMPGDK_AMALGAMATION -DPYTHON)
+add_definitions(-DSAMPGDK_AMALGAMATION)
+
+link_libraries(${PYTHON_LIBRARIES})
 
 add_samp_plugin(pySAMP
   amxplugin.cpp
-  pySAMP.cpp
-  pySAMP.def
+  main.cpp
+  main.def
   sampgdk.c
   sampgdk.h
+  pysamp/PySAMP.cpp
+  pysamp/PySAMP.h
+  pysamp/PyGamemode.cpp
+  pysamp/PyGamemode.h
+  bindings/callbacks.h
 )
+
+find_package(Doxygen)
+if(DOXYGEN_FOUND)
+  configure_file(${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile.in ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile @ONLY)
+  add_custom_target(doc
+    ${DOXYGEN_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile
+    WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+    COMMENT "Generating API documentation with Doxygen" VERBATIM
+  )
+endif(DOXYGEN_FOUND)
