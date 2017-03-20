@@ -4,6 +4,39 @@ EXPORTS
 	Unload
 	ProcessTick
 	OnGameModeInit
+	OnGameModeExit
 	OnPlayerConnect
-	OnPlayerRequestClass
+	OnPlayerDisconnect
+	OnPlayerSpawn
+	OnPlayerDeath
+	OnVehicleSpawn
+	OnVehicleDeath
+	OnPlayerText
 	OnPlayerCommandText
+	OnPlayerRequestClass
+	OnPlayerEnterVehicle
+	OnPlayerExitVehicle
+	OnPlayerStateChange
+	OnPlayerEnterCheckpoint
+	OnPlayerLeaveCheckpoint
+	OnPlayerEnterRaceCheckpoint
+	OnPlayerLeaveRaceCheckpoint
+	OnRconCommand
+	OnPlayerRequestSpawn
+	OnObjectMoved
+	OnPlayerObjectMoved
+	OnPlayerPickUpPickup
+	OnVehicleMod
+	OnEnterExitModShop
+	OnVehiclePaintjob
+	OnVehicleRespray
+	OnVehicleDamageStatusUpdate
+	OnUnoccupiedVehicleUpdate
+	OnPlayerSelectedMenuRow
+	OnPlayerExitedMenu
+	OnPlayerInteriorChange
+	OnPlayerKeyStateChange
+	OnRconLoginAttempt
+	OnPlayerUpdate
+	OnPlayerStreamIn
+	OnPlayerStreamOut

@@ -16,7 +16,7 @@ private:
 	static PyGamemode* gamemode;
 public:
 	static void load();
-	static void callback(char* name, PyObject * pArgs);
+	static bool callback(char* name, PyObject * pArgs);
 };
 
 

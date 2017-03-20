@@ -72,28 +72,22 @@ bool PyGamemode::callback(const char * name, PyObject * pArgs)
 		PyObject* pValue = PyObject_CallObject(pFunc, pArgs);
 		if (PyErr_Occurred())
 			PyErr_Print();
-		//Py_XINCREF(pValue);
-		////Py_XDECREF(pValue);
 
-		//bool ret = false;
-		//if (pValue != NULL) 
-		//{
-		//	int tru = PyObject_IsTrue(pValue);
-		//	if (tru == -1)
-		//		sampgdk::logprintf("An error occured at %s in python gamemode. It doesn't return boolean.", name);
-		//	else
-		//		ret = tru == 1;
-		//}
+		bool ret = false;
+		if (pValue) 
+		{
+			int tru = PyObject_IsTrue(pValue);
+			if (tru == -1)
+				sampgdk::logprintf("An error occured at %s in python gamemode. It doesn't return boolean.", name);
+			else
+				ret = tru == 1;
+		}
 
-		//delete pValue;
 		//sampgdk::logprintf("%s called with return %i", name, ret);
 
-		//Py_XDECREF(pFunc);
-		return false;
-	}
-	else
-	{
-		sampgdk::logprintf("Calling %s failed.", name);
+		Py_XDECREF(pValue);
+		Py_XDECREF(pFunc);
+		return ret;
 	}
 	Py_XDECREF(pFunc);
 	return false;

@@ -9,3 +9,4 @@ src/plugincommon.h
 src/sampgdk.c
 src/sampgdk.h
 src/amxplugin.cpp
+pySAMP.dir/
