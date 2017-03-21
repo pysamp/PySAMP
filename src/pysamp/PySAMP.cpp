@@ -10,5 +10,8 @@ void PySAMP::load()
 
 bool PySAMP::callback(char * name, PyObject * pArgs)
 {
-	return PySAMP::gamemode->callback(name, pArgs);
+	//if gamemode exists forward to callback
+	if(PySAMP::gamemode != NULL)
+		return PySAMP::gamemode->callback(name, pArgs);
+	return 0;
 }

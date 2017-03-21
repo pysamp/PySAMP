@@ -4,6 +4,7 @@
 #include "pySAMP/pySAMP.h"
 #include "bindings/callbacks.h"
 
+#define DEBUG
 
 
 PLUGIN_EXPORT unsigned int PLUGIN_CALL Supports() {

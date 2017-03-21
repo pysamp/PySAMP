@@ -4,6 +4,11 @@
 #include <Python.h>
 #include "sampgdk.h"
 #include <stdexcept>
+#include "admin.h"
+
+#ifdef DEBUG
+#define PY_DEBUG
+#endif // DEBUG
 
 
 #ifdef WIN32
@@ -19,7 +24,7 @@
 class PyGamemode
 {
 private:	
-	PyObject *pName, *pModule, *pDict;
+	PyObject *pName = 0, *pModule = 0, *pDict = 0;
 	bool initialized = false;
 public:
 	PyGamemode(const char* path);

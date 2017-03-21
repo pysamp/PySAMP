@@ -11,48 +11,38 @@ const wchar_t *GetWC(const char *c)
 	return wc;
 }
 
-//see http://stackoverflow.com/questions/3418231/replace-part-of-a-string-with-another-string
-void replaceAll(std::string& str, const std::string& from, const std::string& to) {
-	if (from.empty())
-		return;
-	size_t start_pos = 0;
-	while ((start_pos = str.find(from, start_pos)) != std::string::npos) {
-		str.replace(start_pos, from.length(), to);
-		start_pos += to.length(); // In case 'to' contains 'from', like replacing 'x' with 'yx'
-	}
-}
-
 PyGamemode::PyGamemode(const char * path)
 {
-	Py_Initialize();
+	if (PyImport_AppendInittab("admin", &PyInit_admin) == -1) {
+		sampgdk::logprintf("Couldn't load module admin.");
+		return;
+	}
+
+
+	Py_Initialize();	
 	char cCurrentPath[FILENAME_MAX];
 	GetCurrentDir(cCurrentPath, sizeof(cCurrentPath));
 	char* absolute = std::strcat(cCurrentPath, path);
-#ifdef WIN32
-	std::string p(absolute);
-	std::string from("\\");
-	std::string to("\\\\");
-	replaceAll(p, from, to);
-	delete(absolute);
-	absolute = new char[p.length() + 1];
-	strcpy(absolute, p.c_str());
-#endif
-	PyRun_SimpleString("import sys");
-	char* pyCode;
-	sprintf(pyCode, "sys.path.append(\"%s\")", absolute);
-	sampgdk::logprintf("Running: %s", pyCode);
-	PyRun_SimpleString(pyCode);
+
+	sampgdk::logprintf("Setting python workspace to %s", absolute);
+	PyObject* sysPath = PySys_GetObject("path");
+	
+	if(!sysPath)
+		sampgdk::logprintf("Setting python workspace failed.");
+
+	PyList_Append(sysPath, PyUnicode_FromString(absolute));
+
 	pName = PyUnicode_DecodeFSDefault("gamemode");
-	/* Error checking of pName left out */
 	pModule = PyImport_Import(pName);
 
-	if (pModule != NULL) {
-		initialized = true;
+	if (pModule) 
+	{
 		sampgdk::logprintf("PyGamemode loaded!");
 	}
 	else
 	{
-		sampgdk::logprintf("PyGamemode::PyGamemode(%s%s) failed!", absolute, "gamemode.py");
+		PyErr_Print();
+		sampgdk::logprintf("PyGamemode::PyGamemode(%s) failed!", "gamemode.py");
 	}
 	delete(absolute);
 }
@@ -64,14 +54,21 @@ PyGamemode::~PyGamemode()
 
 bool PyGamemode::callback(const char * name, PyObject * pArgs)
 {
-	sampgdk::logprintf("PyGamemode::callback(%s, ...)", name);
+	// if Module does not exists don't forward callback to python function
+	if (!pModule) {
+		sampgdk::logprintf("module null");
+		return false;
+	}
 	PyObject* pFunc = PyObject_GetAttrString(pModule, name);
 
 	if (pFunc && PyCallable_Check(pFunc)) 
 	{
 		PyObject* pValue = PyObject_CallObject(pFunc, pArgs);
+
+		//ignore error if pFunc not available
 		if (PyErr_Occurred())
 			PyErr_Print();
+			//PyErr_Clear();
 
 		bool ret = false;
 		if (pValue) 
@@ -88,7 +85,9 @@ bool PyGamemode::callback(const char * name, PyObject * pArgs)
 		Py_XDECREF(pValue);
 		Py_XDECREF(pFunc);
 		return ret;
-	}
+	}	
+	
+
 	Py_XDECREF(pFunc);
 	return false;
 }

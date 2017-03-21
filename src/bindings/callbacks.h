@@ -36,6 +36,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerRequestClass(int playerid,
 PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerCommandText(int playerid,
 	const char *cmdtext) {
 	char* cmd = fromConst(cmdtext);
+	sampgdk::logprintf(cmd);
 	bool ret = PySAMP::callback("OnPlayerCommandText", Py_BuildValue("(is)", playerid, cmd));
 	delete[] cmd;
 	return ret;
