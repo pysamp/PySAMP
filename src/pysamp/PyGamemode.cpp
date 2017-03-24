@@ -14,7 +14,7 @@ const wchar_t *GetWC(const char *c)
 PyGamemode::PyGamemode(const char * path)
 {
 	SAMPConsts::create();
-	if (PyImport_AppendInittab("admin", &PyInit_samp) == -1) {
+	if (PyImport_AppendInittab("pysamp", &PyInit_samp) == -1) {
 		sampgdk::logprintf("Couldn't load module admin.");
 		return;
 	}

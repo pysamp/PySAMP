@@ -1,26 +1,43 @@
 # pySAMP
-PySAMP is a SA-MP plugin that allows you to create gamemodes with the python language. All API functions and callbacks will be supported soon.
-no http! no timers!
-# Call-By-Reference functions
-
-# Usage
+Using PySAMP in your SA-MP server allows you to create gamemodes with the python language. All API-functions, callbacks and constants except timers and http functions can be accessed in python. 
+In case of the call-by-reference functions like ```GetPlayerName``` are returning the value instead of using a reference, since call-by-reference isn't possible in python.
+The following example shows the difference.
 
 ```C
-public OnGameModeInit()
+...
+public OnPlayerConnect(playerid)
 {
-  SetGameModeText("GameModeText");
-  AddPlayerClass(0, 1958.3783, 1343.1572, 15.3746, 269.1425, 0, 0, 0, 0, 0, 0);
-  AddPlayerClass(18, 1960.3783, 1343.1572, 15.3746, 269.1425, 0, 0, 0, 0, 0, 0);
-  AddPlayerClass(0,1585.1819,-1674.7336,5.8949,176.0211,0,0,0,0,0,0);
-  return 1;
+  new name[MAX_PLAYER_NAME], string[MAX_PLAYER_NAME + 24];s
+  GetPlayerName(playerid, name, MAX_PLAYER_NAME)
+  format(string, sizeof(string), "%s has joined the server.", name);
+  SendClientMessageToAll(0x000000FF, string);
 }
 ```
 
 ```python
-def OnGameModeInit():
-  SetGameModeText("GameModeText")
-  AddPlayerClass(0, 1958.3783, 1343.1572, 15.3746, 269.1425, 0, 0, 0, 0, 0, 0)
-  AddPlayerClass(18, 1960.3783, 1343.1572, 15.3746, 269.1425, 0, 0, 0, 0, 0, 0)
-  AddPlayerClass(0,1585.1819,-1674.7336,5.8949,176.0211,0,0,0,0,0,0)
-  return 1
+from pysamp import *
+
+def OnPlayerConnect(playerid):
+    name = GetPlayerName(playerid, MAX_PLAYER_NAME)
+    SendClientMessageToAll(0x000000FF,  '%s has joined the server.'.format(name))
+    return 1
 ```
+
+As you can see, all referenced return values are removed and instead the method returns either a value or a tuple.
+The corresponding python gamemode has to be saved as `gamemode.py` in a `python/` subfolder of your server directory.
+
+# Compiling
+If the uploaded binaries don't suite your needs, you might have to compile the project on your own. 
+You can also create an issue, so I can compile it for your system, just mention your system architecture.
+
+So, if you want to compile it on your own, note the following things.
+- You read the [SAMPGDK tutorial](https://github.com/Zeex/sampgdk/wiki/Setting-up-GDK-with-CMake).
+- Python 3.6 is installed on your computer
+- You copied the sampsdk and sampgdk files into the src folder, as defined in CMakeLists.txt
+
+Use cmake to create a project and then compile it as you're used to it.
+
+# Thanks to
+- SA:MP Team for developing SA:MP
+- Zeex for developing the SAMPGDK which is used by pySAMP
+- Python Software Foundation
