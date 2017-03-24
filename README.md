@@ -4,7 +4,6 @@ In case of the call-by-reference functions like ```GetPlayerName``` are returnin
 The following example shows the difference.
 
 ```C
-...
 public OnPlayerConnect(playerid)
 {
   new name[MAX_PLAYER_NAME], string[MAX_PLAYER_NAME + 24];
