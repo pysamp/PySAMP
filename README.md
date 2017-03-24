@@ -1,6 +1,6 @@
 # pySAMP
 PySAMP is a SA-MP plugin that allows you to create gamemodes with the python language. All API functions and callbacks will be supported soon.
-
+no http! no timers!
 # Call-By-Reference functions
 
 # Usage

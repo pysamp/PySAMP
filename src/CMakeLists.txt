@@ -32,7 +32,9 @@ add_samp_plugin(pySAMP
   pysamp/PyGamemode.cpp
   pysamp/PyGamemode.h
   bindings/callbacks.h
-  bindings/admin.h
+  bindings/samp.h
+  bindings/const.h
+  bindings/const.cpp
 )
 
 find_package(Doxygen)

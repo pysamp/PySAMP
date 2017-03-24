@@ -3,9 +3,14 @@
 PyGamemode* PySAMP::gamemode = 0;
 
 
-void PySAMP::load() 
+void PySAMP::load()
 {
 	PySAMP::gamemode = new PyGamemode(PYTHON_PATH);
+}
+
+void PySAMP::unload()
+{
+	delete PySAMP::gamemode;
 }
 
 bool PySAMP::callback(char * name, PyObject * pArgs)
