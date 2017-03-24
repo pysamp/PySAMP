@@ -17,7 +17,7 @@ public OnPlayerConnect(playerid)
 from pysamp import *
 
 def OnPlayerConnect(playerid):
-    name = GetPlayerName(playerid, MAX_PLAYER_NAME)
+    name = GetPlayerName(playerid, Const('MAX_PLAYER_NAME'))
     SendClientMessageToAll(0x000000FF,  '%s has joined the server.'.format(name))
     return 1
 ```
