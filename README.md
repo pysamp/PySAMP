@@ -7,8 +7,8 @@ The following example shows the difference.
 ...
 public OnPlayerConnect(playerid)
 {
-  new name[MAX_PLAYER_NAME], string[MAX_PLAYER_NAME + 24];s
-  GetPlayerName(playerid, name, MAX_PLAYER_NAME)
+  new name[MAX_PLAYER_NAME], string[MAX_PLAYER_NAME + 24];
+  GetPlayerName(playerid, name, MAX_PLAYER_NAME);
   format(string, sizeof(string), "%s has joined the server.", name);
   SendClientMessageToAll(0x000000FF, string);
 }
