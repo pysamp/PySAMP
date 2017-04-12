@@ -35,6 +35,8 @@ add_samp_plugin(pySAMP
   bindings/samp.h
   bindings/const.h
   bindings/const.cpp
+  test/callbackstest.h
+  test/callbackstest.cpp
 )
 
 find_package(Doxygen)

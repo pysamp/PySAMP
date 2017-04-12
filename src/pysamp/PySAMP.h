@@ -17,7 +17,7 @@ private:
 public:
 	static void load();
 	static void unload();
-	static bool callback(char* name, PyObject * pArgs);
+	static bool callback(const char* name, PyObject * pArgs);
 };
 
 

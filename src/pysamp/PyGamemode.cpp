@@ -15,7 +15,7 @@ PyGamemode::PyGamemode(const char * path)
 {
 	SAMPConsts::create();
 	if (PyImport_AppendInittab("pysamp", &PyInit_samp) == -1) {
-		sampgdk::logprintf("Couldn't load module admin.");
+		sampgdk::logprintf("Couldn't load module.");
 		return;
 	}
 

@@ -13,7 +13,7 @@ void PySAMP::unload()
 	delete PySAMP::gamemode;
 }
 
-bool PySAMP::callback(char * name, PyObject * pArgs)
+bool PySAMP::callback(const char * name, PyObject * pArgs)
 {
 	//if gamemode exists forward to callback
 	if(PySAMP::gamemode != NULL)
