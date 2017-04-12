@@ -10,6 +10,9 @@ src/sampgdk.c
 src/sampgdk.h
 src/amxplugin.cpp
 pySAMP.dir/
-python/
+python/idl/
+python/json/
+python/functions/
 .vscode/
 doc/plantuml/
+test/

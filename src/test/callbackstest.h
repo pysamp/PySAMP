@@ -3,12 +3,14 @@
 
 #include "Python.h"
 #include "PySAMP.h"
+#include <iostream>
 
 class CallbacksTest
 {
 private:
 public:
 	static bool testCallback(const char* name, const char* params);
+	static void runAll();
 };
 
 

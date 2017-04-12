@@ -3,6 +3,7 @@
 
 #include "sampgdk.h"
 #include "pysamp/PySAMP.h"
+#include "test/callbackstest.h"
 
 char* fromConst(const char * str) {
 	const size_t len = strlen(str);
@@ -13,6 +14,10 @@ char* fromConst(const char * str) {
 }
 
 PLUGIN_EXPORT bool PLUGIN_CALL OnGameModeInit() {
+#ifdef TEST
+	CallbacksTest::runAll();
+#endif // TEST
+
 	return PySAMP::callback("OnGameModeInit", NULL);
 }
 
@@ -137,7 +142,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnVehicleDamageStatusUpdate(int vehicleid, int pl
 }
 
 PLUGIN_EXPORT bool PLUGIN_CALL OnUnoccupiedVehicleUpdate(int vehicleid, int playerid, int passenger_seat, float new_x, float new_y, float new_z, float vel_x, float vel_y, float vel_z) {
-	return PySAMP::callback("OnVehicleDamageStatusUpdate", Py_BuildValue("(iiiffffff)", playerid, vehicleid, passenger_seat, new_x, new_y, new_z, vel_x, vel_y, vel_z));
+	return PySAMP::callback("OnUnoccupiedVehicleUpdate", Py_BuildValue("(iiiffffff)", playerid, vehicleid, passenger_seat, new_x, new_y, new_z, vel_x, vel_y, vel_z));
 }
 
 PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerSelectedMenuRow(int playerid, int row) {

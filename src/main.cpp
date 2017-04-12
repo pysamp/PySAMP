@@ -1,3 +1,8 @@
+
+#define DEBUG
+//if TEST, then the dll starts in test mode and runs all test in a python/test/gamemode.py file
+#define TEST
+
 #include <stdio.h>
 #include <string.h>
 #include "sampgdk.h"
@@ -5,7 +10,6 @@
 #include "bindings/callbacks.h"
 #include "test/callbackstest.h"
 
-#define DEBUG
 
 PLUGIN_EXPORT unsigned int PLUGIN_CALL Supports()
 {
@@ -16,7 +20,6 @@ PLUGIN_EXPORT bool PLUGIN_CALL Load(void **ppData)
 {
 	try {
 		PySAMP::load();
-		printf("test return value: %i", CallbacksTest::testCallback("OnGameModeInit", NULL));
 	} catch (std::exception) {
 		return false;
 	}

@@ -1,10 +1,20 @@
 #ifndef PYSAMP_H
 #define PYSAMP_H
-#ifdef WIN32
-#define PYTHON_PATH "\\python"
+
+#ifdef DEBUG
+	#ifdef WIN32
+	#define PYTHON_PATH "\\python"
+	#else
+	#define PYTHON_PATH "/python"
+	#endif
 #else
-#define PYTHON_PATH "/python"
-#endif
+	#ifdef WIN32
+	#define PYTHON_PATH "\\python\\test"
+	#else
+	#define PYTHON_PATH "/python/test"
+	#endif
+#endif // DEBUG
+
 
 #include "PyGamemode.h"
 

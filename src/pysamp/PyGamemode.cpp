@@ -57,7 +57,6 @@ bool PyGamemode::callback(const char * name, PyObject * pArgs)
 {
 	// if Module does not exists don't forward callback to python function
 	if (!pModule) {
-		sampgdk::logprintf("module null");
 		return false;
 	}
 	PyObject* pFunc = PyObject_GetAttrString(pModule, name);
