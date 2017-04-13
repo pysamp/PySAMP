@@ -1,4 +1,4 @@
-#include "PyGamemode.h"
+#include "pygamemode.h"
 
 
 //see http://stackoverflow.com/questions/8032080/how-to-convert-char-to-wchar-t

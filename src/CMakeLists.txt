@@ -1,4 +1,4 @@
-project(pySAMP)
+project(PySAMP)
 
 cmake_minimum_required(VERSION 2.8)
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
@@ -13,7 +13,7 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}
   ${CMAKE_CURRENT_SOURCE_DIR}/amx
   ${CMAKE_CURRENT_SOURCE_DIR}/bindings
-  ${CMAKE_CURRENT_SOURCE_DIR}/pySAMP
+  ${CMAKE_CURRENT_SOURCE_DIR}/pysamp
   ${PYTHON_INCLUDE_DIR}
 )
 
@@ -27,10 +27,10 @@ add_samp_plugin(pySAMP
   main.def
   sampgdk.c
   sampgdk.h
-  pysamp/PySAMP.cpp
-  pysamp/PySAMP.h
-  pysamp/PyGamemode.cpp
-  pysamp/PyGamemode.h
+  pysamp/pysamp.cpp
+  pysamp/pysamp.h
+  pysamp/pygamemode.cpp
+  pysamp/pygamemode.h
   bindings/callbacks.h
   bindings/samp.h
   bindings/const.h

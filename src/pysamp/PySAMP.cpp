@@ -1,4 +1,4 @@
-#include "PySAMP.h"
+#include "pysamp.h"
 
 PyGamemode* PySAMP::gamemode = 0;
 

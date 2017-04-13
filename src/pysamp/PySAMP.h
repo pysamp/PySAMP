@@ -16,7 +16,7 @@
 #endif // DEBUG
 
 
-#include "PyGamemode.h"
+#include "pygamemode.h"
 
 
 

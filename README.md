@@ -1,4 +1,4 @@
-# pySAMP
+# PySAMP
 Using PySAMP in your SA-MP server allows you to create gamemodes with the python language. All API-functions, callbacks and constants except timers and http functions can be accessed in python. 
 In case of the call-by-reference functions like ```GetPlayerName``` are returning the value instead of using a reference, since call-by-reference isn't possible in python.
 The following example shows the difference.
