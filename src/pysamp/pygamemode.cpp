@@ -20,14 +20,14 @@ PyGamemode::PyGamemode(const char * path)
 	}
 
 
-	Py_Initialize();	
+	Py_Initialize();
 	char cCurrentPath[FILENAME_MAX];
 	GetCurrentDir(cCurrentPath, sizeof(cCurrentPath));
-	char* absolute = std::strcat(cCurrentPath, path);
+	char* absolute = strcat(cCurrentPath, path);
 
 	sampgdk::logprintf("Setting python workspace to %s", absolute);
 	PyObject* sysPath = PySys_GetObject("path");
-	
+
 	if(!sysPath)
 		sampgdk::logprintf("Setting python workspace failed.");
 
