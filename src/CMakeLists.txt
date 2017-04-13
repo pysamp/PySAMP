@@ -1,10 +1,13 @@
 project(PySAMP)
 
+add_compile_options(-std=c++11)
+
+
 cmake_minimum_required(VERSION 2.8)
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
-find_package ( PythonInterp 3.6)
-find_package ( PythonLibs 3.6)
+find_package ( PythonInterp 3.4.2)
+find_package ( PythonLibs 3.4.2)
 
 include(AMXConfig)
 include(AddSAMPPlugin)

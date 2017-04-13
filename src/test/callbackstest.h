@@ -2,7 +2,7 @@
 #define CALLBACKSTEST_H
 
 #include "Python.h"
-#include "PySAMP.h"
+#include "pysamp.h"
 #include <iostream>
 
 class CallbacksTest

@@ -2,7 +2,7 @@
 #define CALLBACKS_H
 
 #include "sampgdk.h"
-#include "pysamp/PySAMP.h"
+#include "pysamp/pysamp.h"
 #include "test/callbackstest.h"
 
 char* fromConst(const char * str) {
