@@ -1,3 +1,4 @@
+#define PY_TEST (0)
 
 #include <stdio.h>
 #include <string.h>
