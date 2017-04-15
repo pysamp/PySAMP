@@ -1,7 +1,7 @@
 
-#define DEBUG
+//#define DEBUG
 //if TEST, then the dll starts in test mode and runs all test in a python/test/gamemode.py file
-#define TEST
+//#define TEST
 
 #include <stdio.h>
 #include <string.h>
