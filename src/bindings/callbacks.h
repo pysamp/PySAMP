@@ -14,7 +14,7 @@ char* fromConst(const char * str) {
 }
 
 PLUGIN_EXPORT bool PLUGIN_CALL OnGameModeInit() {
-#ifdef TEST
+#if PY_TEST
 	CallbacksTest::runAll();
 #endif // TEST
 
