@@ -45,7 +45,6 @@ PyGamemode::PyGamemode(const char * path)
 		PyErr_Print();
 		sampgdk::logprintf("PyGamemode::PyGamemode(%s) failed!", "gamemode.py");
 	}
-	delete(absolute);
 }
 
 PyGamemode::~PyGamemode()
