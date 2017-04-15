@@ -26,6 +26,7 @@ link_libraries(${PYTHON_LIBRARIES})
 
 add_samp_plugin(pySAMP
   amxplugin.cpp
+  main.h
   main.cpp
   main.def
   sampgdk.c

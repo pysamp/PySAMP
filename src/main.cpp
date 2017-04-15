@@ -1,7 +1,7 @@
-#define PY_TEST (0)
 
 #include <stdio.h>
 #include <string.h>
+#include "main.h"
 #include "sampgdk.h"
 #include "pysamp/pysamp.h"
 #include "bindings/callbacks.h"
