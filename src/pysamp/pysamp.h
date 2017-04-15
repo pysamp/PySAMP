@@ -1,7 +1,7 @@
 #ifndef PYSAMP_H
 #define PYSAMP_H
 
-#ifdef DEBUG
+#ifdef TEST
 	#ifdef WIN32
 	#define PYTHON_PATH "\\python"
 	#else
