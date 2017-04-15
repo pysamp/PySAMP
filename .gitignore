@@ -3,6 +3,7 @@ build/*
 src/amx/*
 src/cmake/*
 .vs/
+sh/
 src/plugin.h
 src/sampgdk.h
 src/plugincommon.h
