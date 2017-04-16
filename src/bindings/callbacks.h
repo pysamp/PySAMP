@@ -65,7 +65,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnVehicleDeath(int vehicleid, int killerid) {
 
 PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerText(int playerid, const char * text) {
 	char* txt = fromConst(text);
-	bool ret = PySAMP::callback("OnPlayerCommandText", Py_BuildValue("(is)", playerid, txt));
+	bool ret = PySAMP::callback("OnPlayerText", Py_BuildValue("(is)", playerid, txt));
 	delete[] txt;
 	return ret;
 }
