@@ -2,6 +2,7 @@
 #define samp_h
 #include <Python.h>
 #include "sampgdk.h"
+#include "consts.h"
 
 static PyObject* pysamp_createactor(PyObject *self, PyObject *args)
 {
@@ -1449,13 +1450,13 @@ static PyObject* pysamp_getplayerstate(PyObject *self, PyObject *args)
 static PyObject* pysamp_getplayerip(PyObject *self, PyObject *args)
 {
     int arg2 = -1;
-    char* arg1 = new char[arg2];
     int arg0 = -1;
     if (!PyArg_ParseTuple(args, "ii:GetPlayerIp", &arg0, &arg2))
     {
         PyErr_Print();
         return NULL;
     }
+    char* arg1 = new char[arg2];
     bool ret = GetPlayerIp(arg0, arg1, arg2);
     PyObject* out =  Py_BuildValue("s", arg1);
     delete[] arg1;
@@ -1507,13 +1508,13 @@ static PyObject* pysamp_getplayerkeys(PyObject *self, PyObject *args)
 static PyObject* pysamp_getplayername(PyObject *self, PyObject *args)
 {
     int arg2 = -1;
-    char* arg1 = new char[arg2];
     int arg0 = -1;
     if (!PyArg_ParseTuple(args, "ii:GetPlayerName", &arg0, &arg2))
     {
         PyErr_Print();
         return NULL;
     }
+    char* arg1 = new char[arg2];
     int ret = GetPlayerName(arg0, arg1, arg2);
     PyObject* out =  Py_BuildValue("s", arg1);
     delete[] arg1;
@@ -2244,7 +2245,6 @@ static PyObject* pysamp_setpvarstring(PyObject *self, PyObject *args)
 static PyObject* pysamp_getpvarstring(PyObject *self, PyObject *args)
 {
     int arg3 = -1;
-    char* arg2 = new char[arg3];
     const char* arg1 = "";
     int arg0 = -1;
     if (!PyArg_ParseTuple(args, "isi:GetPVarString", &arg0, &arg1, &arg3))
@@ -2252,6 +2252,7 @@ static PyObject* pysamp_getpvarstring(PyObject *self, PyObject *args)
         PyErr_Print();
         return NULL;
     }
+    char* arg2 = new char[arg3];
     bool ret = GetPVarString(arg0, arg1, arg2, arg3);
     PyObject* out =  Py_BuildValue("s", arg2);
     delete[] arg1;
@@ -2321,7 +2322,6 @@ static PyObject* pysamp_getpvarsupperindex(PyObject *self, PyObject *args)
 static PyObject* pysamp_getpvarnameatindex(PyObject *self, PyObject *args)
 {
     int arg3 = -1;
-    char* arg2 = new char[arg3];
     int arg1 = -1;
     int arg0 = -1;
     if (!PyArg_ParseTuple(args, "iii:GetPVarNameAtIndex", &arg0, &arg1, &arg3))
@@ -2329,6 +2329,7 @@ static PyObject* pysamp_getpvarnameatindex(PyObject *self, PyObject *args)
         PyErr_Print();
         return NULL;
     }
+    char* arg2 = new char[arg3];
     bool ret = GetPVarNameAtIndex(arg0, arg1, arg2, arg3);
     PyObject* out =  Py_BuildValue("s", arg2);
     delete[] arg2;
@@ -2507,15 +2508,15 @@ static PyObject* pysamp_getplayeranimationindex(PyObject *self, PyObject *args)
 static PyObject* pysamp_getanimationname(PyObject *self, PyObject *args)
 {
     int arg4 = -1;
-    char* arg3 = new char[arg4];
     int arg2 = -1;
-    char* arg1 = new char[arg2];
     int arg0 = -1;
     if (!PyArg_ParseTuple(args, "iii:GetAnimationName", &arg0, &arg2, &arg4))
     {
         PyErr_Print();
         return NULL;
     }
+    char* arg3 = new char[arg4];
+    char* arg1 = new char[arg2];
     bool ret = GetAnimationName(arg0, arg1, arg2, arg3, arg4);
     PyObject* out =  Py_BuildValue("ss", arg1, arg3);
     delete[] arg1;
@@ -3436,13 +3437,13 @@ static PyObject* pysamp_setsvarstring(PyObject *self, PyObject *args)
 static PyObject* pysamp_getsvarstring(PyObject *self, PyObject *args)
 {
     int arg2 = -1;
-    char* arg1 = new char[arg2];
     const char* arg0 = "";
     if (!PyArg_ParseTuple(args, "si:GetSVarString", &arg0, &arg2))
     {
         PyErr_Print();
         return NULL;
     }
+    char* arg1 = new char[arg2];
     bool ret = GetSVarString(arg0, arg1, arg2);
     PyObject* out =  Py_BuildValue("s", arg1);
     delete[] arg0;
@@ -3508,13 +3509,13 @@ static PyObject* pysamp_getsvarsupperindex(PyObject *self, PyObject *args)
 static PyObject* pysamp_getsvarnameatindex(PyObject *self, PyObject *args)
 {
     int arg2 = -1;
-    char* arg1 = new char[arg2];
     int arg0 = -1;
     if (!PyArg_ParseTuple(args, "ii:GetSVarNameAtIndex", &arg0, &arg2))
     {
         PyErr_Print();
         return NULL;
     }
+    char* arg1 = new char[arg2];
     bool ret = GetSVarNameAtIndex(arg0, arg1, arg2);
     PyObject* out =  Py_BuildValue("s", arg1);
     delete[] arg1;
@@ -3752,13 +3753,13 @@ static PyObject* pysamp_setworldtime(PyObject *self, PyObject *args)
 static PyObject* pysamp_getweaponname(PyObject *self, PyObject *args)
 {
     int arg2 = -1;
-    char* arg1 = new char[arg2];
     int arg0 = -1;
     if (!PyArg_ParseTuple(args, "ii:GetWeaponName", &arg0, &arg2))
     {
         PyErr_Print();
         return NULL;
     }
+    char* arg1 = new char[arg2];
     bool ret = GetWeaponName(arg0, arg1, arg2);
     PyObject* out =  Py_BuildValue("s", arg1);
     delete[] arg1;
@@ -4072,13 +4073,13 @@ static PyObject* pysamp_sendrconcommand(PyObject *self, PyObject *args)
 static PyObject* pysamp_getplayernetworkstats(PyObject *self, PyObject *args)
 {
     int arg2 = -1;
-    char* arg1 = new char[arg2];
     int arg0 = -1;
     if (!PyArg_ParseTuple(args, "ii:GetPlayerNetworkStats", &arg0, &arg2))
     {
         PyErr_Print();
         return NULL;
     }
+    char* arg1 = new char[arg2];
     bool ret = GetPlayerNetworkStats(arg0, arg1, arg2);
     PyObject* out =  Py_BuildValue("s", arg1);
     delete[] arg1;
@@ -4088,12 +4089,12 @@ static PyObject* pysamp_getplayernetworkstats(PyObject *self, PyObject *args)
 static PyObject* pysamp_getnetworkstats(PyObject *self, PyObject *args)
 {
     int arg1 = -1;
-    char* arg0 = new char[arg1];
     if (!PyArg_ParseTuple(args, "i:GetNetworkStats", &arg1))
     {
         PyErr_Print();
         return NULL;
     }
+    char* arg0 = new char[arg1];
     bool ret = GetNetworkStats(arg0, arg1);
     PyObject* out =  Py_BuildValue("s", arg0);
     delete[] arg0;
@@ -4103,13 +4104,13 @@ static PyObject* pysamp_getnetworkstats(PyObject *self, PyObject *args)
 static PyObject* pysamp_getplayerversion(PyObject *self, PyObject *args)
 {
     int arg2 = -1;
-    char* arg1 = new char[arg2];
     int arg0 = -1;
     if (!PyArg_ParseTuple(args, "ii:GetPlayerVersion", &arg0, &arg2))
     {
         PyErr_Print();
         return NULL;
     }
+    char* arg1 = new char[arg2];
     bool ret = GetPlayerVersion(arg0, arg1, arg2);
     PyObject* out =  Py_BuildValue("s", arg1);
     delete[] arg1;
@@ -4148,13 +4149,13 @@ static PyObject* pysamp_unblockipaddress(PyObject *self, PyObject *args)
 static PyObject* pysamp_getservervarasstring(PyObject *self, PyObject *args)
 {
     int arg2 = -1;
-    char* arg1 = new char[arg2];
     const char* arg0 = "";
     if (!PyArg_ParseTuple(args, "si:GetServerVarAsString", &arg0, &arg2))
     {
         PyErr_Print();
         return NULL;
     }
+    char* arg1 = new char[arg2];
     bool ret = GetServerVarAsString(arg0, arg1, arg2);
     PyObject* out =  Py_BuildValue("s", arg1);
     delete[] arg0;
@@ -4193,13 +4194,13 @@ static PyObject* pysamp_getservervarasbool(PyObject *self, PyObject *args)
 static PyObject* pysamp_getconsolevarasstring(PyObject *self, PyObject *args)
 {
     int arg2 = -1;
-    char* arg1 = new char[arg2];
     const char* arg0 = "";
     if (!PyArg_ParseTuple(args, "si:GetConsoleVarAsString", &arg0, &arg2))
     {
         PyErr_Print();
         return NULL;
     }
+    char* arg1 = new char[arg2];
     bool ret = GetConsoleVarAsString(arg0, arg1, arg2);
     PyObject* out =  Py_BuildValue("s", arg1);
     delete[] arg0;
@@ -4354,13 +4355,13 @@ static PyObject* pysamp_netstats_connectionstatus(PyObject *self, PyObject *args
 static PyObject* pysamp_netstats_getipport(PyObject *self, PyObject *args)
 {
     int arg2 = -1;
-    char* arg1 = new char[arg2];
     int arg0 = -1;
     if (!PyArg_ParseTuple(args, "ii:NetStats_GetIpPort", &arg0, &arg2))
     {
         PyErr_Print();
         return NULL;
     }
+    char* arg1 = new char[arg2];
     bool ret = NetStats_GetIpPort(arg0, arg1, arg2);
     PyObject* out =  Py_BuildValue("s", arg1);
     delete[] arg1;
@@ -5020,13 +5021,13 @@ static PyObject* pysamp_showplayerdialog(PyObject *self, PyObject *args)
 static PyObject* pysamp_gpci(PyObject *self, PyObject *args)
 {
     int arg2 = -1;
-    char* arg1 = new char[arg2];
     int arg0 = -1;
     if (!PyArg_ParseTuple(args, "ii:gpci", &arg0, &arg2))
     {
         PyErr_Print();
         return NULL;
     }
+    char* arg1 = new char[arg2];
     bool ret = gpci(arg0, arg1, arg2);
     PyObject* out =  Py_BuildValue("s", arg1);
     delete[] arg1;

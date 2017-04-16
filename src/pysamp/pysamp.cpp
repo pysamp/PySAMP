@@ -6,6 +6,10 @@ PyGamemode* PySAMP::gamemode = 0;
 void PySAMP::load()
 {
 	PySAMP::gamemode = new PyGamemode(PYTHON_PATH);
+
+	if (!PyEval_ThreadsInitialized()) {
+		PyEval_InitThreads();
+	}
 }
 
 void PySAMP::unload()

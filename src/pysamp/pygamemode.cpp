@@ -54,13 +54,20 @@ PyGamemode::~PyGamemode()
 
 bool PyGamemode::callback(const char * name, PyObject * pArgs)
 {
+	PyGILState_STATE gstate;
+	gstate = PyGILState_Ensure();
+
 	// if Module does not exists don't forward callback to python function
 	if (!pModule) {
 		return false;
 	}
+
 	PyObject* pFunc = PyObject_GetAttrString(pModule, name);
 
-	if (pFunc && PyCallable_Check(pFunc)) 
+	if(pFunc)
+		Py_INCREF(pFunc);
+
+	if (pFunc && PyCallable_Check(pFunc) == 1) 
 	{
 		PyObject* pValue = PyObject_CallObject(pFunc, pArgs);
 
@@ -86,7 +93,5 @@ bool PyGamemode::callback(const char * name, PyObject * pArgs)
 		return ret;
 	}	
 	
-
-	Py_XDECREF(pFunc);
 	return false;
 }

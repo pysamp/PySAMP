@@ -149,11 +149,13 @@ class Method:
     
     def toCpp(self):
         lines = 'static PyObject* pysamp_'+self.name.lower()+'(PyObject *self, PyObject *args)\n{\n'
-        i = len(self.params)
         pars = self.params.copy()
         pars.reverse()
+
+        i = len(self.params)
         for param in pars:
-            lines += '    '+param.toDeclaration('arg'+str(i))+'\n'
+            if not(param.isOut and param.type == 'string'):
+                lines += '    '+param.toDeclaration('arg'+str(i))+'\n'
             i -= 1
         lines += '    if (!PyArg_ParseTuple(args, "'+self.toFormatString()+':'+self.name+'"'
         for param in self.params:
@@ -165,6 +167,13 @@ class Method:
         lines += '        PyErr_Print();\n'
         lines += '        return NULL;\n'
         lines += '    }\n'
+        
+        i = len(self.params)
+        for param in pars:
+            if (param.isOut and param.type == 'string'):
+                lines += '    '+param.toDeclaration('arg'+str(i))+'\n'
+            i -= 1
+
         lines += '    ' + self.returns + ' ret = ' + self.name + '('
         fl = True
         for param in self.params:
@@ -176,6 +185,8 @@ class Method:
                 lines += '&'
             lines += param.name
         lines += ');\n'  
+        
+
         lines += '    '+self.getReturnString() + '\n';
         lines += '}\n\n'
         return lines
@@ -194,7 +205,7 @@ with open("functions/functions.txt") as f:
                 methods.append(m)
             except Exception as e:
                 traceback.print_exc()
-        output = '#ifndef samp_h\n#define samp_h\n#include <Python.h>\n#include "sampgdk.h"\n\n'
+        output = '#ifndef samp_h\n#define samp_h\n#include <Python.h>\n#include "sampgdk.h"\n#include "const.h"\n\n'
         for method in methods:
             output += method.toCpp()
 
