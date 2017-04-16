@@ -17,3 +17,4 @@ python/functions/
 .vscode/
 doc/plantuml/
 test/
+*.pyc
