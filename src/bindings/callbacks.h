@@ -71,7 +71,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerText(int playerid, const char * text) {
 }
 
 PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerEnterVehicle(int playerid, int vehicleid, bool ispassenger) {
-	return PySAMP::callback("OnPlayerEnterVehicle", Py_BuildValue("(iip)", playerid, vehicleid, ispassenger));
+	return PySAMP::callback("OnPlayerEnterVehicle", Py_BuildValue("(iiO)", playerid, vehicleid, (ispassenger?Py_True:Py_False)));
 }
 
 PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerExitVehicle(int playerid, int vehicleid) {
@@ -164,7 +164,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerKeyStateChange(int playerid, int newkeys,
 PLUGIN_EXPORT bool PLUGIN_CALL OnRconLoginAttempt(const char * ip, const char * password, bool success) {
 	char* ipStr = fromConst(ip);
 	char* passwordStr = fromConst(password);
-	bool ret = PySAMP::callback("OnRconLoginAttempt", Py_BuildValue("(ssp)", ipStr, passwordStr, success));
+	bool ret = PySAMP::callback("OnRconLoginAttempt", Py_BuildValue("(ssO)", ipStr, passwordStr, (success ? Py_True : Py_False)));
 	delete[] ipStr, passwordStr;
 	return ret;
 }
@@ -249,7 +249,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerClickPlayer(int playerid, int clickedplay
 }
 
 PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerEditObject(int playerid, bool playerobject, int objectid, int response, float fX, float fY, float fZ, float fRotX, float fRotY, float fRotZ) {
-	return PySAMP::callback("OnPlayerEditObject", Py_BuildValue("(ipiiffffff)", playerid, playerobject, objectid, response, fX, fY, fZ, fRotX, fRotY, fRotZ));
+	return PySAMP::callback("OnPlayerEditObject", Py_BuildValue("(iOiiffffff)", playerid, (playerobject ? Py_True : Py_False), objectid, response, fX, fY, fZ, fRotX, fRotY, fRotZ));
 }
 
 PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerEditAttachedObject(int playerid, int response, int index, int modelid, int boneid, float fOffsetX, float fOffsetY, float fOffsetZ, float fRotX, float fRotY, float fRotZ, float fScaleX, float fScaleY, float fScaleZ) {
