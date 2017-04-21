@@ -168,3 +168,5 @@ def OnPlayerSelectObject(playerid, type, objectid, modelid, fX, fY, fZ):
 def OnPlayerWeaponShot(playerid, weaponid, hittype, hitid, fX, fY, fZ):
     return False
     
+def OnProcessTick():
+    return None
