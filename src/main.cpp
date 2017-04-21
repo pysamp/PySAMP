@@ -31,5 +31,6 @@ PLUGIN_EXPORT void PLUGIN_CALL Unload()
 
 PLUGIN_EXPORT void PLUGIN_CALL ProcessTick()
 {
-  sampgdk::ProcessTick();
+	sampgdk::ProcessTick();
+	PySAMP::callback("OnProcessTick", NULL);
 }
