@@ -1,6 +1,7 @@
 #ifndef samp_h
 #define samp_h
 #include <Python.h>
+#include <iostream>
 #include "sampgdk.h"
 #include "const.h"
 
@@ -17,7 +18,7 @@ static PyObject* pysamp_createactor(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	int ret = CreateActor(arg0, arg1, arg2, arg3, arg4);
-	PyObject* out = Py_BuildValue("(i)", ret);
+	PyObject* out = Py_BuildValue("i", ret);
 	return out;
 }
 
@@ -71,7 +72,7 @@ static PyObject* pysamp_getactorvirtualworld(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	int ret = GetActorVirtualWorld(arg0);
-	PyObject* out = Py_BuildValue("(i)", ret);
+	PyObject* out = Py_BuildValue("i", ret);
 	return out;
 }
 
@@ -255,7 +256,7 @@ static PyObject* pysamp_createobject(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	int ret = CreateObject(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
-	PyObject* out = Py_BuildValue("(i)", ret);
+	PyObject* out = Py_BuildValue("i", ret);
 	return out;
 }
 
@@ -393,7 +394,7 @@ static PyObject* pysamp_getobjectmodel(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	int ret = GetObjectModel(arg0);
-	PyObject* out = Py_BuildValue("(i)", ret);
+	PyObject* out = Py_BuildValue("i", ret);
 	return out;
 }
 
@@ -452,7 +453,7 @@ static PyObject* pysamp_moveobject(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	int ret = MoveObject(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
-	PyObject* out = Py_BuildValue("(i)", ret);
+	PyObject* out = Py_BuildValue("i", ret);
 	return out;
 }
 
@@ -553,7 +554,7 @@ static PyObject* pysamp_createplayerobject(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	int ret = CreatePlayerObject(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
-	PyObject* out = Py_BuildValue("(i)", ret);
+	PyObject* out = Py_BuildValue("i", ret);
 	return out;
 }
 
@@ -677,7 +678,7 @@ static PyObject* pysamp_getplayerobjectmodel(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	int ret = GetPlayerObjectModel(arg0, arg1);
-	PyObject* out = Py_BuildValue("(i)", ret);
+	PyObject* out = Py_BuildValue("i", ret);
 	return out;
 }
 
@@ -740,7 +741,7 @@ static PyObject* pysamp_moveplayerobject(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	int ret = MovePlayerObject(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
-	PyObject* out = Py_BuildValue("(i)", ret);
+	PyObject* out = Py_BuildValue("i", ret);
 	return out;
 }
 
@@ -1018,7 +1019,7 @@ static PyObject* pysamp_getplayerdistancefrompoint(PyObject *self, PyObject *arg
 		return NULL;
 	}
 	float ret = GetPlayerDistanceFromPoint(arg0, arg1, arg2, arg3);
-	PyObject* out = Py_BuildValue("(f)", ret);
+	PyObject* out = Py_BuildValue("f", ret);
 	return out;
 }
 
@@ -1059,7 +1060,7 @@ static PyObject* pysamp_getplayerinterior(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	int ret = GetPlayerInterior(arg0);
-	PyObject* out = Py_BuildValue("(i)", ret);
+	PyObject* out = Py_BuildValue("i", ret);
 	return out;
 }
 
@@ -1143,7 +1144,7 @@ static PyObject* pysamp_getplayerammo(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	int ret = GetPlayerAmmo(arg0);
-	PyObject* out = Py_BuildValue("(i)", ret);
+	PyObject* out = Py_BuildValue("i", ret);
 	return out;
 }
 
@@ -1156,7 +1157,7 @@ static PyObject* pysamp_getplayerweaponstate(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	int ret = GetPlayerWeaponState(arg0);
-	PyObject* out = Py_BuildValue("(i)", ret);
+	PyObject* out = Py_BuildValue("i", ret);
 	return out;
 }
 
@@ -1169,7 +1170,7 @@ static PyObject* pysamp_getplayertargetplayer(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	int ret = GetPlayerTargetPlayer(arg0);
-	PyObject* out = Py_BuildValue("(i)", ret);
+	PyObject* out = Py_BuildValue("i", ret);
 	return out;
 }
 
@@ -1182,7 +1183,7 @@ static PyObject* pysamp_getplayertargetactor(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	int ret = GetPlayerTargetActor(arg0);
-	PyObject* out = Py_BuildValue("(i)", ret);
+	PyObject* out = Py_BuildValue("i", ret);
 	return out;
 }
 
@@ -1209,7 +1210,7 @@ static PyObject* pysamp_getplayerteam(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	int ret = GetPlayerTeam(arg0);
-	PyObject* out = Py_BuildValue("(i)", ret);
+	PyObject* out = Py_BuildValue("i", ret);
 	return out;
 }
 
@@ -1236,7 +1237,7 @@ static PyObject* pysamp_getplayerscore(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	int ret = GetPlayerScore(arg0);
-	PyObject* out = Py_BuildValue("(i)", ret);
+	PyObject* out = Py_BuildValue("i", ret);
 	return out;
 }
 
@@ -1249,7 +1250,7 @@ static PyObject* pysamp_getplayerdrunklevel(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	int ret = GetPlayerDrunkLevel(arg0);
-	PyObject* out = Py_BuildValue("(i)", ret);
+	PyObject* out = Py_BuildValue("i", ret);
 	return out;
 }
 
@@ -1290,7 +1291,7 @@ static PyObject* pysamp_getplayercolor(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	int ret = GetPlayerColor(arg0);
-	PyObject* out = Py_BuildValue("(i)", ret);
+	PyObject* out = Py_BuildValue("i", ret);
 	return out;
 }
 
@@ -1317,7 +1318,7 @@ static PyObject* pysamp_getplayerskin(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	int ret = GetPlayerSkin(arg0);
-	PyObject* out = Py_BuildValue("(i)", ret);
+	PyObject* out = Py_BuildValue("i", ret);
 	return out;
 }
 
@@ -1416,7 +1417,7 @@ static PyObject* pysamp_setplayername(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	int ret = SetPlayerName(arg0, arg1);
-	PyObject* out = Py_BuildValue("(i)", ret);
+	PyObject* out = Py_BuildValue("i", ret);
 	delete[] arg1;
 	return out;
 }
@@ -1430,7 +1431,7 @@ static PyObject* pysamp_getplayermoney(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	int ret = GetPlayerMoney(arg0);
-	PyObject* out = Py_BuildValue("(i)", ret);
+	PyObject* out = Py_BuildValue("i", ret);
 	return out;
 }
 
@@ -1443,7 +1444,7 @@ static PyObject* pysamp_getplayerstate(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	int ret = GetPlayerState(arg0);
-	PyObject* out = Py_BuildValue("(i)", ret);
+	PyObject* out = Py_BuildValue("i", ret);
 	return out;
 }
 
@@ -1472,7 +1473,7 @@ static PyObject* pysamp_getplayerping(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	int ret = GetPlayerPing(arg0);
-	PyObject* out = Py_BuildValue("(i)", ret);
+	PyObject* out = Py_BuildValue("i", ret);
 	return out;
 }
 
@@ -1485,7 +1486,7 @@ static PyObject* pysamp_getplayerweapon(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	int ret = GetPlayerWeapon(arg0);
-	PyObject* out = Py_BuildValue("(i)", ret);
+	PyObject* out = Py_BuildValue("i", ret);
 	return out;
 }
 
@@ -1615,7 +1616,7 @@ static PyObject* pysamp_getplayerwantedlevel(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	int ret = GetPlayerWantedLevel(arg0);
-	PyObject* out = Py_BuildValue("(i)", ret);
+	PyObject* out = Py_BuildValue("i", ret);
 	return out;
 }
 
@@ -1642,7 +1643,7 @@ static PyObject* pysamp_getplayerfightingstyle(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	int ret = GetPlayerFightingStyle(arg0);
-	PyObject* out = Py_BuildValue("(i)", ret);
+	PyObject* out = Py_BuildValue("i", ret);
 	return out;
 }
 
@@ -1765,7 +1766,7 @@ static PyObject* pysamp_getplayersurfingvehicleid(PyObject *self, PyObject *args
 		return NULL;
 	}
 	int ret = GetPlayerSurfingVehicleID(arg0);
-	PyObject* out = Py_BuildValue("(i)", ret);
+	PyObject* out = Py_BuildValue("i", ret);
 	return out;
 }
 
@@ -1778,7 +1779,7 @@ static PyObject* pysamp_getplayersurfingobjectid(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	int ret = GetPlayerSurfingObjectID(arg0);
-	PyObject* out = Py_BuildValue("(i)", ret);
+	PyObject* out = Py_BuildValue("i", ret);
 	return out;
 }
 
@@ -1900,7 +1901,7 @@ static PyObject* pysamp_createplayertextdraw(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	int ret = CreatePlayerTextDraw(arg0, arg1, arg2, arg3);
-	PyObject* out = Py_BuildValue("(i)", ret);
+	PyObject* out = Py_BuildValue("i", ret);
 	delete[] arg3;
 	return out;
 }
@@ -2220,7 +2221,7 @@ static PyObject* pysamp_getpvarint(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	int ret = GetPVarInt(arg0, arg1);
-	PyObject* out = Py_BuildValue("(i)", ret);
+	PyObject* out = Py_BuildValue("i", ret);
 	delete[] arg1;
 	return out;
 }
@@ -2286,7 +2287,7 @@ static PyObject* pysamp_getpvarfloat(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	float ret = GetPVarFloat(arg0, arg1);
-	PyObject* out = Py_BuildValue("(f)", ret);
+	PyObject* out = Py_BuildValue("f", ret);
 	delete[] arg1;
 	return out;
 }
@@ -2315,7 +2316,7 @@ static PyObject* pysamp_getpvarsupperindex(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	int ret = GetPVarsUpperIndex(arg0);
-	PyObject* out = Py_BuildValue("(i)", ret);
+	PyObject* out = Py_BuildValue("i", ret);
 	return out;
 }
 
@@ -2346,7 +2347,7 @@ static PyObject* pysamp_getpvartype(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	int ret = GetPVarType(arg0, arg1);
-	PyObject* out = Py_BuildValue("(i)", ret);
+	PyObject* out = Py_BuildValue("i", ret);
 	delete[] arg1;
 	return out;
 }
@@ -2393,7 +2394,7 @@ static PyObject* pysamp_getplayervehicleid(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	int ret = GetPlayerVehicleID(arg0);
-	PyObject* out = Py_BuildValue("(i)", ret);
+	PyObject* out = Py_BuildValue("i", ret);
 	return out;
 }
 
@@ -2406,7 +2407,7 @@ static PyObject* pysamp_getplayervehicleseat(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	int ret = GetPlayerVehicleSeat(arg0);
-	PyObject* out = Py_BuildValue("(i)", ret);
+	PyObject* out = Py_BuildValue("i", ret);
 	return out;
 }
 
@@ -2501,7 +2502,7 @@ static PyObject* pysamp_getplayeranimationindex(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	int ret = GetPlayerAnimationIndex(arg0);
-	PyObject* out = Py_BuildValue("(i)", ret);
+	PyObject* out = Py_BuildValue("i", ret);
 	return out;
 }
 
@@ -2533,7 +2534,7 @@ static PyObject* pysamp_getplayerspecialaction(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	int ret = GetPlayerSpecialAction(arg0);
-	PyObject* out = Py_BuildValue("(i)", ret);
+	PyObject* out = Py_BuildValue("i", ret);
 	return out;
 }
 
@@ -2811,7 +2812,7 @@ static PyObject* pysamp_getplayercameramode(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	int ret = GetPlayerCameraMode(arg0);
-	PyObject* out = Py_BuildValue("(i)", ret);
+	PyObject* out = Py_BuildValue("i", ret);
 	return out;
 }
 
@@ -2838,7 +2839,7 @@ static PyObject* pysamp_getplayercameratargetobject(PyObject *self, PyObject *ar
 		return NULL;
 	}
 	int ret = GetPlayerCameraTargetObject(arg0);
-	PyObject* out = Py_BuildValue("(i)", ret);
+	PyObject* out = Py_BuildValue("i", ret);
 	return out;
 }
 
@@ -2851,7 +2852,7 @@ static PyObject* pysamp_getplayercameratargetvehicle(PyObject *self, PyObject *a
 		return NULL;
 	}
 	int ret = GetPlayerCameraTargetVehicle(arg0);
-	PyObject* out = Py_BuildValue("(i)", ret);
+	PyObject* out = Py_BuildValue("i", ret);
 	return out;
 }
 
@@ -2864,7 +2865,7 @@ static PyObject* pysamp_getplayercameratargetplayer(PyObject *self, PyObject *ar
 		return NULL;
 	}
 	int ret = GetPlayerCameraTargetPlayer(arg0);
-	PyObject* out = Py_BuildValue("(i)", ret);
+	PyObject* out = Py_BuildValue("i", ret);
 	return out;
 }
 
@@ -2877,7 +2878,7 @@ static PyObject* pysamp_getplayercameratargetactor(PyObject *self, PyObject *arg
 		return NULL;
 	}
 	int ret = GetPlayerCameraTargetActor(arg0);
-	PyObject* out = Py_BuildValue("(i)", ret);
+	PyObject* out = Py_BuildValue("i", ret);
 	return out;
 }
 
@@ -2890,7 +2891,7 @@ static PyObject* pysamp_getplayercameraaspectratio(PyObject *self, PyObject *arg
 		return NULL;
 	}
 	float ret = GetPlayerCameraAspectRatio(arg0);
-	PyObject* out = Py_BuildValue("(f)", ret);
+	PyObject* out = Py_BuildValue("f", ret);
 	return out;
 }
 
@@ -2903,7 +2904,7 @@ static PyObject* pysamp_getplayercamerazoom(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	float ret = GetPlayerCameraZoom(arg0);
-	PyObject* out = Py_BuildValue("(f)", ret);
+	PyObject* out = Py_BuildValue("f", ret);
 	return out;
 }
 
@@ -3066,7 +3067,7 @@ static PyObject* pysamp_getplayervirtualworld(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	int ret = GetPlayerVirtualWorld(arg0);
-	PyObject* out = Py_BuildValue("(i)", ret);
+	PyObject* out = Py_BuildValue("i", ret);
 	return out;
 }
 
@@ -3322,7 +3323,7 @@ static PyObject* pysamp_gettickcount(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	int ret = GetTickCount();
-	PyObject* out = Py_BuildValue("(i)", ret);
+	PyObject* out = Py_BuildValue("i", ret);
 	return out;
 }
 
@@ -3334,7 +3335,7 @@ static PyObject* pysamp_getmaxplayers(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	int ret = GetMaxPlayers();
-	PyObject* out = Py_BuildValue("(i)", ret);
+	PyObject* out = Py_BuildValue("i", ret);
 	return out;
 }
 
@@ -3349,7 +3350,7 @@ static PyObject* pysamp_vectorsize(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	float ret = VectorSize(arg0, arg1, arg2);
-	PyObject* out = Py_BuildValue("(f)", ret);
+	PyObject* out = Py_BuildValue("f", ret);
 	return out;
 }
 
@@ -3361,7 +3362,7 @@ static PyObject* pysamp_getplayerpoolsize(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	int ret = GetPlayerPoolSize();
-	PyObject* out = Py_BuildValue("(i)", ret);
+	PyObject* out = Py_BuildValue("i", ret);
 	return out;
 }
 
@@ -3373,7 +3374,7 @@ static PyObject* pysamp_getvehiclepoolsize(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	int ret = GetVehiclePoolSize();
-	PyObject* out = Py_BuildValue("(i)", ret);
+	PyObject* out = Py_BuildValue("i", ret);
 	return out;
 }
 
@@ -3385,7 +3386,7 @@ static PyObject* pysamp_getactorpoolsize(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	int ret = GetActorPoolSize();
-	PyObject* out = Py_BuildValue("(i)", ret);
+	PyObject* out = Py_BuildValue("i", ret);
 	return out;
 }
 
@@ -3413,7 +3414,7 @@ static PyObject* pysamp_getsvarint(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	int ret = GetSVarInt(arg0);
-	PyObject* out = Py_BuildValue("(i)", ret);
+	PyObject* out = Py_BuildValue("i", ret);
 	delete[] arg0;
 	return out;
 }
@@ -3475,7 +3476,7 @@ static PyObject* pysamp_getsvarfloat(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	float ret = GetSVarFloat(arg0);
-	PyObject* out = Py_BuildValue("(f)", ret);
+	PyObject* out = Py_BuildValue("f", ret);
 	delete[] arg0;
 	return out;
 }
@@ -3502,7 +3503,7 @@ static PyObject* pysamp_getsvarsupperindex(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	int ret = GetSVarsUpperIndex();
-	PyObject* out = Py_BuildValue("(i)", ret);
+	PyObject* out = Py_BuildValue("i", ret);
 	return out;
 }
 
@@ -3531,7 +3532,7 @@ static PyObject* pysamp_getsvartype(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	int ret = GetSVarType(arg0);
-	PyObject* out = Py_BuildValue("(i)", ret);
+	PyObject* out = Py_BuildValue("i", ret);
 	delete[] arg0;
 	return out;
 }
@@ -3582,7 +3583,7 @@ static PyObject* pysamp_addplayerclass(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	int ret = AddPlayerClass(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10);
-	PyObject* out = Py_BuildValue("(i)", ret);
+	PyObject* out = Py_BuildValue("i", ret);
 	return out;
 }
 
@@ -3606,7 +3607,7 @@ static PyObject* pysamp_addplayerclassex(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	int ret = AddPlayerClassEx(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11);
-	PyObject* out = Py_BuildValue("(i)", ret);
+	PyObject* out = Py_BuildValue("i", ret);
 	return out;
 }
 
@@ -3625,7 +3626,7 @@ static PyObject* pysamp_addstaticvehicle(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	int ret = AddStaticVehicle(arg0, arg1, arg2, arg3, arg4, arg5, arg6);
-	PyObject* out = Py_BuildValue("(i)", ret);
+	PyObject* out = Py_BuildValue("i", ret);
 	return out;
 }
 
@@ -3646,7 +3647,7 @@ static PyObject* pysamp_addstaticvehicleex(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	int ret = AddStaticVehicleEx(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
-	PyObject* out = Py_BuildValue("(i)", ret);
+	PyObject* out = Py_BuildValue("i", ret);
 	return out;
 }
 
@@ -3664,7 +3665,7 @@ static PyObject* pysamp_addstaticpickup(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	int ret = AddStaticPickup(arg0, arg1, arg2, arg3, arg4, arg5);
-	PyObject* out = Py_BuildValue("(i)", ret);
+	PyObject* out = Py_BuildValue("i", ret);
 	return out;
 }
 
@@ -3682,7 +3683,7 @@ static PyObject* pysamp_createpickup(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	int ret = CreatePickup(arg0, arg1, arg2, arg3, arg4, arg5);
-	PyObject* out = Py_BuildValue("(i)", ret);
+	PyObject* out = Py_BuildValue("i", ret);
 	return out;
 }
 
@@ -3838,7 +3839,7 @@ static PyObject* pysamp_getgravity(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	float ret = GetGravity();
-	PyObject* out = Py_BuildValue("(f)", ret);
+	PyObject* out = Py_BuildValue("f", ret);
 	return out;
 }
 
@@ -4172,7 +4173,7 @@ static PyObject* pysamp_getservervarasint(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	int ret = GetServerVarAsInt(arg0);
-	PyObject* out = Py_BuildValue("(i)", ret);
+	PyObject* out = Py_BuildValue("i", ret);
 	delete[] arg0;
 	return out;
 }
@@ -4217,7 +4218,7 @@ static PyObject* pysamp_getconsolevarasint(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	int ret = GetConsoleVarAsInt(arg0);
-	PyObject* out = Py_BuildValue("(i)", ret);
+	PyObject* out = Py_BuildValue("i", ret);
 	delete[] arg0;
 	return out;
 }
@@ -4244,7 +4245,7 @@ static PyObject* pysamp_getservertickrate(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	int ret = GetServerTickRate();
-	PyObject* out = Py_BuildValue("(i)", ret);
+	PyObject* out = Py_BuildValue("i", ret);
 	return out;
 }
 
@@ -4257,7 +4258,7 @@ static PyObject* pysamp_netstats_getconnectedtime(PyObject *self, PyObject *args
 		return NULL;
 	}
 	int ret = NetStats_GetConnectedTime(arg0);
-	PyObject* out = Py_BuildValue("(i)", ret);
+	PyObject* out = Py_BuildValue("i", ret);
 	return out;
 }
 
@@ -4270,7 +4271,7 @@ static PyObject* pysamp_netstats_messagesreceived(PyObject *self, PyObject *args
 		return NULL;
 	}
 	int ret = NetStats_MessagesReceived(arg0);
-	PyObject* out = Py_BuildValue("(i)", ret);
+	PyObject* out = Py_BuildValue("i", ret);
 	return out;
 }
 
@@ -4283,7 +4284,7 @@ static PyObject* pysamp_netstats_bytesreceived(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	int ret = NetStats_BytesReceived(arg0);
-	PyObject* out = Py_BuildValue("(i)", ret);
+	PyObject* out = Py_BuildValue("i", ret);
 	return out;
 }
 
@@ -4296,7 +4297,7 @@ static PyObject* pysamp_netstats_messagessent(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	int ret = NetStats_MessagesSent(arg0);
-	PyObject* out = Py_BuildValue("(i)", ret);
+	PyObject* out = Py_BuildValue("i", ret);
 	return out;
 }
 
@@ -4309,7 +4310,7 @@ static PyObject* pysamp_netstats_bytessent(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	int ret = NetStats_BytesSent(arg0);
-	PyObject* out = Py_BuildValue("(i)", ret);
+	PyObject* out = Py_BuildValue("i", ret);
 	return out;
 }
 
@@ -4322,7 +4323,7 @@ static PyObject* pysamp_netstats_messagesrecvpersecond(PyObject *self, PyObject 
 		return NULL;
 	}
 	int ret = NetStats_MessagesRecvPerSecond(arg0);
-	PyObject* out = Py_BuildValue("(i)", ret);
+	PyObject* out = Py_BuildValue("i", ret);
 	return out;
 }
 
@@ -4335,7 +4336,7 @@ static PyObject* pysamp_netstats_packetlosspercent(PyObject *self, PyObject *arg
 		return NULL;
 	}
 	float ret = NetStats_PacketLossPercent(arg0);
-	PyObject* out = Py_BuildValue("(f)", ret);
+	PyObject* out = Py_BuildValue("f", ret);
 	return out;
 }
 
@@ -4348,7 +4349,7 @@ static PyObject* pysamp_netstats_connectionstatus(PyObject *self, PyObject *args
 		return NULL;
 	}
 	int ret = NetStats_ConnectionStatus(arg0);
-	PyObject* out = Py_BuildValue("(i)", ret);
+	PyObject* out = Py_BuildValue("i", ret);
 	return out;
 }
 
@@ -4382,7 +4383,7 @@ static PyObject* pysamp_createmenu(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	int ret = CreateMenu(arg0, arg1, arg2, arg3, arg4, arg5);
-	PyObject* out = Py_BuildValue("(i)", ret);
+	PyObject* out = Py_BuildValue("i", ret);
 	delete[] arg0;
 	return out;
 }
@@ -4411,7 +4412,7 @@ static PyObject* pysamp_addmenuitem(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	int ret = AddMenuItem(arg0, arg1, arg2);
-	PyObject* out = Py_BuildValue("(i)", ret);
+	PyObject* out = Py_BuildValue("i", ret);
 	delete[] arg2;
 	return out;
 }
@@ -4509,7 +4510,7 @@ static PyObject* pysamp_getplayermenu(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	int ret = GetPlayerMenu(arg0);
-	PyObject* out = Py_BuildValue("(i)", ret);
+	PyObject* out = Py_BuildValue("i", ret);
 	return out;
 }
 
@@ -4524,7 +4525,7 @@ static PyObject* pysamp_textdrawcreate(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	int ret = TextDrawCreate(arg0, arg1, arg2);
-	PyObject* out = Py_BuildValue("(i)", ret);
+	PyObject* out = Py_BuildValue("i", ret);
 	delete[] arg2;
 	return out;
 }
@@ -4866,7 +4867,7 @@ static PyObject* pysamp_gangzonecreate(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	int ret = GangZoneCreate(arg0, arg1, arg2, arg3);
-	PyObject* out = Py_BuildValue("(i)", ret);
+	PyObject* out = Py_BuildValue("i", ret);
 	return out;
 }
 
@@ -5059,7 +5060,7 @@ static PyObject* pysamp_getvehicledistancefrompoint(PyObject *self, PyObject *ar
 		return NULL;
 	}
 	float ret = GetVehicleDistanceFromPoint(arg0, arg1, arg2, arg3);
-	PyObject* out = Py_BuildValue("(f)", ret);
+	PyObject* out = Py_BuildValue("f", ret);
 	return out;
 }
 
@@ -5080,7 +5081,7 @@ static PyObject* pysamp_createvehicle(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	int ret = CreateVehicle(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
-	PyObject* out = Py_BuildValue("(i)", ret);
+	PyObject* out = Py_BuildValue("i", ret);
 	return out;
 }
 
@@ -5265,7 +5266,7 @@ static PyObject* pysamp_getvehicleparamssirenstate(PyObject *self, PyObject *arg
 		return NULL;
 	}
 	int ret = GetVehicleParamsSirenState(arg0);
-	PyObject* out = Py_BuildValue("(i)", ret);
+	PyObject* out = Py_BuildValue("i", ret);
 	return out;
 }
 
@@ -5498,7 +5499,7 @@ static PyObject* pysamp_getvehicletrailer(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	int ret = GetVehicleTrailer(arg0);
-	PyObject* out = Py_BuildValue("(i)", ret);
+	PyObject* out = Py_BuildValue("i", ret);
 	return out;
 }
 
@@ -5526,7 +5527,7 @@ static PyObject* pysamp_getvehiclemodel(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	int ret = GetVehicleModel(arg0);
-	PyObject* out = Py_BuildValue("(i)", ret);
+	PyObject* out = Py_BuildValue("i", ret);
 	return out;
 }
 
@@ -5540,7 +5541,7 @@ static PyObject* pysamp_getvehiclecomponentinslot(PyObject *self, PyObject *args
 		return NULL;
 	}
 	int ret = GetVehicleComponentInSlot(arg0, arg1);
-	PyObject* out = Py_BuildValue("(i)", ret);
+	PyObject* out = Py_BuildValue("i", ret);
 	return out;
 }
 
@@ -5553,7 +5554,7 @@ static PyObject* pysamp_getvehiclecomponenttype(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	int ret = GetVehicleComponentType(arg0);
-	PyObject* out = Py_BuildValue("(i)", ret);
+	PyObject* out = Py_BuildValue("i", ret);
 	return out;
 }
 
@@ -5675,7 +5676,7 @@ static PyObject* pysamp_getvehiclevirtualworld(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	int ret = GetVehicleVirtualWorld(arg0);
-	PyObject* out = Py_BuildValue("(i)", ret);
+	PyObject* out = Py_BuildValue("i", ret);
 	return out;
 }
 
