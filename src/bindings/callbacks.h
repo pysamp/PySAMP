@@ -52,7 +52,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerSpawn(int playerid) {
 }
 
 PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerDeath(int playerid, int killerid, int reason) {
-	return PySAMP::callback("OnPlayerDeath", Py_BuildValue("(i)", playerid));
+	return PySAMP::callback("OnPlayerDeath", Py_BuildValue("(iii)", playerid, killerid, reason));
 }
 
 PLUGIN_EXPORT bool PLUGIN_CALL OnVehicleSpawn(int vehicleid) {
