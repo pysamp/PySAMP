@@ -25,7 +25,6 @@ PyGamemode::PyGamemode(const char * path)
 	GetCurrentDir(cCurrentPath, sizeof(cCurrentPath));
 	char* absolute = strcat(cCurrentPath, path);
 
-	sampgdk::logprintf("Setting python workspace to %s", absolute);
 	PyObject* sysPath = PySys_GetObject("path");
 
 	if(!sysPath)
@@ -36,11 +35,7 @@ PyGamemode::PyGamemode(const char * path)
 	pName = PyUnicode_DecodeFSDefault("gamemode");
 	pModule = PyImport_Import(pName);
 
-	if (pModule) 
-	{
-		sampgdk::logprintf("PyGamemode loaded!");
-	}
-	else
+	if (!pModule) 
 	{
 		PyErr_Print();
 		sampgdk::logprintf("PyGamemode::PyGamemode(%s) failed!", "gamemode.py");

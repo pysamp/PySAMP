@@ -167,6 +167,14 @@ def OnPlayerSelectObject(playerid, type, objectid, modelid, fX, fY, fZ):
     
 def OnPlayerWeaponShot(playerid, weaponid, hittype, hitid, fX, fY, fZ):
     return False
-    
+
 def OnProcessTick():
+    return None
+
+""" you can initialize your own additional threads here, note that OnThreadingInit isn't supposed to be a worker thread but gives you the ability to start them. Otherwise it would block the plugin initialization """
+def OnThreadingInit():
+    return None
+
+""" your initialized threads must be shutdown during this callbac """
+def OnThreadingStopSignal():
     return None

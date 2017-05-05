@@ -1,3 +1,4 @@
+#define VERSION "1.1.0-100"
 
 #include <stdio.h>
 #include <string.h>
@@ -13,7 +14,7 @@ bool threadingInitialized = false;
 
 PLUGIN_EXPORT unsigned int PLUGIN_CALL Supports()
 {
-  return sampgdk::Supports() | SUPPORTS_PROCESS_TICK;
+	return sampgdk::Supports() | SUPPORTS_PROCESS_TICK;
 }
 
 PLUGIN_EXPORT bool PLUGIN_CALL Load(void **ppData) 
@@ -25,23 +26,34 @@ PLUGIN_EXPORT bool PLUGIN_CALL Load(void **ppData)
 	}
 	
 	bool sgdk = sampgdk::Load(ppData);
-	if (sgdk) {
-		PySAMP::callback("OnThreadingInit", NULL);
-		threading = std::thread([] { PySAMP::callback("OnThreadingInit", NULL); });
+	if (sgdk) 
+	{
+		sampgdk::logprintf("PySAMP %s", VERSION);
 
+		threadingInitialized = true;
+		threading = std::thread([] { 
+			PyGILState_STATE state = PyGILState_Ensure();
+			PySAMP::callback("OnThreadingInit", NULL);
+			PyGILState_Release(state);
+		});
+
+		
 	}
-	return false;
+	return sgdk;
 }
 
 PLUGIN_EXPORT void PLUGIN_CALL Unload()
 {
-  sampgdk::Unload();
+	if(threadingInitialized)
+	{
+		PySAMP::callback("OnThreadingStopSignal", NULL);
+		threading.join();
+	}
+	sampgdk::Unload();
 }
 
 PLUGIN_EXPORT void PLUGIN_CALL ProcessTick()
 {
-	PySAMP::callback("OnThreadingStopSignal", NULL);
-	threading.join();
 	sampgdk::ProcessTick();
 	PySAMP::callback("OnProcessTick", NULL);
 }
