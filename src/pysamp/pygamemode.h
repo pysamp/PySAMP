@@ -5,6 +5,7 @@
 #include "sampgdk.h"
 #include <stdexcept>
 #include "samp.h"
+#include <dlfcn.h>
 
 #ifdef DEBUG
 #define PY_DEBUG

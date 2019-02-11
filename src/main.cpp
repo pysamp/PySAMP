@@ -19,6 +19,7 @@ PLUGIN_EXPORT unsigned int PLUGIN_CALL Supports()
 
 PLUGIN_EXPORT bool PLUGIN_CALL Load(void **ppData) 
 {
+	std::cout << "Loading PYSAMP" << std::endl;
 	try {
 		PySAMP::load();
 	} catch (std::exception) {
