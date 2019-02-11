@@ -25,6 +25,9 @@ def OnPlayerConnect(playerid):
 As you can see, all referenced return values are removed and instead the method returns either a value or a tuple.
 The corresponding python gamemode has to be saved as `gamemode.py` in a `python/` subfolder of your server directory.
 
+# Using
+Make sure, that you installed the 32-bit Python 3.5m version on your server!
+
 # Compiling
 If the uploaded binaries don't suite your needs, you might have to compile the project on your own. 
 You can also create an issue, so I can compile it for your system, just mention your system architecture.
