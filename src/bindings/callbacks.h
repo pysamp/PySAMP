@@ -21,9 +21,6 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnGameModeInit() {
 	return PySAMP::callback("OnGameModeInit", NULL);
 }
 
-PLUGIN_EXPORT bool PLUGIN_CALL OnGameModeExit() {
-	return PySAMP::callback("OnGameModeExit", NULL);
-}
 
 PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerConnect(int playerid) {
 	return PySAMP::callback("OnPlayerConnect", Py_BuildValue("(i)", playerid));
