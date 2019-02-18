@@ -5,6 +5,8 @@
 #include "pysamp/pysamp.h"
 #include "test/callbackstest.h"
 
+#include <stdio.h>
+
 char* fromConst(const char * str) {
 	const size_t len = strlen(str);
 	char * cstr = new char[len + 1];
@@ -39,7 +41,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerCommandText(int playerid,
 	const char *cmdtext) {
 	char* cmd = fromConst(cmdtext);
 	sampgdk::logprintf(cmd);
-	bool ret = PySAMP::callback("OnPlayerCommandText", Py_BuildValue("(is)", playerid, cmd));
+	bool ret = PySAMP::callback("OnPlayerCommandText", Py_BuildValue("(iy)", playerid, cmd));
 	delete[] cmd;
 	return ret;
 }
@@ -62,7 +64,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnVehicleDeath(int vehicleid, int killerid) {
 
 PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerText(int playerid, const char * text) {
 	char* txt = fromConst(text);
-	bool ret = PySAMP::callback("OnPlayerText", Py_BuildValue("(is)", playerid, txt));
+	bool ret = PySAMP::callback("OnPlayerText", Py_BuildValue("(iy)", playerid, txt));
 	delete[] txt;
 	return ret;
 }
@@ -97,7 +99,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerLeaveRaceCheckpoint(int playerid) {
 
 PLUGIN_EXPORT bool PLUGIN_CALL OnRconCommand(const char * cmd) {
 	char* str = fromConst(cmd);
-	bool ret = PySAMP::callback("OnPlayerCommandText", Py_BuildValue("(is)", str));
+	bool ret = PySAMP::callback("OnPlayerCommandText", Py_BuildValue("(iy)", str));
 	delete[] str;
 	return ret;
 }
@@ -161,7 +163,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerKeyStateChange(int playerid, int newkeys,
 PLUGIN_EXPORT bool PLUGIN_CALL OnRconLoginAttempt(const char * ip, const char * password, bool success) {
 	char* ipStr = fromConst(ip);
 	char* passwordStr = fromConst(password);
-	bool ret = PySAMP::callback("OnRconLoginAttempt", Py_BuildValue("(ssO)", ipStr, passwordStr, (success ? Py_True : Py_False)));
+	bool ret = PySAMP::callback("OnRconLoginAttempt", Py_BuildValue("(yyO)", ipStr, passwordStr, (success ? Py_True : Py_False)));
 	delete[] ipStr, passwordStr;
 	return ret;
 }
@@ -196,7 +198,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnActorStreamOut(int actorid, int forplayerid) {
 
 PLUGIN_EXPORT bool PLUGIN_CALL OnDialogResponse(int playerid, int dialogid, int response, int listitem, const char * inputtext) {
 	char* inputtextStr = fromConst(inputtext);
-	bool ret = PySAMP::callback("OnDialogResponse", Py_BuildValue("(iiiis)", playerid, dialogid, response, listitem, inputtextStr));
+	bool ret = PySAMP::callback("OnDialogResponse", Py_BuildValue("(iiiiy)", playerid, dialogid, response, listitem, inputtextStr));
 	delete[] inputtextStr;
 	return ret;
 }
@@ -228,7 +230,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerClickPlayerTextDraw(int playerid, int pla
 PLUGIN_EXPORT bool PLUGIN_CALL OnIncomingConnection(int playerid, const char * ip_address, int port) {
 	sampgdk::logprintf("OnIncomingConnection");
 	char * ipStr = fromConst(ip_address);
-	bool ret = PySAMP::callback("OnIncomingConnection", Py_BuildValue("(isi)", playerid, ipStr, port));
+	bool ret = PySAMP::callback("OnIncomingConnection", Py_BuildValue("(iyi)", playerid, ipStr, port));
 	delete[] ipStr;
 	return ret;
 }

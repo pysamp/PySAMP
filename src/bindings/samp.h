@@ -90,7 +90,7 @@ static PyObject* pysamp_applyactoranimation(PyObject *self, PyObject *args)
 	const char* arg2 = "";
 	const char* arg1 = "";
 	int arg0 = -1;
-	if (!PyArg_ParseTuple(args, "issfppppi:ApplyActorAnimation", &arg0, &arg1, &arg2, &arg3, &arg4, &arg5, &arg6, &arg7, &arg8))
+	if (!PyArg_ParseTuple(args, "iyyfppppi:ApplyActorAnimation", &arg0, &arg1, &arg2, &arg3, &arg4, &arg5, &arg6, &arg7, &arg8))
 	{
 		PyErr_Print();
 		return NULL;
@@ -865,7 +865,7 @@ static PyObject* pysamp_setobjectmaterialtext(PyObject *self, PyObject *args)
 	int arg2 = 0;
 	const char* arg1 = "";
 	int arg0 = -1;
-	if (!PyArg_ParseTuple(args, "is|iisipiii:SetObjectMaterialText", &arg0, &arg1, &arg2, &arg3, &arg4, &arg5, &arg6, &arg7, &arg8, &arg9))
+	if (!PyArg_ParseTuple(args, "iy|iiyipiii:SetObjectMaterialText", &arg0, &arg1, &arg2, &arg3, &arg4, &arg5, &arg6, &arg7, &arg8, &arg9))
 	{
 		PyErr_Print();
 		return NULL;
@@ -892,7 +892,7 @@ static PyObject* pysamp_setplayerobjectmaterialtext(PyObject *self, PyObject *ar
 	const char* arg2 = "";
 	int arg1 = -1;
 	int arg0 = -1;
-	if (!PyArg_ParseTuple(args, "iis|iisipiii:SetPlayerObjectMaterialText", &arg0, &arg1, &arg2, &arg3, &arg4, &arg5, &arg6, &arg7, &arg8, &arg9, &arg10))
+	if (!PyArg_ParseTuple(args, "iiy|iiyipiii:SetPlayerObjectMaterialText", &arg0, &arg1, &arg2, &arg3, &arg4, &arg5, &arg6, &arg7, &arg8, &arg9, &arg10))
 	{
 		PyErr_Print();
 		return NULL;
@@ -1476,7 +1476,7 @@ static PyObject* pysamp_setplayername(PyObject *self, PyObject *args)
 {
 	const char* arg1 = "";
 	int arg0 = -1;
-	if (!PyArg_ParseTuple(args, "is:SetPlayerName", &arg0, &arg1))
+	if (!PyArg_ParseTuple(args, "iy:SetPlayerName", &arg0, &arg1))
 	{
 		PyErr_Print();
 		return NULL;
@@ -1807,7 +1807,7 @@ static PyObject* pysamp_setplayershopname(PyObject *self, PyObject *args)
 {
 	const char* arg1 = "";
 	int arg0 = -1;
-	if (!PyArg_ParseTuple(args, "is:SetPlayerShopName", &arg0, &arg1))
+	if (!PyArg_ParseTuple(args, "iy:SetPlayerShopName", &arg0, &arg1))
 	{
 		PyErr_Print();
 		return NULL;
@@ -1979,7 +1979,7 @@ static PyObject* pysamp_createplayertextdraw(PyObject *self, PyObject *args)
 	float arg2 = -1.0f;
 	float arg1 = -1.0f;
 	int arg0 = -1;
-	if (!PyArg_ParseTuple(args, "iffs:CreatePlayerTextDraw", &arg0, &arg1, &arg2, &arg3))
+	if (!PyArg_ParseTuple(args, "iffy:CreatePlayerTextDraw", &arg0, &arg1, &arg2, &arg3))
 	{
 		PyErr_Print();
 		return NULL;
@@ -2234,7 +2234,7 @@ static PyObject* pysamp_playertextdrawsetstring(PyObject *self, PyObject *args)
 	const char* arg2 = "";
 	int arg1 = -1;
 	int arg0 = -1;
-	if (!PyArg_ParseTuple(args, "iis:PlayerTextDrawSetString", &arg0, &arg1, &arg2))
+	if (!PyArg_ParseTuple(args, "iiy:PlayerTextDrawSetString", &arg0, &arg1, &arg2))
 	{
 		PyErr_Print();
 		return NULL;
@@ -2304,7 +2304,7 @@ static PyObject* pysamp_setpvarint(PyObject *self, PyObject *args)
 	int arg2 = -1;
 	const char* arg1 = "";
 	int arg0 = -1;
-	if (!PyArg_ParseTuple(args, "isi:SetPVarInt", &arg0, &arg1, &arg2))
+	if (!PyArg_ParseTuple(args, "iyi:SetPVarInt", &arg0, &arg1, &arg2))
 	{
 		PyErr_Print();
 		return NULL;
@@ -2321,7 +2321,7 @@ static PyObject* pysamp_getpvarint(PyObject *self, PyObject *args)
 {
 	const char* arg1 = "";
 	int arg0 = -1;
-	if (!PyArg_ParseTuple(args, "is:GetPVarInt", &arg0, &arg1))
+	if (!PyArg_ParseTuple(args, "iy:GetPVarInt", &arg0, &arg1))
 	{
 		PyErr_Print();
 		return NULL;
@@ -2337,7 +2337,7 @@ static PyObject* pysamp_setpvarstring(PyObject *self, PyObject *args)
 	const char* arg2 = "";
 	const char* arg1 = "";
 	int arg0 = -1;
-	if (!PyArg_ParseTuple(args, "iss:SetPVarString", &arg0, &arg1, &arg2))
+	if (!PyArg_ParseTuple(args, "iyy:SetPVarString", &arg0, &arg1, &arg2))
 	{
 		PyErr_Print();
 		return NULL;
@@ -2356,7 +2356,7 @@ static PyObject* pysamp_getpvarstring(PyObject *self, PyObject *args)
 	int arg3 = -1;
 	const char* arg1 = "";
 	int arg0 = -1;
-	if (!PyArg_ParseTuple(args, "isi:GetPVarString", &arg0, &arg1, &arg3))
+	if (!PyArg_ParseTuple(args, "iyi:GetPVarString", &arg0, &arg1, &arg3))
 	{
 		PyErr_Print();
 		return NULL;
@@ -2374,7 +2374,7 @@ static PyObject* pysamp_setpvarfloat(PyObject *self, PyObject *args)
 	float arg2 = -1.0f;
 	const char* arg1 = "";
 	int arg0 = -1;
-	if (!PyArg_ParseTuple(args, "isf:SetPVarFloat", &arg0, &arg1, &arg2))
+	if (!PyArg_ParseTuple(args, "iyf:SetPVarFloat", &arg0, &arg1, &arg2))
 	{
 		PyErr_Print();
 		return NULL;
@@ -2391,7 +2391,7 @@ static PyObject* pysamp_getpvarfloat(PyObject *self, PyObject *args)
 {
 	const char* arg1 = "";
 	int arg0 = -1;
-	if (!PyArg_ParseTuple(args, "is:GetPVarFloat", &arg0, &arg1))
+	if (!PyArg_ParseTuple(args, "iy:GetPVarFloat", &arg0, &arg1))
 	{
 		PyErr_Print();
 		return NULL;
@@ -2406,7 +2406,7 @@ static PyObject* pysamp_deletepvar(PyObject *self, PyObject *args)
 {
 	const char* arg1 = "";
 	int arg0 = -1;
-	if (!PyArg_ParseTuple(args, "is:DeletePVar", &arg0, &arg1))
+	if (!PyArg_ParseTuple(args, "iy:DeletePVar", &arg0, &arg1))
 	{
 		PyErr_Print();
 		return NULL;
@@ -2453,7 +2453,7 @@ static PyObject* pysamp_getpvartype(PyObject *self, PyObject *args)
 {
 	const char* arg1 = "";
 	int arg0 = -1;
-	if (!PyArg_ParseTuple(args, "is:GetPVarType", &arg0, &arg1))
+	if (!PyArg_ParseTuple(args, "iy:GetPVarType", &arg0, &arg1))
 	{
 		PyErr_Print();
 		return NULL;
@@ -2471,7 +2471,7 @@ static PyObject* pysamp_setplayerchatbubble(PyObject *self, PyObject *args)
 	int arg2 = -1;
 	const char* arg1 = "";
 	int arg0 = -1;
-	if (!PyArg_ParseTuple(args, "isifi:SetPlayerChatBubble", &arg0, &arg1, &arg2, &arg3, &arg4))
+	if (!PyArg_ParseTuple(args, "iyifi:SetPlayerChatBubble", &arg0, &arg1, &arg2, &arg3, &arg4))
 	{
 		PyErr_Print();
 		return NULL;
@@ -3299,7 +3299,7 @@ static PyObject* pysamp_startrecordingplayerdata(PyObject *self, PyObject *args)
 	const char* arg2 = "";
 	int arg1 = -1;
 	int arg0 = -1;
-	if (!PyArg_ParseTuple(args, "iis:StartRecordingPlayerData", &arg0, &arg1, &arg2))
+	if (!PyArg_ParseTuple(args, "iiy:StartRecordingPlayerData", &arg0, &arg1, &arg2))
 	{
 		PyErr_Print();
 		return NULL;
@@ -3350,7 +3350,7 @@ static PyObject* pysamp_sendclientmessage(PyObject *self, PyObject *args)
 	const char* arg2 = "";
 	unsigned long arg1 = -1;
 	int arg0 = -1;
-	if (!PyArg_ParseTuple(args, "iks:SendClientMessage", &arg0, &arg1, &arg2))
+	if (!PyArg_ParseTuple(args, "iky:SendClientMessage", &arg0, &arg1, &arg2))
 	{
 		PyErr_Print();
 		return NULL;
@@ -3367,7 +3367,7 @@ static PyObject* pysamp_sendclientmessagetoall(PyObject *self, PyObject *args)
 {
 	const char* arg1 = "";
 	unsigned long arg0 = -1;
-	if (!PyArg_ParseTuple(args, "ks:SendClientMessageToAll", &arg0, &arg1))
+	if (!PyArg_ParseTuple(args, "ky:SendClientMessageToAll", &arg0, &arg1))
 	{
 		PyErr_Print();
 		return NULL;
@@ -3385,7 +3385,7 @@ static PyObject* pysamp_sendplayermessagetoplayer(PyObject *self, PyObject *args
 	const char* arg2 = "";
 	int arg1 = -1;
 	int arg0 = -1;
-	if (!PyArg_ParseTuple(args, "iis:SendPlayerMessageToPlayer", &arg0, &arg1, &arg2))
+	if (!PyArg_ParseTuple(args, "iiy:SendPlayerMessageToPlayer", &arg0, &arg1, &arg2))
 	{
 		PyErr_Print();
 		return NULL;
@@ -3402,7 +3402,7 @@ static PyObject* pysamp_sendplayermessagetoall(PyObject *self, PyObject *args)
 {
 	const char* arg1 = "";
 	int arg0 = -1;
-	if (!PyArg_ParseTuple(args, "is:SendPlayerMessageToAll", &arg0, &arg1))
+	if (!PyArg_ParseTuple(args, "iy:SendPlayerMessageToAll", &arg0, &arg1))
 	{
 		PyErr_Print();
 		return NULL;
@@ -3453,7 +3453,7 @@ static PyObject* pysamp_gametextforall(PyObject *self, PyObject *args)
 	int arg2 = -1;
 	int arg1 = -1;
 	const char* arg0 = "";
-	if (!PyArg_ParseTuple(args, "sii:GameTextForAll", &arg0, &arg1, &arg2))
+	if (!PyArg_ParseTuple(args, "yii:GameTextForAll", &arg0, &arg1, &arg2))
 	{
 		PyErr_Print();
 		return NULL;
@@ -3472,7 +3472,7 @@ static PyObject* pysamp_gametextforplayer(PyObject *self, PyObject *args)
 	int arg2 = -1;
 	const char* arg1 = "";
 	int arg0 = -1;
-	if (!PyArg_ParseTuple(args, "isii:GameTextForPlayer", &arg0, &arg1, &arg2, &arg3))
+	if (!PyArg_ParseTuple(args, "iyii:GameTextForPlayer", &arg0, &arg1, &arg2, &arg3))
 	{
 		PyErr_Print();
 		return NULL;
@@ -3564,7 +3564,7 @@ static PyObject* pysamp_setsvarint(PyObject *self, PyObject *args)
 {
 	int arg1 = -1;
 	const char* arg0 = "";
-	if (!PyArg_ParseTuple(args, "si:SetSVarInt", &arg0, &arg1))
+	if (!PyArg_ParseTuple(args, "yi:SetSVarInt", &arg0, &arg1))
 	{
 		PyErr_Print();
 		return NULL;
@@ -3580,7 +3580,7 @@ static PyObject* pysamp_setsvarint(PyObject *self, PyObject *args)
 static PyObject* pysamp_getsvarint(PyObject *self, PyObject *args)
 {
 	const char* arg0 = "";
-	if (!PyArg_ParseTuple(args, "s:GetSVarInt", &arg0))
+	if (!PyArg_ParseTuple(args, "y:GetSVarInt", &arg0))
 	{
 		PyErr_Print();
 		return NULL;
@@ -3595,7 +3595,7 @@ static PyObject* pysamp_setsvarstring(PyObject *self, PyObject *args)
 {
 	const char* arg1 = "";
 	const char* arg0 = "";
-	if (!PyArg_ParseTuple(args, "ss:SetSVarString", &arg0, &arg1))
+	if (!PyArg_ParseTuple(args, "yy:SetSVarString", &arg0, &arg1))
 	{
 		PyErr_Print();
 		return NULL;
@@ -3613,7 +3613,7 @@ static PyObject* pysamp_getsvarstring(PyObject *self, PyObject *args)
 {
 	int arg2 = -1;
 	const char* arg0 = "";
-	if (!PyArg_ParseTuple(args, "si:GetSVarString", &arg0, &arg2))
+	if (!PyArg_ParseTuple(args, "yi:GetSVarString", &arg0, &arg2))
 	{
 		PyErr_Print();
 		return NULL;
@@ -3630,7 +3630,7 @@ static PyObject* pysamp_setsvarfloat(PyObject *self, PyObject *args)
 {
 	float arg1 = -1.0f;
 	const char* arg0 = "";
-	if (!PyArg_ParseTuple(args, "sf:SetSVarFloat", &arg0, &arg1))
+	if (!PyArg_ParseTuple(args, "yf:SetSVarFloat", &arg0, &arg1))
 	{
 		PyErr_Print();
 		return NULL;
@@ -3646,7 +3646,7 @@ static PyObject* pysamp_setsvarfloat(PyObject *self, PyObject *args)
 static PyObject* pysamp_getsvarfloat(PyObject *self, PyObject *args)
 {
 	const char* arg0 = "";
-	if (!PyArg_ParseTuple(args, "s:GetSVarFloat", &arg0))
+	if (!PyArg_ParseTuple(args, "y:GetSVarFloat", &arg0))
 	{
 		PyErr_Print();
 		return NULL;
@@ -3660,7 +3660,7 @@ static PyObject* pysamp_getsvarfloat(PyObject *self, PyObject *args)
 static PyObject* pysamp_deletesvar(PyObject *self, PyObject *args)
 {
 	const char* arg0 = "";
-	if (!PyArg_ParseTuple(args, "s:DeleteSVar", &arg0))
+	if (!PyArg_ParseTuple(args, "y:DeleteSVar", &arg0))
 	{
 		PyErr_Print();
 		return NULL;
@@ -3704,7 +3704,7 @@ static PyObject* pysamp_getsvarnameatindex(PyObject *self, PyObject *args)
 static PyObject* pysamp_getsvartype(PyObject *self, PyObject *args)
 {
 	const char* arg0 = "";
-	if (!PyArg_ParseTuple(args, "s:GetSVarType", &arg0))
+	if (!PyArg_ParseTuple(args, "y:GetSVarType", &arg0))
 	{
 		PyErr_Print();
 		return NULL;
@@ -3719,7 +3719,7 @@ static PyObject* pysamp_setgamemodetext(PyObject *self, PyObject *args)
 {
 	const char* arg0 = "";
 
-	if (!PyArg_ParseTuple(args, "s:SetGameModeText", &arg0))
+	if (!PyArg_ParseTuple(args, "y:SetGameModeText", &arg0))
 	{
 		PyErr_Print();
 		return NULL;
@@ -4180,7 +4180,7 @@ static PyObject* pysamp_connectnpc(PyObject *self, PyObject *args)
 {
 	const char* arg1 = "";
 	const char* arg0 = "";
-	if (!PyArg_ParseTuple(args, "ss:ConnectNPC", &arg0, &arg1))
+	if (!PyArg_ParseTuple(args, "yy:ConnectNPC", &arg0, &arg1))
 	{
 		PyErr_Print();
 		return NULL;
@@ -4254,7 +4254,7 @@ static PyObject* pysamp_banex(PyObject *self, PyObject *args)
 {
 	const char* arg1 = "";
 	int arg0 = -1;
-	if (!PyArg_ParseTuple(args, "is:BanEx", &arg0, &arg1))
+	if (!PyArg_ParseTuple(args, "iy:BanEx", &arg0, &arg1))
 	{
 		PyErr_Print();
 		return NULL;
@@ -4270,7 +4270,7 @@ static PyObject* pysamp_banex(PyObject *self, PyObject *args)
 static PyObject* pysamp_sendrconcommand(PyObject *self, PyObject *args)
 {
 	const char* arg0 = "";
-	if (!PyArg_ParseTuple(args, "s:SendRconCommand", &arg0))
+	if (!PyArg_ParseTuple(args, "y:SendRconCommand", &arg0))
 	{
 		PyErr_Print();
 		return NULL;
@@ -4334,7 +4334,7 @@ static PyObject* pysamp_blockipaddress(PyObject *self, PyObject *args)
 {
 	int arg1 = -1;
 	const char* arg0 = "";
-	if (!PyArg_ParseTuple(args, "si:BlockIpAddress", &arg0, &arg1))
+	if (!PyArg_ParseTuple(args, "yi:BlockIpAddress", &arg0, &arg1))
 	{
 		PyErr_Print();
 		return NULL;
@@ -4350,7 +4350,7 @@ static PyObject* pysamp_blockipaddress(PyObject *self, PyObject *args)
 static PyObject* pysamp_unblockipaddress(PyObject *self, PyObject *args)
 {
 	const char* arg0 = "";
-	if (!PyArg_ParseTuple(args, "s:UnBlockIpAddress", &arg0))
+	if (!PyArg_ParseTuple(args, "y:UnBlockIpAddress", &arg0))
 	{
 		PyErr_Print();
 		return NULL;
@@ -4367,7 +4367,7 @@ static PyObject* pysamp_getservervarasstring(PyObject *self, PyObject *args)
 {
 	int arg2 = -1;
 	const char* arg0 = "";
-	if (!PyArg_ParseTuple(args, "si:GetServerVarAsString", &arg0, &arg2))
+	if (!PyArg_ParseTuple(args, "yi:GetServerVarAsString", &arg0, &arg2))
 	{
 		PyErr_Print();
 		return NULL;
@@ -4383,7 +4383,7 @@ static PyObject* pysamp_getservervarasstring(PyObject *self, PyObject *args)
 static PyObject* pysamp_getservervarasint(PyObject *self, PyObject *args)
 {
 	const char* arg0 = "";
-	if (!PyArg_ParseTuple(args, "s:GetServerVarAsInt", &arg0))
+	if (!PyArg_ParseTuple(args, "y:GetServerVarAsInt", &arg0))
 	{
 		PyErr_Print();
 		return NULL;
@@ -4397,7 +4397,7 @@ static PyObject* pysamp_getservervarasint(PyObject *self, PyObject *args)
 static PyObject* pysamp_getservervarasbool(PyObject *self, PyObject *args)
 {
 	const char* arg0 = "";
-	if (!PyArg_ParseTuple(args, "s:GetServerVarAsBool", &arg0))
+	if (!PyArg_ParseTuple(args, "y:GetServerVarAsBool", &arg0))
 	{
 		PyErr_Print();
 		return NULL;
@@ -4414,7 +4414,7 @@ static PyObject* pysamp_getconsolevarasstring(PyObject *self, PyObject *args)
 {
 	int arg2 = -1;
 	const char* arg0 = "";
-	if (!PyArg_ParseTuple(args, "si:GetConsoleVarAsString", &arg0, &arg2))
+	if (!PyArg_ParseTuple(args, "yi:GetConsoleVarAsString", &arg0, &arg2))
 	{
 		PyErr_Print();
 		return NULL;
@@ -4430,7 +4430,7 @@ static PyObject* pysamp_getconsolevarasstring(PyObject *self, PyObject *args)
 static PyObject* pysamp_getconsolevarasint(PyObject *self, PyObject *args)
 {
 	const char* arg0 = "";
-	if (!PyArg_ParseTuple(args, "s:GetConsoleVarAsInt", &arg0))
+	if (!PyArg_ParseTuple(args, "y:GetConsoleVarAsInt", &arg0))
 	{
 		PyErr_Print();
 		return NULL;
@@ -4444,7 +4444,7 @@ static PyObject* pysamp_getconsolevarasint(PyObject *self, PyObject *args)
 static PyObject* pysamp_getconsolevarasbool(PyObject *self, PyObject *args)
 {
 	const char* arg0 = "";
-	if (!PyArg_ParseTuple(args, "s:GetConsoleVarAsBool", &arg0))
+	if (!PyArg_ParseTuple(args, "y:GetConsoleVarAsBool", &arg0))
 	{
 		PyErr_Print();
 		return NULL;
@@ -4597,7 +4597,7 @@ static PyObject* pysamp_createmenu(PyObject *self, PyObject *args)
 	float arg2 = -1.0f;
 	int arg1 = -1;
 	const char* arg0 = "";
-	if (!PyArg_ParseTuple(args, "siffff:CreateMenu", &arg0, &arg1, &arg2, &arg3, &arg4, &arg5))
+	if (!PyArg_ParseTuple(args, "yiffff:CreateMenu", &arg0, &arg1, &arg2, &arg3, &arg4, &arg5))
 	{
 		PyErr_Print();
 		return NULL;
@@ -4627,7 +4627,7 @@ static PyObject* pysamp_addmenuitem(PyObject *self, PyObject *args)
 	const char* arg2 = "";
 	int arg1 = -1;
 	int arg0 = -1;
-	if (!PyArg_ParseTuple(args, "iis:AddMenuItem", &arg0, &arg1, &arg2))
+	if (!PyArg_ParseTuple(args, "iiy:AddMenuItem", &arg0, &arg1, &arg2))
 	{
 		PyErr_Print();
 		return NULL;
@@ -4643,7 +4643,7 @@ static PyObject* pysamp_setmenucolumnheader(PyObject *self, PyObject *args)
 	const char* arg2 = "";
 	int arg1 = -1;
 	int arg0 = -1;
-	if (!PyArg_ParseTuple(args, "iis:SetMenuColumnHeader", &arg0, &arg1, &arg2))
+	if (!PyArg_ParseTuple(args, "iiy:SetMenuColumnHeader", &arg0, &arg1, &arg2))
 	{
 		PyErr_Print();
 		return NULL;
@@ -4747,7 +4747,7 @@ static PyObject* pysamp_textdrawcreate(PyObject *self, PyObject *args)
 	const char* arg2 = "";
 	float arg1 = -1.0f;
 	float arg0 = -1.0f;
-	if (!PyArg_ParseTuple(args, "ffs:TextDrawCreate", &arg0, &arg1, &arg2))
+	if (!PyArg_ParseTuple(args, "ffy:TextDrawCreate", &arg0, &arg1, &arg2))
 	{
 		PyErr_Print();
 		return NULL;
@@ -5016,7 +5016,7 @@ static PyObject* pysamp_textdrawsetstring(PyObject *self, PyObject *args)
 {
 	const char* arg1 = "";
 	int arg0 = -1;
-	if (!PyArg_ParseTuple(args, "is:TextDrawSetString", &arg0, &arg1))
+	if (!PyArg_ParseTuple(args, "iy:TextDrawSetString", &arg0, &arg1))
 	{
 		PyErr_Print();
 		return NULL;
@@ -5266,7 +5266,7 @@ static PyObject* pysamp_showplayerdialog(PyObject *self, PyObject *args)
 	int arg2 = -1;
 	int arg1 = -1;
 	int arg0 = -1;
-	if (!PyArg_ParseTuple(args, "iiissss:ShowPlayerDialog", &arg0, &arg1, &arg2, &arg3, &arg4, &arg5, &arg6))
+	if (!PyArg_ParseTuple(args, "iiiyyyy:ShowPlayerDialog", &arg0, &arg1, &arg2, &arg3, &arg4, &arg5, &arg6))
 	{
 		PyErr_Print();
 		return NULL;
@@ -5789,7 +5789,7 @@ static PyObject* pysamp_setvehiclenumberplate(PyObject *self, PyObject *args)
 {
 	const char* arg1 = "";
 	int arg0 = -1;
-	if (!PyArg_ParseTuple(args, "is:SetVehicleNumberPlate", &arg0, &arg1))
+	if (!PyArg_ParseTuple(args, "iy:SetVehicleNumberPlate", &arg0, &arg1))
 	{
 		PyErr_Print();
 		return NULL;
