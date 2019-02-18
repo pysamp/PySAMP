@@ -18,8 +18,10 @@ PyGamemode::PyGamemode(const char * path)
 		sampgdk::logprintf("Couldn't load module.");
 		return;
 	}
-	// see 
+#ifndef WIN32
 	dlopen("libpython3.5m.so", RTLD_LAZY | RTLD_GLOBAL);
+#endif
+
 	Py_Initialize();
 	char cCurrentPath[FILENAME_MAX];
 	GetCurrentDir(cCurrentPath, sizeof(cCurrentPath));

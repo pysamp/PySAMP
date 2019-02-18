@@ -5,7 +5,6 @@
 #include "sampgdk.h"
 #include <stdexcept>
 #include "samp.h"
-#include <dlfcn.h>
 
 #ifdef DEBUG
 #define PY_DEBUG
@@ -18,6 +17,7 @@
 #include <direct.h>
 #define GetCurrentDir _getcwd
 #else
+#include <dlfcn.h>
 #include <unistd.h>
 #define GetCurrentDir getcwd
 #endif
