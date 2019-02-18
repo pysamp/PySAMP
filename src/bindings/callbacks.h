@@ -21,9 +21,6 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnGameModeInit() {
 	return PySAMP::callback("OnGameModeInit", NULL);
 }
 
-PLUGIN_EXPORT bool PLUGIN_CALL OnGameModeExit() {
-	return PySAMP::callback("OnGameModeExit", NULL);
-}
 
 PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerConnect(int playerid) {
 	return PySAMP::callback("OnPlayerConnect", Py_BuildValue("(i)", playerid));
@@ -125,8 +122,8 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnVehicleMod(int playerid, int vehicleid, int com
 	return PySAMP::callback("OnVehicleMod", Py_BuildValue("(iii)", playerid, vehicleid, componentid));
 }
 
-PLUGIN_EXPORT bool PLUGIN_CALL OnEnterExitModShop(int playerid, int enterexit, int interiorid) {
-	return PySAMP::callback("OnEnterExitModShop", Py_BuildValue("(iii)", playerid, enterexit, interiorid));
+PLUGIN_EXPORT bool PLUGIN_CALL OnEnterExitModShop(int playerid, bool enterexit, int interiorid) {
+	return PySAMP::callback("OnEnterExitModShop", Py_BuildValue("(iOi)", playerid, (enterexit ? Py_True : Py_False), interiorid));
 }
 
 PLUGIN_EXPORT bool PLUGIN_CALL OnVehiclePaintjob(int playerid, int vehicleid, int paintjobid) {

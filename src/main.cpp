@@ -19,6 +19,7 @@ PLUGIN_EXPORT unsigned int PLUGIN_CALL Supports()
 
 PLUGIN_EXPORT bool PLUGIN_CALL Load(void **ppData) 
 {
+	std::cout << "Loading PYSAMP" << std::endl;
 	try {
 		PySAMP::load();
 	} catch (std::exception) {
@@ -44,11 +45,6 @@ PLUGIN_EXPORT bool PLUGIN_CALL Load(void **ppData)
 
 PLUGIN_EXPORT void PLUGIN_CALL Unload()
 {
-	if(threadingInitialized)
-	{
-		PySAMP::callback("OnThreadingStopSignal", NULL);
-		threading.join();
-	}
 	sampgdk::Unload();
 }
 
@@ -56,4 +52,14 @@ PLUGIN_EXPORT void PLUGIN_CALL ProcessTick()
 {
 	sampgdk::ProcessTick();
 	PySAMP::callback("OnProcessTick", NULL);
+}
+
+
+PLUGIN_EXPORT bool PLUGIN_CALL OnGameModeExit() {
+	if(threadingInitialized)
+	{
+		PySAMP::callback("OnThreadingStopSignal", NULL);
+		threading.join();
+	}
+	return PySAMP::callback("OnGameModeExit", NULL);
 }

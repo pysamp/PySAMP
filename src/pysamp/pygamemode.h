@@ -17,6 +17,7 @@
 #include <direct.h>
 #define GetCurrentDir _getcwd
 #else
+#include <dlfcn.h>
 #include <unistd.h>
 #define GetCurrentDir getcwd
 #endif

@@ -31,8 +31,9 @@ static PyObject* pysamp_destroyactor(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = DestroyActor(arg0);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_isactorstreamedin(PyObject *self, PyObject *args)
@@ -45,8 +46,9 @@ static PyObject* pysamp_isactorstreamedin(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = IsActorStreamedIn(arg0, arg1);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_setactorvirtualworld(PyObject *self, PyObject *args)
@@ -59,8 +61,9 @@ static PyObject* pysamp_setactorvirtualworld(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = SetActorVirtualWorld(arg0, arg1);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_getactorvirtualworld(PyObject *self, PyObject *args)
@@ -93,10 +96,12 @@ static PyObject* pysamp_applyactoranimation(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = ApplyActorAnimation(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	delete[] arg1;
-	delete[] arg2;
-	return out;
+
+
+
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_clearactoranimations(PyObject *self, PyObject *args)
@@ -108,8 +113,9 @@ static PyObject* pysamp_clearactoranimations(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = ClearActorAnimations(arg0);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_setactorpos(PyObject *self, PyObject *args)
@@ -124,8 +130,9 @@ static PyObject* pysamp_setactorpos(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = SetActorPos(arg0, arg1, arg2, arg3);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_getactorpos(PyObject *self, PyObject *args)
@@ -154,8 +161,9 @@ static PyObject* pysamp_setactorfacingangle(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = SetActorFacingAngle(arg0, arg1);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_getactorfacingangle(PyObject *self, PyObject *args)
@@ -182,8 +190,9 @@ static PyObject* pysamp_setactorhealth(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = SetActorHealth(arg0, arg1);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_getactorhealth(PyObject *self, PyObject *args)
@@ -210,8 +219,9 @@ static PyObject* pysamp_setactorinvulnerable(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = SetActorInvulnerable(arg0, arg1);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_isactorinvulnerable(PyObject *self, PyObject *args)
@@ -223,8 +233,9 @@ static PyObject* pysamp_isactorinvulnerable(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = IsActorInvulnerable(arg0);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_isvalidactor(PyObject *self, PyObject *args)
@@ -236,8 +247,9 @@ static PyObject* pysamp_isvalidactor(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = IsValidActor(arg0);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_createobject(PyObject *self, PyObject *args)
@@ -276,8 +288,9 @@ static PyObject* pysamp_attachobjecttovehicle(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = AttachObjectToVehicle(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_attachobjecttoobject(PyObject *self, PyObject *args)
@@ -297,8 +310,9 @@ static PyObject* pysamp_attachobjecttoobject(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = AttachObjectToObject(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_attachobjecttoplayer(PyObject *self, PyObject *args)
@@ -317,8 +331,9 @@ static PyObject* pysamp_attachobjecttoplayer(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = AttachObjectToPlayer(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_setobjectpos(PyObject *self, PyObject *args)
@@ -333,8 +348,9 @@ static PyObject* pysamp_setobjectpos(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = SetObjectPos(arg0, arg1, arg2, arg3);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_getobjectpos(PyObject *self, PyObject *args)
@@ -365,8 +381,9 @@ static PyObject* pysamp_setobjectrot(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = SetObjectRot(arg0, arg1, arg2, arg3);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_getobjectrot(PyObject *self, PyObject *args)
@@ -407,8 +424,9 @@ static PyObject* pysamp_setobjectnocameracol(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = SetObjectNoCameraCol(arg0);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_isvalidobject(PyObject *self, PyObject *args)
@@ -420,8 +438,9 @@ static PyObject* pysamp_isvalidobject(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = IsValidObject(arg0);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_destroyobject(PyObject *self, PyObject *args)
@@ -433,8 +452,9 @@ static PyObject* pysamp_destroyobject(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = DestroyObject(arg0);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_moveobject(PyObject *self, PyObject *args)
@@ -466,8 +486,9 @@ static PyObject* pysamp_stopobject(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = StopObject(arg0);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_isobjectmoving(PyObject *self, PyObject *args)
@@ -479,8 +500,9 @@ static PyObject* pysamp_isobjectmoving(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = IsObjectMoving(arg0);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_editobject(PyObject *self, PyObject *args)
@@ -493,8 +515,9 @@ static PyObject* pysamp_editobject(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = EditObject(arg0, arg1);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_editplayerobject(PyObject *self, PyObject *args)
@@ -507,8 +530,9 @@ static PyObject* pysamp_editplayerobject(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = EditPlayerObject(arg0, arg1);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_selectobject(PyObject *self, PyObject *args)
@@ -520,8 +544,9 @@ static PyObject* pysamp_selectobject(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = SelectObject(arg0);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_canceledit(PyObject *self, PyObject *args)
@@ -533,8 +558,9 @@ static PyObject* pysamp_canceledit(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = CancelEdit(arg0);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_createplayerobject(PyObject *self, PyObject *args)
@@ -575,8 +601,9 @@ static PyObject* pysamp_attachplayerobjecttoplayer(PyObject *self, PyObject *arg
 		return NULL;
 	}
 	bool ret = AttachPlayerObjectToPlayer(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_attachplayerobjecttovehicle(PyObject *self, PyObject *args)
@@ -596,8 +623,9 @@ static PyObject* pysamp_attachplayerobjecttovehicle(PyObject *self, PyObject *ar
 		return NULL;
 	}
 	bool ret = AttachPlayerObjectToVehicle(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_setplayerobjectpos(PyObject *self, PyObject *args)
@@ -613,8 +641,9 @@ static PyObject* pysamp_setplayerobjectpos(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = SetPlayerObjectPos(arg0, arg1, arg2, arg3, arg4);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_getplayerobjectpos(PyObject *self, PyObject *args)
@@ -647,8 +676,9 @@ static PyObject* pysamp_setplayerobjectrot(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = SetPlayerObjectRot(arg0, arg1, arg2, arg3, arg4);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_getplayerobjectrot(PyObject *self, PyObject *args)
@@ -692,8 +722,9 @@ static PyObject* pysamp_setplayerobjectnocameracol(PyObject *self, PyObject *arg
 		return NULL;
 	}
 	bool ret = SetPlayerObjectNoCameraCol(arg0, arg1);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_isvalidplayerobject(PyObject *self, PyObject *args)
@@ -706,8 +737,9 @@ static PyObject* pysamp_isvalidplayerobject(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = IsValidPlayerObject(arg0, arg1);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_destroyplayerobject(PyObject *self, PyObject *args)
@@ -720,8 +752,9 @@ static PyObject* pysamp_destroyplayerobject(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = DestroyPlayerObject(arg0, arg1);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_moveplayerobject(PyObject *self, PyObject *args)
@@ -755,8 +788,9 @@ static PyObject* pysamp_stopplayerobject(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = StopPlayerObject(arg0, arg1);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_isplayerobjectmoving(PyObject *self, PyObject *args)
@@ -769,8 +803,9 @@ static PyObject* pysamp_isplayerobjectmoving(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = IsPlayerObjectMoving(arg0, arg1);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_setobjectmaterial(PyObject *self, PyObject *args)
@@ -787,10 +822,12 @@ static PyObject* pysamp_setobjectmaterial(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = SetObjectMaterial(arg0, arg1, arg2, arg3, arg4, arg5);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	delete[] arg3;
-	delete[] arg4;
-	return out;
+
+
+
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_setplayerobjectmaterial(PyObject *self, PyObject *args)
@@ -808,10 +845,12 @@ static PyObject* pysamp_setplayerobjectmaterial(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = SetPlayerObjectMaterial(arg0, arg1, arg2, arg3, arg4, arg5, arg6);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	delete[] arg4;
-	delete[] arg5;
-	return out;
+
+
+
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_setobjectmaterialtext(PyObject *self, PyObject *args)
@@ -832,10 +871,12 @@ static PyObject* pysamp_setobjectmaterialtext(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = SetObjectMaterialText(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	delete[] arg1;
-	delete[] arg4;
-	return out;
+
+
+
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_setplayerobjectmaterialtext(PyObject *self, PyObject *args)
@@ -857,10 +898,12 @@ static PyObject* pysamp_setplayerobjectmaterialtext(PyObject *self, PyObject *ar
 		return NULL;
 	}
 	bool ret = SetPlayerObjectMaterialText(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	delete[] arg2;
-	delete[] arg5;
-	return out;
+
+
+
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_setobjectsdefaultcameracol(PyObject *self, PyObject *args)
@@ -872,8 +915,9 @@ static PyObject* pysamp_setobjectsdefaultcameracol(PyObject *self, PyObject *arg
 		return NULL;
 	}
 	bool ret = SetObjectsDefaultCameraCol(arg0);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_setspawninfo(PyObject *self, PyObject *args)
@@ -897,8 +941,9 @@ static PyObject* pysamp_setspawninfo(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = SetSpawnInfo(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_spawnplayer(PyObject *self, PyObject *args)
@@ -910,8 +955,9 @@ static PyObject* pysamp_spawnplayer(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = SpawnPlayer(arg0);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_setplayerpos(PyObject *self, PyObject *args)
@@ -926,8 +972,9 @@ static PyObject* pysamp_setplayerpos(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = SetPlayerPos(arg0, arg1, arg2, arg3);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_setplayerposfindz(PyObject *self, PyObject *args)
@@ -942,8 +989,9 @@ static PyObject* pysamp_setplayerposfindz(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = SetPlayerPosFindZ(arg0, arg1, arg2, arg3);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_getplayerpos(PyObject *self, PyObject *args)
@@ -972,8 +1020,9 @@ static PyObject* pysamp_setplayerfacingangle(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = SetPlayerFacingAngle(arg0, arg1);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_getplayerfacingangle(PyObject *self, PyObject *args)
@@ -1003,8 +1052,9 @@ static PyObject* pysamp_isplayerinrangeofpoint(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = IsPlayerInRangeOfPoint(arg0, arg1, arg2, arg3, arg4);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_getplayerdistancefrompoint(PyObject *self, PyObject *args)
@@ -1033,8 +1083,9 @@ static PyObject* pysamp_isplayerstreamedin(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = IsPlayerStreamedIn(arg0, arg1);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_setplayerinterior(PyObject *self, PyObject *args)
@@ -1047,8 +1098,9 @@ static PyObject* pysamp_setplayerinterior(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = SetPlayerInterior(arg0, arg1);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_getplayerinterior(PyObject *self, PyObject *args)
@@ -1074,8 +1126,9 @@ static PyObject* pysamp_setplayerhealth(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = SetPlayerHealth(arg0, arg1);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_getplayerhealth(PyObject *self, PyObject *args)
@@ -1102,8 +1155,9 @@ static PyObject* pysamp_setplayerarmour(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = SetPlayerArmour(arg0, arg1);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_getplayerarmour(PyObject *self, PyObject *args)
@@ -1131,8 +1185,9 @@ static PyObject* pysamp_setplayerammo(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = SetPlayerAmmo(arg0, arg1, arg2);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_getplayerammo(PyObject *self, PyObject *args)
@@ -1197,8 +1252,9 @@ static PyObject* pysamp_setplayerteam(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = SetPlayerTeam(arg0, arg1);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_getplayerteam(PyObject *self, PyObject *args)
@@ -1224,8 +1280,9 @@ static PyObject* pysamp_setplayerscore(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = SetPlayerScore(arg0, arg1);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_getplayerscore(PyObject *self, PyObject *args)
@@ -1264,8 +1321,9 @@ static PyObject* pysamp_setplayerdrunklevel(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = SetPlayerDrunkLevel(arg0, arg1);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_setplayercolor(PyObject *self, PyObject *args)
@@ -1278,8 +1336,9 @@ static PyObject* pysamp_setplayercolor(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = SetPlayerColor(arg0, arg1);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_getplayercolor(PyObject *self, PyObject *args)
@@ -1305,8 +1364,9 @@ static PyObject* pysamp_setplayerskin(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = SetPlayerSkin(arg0, arg1);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_getplayerskin(PyObject *self, PyObject *args)
@@ -1333,8 +1393,9 @@ static PyObject* pysamp_giveplayerweapon(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = GivePlayerWeapon(arg0, arg1, arg2);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_resetplayerweapons(PyObject *self, PyObject *args)
@@ -1346,8 +1407,9 @@ static PyObject* pysamp_resetplayerweapons(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = ResetPlayerWeapons(arg0);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_setplayerarmedweapon(PyObject *self, PyObject *args)
@@ -1360,8 +1422,9 @@ static PyObject* pysamp_setplayerarmedweapon(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = SetPlayerArmedWeapon(arg0, arg1);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_getplayerweapondata(PyObject *self, PyObject *args)
@@ -1390,8 +1453,9 @@ static PyObject* pysamp_giveplayermoney(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = GivePlayerMoney(arg0, arg1);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_resetplayermoney(PyObject *self, PyObject *args)
@@ -1403,8 +1467,9 @@ static PyObject* pysamp_resetplayermoney(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = ResetPlayerMoney(arg0);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_setplayername(PyObject *self, PyObject *args)
@@ -1418,7 +1483,7 @@ static PyObject* pysamp_setplayername(PyObject *self, PyObject *args)
 	}
 	int ret = SetPlayerName(arg0, arg1);
 	PyObject* out = Py_BuildValue("i", ret);
-	delete[] arg1;
+
 	return out;
 }
 
@@ -1460,7 +1525,7 @@ static PyObject* pysamp_getplayerip(PyObject *self, PyObject *args)
 	char* arg1 = new char[arg2];
 	bool ret = GetPlayerIp(arg0, arg1, arg2);
 	PyObject* out = Py_BuildValue("s", arg1);
-	delete[] arg1;
+
 	return out;
 }
 
@@ -1518,7 +1583,7 @@ static PyObject* pysamp_getplayername(PyObject *self, PyObject *args)
 	char* arg1 = new char[arg2];
 	int ret = GetPlayerName(arg0, arg1, arg2);
 	PyObject* out = Py_BuildValue("s", arg1);
-	delete[] arg1;
+
 	return out;
 }
 
@@ -1533,8 +1598,9 @@ static PyObject* pysamp_setplayertime(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = SetPlayerTime(arg0, arg1, arg2);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_getplayertime(PyObject *self, PyObject *args)
@@ -1562,8 +1628,9 @@ static PyObject* pysamp_toggleplayerclock(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = TogglePlayerClock(arg0, arg1);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_setplayerweather(PyObject *self, PyObject *args)
@@ -1576,8 +1643,9 @@ static PyObject* pysamp_setplayerweather(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = SetPlayerWeather(arg0, arg1);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_forceclassselection(PyObject *self, PyObject *args)
@@ -1589,8 +1657,9 @@ static PyObject* pysamp_forceclassselection(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = ForceClassSelection(arg0);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_setplayerwantedlevel(PyObject *self, PyObject *args)
@@ -1603,8 +1672,9 @@ static PyObject* pysamp_setplayerwantedlevel(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = SetPlayerWantedLevel(arg0, arg1);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_getplayerwantedlevel(PyObject *self, PyObject *args)
@@ -1630,8 +1700,9 @@ static PyObject* pysamp_setplayerfightingstyle(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = SetPlayerFightingStyle(arg0, arg1);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_getplayerfightingstyle(PyObject *self, PyObject *args)
@@ -1659,8 +1730,9 @@ static PyObject* pysamp_setplayervelocity(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = SetPlayerVelocity(arg0, arg1, arg2, arg3);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_getplayervelocity(PyObject *self, PyObject *args)
@@ -1690,8 +1762,9 @@ static PyObject* pysamp_playcrimereportforplayer(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = PlayCrimeReportForPlayer(arg0, arg1, arg2);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_playaudiostreamforplayer(PyObject *self, PyObject *args)
@@ -1709,9 +1782,11 @@ static PyObject* pysamp_playaudiostreamforplayer(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = PlayAudioStreamForPlayer(arg0, arg1, arg2, arg3, arg4, arg5, arg6);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	delete[] arg1;
-	return out;
+
+
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_stopaudiostreamforplayer(PyObject *self, PyObject *args)
@@ -1723,8 +1798,9 @@ static PyObject* pysamp_stopaudiostreamforplayer(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = StopAudioStreamForPlayer(arg0);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_setplayershopname(PyObject *self, PyObject *args)
@@ -1737,9 +1813,11 @@ static PyObject* pysamp_setplayershopname(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = SetPlayerShopName(arg0, arg1);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	delete[] arg1;
-	return out;
+
+
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_setplayerskilllevel(PyObject *self, PyObject *args)
@@ -1753,8 +1831,9 @@ static PyObject* pysamp_setplayerskilllevel(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = SetPlayerSkillLevel(arg0, arg1, arg2);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_getplayersurfingvehicleid(PyObject *self, PyObject *args)
@@ -1797,8 +1876,9 @@ static PyObject* pysamp_removebuildingforplayer(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = RemoveBuildingForPlayer(arg0, arg1, arg2, arg3, arg4, arg5);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_getplayerlastshotvectors(PyObject *self, PyObject *args)
@@ -1843,8 +1923,9 @@ static PyObject* pysamp_setplayerattachedobject(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = SetPlayerAttachedObject(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_removeplayerattachedobject(PyObject *self, PyObject *args)
@@ -1857,8 +1938,9 @@ static PyObject* pysamp_removeplayerattachedobject(PyObject *self, PyObject *arg
 		return NULL;
 	}
 	bool ret = RemovePlayerAttachedObject(arg0, arg1);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_isplayerattachedobjectslotused(PyObject *self, PyObject *args)
@@ -1871,8 +1953,9 @@ static PyObject* pysamp_isplayerattachedobjectslotused(PyObject *self, PyObject 
 		return NULL;
 	}
 	bool ret = IsPlayerAttachedObjectSlotUsed(arg0, arg1);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_editattachedobject(PyObject *self, PyObject *args)
@@ -1885,8 +1968,9 @@ static PyObject* pysamp_editattachedobject(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = EditAttachedObject(arg0, arg1);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_createplayertextdraw(PyObject *self, PyObject *args)
@@ -1902,7 +1986,7 @@ static PyObject* pysamp_createplayertextdraw(PyObject *self, PyObject *args)
 	}
 	int ret = CreatePlayerTextDraw(arg0, arg1, arg2, arg3);
 	PyObject* out = Py_BuildValue("i", ret);
-	delete[] arg3;
+
 	return out;
 }
 
@@ -1916,8 +2000,9 @@ static PyObject* pysamp_playertextdrawdestroy(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = PlayerTextDrawDestroy(arg0, arg1);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_playertextdrawlettersize(PyObject *self, PyObject *args)
@@ -1932,8 +2017,9 @@ static PyObject* pysamp_playertextdrawlettersize(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = PlayerTextDrawLetterSize(arg0, arg1, arg2, arg3);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_playertextdrawtextsize(PyObject *self, PyObject *args)
@@ -1948,8 +2034,9 @@ static PyObject* pysamp_playertextdrawtextsize(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = PlayerTextDrawTextSize(arg0, arg1, arg2, arg3);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_playertextdrawalignment(PyObject *self, PyObject *args)
@@ -1963,8 +2050,9 @@ static PyObject* pysamp_playertextdrawalignment(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = PlayerTextDrawAlignment(arg0, arg1, arg2);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_playertextdrawcolor(PyObject *self, PyObject *args)
@@ -1978,8 +2066,9 @@ static PyObject* pysamp_playertextdrawcolor(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = PlayerTextDrawColor(arg0, arg1, arg2);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_playertextdrawusebox(PyObject *self, PyObject *args)
@@ -1993,8 +2082,9 @@ static PyObject* pysamp_playertextdrawusebox(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = PlayerTextDrawUseBox(arg0, arg1, arg2);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_playertextdrawboxcolor(PyObject *self, PyObject *args)
@@ -2008,8 +2098,9 @@ static PyObject* pysamp_playertextdrawboxcolor(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = PlayerTextDrawBoxColor(arg0, arg1, arg2);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_playertextdrawsetshadow(PyObject *self, PyObject *args)
@@ -2023,8 +2114,9 @@ static PyObject* pysamp_playertextdrawsetshadow(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = PlayerTextDrawSetShadow(arg0, arg1, arg2);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_playertextdrawsetoutline(PyObject *self, PyObject *args)
@@ -2038,8 +2130,9 @@ static PyObject* pysamp_playertextdrawsetoutline(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = PlayerTextDrawSetOutline(arg0, arg1, arg2);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_playertextdrawbackgroundcolor(PyObject *self, PyObject *args)
@@ -2053,8 +2146,9 @@ static PyObject* pysamp_playertextdrawbackgroundcolor(PyObject *self, PyObject *
 		return NULL;
 	}
 	bool ret = PlayerTextDrawBackgroundColor(arg0, arg1, arg2);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_playertextdrawfont(PyObject *self, PyObject *args)
@@ -2068,8 +2162,9 @@ static PyObject* pysamp_playertextdrawfont(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = PlayerTextDrawFont(arg0, arg1, arg2);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_playertextdrawsetproportional(PyObject *self, PyObject *args)
@@ -2083,8 +2178,9 @@ static PyObject* pysamp_playertextdrawsetproportional(PyObject *self, PyObject *
 		return NULL;
 	}
 	bool ret = PlayerTextDrawSetProportional(arg0, arg1, arg2);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_playertextdrawsetselectable(PyObject *self, PyObject *args)
@@ -2098,8 +2194,9 @@ static PyObject* pysamp_playertextdrawsetselectable(PyObject *self, PyObject *ar
 		return NULL;
 	}
 	bool ret = PlayerTextDrawSetSelectable(arg0, arg1, arg2);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_playertextdrawshow(PyObject *self, PyObject *args)
@@ -2112,8 +2209,9 @@ static PyObject* pysamp_playertextdrawshow(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = PlayerTextDrawShow(arg0, arg1);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_playertextdrawhide(PyObject *self, PyObject *args)
@@ -2126,8 +2224,9 @@ static PyObject* pysamp_playertextdrawhide(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = PlayerTextDrawHide(arg0, arg1);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_playertextdrawsetstring(PyObject *self, PyObject *args)
@@ -2141,9 +2240,11 @@ static PyObject* pysamp_playertextdrawsetstring(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = PlayerTextDrawSetString(arg0, arg1, arg2);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	delete[] arg2;
-	return out;
+
+
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_playertextdrawsetpreviewmodel(PyObject *self, PyObject *args)
@@ -2157,8 +2258,9 @@ static PyObject* pysamp_playertextdrawsetpreviewmodel(PyObject *self, PyObject *
 		return NULL;
 	}
 	bool ret = PlayerTextDrawSetPreviewModel(arg0, arg1, arg2);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_playertextdrawsetpreviewrot(PyObject *self, PyObject *args)
@@ -2175,8 +2277,9 @@ static PyObject* pysamp_playertextdrawsetpreviewrot(PyObject *self, PyObject *ar
 		return NULL;
 	}
 	bool ret = PlayerTextDrawSetPreviewRot(arg0, arg1, arg2, arg3, arg4, arg5);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_playertextdrawsetpreviewvehcol(PyObject *self, PyObject *args)
@@ -2191,8 +2294,9 @@ static PyObject* pysamp_playertextdrawsetpreviewvehcol(PyObject *self, PyObject 
 		return NULL;
 	}
 	bool ret = PlayerTextDrawSetPreviewVehCol(arg0, arg1, arg2, arg3);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_setpvarint(PyObject *self, PyObject *args)
@@ -2206,9 +2310,11 @@ static PyObject* pysamp_setpvarint(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = SetPVarInt(arg0, arg1, arg2);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	delete[] arg1;
-	return out;
+
+
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_getpvarint(PyObject *self, PyObject *args)
@@ -2222,7 +2328,7 @@ static PyObject* pysamp_getpvarint(PyObject *self, PyObject *args)
 	}
 	int ret = GetPVarInt(arg0, arg1);
 	PyObject* out = Py_BuildValue("i", ret);
-	delete[] arg1;
+
 	return out;
 }
 
@@ -2237,10 +2343,12 @@ static PyObject* pysamp_setpvarstring(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = SetPVarString(arg0, arg1, arg2);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	delete[] arg1;
-	delete[] arg2;
-	return out;
+
+
+
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_getpvarstring(PyObject *self, PyObject *args)
@@ -2254,10 +2362,10 @@ static PyObject* pysamp_getpvarstring(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	char* arg2 = new char[arg3];
-	bool ret = GetPVarString(arg0, arg1, arg2, arg3);
-	PyObject* out = Py_BuildValue("s", arg2);
-	delete[] arg1;
-	delete[] arg2;
+	int ret = GetPVarString(arg0, arg1, arg2, arg3);
+	PyObject* out = (ret > 0) ? Py_BuildValue("s", arg2) : Py_None;
+
+
 	return out;
 }
 
@@ -2272,9 +2380,11 @@ static PyObject* pysamp_setpvarfloat(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = SetPVarFloat(arg0, arg1, arg2);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	delete[] arg1;
-	return out;
+
+
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_getpvarfloat(PyObject *self, PyObject *args)
@@ -2288,7 +2398,7 @@ static PyObject* pysamp_getpvarfloat(PyObject *self, PyObject *args)
 	}
 	float ret = GetPVarFloat(arg0, arg1);
 	PyObject* out = Py_BuildValue("f", ret);
-	delete[] arg1;
+
 	return out;
 }
 
@@ -2302,9 +2412,11 @@ static PyObject* pysamp_deletepvar(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = DeletePVar(arg0, arg1);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	delete[] arg1;
-	return out;
+
+
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_getpvarsupperindex(PyObject *self, PyObject *args)
@@ -2333,7 +2445,7 @@ static PyObject* pysamp_getpvarnameatindex(PyObject *self, PyObject *args)
 	char* arg2 = new char[arg3];
 	bool ret = GetPVarNameAtIndex(arg0, arg1, arg2, arg3);
 	PyObject* out = Py_BuildValue("s", arg2);
-	delete[] arg2;
+
 	return out;
 }
 
@@ -2348,7 +2460,7 @@ static PyObject* pysamp_getpvartype(PyObject *self, PyObject *args)
 	}
 	int ret = GetPVarType(arg0, arg1);
 	PyObject* out = Py_BuildValue("i", ret);
-	delete[] arg1;
+
 	return out;
 }
 
@@ -2365,9 +2477,11 @@ static PyObject* pysamp_setplayerchatbubble(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = SetPlayerChatBubble(arg0, arg1, arg2, arg3, arg4);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	delete[] arg1;
-	return out;
+
+
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_putplayerinvehicle(PyObject *self, PyObject *args)
@@ -2381,8 +2495,9 @@ static PyObject* pysamp_putplayerinvehicle(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = PutPlayerInVehicle(arg0, arg1, arg2);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_getplayervehicleid(PyObject *self, PyObject *args)
@@ -2420,8 +2535,9 @@ static PyObject* pysamp_removeplayerfromvehicle(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = RemovePlayerFromVehicle(arg0);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_toggleplayercontrollable(PyObject *self, PyObject *args)
@@ -2434,8 +2550,9 @@ static PyObject* pysamp_toggleplayercontrollable(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = TogglePlayerControllable(arg0, arg1);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_playerplaysound(PyObject *self, PyObject *args)
@@ -2451,8 +2568,9 @@ static PyObject* pysamp_playerplaysound(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = PlayerPlaySound(arg0, arg1, arg2, arg3, arg4);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_applyanimation(PyObject *self, PyObject *args)
@@ -2473,10 +2591,12 @@ static PyObject* pysamp_applyanimation(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = ApplyAnimation(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	delete[] arg1;
-	delete[] arg2;
-	return out;
+
+
+
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_clearanimations(PyObject *self, PyObject *args)
@@ -2489,8 +2609,9 @@ static PyObject* pysamp_clearanimations(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = ClearAnimations(arg0, arg1);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_getplayeranimationindex(PyObject *self, PyObject *args)
@@ -2520,8 +2641,8 @@ static PyObject* pysamp_getanimationname(PyObject *self, PyObject *args)
 	char* arg1 = new char[arg2];
 	bool ret = GetAnimationName(arg0, arg1, arg2, arg3, arg4);
 	PyObject* out = Py_BuildValue("ss", arg1, arg3);
-	delete[] arg1;
-	delete[] arg3;
+
+
 	return out;
 }
 
@@ -2548,8 +2669,9 @@ static PyObject* pysamp_setplayerspecialaction(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = SetPlayerSpecialAction(arg0, arg1);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_disableremotevehiclecollisions(PyObject *self, PyObject *args)
@@ -2562,8 +2684,9 @@ static PyObject* pysamp_disableremotevehiclecollisions(PyObject *self, PyObject 
 		return NULL;
 	}
 	bool ret = DisableRemoteVehicleCollisions(arg0, arg1);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_setplayercheckpoint(PyObject *self, PyObject *args)
@@ -2579,8 +2702,9 @@ static PyObject* pysamp_setplayercheckpoint(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = SetPlayerCheckpoint(arg0, arg1, arg2, arg3, arg4);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_disableplayercheckpoint(PyObject *self, PyObject *args)
@@ -2592,8 +2716,9 @@ static PyObject* pysamp_disableplayercheckpoint(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = DisablePlayerCheckpoint(arg0);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_setplayerracecheckpoint(PyObject *self, PyObject *args)
@@ -2613,8 +2738,9 @@ static PyObject* pysamp_setplayerracecheckpoint(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = SetPlayerRaceCheckpoint(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_disableplayerracecheckpoint(PyObject *self, PyObject *args)
@@ -2626,8 +2752,9 @@ static PyObject* pysamp_disableplayerracecheckpoint(PyObject *self, PyObject *ar
 		return NULL;
 	}
 	bool ret = DisablePlayerRaceCheckpoint(arg0);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_setplayerworldbounds(PyObject *self, PyObject *args)
@@ -2643,8 +2770,9 @@ static PyObject* pysamp_setplayerworldbounds(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = SetPlayerWorldBounds(arg0, arg1, arg2, arg3, arg4);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_setplayermarkerforplayer(PyObject *self, PyObject *args)
@@ -2658,8 +2786,9 @@ static PyObject* pysamp_setplayermarkerforplayer(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = SetPlayerMarkerForPlayer(arg0, arg1, arg2);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_showplayernametagforplayer(PyObject *self, PyObject *args)
@@ -2673,8 +2802,9 @@ static PyObject* pysamp_showplayernametagforplayer(PyObject *self, PyObject *arg
 		return NULL;
 	}
 	bool ret = ShowPlayerNameTagForPlayer(arg0, arg1, arg2);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_setplayermapicon(PyObject *self, PyObject *args)
@@ -2693,8 +2823,9 @@ static PyObject* pysamp_setplayermapicon(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = SetPlayerMapIcon(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_removeplayermapicon(PyObject *self, PyObject *args)
@@ -2707,8 +2838,9 @@ static PyObject* pysamp_removeplayermapicon(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = RemovePlayerMapIcon(arg0, arg1);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_allowplayerteleport(PyObject *self, PyObject *args)
@@ -2721,8 +2853,9 @@ static PyObject* pysamp_allowplayerteleport(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = AllowPlayerTeleport(arg0, arg1);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_setplayercamerapos(PyObject *self, PyObject *args)
@@ -2737,8 +2870,9 @@ static PyObject* pysamp_setplayercamerapos(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = SetPlayerCameraPos(arg0, arg1, arg2, arg3);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_setplayercameralookat(PyObject *self, PyObject *args)
@@ -2754,8 +2888,9 @@ static PyObject* pysamp_setplayercameralookat(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = SetPlayerCameraLookAt(arg0, arg1, arg2, arg3, arg4);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_setcamerabehindplayer(PyObject *self, PyObject *args)
@@ -2767,8 +2902,9 @@ static PyObject* pysamp_setcamerabehindplayer(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = SetCameraBehindPlayer(arg0);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_getplayercamerapos(PyObject *self, PyObject *args)
@@ -2826,8 +2962,9 @@ static PyObject* pysamp_enableplayercameratarget(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = EnablePlayerCameraTarget(arg0, arg1);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_getplayercameratargetobject(PyObject *self, PyObject *args)
@@ -2918,8 +3055,9 @@ static PyObject* pysamp_attachcameratoobject(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = AttachCameraToObject(arg0, arg1);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_attachcameratoplayerobject(PyObject *self, PyObject *args)
@@ -2932,8 +3070,9 @@ static PyObject* pysamp_attachcameratoplayerobject(PyObject *self, PyObject *arg
 		return NULL;
 	}
 	bool ret = AttachCameraToPlayerObject(arg0, arg1);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_interpolatecamerapos(PyObject *self, PyObject *args)
@@ -2953,8 +3092,9 @@ static PyObject* pysamp_interpolatecamerapos(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = InterpolateCameraPos(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_interpolatecameralookat(PyObject *self, PyObject *args)
@@ -2974,8 +3114,9 @@ static PyObject* pysamp_interpolatecameralookat(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = InterpolateCameraLookAt(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_isplayerconnected(PyObject *self, PyObject *args)
@@ -2987,8 +3128,9 @@ static PyObject* pysamp_isplayerconnected(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = IsPlayerConnected(arg0);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_isplayerinvehicle(PyObject *self, PyObject *args)
@@ -3001,8 +3143,9 @@ static PyObject* pysamp_isplayerinvehicle(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = IsPlayerInVehicle(arg0, arg1);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_isplayerinanyvehicle(PyObject *self, PyObject *args)
@@ -3014,8 +3157,9 @@ static PyObject* pysamp_isplayerinanyvehicle(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = IsPlayerInAnyVehicle(arg0);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_isplayerincheckpoint(PyObject *self, PyObject *args)
@@ -3027,8 +3171,9 @@ static PyObject* pysamp_isplayerincheckpoint(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = IsPlayerInCheckpoint(arg0);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_isplayerinracecheckpoint(PyObject *self, PyObject *args)
@@ -3040,8 +3185,9 @@ static PyObject* pysamp_isplayerinracecheckpoint(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = IsPlayerInRaceCheckpoint(arg0);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_setplayervirtualworld(PyObject *self, PyObject *args)
@@ -3054,8 +3200,9 @@ static PyObject* pysamp_setplayervirtualworld(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = SetPlayerVirtualWorld(arg0, arg1);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_getplayervirtualworld(PyObject *self, PyObject *args)
@@ -3081,8 +3228,9 @@ static PyObject* pysamp_enablestuntbonusforplayer(PyObject *self, PyObject *args
 		return NULL;
 	}
 	bool ret = EnableStuntBonusForPlayer(arg0, arg1);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_enablestuntbonusforall(PyObject *self, PyObject *args)
@@ -3094,8 +3242,9 @@ static PyObject* pysamp_enablestuntbonusforall(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = EnableStuntBonusForAll(arg0);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_toggleplayerspectating(PyObject *self, PyObject *args)
@@ -3108,8 +3257,9 @@ static PyObject* pysamp_toggleplayerspectating(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = TogglePlayerSpectating(arg0, arg1);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_playerspectateplayer(PyObject *self, PyObject *args)
@@ -3123,8 +3273,9 @@ static PyObject* pysamp_playerspectateplayer(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = PlayerSpectatePlayer(arg0, arg1, arg2);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_playerspectatevehicle(PyObject *self, PyObject *args)
@@ -3138,8 +3289,9 @@ static PyObject* pysamp_playerspectatevehicle(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = PlayerSpectateVehicle(arg0, arg1, arg2);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_startrecordingplayerdata(PyObject *self, PyObject *args)
@@ -3153,9 +3305,11 @@ static PyObject* pysamp_startrecordingplayerdata(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = StartRecordingPlayerData(arg0, arg1, arg2);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	delete[] arg2;
-	return out;
+
+
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_stoprecordingplayerdata(PyObject *self, PyObject *args)
@@ -3167,8 +3321,9 @@ static PyObject* pysamp_stoprecordingplayerdata(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = StopRecordingPlayerData(arg0);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_createexplosionforplayer(PyObject *self, PyObject *args)
@@ -3185,39 +3340,44 @@ static PyObject* pysamp_createexplosionforplayer(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = CreateExplosionForPlayer(arg0, arg1, arg2, arg3, arg4, arg5);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_sendclientmessage(PyObject *self, PyObject *args)
 {
 	const char* arg2 = "";
-	int arg1 = -1;
+	unsigned long arg1 = -1;
 	int arg0 = -1;
-	if (!PyArg_ParseTuple(args, "iis:SendClientMessage", &arg0, &arg1, &arg2))
+	if (!PyArg_ParseTuple(args, "iks:SendClientMessage", &arg0, &arg1, &arg2))
 	{
 		PyErr_Print();
 		return NULL;
 	}
 	bool ret = SendClientMessage(arg0, arg1, arg2);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	delete[] arg2;
-	return out;
+
+
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_sendclientmessagetoall(PyObject *self, PyObject *args)
 {
 	const char* arg1 = "";
-	int arg0 = -1;
-	if (!PyArg_ParseTuple(args, "is:SendClientMessageToAll", &arg0, &arg1))
+	unsigned long arg0 = -1;
+	if (!PyArg_ParseTuple(args, "ks:SendClientMessageToAll", &arg0, &arg1))
 	{
 		PyErr_Print();
 		return NULL;
 	}
 	bool ret = SendClientMessageToAll(arg0, arg1);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	delete[] arg1;
-	return out;
+
+
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_sendplayermessagetoplayer(PyObject *self, PyObject *args)
@@ -3231,9 +3391,11 @@ static PyObject* pysamp_sendplayermessagetoplayer(PyObject *self, PyObject *args
 		return NULL;
 	}
 	bool ret = SendPlayerMessageToPlayer(arg0, arg1, arg2);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	delete[] arg2;
-	return out;
+
+
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_sendplayermessagetoall(PyObject *self, PyObject *args)
@@ -3246,9 +3408,11 @@ static PyObject* pysamp_sendplayermessagetoall(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = SendPlayerMessageToAll(arg0, arg1);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	delete[] arg1;
-	return out;
+
+
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_senddeathmessage(PyObject *self, PyObject *args)
@@ -3262,8 +3426,9 @@ static PyObject* pysamp_senddeathmessage(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = SendDeathMessage(arg0, arg1, arg2);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_senddeathmessagetoplayer(PyObject *self, PyObject *args)
@@ -3278,8 +3443,9 @@ static PyObject* pysamp_senddeathmessagetoplayer(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = SendDeathMessageToPlayer(arg0, arg1, arg2, arg3);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_gametextforall(PyObject *self, PyObject *args)
@@ -3293,9 +3459,11 @@ static PyObject* pysamp_gametextforall(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = GameTextForAll(arg0, arg1, arg2);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	delete[] arg0;
-	return out;
+
+
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_gametextforplayer(PyObject *self, PyObject *args)
@@ -3310,9 +3478,11 @@ static PyObject* pysamp_gametextforplayer(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = GameTextForPlayer(arg0, arg1, arg2, arg3);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	delete[] arg1;
-	return out;
+
+
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_gettickcount(PyObject *self, PyObject *args)
@@ -3400,9 +3570,11 @@ static PyObject* pysamp_setsvarint(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = SetSVarInt(arg0, arg1);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	delete[] arg0;
-	return out;
+
+
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_getsvarint(PyObject *self, PyObject *args)
@@ -3415,7 +3587,7 @@ static PyObject* pysamp_getsvarint(PyObject *self, PyObject *args)
 	}
 	int ret = GetSVarInt(arg0);
 	PyObject* out = Py_BuildValue("i", ret);
-	delete[] arg0;
+
 	return out;
 }
 
@@ -3429,10 +3601,12 @@ static PyObject* pysamp_setsvarstring(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = SetSVarString(arg0, arg1);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	delete[] arg0;
-	delete[] arg1;
-	return out;
+
+
+
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_getsvarstring(PyObject *self, PyObject *args)
@@ -3447,8 +3621,8 @@ static PyObject* pysamp_getsvarstring(PyObject *self, PyObject *args)
 	char* arg1 = new char[arg2];
 	bool ret = GetSVarString(arg0, arg1, arg2);
 	PyObject* out = Py_BuildValue("s", arg1);
-	delete[] arg0;
-	delete[] arg1;
+
+
 	return out;
 }
 
@@ -3462,9 +3636,11 @@ static PyObject* pysamp_setsvarfloat(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = SetSVarFloat(arg0, arg1);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	delete[] arg0;
-	return out;
+
+
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_getsvarfloat(PyObject *self, PyObject *args)
@@ -3477,7 +3653,7 @@ static PyObject* pysamp_getsvarfloat(PyObject *self, PyObject *args)
 	}
 	float ret = GetSVarFloat(arg0);
 	PyObject* out = Py_BuildValue("f", ret);
-	delete[] arg0;
+
 	return out;
 }
 
@@ -3490,9 +3666,11 @@ static PyObject* pysamp_deletesvar(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = DeleteSVar(arg0);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	delete[] arg0;
-	return out;
+
+
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_getsvarsupperindex(PyObject *self, PyObject *args)
@@ -3519,7 +3697,7 @@ static PyObject* pysamp_getsvarnameatindex(PyObject *self, PyObject *args)
 	char* arg1 = new char[arg2];
 	bool ret = GetSVarNameAtIndex(arg0, arg1, arg2);
 	PyObject* out = Py_BuildValue("s", arg1);
-	delete[] arg1;
+
 	return out;
 }
 
@@ -3533,22 +3711,25 @@ static PyObject* pysamp_getsvartype(PyObject *self, PyObject *args)
 	}
 	int ret = GetSVarType(arg0);
 	PyObject* out = Py_BuildValue("i", ret);
-	delete[] arg0;
+
 	return out;
 }
 
 static PyObject* pysamp_setgamemodetext(PyObject *self, PyObject *args)
 {
 	const char* arg0 = "";
+
 	if (!PyArg_ParseTuple(args, "s:SetGameModeText", &arg0))
 	{
 		PyErr_Print();
 		return NULL;
 	}
 	bool ret = SetGameModeText(arg0);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	delete[] arg0;
-	return out;
+
+
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_setteamcount(PyObject *self, PyObject *args)
@@ -3560,8 +3741,9 @@ static PyObject* pysamp_setteamcount(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = SetTeamCount(arg0);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_addplayerclass(PyObject *self, PyObject *args)
@@ -3696,8 +3878,9 @@ static PyObject* pysamp_destroypickup(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = DestroyPickup(arg0);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_shownametags(PyObject *self, PyObject *args)
@@ -3709,8 +3892,9 @@ static PyObject* pysamp_shownametags(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = ShowNameTags(arg0);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_showplayermarkers(PyObject *self, PyObject *args)
@@ -3722,8 +3906,9 @@ static PyObject* pysamp_showplayermarkers(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = ShowPlayerMarkers(arg0);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_gamemodeexit(PyObject *self, PyObject *args)
@@ -3734,8 +3919,9 @@ static PyObject* pysamp_gamemodeexit(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = GameModeExit();
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_setworldtime(PyObject *self, PyObject *args)
@@ -3747,8 +3933,9 @@ static PyObject* pysamp_setworldtime(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = SetWorldTime(arg0);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_getweaponname(PyObject *self, PyObject *args)
@@ -3763,7 +3950,7 @@ static PyObject* pysamp_getweaponname(PyObject *self, PyObject *args)
 	char* arg1 = new char[arg2];
 	bool ret = GetWeaponName(arg0, arg1, arg2);
 	PyObject* out = Py_BuildValue("s", arg1);
-	delete[] arg1;
+	
 	return out;
 }
 
@@ -3776,8 +3963,9 @@ static PyObject* pysamp_enabletirepopping(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = EnableTirePopping(arg0);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_enablevehiclefriendlyfire(PyObject *self, PyObject *args)
@@ -3788,8 +3976,9 @@ static PyObject* pysamp_enablevehiclefriendlyfire(PyObject *self, PyObject *args
 		return NULL;
 	}
 	bool ret = EnableVehicleFriendlyFire();
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_allowinteriorweapons(PyObject *self, PyObject *args)
@@ -3801,8 +3990,9 @@ static PyObject* pysamp_allowinteriorweapons(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = AllowInteriorWeapons(arg0);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_setweather(PyObject *self, PyObject *args)
@@ -3814,8 +4004,9 @@ static PyObject* pysamp_setweather(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = SetWeather(arg0);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_setgravity(PyObject *self, PyObject *args)
@@ -3827,8 +4018,9 @@ static PyObject* pysamp_setgravity(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = SetGravity(arg0);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_getgravity(PyObject *self, PyObject *args)
@@ -3852,8 +4044,9 @@ static PyObject* pysamp_allowadminteleport(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = AllowAdminTeleport(arg0);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_setdeathdropamount(PyObject *self, PyObject *args)
@@ -3865,8 +4058,9 @@ static PyObject* pysamp_setdeathdropamount(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = SetDeathDropAmount(arg0);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_createexplosion(PyObject *self, PyObject *args)
@@ -3882,8 +4076,9 @@ static PyObject* pysamp_createexplosion(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = CreateExplosion(arg0, arg1, arg2, arg3, arg4);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_enablezonenames(PyObject *self, PyObject *args)
@@ -3895,8 +4090,9 @@ static PyObject* pysamp_enablezonenames(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = EnableZoneNames(arg0);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_useplayerpedanims(PyObject *self, PyObject *args)
@@ -3907,8 +4103,9 @@ static PyObject* pysamp_useplayerpedanims(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = UsePlayerPedAnims();
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_disableinteriorenterexits(PyObject *self, PyObject *args)
@@ -3919,8 +4116,9 @@ static PyObject* pysamp_disableinteriorenterexits(PyObject *self, PyObject *args
 		return NULL;
 	}
 	bool ret = DisableInteriorEnterExits();
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_setnametagdrawdistance(PyObject *self, PyObject *args)
@@ -3932,8 +4130,9 @@ static PyObject* pysamp_setnametagdrawdistance(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = SetNameTagDrawDistance(arg0);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_disablenametaglos(PyObject *self, PyObject *args)
@@ -3944,8 +4143,9 @@ static PyObject* pysamp_disablenametaglos(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = DisableNameTagLOS();
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_limitglobalchatradius(PyObject *self, PyObject *args)
@@ -3957,8 +4157,9 @@ static PyObject* pysamp_limitglobalchatradius(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = LimitGlobalChatRadius(arg0);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_limitplayermarkerradius(PyObject *self, PyObject *args)
@@ -3970,8 +4171,9 @@ static PyObject* pysamp_limitplayermarkerradius(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = LimitPlayerMarkerRadius(arg0);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_connectnpc(PyObject *self, PyObject *args)
@@ -3984,10 +4186,12 @@ static PyObject* pysamp_connectnpc(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = ConnectNPC(arg0, arg1);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	delete[] arg0;
-	delete[] arg1;
-	return out;
+	
+	
+
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_isplayernpc(PyObject *self, PyObject *args)
@@ -3999,8 +4203,9 @@ static PyObject* pysamp_isplayernpc(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = IsPlayerNPC(arg0);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_isplayeradmin(PyObject *self, PyObject *args)
@@ -4012,8 +4217,9 @@ static PyObject* pysamp_isplayeradmin(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = IsPlayerAdmin(arg0);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_kick(PyObject *self, PyObject *args)
@@ -4025,8 +4231,9 @@ static PyObject* pysamp_kick(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = Kick(arg0);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_ban(PyObject *self, PyObject *args)
@@ -4038,8 +4245,9 @@ static PyObject* pysamp_ban(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = Ban(arg0);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_banex(PyObject *self, PyObject *args)
@@ -4052,9 +4260,11 @@ static PyObject* pysamp_banex(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = BanEx(arg0, arg1);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	delete[] arg1;
-	return out;
+	
+
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_sendrconcommand(PyObject *self, PyObject *args)
@@ -4066,9 +4276,11 @@ static PyObject* pysamp_sendrconcommand(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = SendRconCommand(arg0);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	delete[] arg0;
-	return out;
+	
+
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_getplayernetworkstats(PyObject *self, PyObject *args)
@@ -4083,7 +4295,7 @@ static PyObject* pysamp_getplayernetworkstats(PyObject *self, PyObject *args)
 	char* arg1 = new char[arg2];
 	bool ret = GetPlayerNetworkStats(arg0, arg1, arg2);
 	PyObject* out = Py_BuildValue("s", arg1);
-	delete[] arg1;
+	
 	return out;
 }
 
@@ -4098,7 +4310,7 @@ static PyObject* pysamp_getnetworkstats(PyObject *self, PyObject *args)
 	char* arg0 = new char[arg1];
 	bool ret = GetNetworkStats(arg0, arg1);
 	PyObject* out = Py_BuildValue("s", arg0);
-	delete[] arg0;
+	
 	return out;
 }
 
@@ -4114,7 +4326,7 @@ static PyObject* pysamp_getplayerversion(PyObject *self, PyObject *args)
 	char* arg1 = new char[arg2];
 	bool ret = GetPlayerVersion(arg0, arg1, arg2);
 	PyObject* out = Py_BuildValue("s", arg1);
-	delete[] arg1;
+	
 	return out;
 }
 
@@ -4128,9 +4340,11 @@ static PyObject* pysamp_blockipaddress(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = BlockIpAddress(arg0, arg1);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	delete[] arg0;
-	return out;
+	
+
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_unblockipaddress(PyObject *self, PyObject *args)
@@ -4142,9 +4356,11 @@ static PyObject* pysamp_unblockipaddress(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = UnBlockIpAddress(arg0);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	delete[] arg0;
-	return out;
+	
+
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_getservervarasstring(PyObject *self, PyObject *args)
@@ -4159,8 +4375,8 @@ static PyObject* pysamp_getservervarasstring(PyObject *self, PyObject *args)
 	char* arg1 = new char[arg2];
 	bool ret = GetServerVarAsString(arg0, arg1, arg2);
 	PyObject* out = Py_BuildValue("s", arg1);
-	delete[] arg0;
-	delete[] arg1;
+	
+	
 	return out;
 }
 
@@ -4174,7 +4390,7 @@ static PyObject* pysamp_getservervarasint(PyObject *self, PyObject *args)
 	}
 	int ret = GetServerVarAsInt(arg0);
 	PyObject* out = Py_BuildValue("i", ret);
-	delete[] arg0;
+	
 	return out;
 }
 
@@ -4187,9 +4403,11 @@ static PyObject* pysamp_getservervarasbool(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = GetServerVarAsBool(arg0);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	delete[] arg0;
-	return out;
+	
+
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_getconsolevarasstring(PyObject *self, PyObject *args)
@@ -4204,8 +4422,8 @@ static PyObject* pysamp_getconsolevarasstring(PyObject *self, PyObject *args)
 	char* arg1 = new char[arg2];
 	bool ret = GetConsoleVarAsString(arg0, arg1, arg2);
 	PyObject* out = Py_BuildValue("s", arg1);
-	delete[] arg0;
-	delete[] arg1;
+	
+	
 	return out;
 }
 
@@ -4219,7 +4437,7 @@ static PyObject* pysamp_getconsolevarasint(PyObject *self, PyObject *args)
 	}
 	int ret = GetConsoleVarAsInt(arg0);
 	PyObject* out = Py_BuildValue("i", ret);
-	delete[] arg0;
+	
 	return out;
 }
 
@@ -4232,9 +4450,11 @@ static PyObject* pysamp_getconsolevarasbool(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = GetConsoleVarAsBool(arg0);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	delete[] arg0;
-	return out;
+	
+
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_getservertickrate(PyObject *self, PyObject *args)
@@ -4365,7 +4585,7 @@ static PyObject* pysamp_netstats_getipport(PyObject *self, PyObject *args)
 	char* arg1 = new char[arg2];
 	bool ret = NetStats_GetIpPort(arg0, arg1, arg2);
 	PyObject* out = Py_BuildValue("s", arg1);
-	delete[] arg1;
+	
 	return out;
 }
 
@@ -4384,7 +4604,7 @@ static PyObject* pysamp_createmenu(PyObject *self, PyObject *args)
 	}
 	int ret = CreateMenu(arg0, arg1, arg2, arg3, arg4, arg5);
 	PyObject* out = Py_BuildValue("i", ret);
-	delete[] arg0;
+
 	return out;
 }
 
@@ -4397,8 +4617,9 @@ static PyObject* pysamp_destroymenu(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = DestroyMenu(arg0);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_addmenuitem(PyObject *self, PyObject *args)
@@ -4413,7 +4634,7 @@ static PyObject* pysamp_addmenuitem(PyObject *self, PyObject *args)
 	}
 	int ret = AddMenuItem(arg0, arg1, arg2);
 	PyObject* out = Py_BuildValue("i", ret);
-	delete[] arg2;
+
 	return out;
 }
 
@@ -4428,9 +4649,11 @@ static PyObject* pysamp_setmenucolumnheader(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = SetMenuColumnHeader(arg0, arg1, arg2);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	delete[] arg2;
-	return out;
+
+
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_showmenuforplayer(PyObject *self, PyObject *args)
@@ -4443,8 +4666,9 @@ static PyObject* pysamp_showmenuforplayer(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = ShowMenuForPlayer(arg0, arg1);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_hidemenuforplayer(PyObject *self, PyObject *args)
@@ -4457,8 +4681,9 @@ static PyObject* pysamp_hidemenuforplayer(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = HideMenuForPlayer(arg0, arg1);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_isvalidmenu(PyObject *self, PyObject *args)
@@ -4470,8 +4695,9 @@ static PyObject* pysamp_isvalidmenu(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = IsValidMenu(arg0);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_disablemenu(PyObject *self, PyObject *args)
@@ -4483,8 +4709,9 @@ static PyObject* pysamp_disablemenu(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = DisableMenu(arg0);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_disablemenurow(PyObject *self, PyObject *args)
@@ -4497,8 +4724,9 @@ static PyObject* pysamp_disablemenurow(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = DisableMenuRow(arg0, arg1);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_getplayermenu(PyObject *self, PyObject *args)
@@ -4526,7 +4754,7 @@ static PyObject* pysamp_textdrawcreate(PyObject *self, PyObject *args)
 	}
 	int ret = TextDrawCreate(arg0, arg1, arg2);
 	PyObject* out = Py_BuildValue("i", ret);
-	delete[] arg2;
+
 	return out;
 }
 
@@ -4539,8 +4767,9 @@ static PyObject* pysamp_textdrawdestroy(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = TextDrawDestroy(arg0);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_textdrawlettersize(PyObject *self, PyObject *args)
@@ -4554,8 +4783,9 @@ static PyObject* pysamp_textdrawlettersize(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = TextDrawLetterSize(arg0, arg1, arg2);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_textdrawtextsize(PyObject *self, PyObject *args)
@@ -4569,8 +4799,9 @@ static PyObject* pysamp_textdrawtextsize(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = TextDrawTextSize(arg0, arg1, arg2);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_textdrawalignment(PyObject *self, PyObject *args)
@@ -4583,8 +4814,9 @@ static PyObject* pysamp_textdrawalignment(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = TextDrawAlignment(arg0, arg1);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_textdrawcolor(PyObject *self, PyObject *args)
@@ -4597,8 +4829,9 @@ static PyObject* pysamp_textdrawcolor(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = TextDrawColor(arg0, arg1);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_textdrawusebox(PyObject *self, PyObject *args)
@@ -4611,8 +4844,9 @@ static PyObject* pysamp_textdrawusebox(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = TextDrawUseBox(arg0, arg1);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_textdrawboxcolor(PyObject *self, PyObject *args)
@@ -4625,8 +4859,9 @@ static PyObject* pysamp_textdrawboxcolor(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = TextDrawBoxColor(arg0, arg1);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_textdrawsetshadow(PyObject *self, PyObject *args)
@@ -4639,8 +4874,9 @@ static PyObject* pysamp_textdrawsetshadow(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = TextDrawSetShadow(arg0, arg1);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_textdrawsetoutline(PyObject *self, PyObject *args)
@@ -4653,8 +4889,9 @@ static PyObject* pysamp_textdrawsetoutline(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = TextDrawSetOutline(arg0, arg1);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_textdrawbackgroundcolor(PyObject *self, PyObject *args)
@@ -4667,8 +4904,9 @@ static PyObject* pysamp_textdrawbackgroundcolor(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = TextDrawBackgroundColor(arg0, arg1);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_textdrawfont(PyObject *self, PyObject *args)
@@ -4681,8 +4919,9 @@ static PyObject* pysamp_textdrawfont(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = TextDrawFont(arg0, arg1);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_textdrawsetproportional(PyObject *self, PyObject *args)
@@ -4695,8 +4934,9 @@ static PyObject* pysamp_textdrawsetproportional(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = TextDrawSetProportional(arg0, arg1);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_textdrawsetselectable(PyObject *self, PyObject *args)
@@ -4709,8 +4949,9 @@ static PyObject* pysamp_textdrawsetselectable(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = TextDrawSetSelectable(arg0, arg1);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_textdrawshowforplayer(PyObject *self, PyObject *args)
@@ -4723,8 +4964,9 @@ static PyObject* pysamp_textdrawshowforplayer(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = TextDrawShowForPlayer(arg0, arg1);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_textdrawhideforplayer(PyObject *self, PyObject *args)
@@ -4737,8 +4979,9 @@ static PyObject* pysamp_textdrawhideforplayer(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = TextDrawHideForPlayer(arg0, arg1);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_textdrawshowforall(PyObject *self, PyObject *args)
@@ -4750,8 +4993,9 @@ static PyObject* pysamp_textdrawshowforall(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = TextDrawShowForAll(arg0);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_textdrawhideforall(PyObject *self, PyObject *args)
@@ -4763,8 +5007,9 @@ static PyObject* pysamp_textdrawhideforall(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = TextDrawHideForAll(arg0);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_textdrawsetstring(PyObject *self, PyObject *args)
@@ -4777,9 +5022,11 @@ static PyObject* pysamp_textdrawsetstring(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = TextDrawSetString(arg0, arg1);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	delete[] arg1;
-	return out;
+
+
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_textdrawsetpreviewmodel(PyObject *self, PyObject *args)
@@ -4792,8 +5039,9 @@ static PyObject* pysamp_textdrawsetpreviewmodel(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = TextDrawSetPreviewModel(arg0, arg1);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_textdrawsetpreviewrot(PyObject *self, PyObject *args)
@@ -4809,8 +5057,9 @@ static PyObject* pysamp_textdrawsetpreviewrot(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = TextDrawSetPreviewRot(arg0, arg1, arg2, arg3, arg4);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_textdrawsetpreviewvehcol(PyObject *self, PyObject *args)
@@ -4824,8 +5073,9 @@ static PyObject* pysamp_textdrawsetpreviewvehcol(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = TextDrawSetPreviewVehCol(arg0, arg1, arg2);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_selecttextdraw(PyObject *self, PyObject *args)
@@ -4838,8 +5088,9 @@ static PyObject* pysamp_selecttextdraw(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = SelectTextDraw(arg0, arg1);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_cancelselecttextdraw(PyObject *self, PyObject *args)
@@ -4851,8 +5102,9 @@ static PyObject* pysamp_cancelselecttextdraw(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = CancelSelectTextDraw(arg0);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_gangzonecreate(PyObject *self, PyObject *args)
@@ -4880,8 +5132,9 @@ static PyObject* pysamp_gangzonedestroy(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = GangZoneDestroy(arg0);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_gangzoneshowforplayer(PyObject *self, PyObject *args)
@@ -4895,8 +5148,9 @@ static PyObject* pysamp_gangzoneshowforplayer(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = GangZoneShowForPlayer(arg0, arg1, arg2);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_gangzoneshowforall(PyObject *self, PyObject *args)
@@ -4909,8 +5163,9 @@ static PyObject* pysamp_gangzoneshowforall(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = GangZoneShowForAll(arg0, arg1);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_gangzonehideforplayer(PyObject *self, PyObject *args)
@@ -4923,8 +5178,9 @@ static PyObject* pysamp_gangzonehideforplayer(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = GangZoneHideForPlayer(arg0, arg1);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_gangzonehideforall(PyObject *self, PyObject *args)
@@ -4936,8 +5192,9 @@ static PyObject* pysamp_gangzonehideforall(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = GangZoneHideForAll(arg0);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_gangzoneflashforplayer(PyObject *self, PyObject *args)
@@ -4951,8 +5208,9 @@ static PyObject* pysamp_gangzoneflashforplayer(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = GangZoneFlashForPlayer(arg0, arg1, arg2);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_gangzoneflashforall(PyObject *self, PyObject *args)
@@ -4965,8 +5223,9 @@ static PyObject* pysamp_gangzoneflashforall(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = GangZoneFlashForAll(arg0, arg1);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_gangzonestopflashforplayer(PyObject *self, PyObject *args)
@@ -4979,8 +5238,9 @@ static PyObject* pysamp_gangzonestopflashforplayer(PyObject *self, PyObject *arg
 		return NULL;
 	}
 	bool ret = GangZoneStopFlashForPlayer(arg0, arg1);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_gangzonestopflashforall(PyObject *self, PyObject *args)
@@ -4992,8 +5252,9 @@ static PyObject* pysamp_gangzonestopflashforall(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = GangZoneStopFlashForAll(arg0);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_showplayerdialog(PyObject *self, PyObject *args)
@@ -5011,12 +5272,13 @@ static PyObject* pysamp_showplayerdialog(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = ShowPlayerDialog(arg0, arg1, arg2, arg3, arg4, arg5, arg6);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	delete[] arg3;
-	delete[] arg4;
-	delete[] arg5;
-	delete[] arg6;
-	return out;
+
+
+
+
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_gpci(PyObject *self, PyObject *args)
@@ -5031,7 +5293,7 @@ static PyObject* pysamp_gpci(PyObject *self, PyObject *args)
 	char* arg1 = new char[arg2];
 	bool ret = gpci(arg0, arg1, arg2);
 	PyObject* out = Py_BuildValue("s", arg1);
-	delete[] arg1;
+
 	return out;
 }
 
@@ -5044,8 +5306,9 @@ static PyObject* pysamp_isvalidvehicle(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = IsValidVehicle(arg0);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_getvehicledistancefrompoint(PyObject *self, PyObject *args)
@@ -5094,8 +5357,9 @@ static PyObject* pysamp_destroyvehicle(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = DestroyVehicle(arg0);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_isvehiclestreamedin(PyObject *self, PyObject *args)
@@ -5108,8 +5372,9 @@ static PyObject* pysamp_isvehiclestreamedin(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = IsVehicleStreamedIn(arg0, arg1);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_getvehiclepos(PyObject *self, PyObject *args)
@@ -5140,8 +5405,9 @@ static PyObject* pysamp_setvehiclepos(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = SetVehiclePos(arg0, arg1, arg2, arg3);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_getvehiclezangle(PyObject *self, PyObject *args)
@@ -5185,8 +5451,9 @@ static PyObject* pysamp_setvehiclezangle(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = SetVehicleZAngle(arg0, arg1);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_setvehicleparamsforplayer(PyObject *self, PyObject *args)
@@ -5201,8 +5468,9 @@ static PyObject* pysamp_setvehicleparamsforplayer(PyObject *self, PyObject *args
 		return NULL;
 	}
 	bool ret = SetVehicleParamsForPlayer(arg0, arg1, arg2, arg3);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_manualvehicleengineandlights(PyObject *self, PyObject *args)
@@ -5213,8 +5481,9 @@ static PyObject* pysamp_manualvehicleengineandlights(PyObject *self, PyObject *a
 		return NULL;
 	}
 	bool ret = ManualVehicleEngineAndLights();
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_setvehicleparamsex(PyObject *self, PyObject *args)
@@ -5233,8 +5502,9 @@ static PyObject* pysamp_setvehicleparamsex(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = SetVehicleParamsEx(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_getvehicleparamsex(PyObject *self, PyObject *args)
@@ -5283,8 +5553,9 @@ static PyObject* pysamp_setvehicleparamscardoors(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = SetVehicleParamsCarDoors(arg0, arg1, arg2, arg3, arg4);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_getvehicleparamscardoors(PyObject *self, PyObject *args)
@@ -5317,8 +5588,9 @@ static PyObject* pysamp_setvehicleparamscarwindows(PyObject *self, PyObject *arg
 		return NULL;
 	}
 	bool ret = SetVehicleParamsCarWindows(arg0, arg1, arg2, arg3, arg4);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_getvehicleparamscarwindows(PyObject *self, PyObject *args)
@@ -5347,8 +5619,9 @@ static PyObject* pysamp_setvehicletorespawn(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = SetVehicleToRespawn(arg0);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_linkvehicletointerior(PyObject *self, PyObject *args)
@@ -5361,8 +5634,9 @@ static PyObject* pysamp_linkvehicletointerior(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = LinkVehicleToInterior(arg0, arg1);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_addvehiclecomponent(PyObject *self, PyObject *args)
@@ -5375,8 +5649,9 @@ static PyObject* pysamp_addvehiclecomponent(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = AddVehicleComponent(arg0, arg1);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_removevehiclecomponent(PyObject *self, PyObject *args)
@@ -5389,8 +5664,9 @@ static PyObject* pysamp_removevehiclecomponent(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = RemoveVehicleComponent(arg0, arg1);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_changevehiclecolor(PyObject *self, PyObject *args)
@@ -5404,8 +5680,9 @@ static PyObject* pysamp_changevehiclecolor(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = ChangeVehicleColor(arg0, arg1, arg2);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_changevehiclepaintjob(PyObject *self, PyObject *args)
@@ -5418,8 +5695,9 @@ static PyObject* pysamp_changevehiclepaintjob(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = ChangeVehiclePaintjob(arg0, arg1);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_setvehiclehealth(PyObject *self, PyObject *args)
@@ -5432,8 +5710,9 @@ static PyObject* pysamp_setvehiclehealth(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = SetVehicleHealth(arg0, arg1);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_getvehiclehealth(PyObject *self, PyObject *args)
@@ -5460,8 +5739,9 @@ static PyObject* pysamp_attachtrailertovehicle(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = AttachTrailerToVehicle(arg0, arg1);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_detachtrailerfromvehicle(PyObject *self, PyObject *args)
@@ -5473,8 +5753,9 @@ static PyObject* pysamp_detachtrailerfromvehicle(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = DetachTrailerFromVehicle(arg0);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_istrailerattachedtovehicle(PyObject *self, PyObject *args)
@@ -5486,8 +5767,9 @@ static PyObject* pysamp_istrailerattachedtovehicle(PyObject *self, PyObject *arg
 		return NULL;
 	}
 	bool ret = IsTrailerAttachedToVehicle(arg0);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_getvehicletrailer(PyObject *self, PyObject *args)
@@ -5513,9 +5795,11 @@ static PyObject* pysamp_setvehiclenumberplate(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = SetVehicleNumberPlate(arg0, arg1);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	delete[] arg1;
-	return out;
+
+
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_getvehiclemodel(PyObject *self, PyObject *args)
@@ -5567,8 +5851,9 @@ static PyObject* pysamp_repairvehicle(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = RepairVehicle(arg0);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_getvehiclevelocity(PyObject *self, PyObject *args)
@@ -5599,8 +5884,9 @@ static PyObject* pysamp_setvehiclevelocity(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = SetVehicleVelocity(arg0, arg1, arg2, arg3);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_setvehicleangularvelocity(PyObject *self, PyObject *args)
@@ -5615,8 +5901,9 @@ static PyObject* pysamp_setvehicleangularvelocity(PyObject *self, PyObject *args
 		return NULL;
 	}
 	bool ret = SetVehicleAngularVelocity(arg0, arg1, arg2, arg3);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_getvehicledamagestatus(PyObject *self, PyObject *args)
@@ -5649,8 +5936,9 @@ static PyObject* pysamp_updatevehicledamagestatus(PyObject *self, PyObject *args
 		return NULL;
 	}
 	bool ret = UpdateVehicleDamageStatus(arg0, arg1, arg2, arg3, arg4);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_setvehiclevirtualworld(PyObject *self, PyObject *args)
@@ -5663,8 +5951,9 @@ static PyObject* pysamp_setvehiclevirtualworld(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	bool ret = SetVehicleVirtualWorld(arg0, arg1);
-	PyObject* out = (ret) ? Py_True : Py_False;
-	return out;
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyObject* pysamp_getvehiclevirtualworld(PyObject *self, PyObject *args)

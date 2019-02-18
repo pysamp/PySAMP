@@ -6,8 +6,10 @@ add_compile_options(-std=c++11)
 cmake_minimum_required(VERSION 2.8)
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
-find_package ( PythonInterp 3.4.2)
-find_package ( PythonLibs 3.4.2)
+#find_package (Python3 COMPONENTS Interpreter Development)
+
+find_package (PythonInterp 3.5.3)
+find_package (PythonLibs 3.5.3)
 
 include(AMXConfig)
 include(AddSAMPPlugin)
@@ -19,6 +21,10 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/pysamp
   ${PYTHON_INCLUDE_DIR}
 )
+
+message(STATUS "PYTHON_LIBRARY = ${PYTHON_LIBRARY}")
+message(STATUS "PYTHON_EXECUTABLE = ${PYTHON_EXECUTABLE}")
+message(STATUS "PYTHON_INCLUDE_DIR = ${PYTHON_INCLUDE_DIR}")
 
 add_definitions(-DSAMPGDK_AMALGAMATION)
 

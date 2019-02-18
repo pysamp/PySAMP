@@ -18,13 +18,15 @@ PyGamemode::PyGamemode(const char * path)
 		sampgdk::logprintf("Couldn't load module.");
 		return;
 	}
-
+#ifndef WIN32
+	dlopen("libpython3.5m.so", RTLD_LAZY | RTLD_GLOBAL);
+#endif
 
 	Py_Initialize();
 	char cCurrentPath[FILENAME_MAX];
 	GetCurrentDir(cCurrentPath, sizeof(cCurrentPath));
 	char* absolute = strcat(cCurrentPath, path);
-
+	
 	PyObject* sysPath = PySys_GetObject("path");
 
 	if(!sysPath)
@@ -34,12 +36,12 @@ PyGamemode::PyGamemode(const char * path)
 
 	pName = PyUnicode_DecodeFSDefault("gamemode");
 	pModule = PyImport_Import(pName);
-
 	if (!pModule) 
 	{
 		PyErr_Print();
 		sampgdk::logprintf("PyGamemode::PyGamemode(%s) failed!", "gamemode.py");
 	}
+
 }
 
 PyGamemode::~PyGamemode()
@@ -61,6 +63,11 @@ bool PyGamemode::callback(const char * name, PyObject * pArgs)
 
 	if(pFunc)
 		Py_INCREF(pFunc);
+	
+	if (pArgs) {
+		Py_INCREF(pArgs);
+	}
+	
 
 	if (pFunc && PyCallable_Check(pFunc) == 1) 
 	{
@@ -85,6 +92,8 @@ bool PyGamemode::callback(const char * name, PyObject * pArgs)
 
 		Py_XDECREF(pValue);
 		Py_XDECREF(pFunc);
+		if (pArgs)
+			Py_XDECREF(pArgs);
 		return ret;
 	}	
 	

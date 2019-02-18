@@ -25,13 +25,16 @@ def OnPlayerConnect(playerid):
 As you can see, all referenced return values are removed and instead the method returns either a value or a tuple.
 The corresponding python gamemode has to be saved as `gamemode.py` in a `python/` subfolder of your server directory.
 
+# Using
+Make sure, that you installed the 32-bit Python 3.5m version on your server!
+
 # Compiling
 If the uploaded binaries don't suite your needs, you might have to compile the project on your own. 
 You can also create an issue, so I can compile it for your system, just mention your system architecture.
 
 So, if you want to compile it on your own, note the following things.
 - You read the [SAMPGDK tutorial](https://github.com/Zeex/sampgdk/wiki/Setting-up-GDK-with-CMake).
-- Python 3.6 is installed on your computer
+- Python (3.5 Linux)/(3.6 Windows) (32 bit version!) is installed on your computer
 - You copied the sampsdk and sampgdk files into the src folder, as defined in CMakeLists.txt
 
 Use cmake to create a project and then compile it as you're used to it.

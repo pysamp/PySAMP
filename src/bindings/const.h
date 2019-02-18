@@ -26,7 +26,7 @@ static PyObject* pysamp_const(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	PyObject* out = Py_BuildValue("i", SAMPConsts::get(key));
-	delete[] key;
+	// delete[] key;
 	return out;
 }
 
