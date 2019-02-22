@@ -14,7 +14,7 @@ PARAMETER_REGEX = '(\[out\] )?([A-z]+) ([A-z]+)'
 METHODEXTRACTOR = re.compile('^(\[native\]) ([A-z]+) ([A-z]+)\((.*)\)\;$')
 PARAMETERSEXTRACTOR = re.compile(r'([ ]*(?P<out>\[out\])?[ ]*?(?P<type>[a-zA-Z]+) (?P<name>[a-zA-Z0-9_]+)[ ]*(?:=[ ]*(?P<default>[a-zA-Z0-9\"\'\.\-\_]*))?)')
 PARAMETEREXTRACTOR = re.compile('^{0}$'.format(PARAMETER_REGEX))
-OUTPUT_PYTHONFILE = '../gamemodes/samp.py'
+OUTPUT_PYTHONFILE = '../gamemodes/empty/samp.py'
 INPUT_DIRECTORY = '/Users/yannickhabecker/git/private/sampgdk/lib/sampgdk/*.idl'
 
 CONST_NAME_REGEX = re.compile(r'^[A-Z][A-Z0-9_x]*$')
