@@ -14,7 +14,7 @@ public OnPlayerConnect(playerid)
 ```
 
 ```python
-from pysamp import *
+from samp import *
 
 def OnPlayerConnect(playerid):
     name = GetPlayerName(playerid, Const('MAX_PLAYER_NAME'))
@@ -24,9 +24,22 @@ def OnPlayerConnect(playerid):
 
 As you can see, all referenced return values are removed and instead the method returns either a value or a tuple.
 The corresponding python gamemode has to be saved as `gamemode.py` in a `python/` subfolder of your server directory.
+By the way, I imported the `samp` module here, which is actually a python module. You can find it in `gamemodes/empty/`.
+It wraps the SA-MP functions and handles the encoding and decoding of strings, so you don't have to bother.
+*Caution:* with this module, you also get the decode method. Use it to decode the bytestrings as seen in the example gamemode in `gamemodes/empty/`.
+
 
 # Using
 Make sure, that you installed the 32-bit Python 3.5m version on your server!
+For debian and ubuntu, this should work:
+```bash
+sudo dpkg --add-architecture i386
+sudo apt-get update
+```
+and then:
+```bash
+sudo apt install python3-dev:i386
+```
 
 # Compiling
 If the uploaded binaries don't suite your needs, you might have to compile the project on your own. 
