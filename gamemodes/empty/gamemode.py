@@ -1,6 +1,7 @@
-from pysamp import *
+from samp import *
 
 def OnGameModeInit():
+    SetGameModeText('PySAMP')
     return True
     
 def OnGameModeExit():
@@ -25,9 +26,11 @@ def OnVehicleDeath(vehicleid, killerid):
     return True
     
 def OnPlayerText(playerid, text):
+    text = decode(text)
     return True
     
 def OnPlayerCommandText(playerid, cmdtext):
+    cmdtext = decode(cmdtext)
     return False
     
 def OnPlayerRequestClass(playerid, classid):
@@ -55,6 +58,7 @@ def OnPlayerLeaveRaceCheckpoint(playerid):
     return True
     
 def OnRconCommand(cmd):
+    cmd = decode(cmd)
     return False
     
 def OnPlayerRequestSpawn(playerid):
@@ -100,6 +104,7 @@ def OnPlayerKeyStateChange(playerid, newkeys, oldkeys):
     return True
     
 def OnRconLoginAttempt(ip, password, success):
+    password = decode(password)
     return True
     
 def OnPlayerUpdate(playerid):
@@ -145,6 +150,7 @@ def OnPlayerClickPlayerTextDraw(playerid, playertextid):
     return False
     
 def OnIncomingConnection(playerid, ip_address, port):
+    ip_address = decode(ip_address)
     return False
     
 def OnTrailerUpdate(playerid, vehicleid):
