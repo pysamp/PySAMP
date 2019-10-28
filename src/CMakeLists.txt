@@ -8,8 +8,8 @@ list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
 #find_package (Python3 COMPONENTS Interpreter Development)
 
-find_package (PythonInterp 3.5.3)
-find_package (PythonLibs 3.5.3)
+find_package (PythonInterp 3.5.2)
+find_package (PythonLibs 3.5.2)
 
 include(AMXConfig)
 include(AddSAMPPlugin)
