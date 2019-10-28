@@ -1,0 +1,4 @@
+docker build -f ./base.Dockerfile -t pysamp/base ../
+docker build -f ./compile.0.Dockerfile -t pysamp/compile.0 ../
+docker build -f ./compile.Dockerfile -t pysamp/compile ../
+docker run  -v "$(cd ../ && pwd)"/target:/target --rm pysamp/compile
