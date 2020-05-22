@@ -1,15 +1,13 @@
 project(PySAMP)
 
-add_compile_options(-std=c++11)
-
-
 cmake_minimum_required(VERSION 2.8)
 list(APPEND CMAKE_MODULE_PATH ${SAMPGDK_DIR}/cmake)
 
-#find_package (Python3 COMPONENTS Interpreter Development)
+add_compile_options(-std=c++11)
+set(PYTHON_MIN_VERSION "3.5.2")
 
-find_package (PythonInterp 3.5.2)
-find_package (PythonLibs 3.5.2)
+find_package (PythonInterp ${PYTHON_MIN_VERSION})
+find_package (PythonLibs ${PYTHON_MIN_VERSION})
 
 include(AMXConfig)
 include(AddSAMPPlugin)
