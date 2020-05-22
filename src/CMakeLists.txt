@@ -6,10 +6,11 @@ add_compile_options(-std=c++11)
 cmake_minimum_required(VERSION 3.12)
 list(APPEND CMAKE_MODULE_PATH ${SAMPGDK_DIR}/cmake)
 
-#find_package (Python3 COMPONENTS Interpreter Development)
+add_compile_options(-std=c++11)
+set(PYTHON_MIN_VERSION "3.5.2")
 
-find_package (Python 3.8.2)
-find_package (PythonLibs 3.8.2)
+find_package (Python ${PYTHON_MIN_VERSION})
+find_package (PythonLibs ${PYTHON_MIN_VERSION})
 
 find_library (SAMPGDK_LIBRARY
     NAMES sampgdk sampgdk4s
