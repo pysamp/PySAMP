@@ -3,13 +3,17 @@ project(PySAMP)
 add_compile_options(-std=c++11)
 
 
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.12)
 list(APPEND CMAKE_MODULE_PATH ${SAMPGDK_DIR}/cmake)
 
 #find_package (Python3 COMPONENTS Interpreter Development)
 
-find_package (PythonInterp 3.5.2)
-find_package (PythonLibs 3.5.2)
+find_package (Python 3.8.2)
+find_package (PythonLibs 3.8.2)
+
+find_library (SAMPGDK_LIBRARY
+    NAMES sampgdk sampgdk4s
+    HINTS "${CMAKE_PREFIX_PATH}/lib/")
 
 include(AMXConfig)
 include(AddSAMPPlugin)
@@ -28,6 +32,7 @@ include_directories(
 message(STATUS "PYTHON_LIBRARY = ${PYTHON_LIBRARY}")
 message(STATUS "PYTHON_EXECUTABLE = ${PYTHON_EXECUTABLE}")
 message(STATUS "PYTHON_INCLUDE_DIR = ${PYTHON_INCLUDE_DIR}")
+message(STATUS "SAMPGDK_LIBRARY = ${SAMPGDK_LIBRARY}")
 
 add_definitions(-DSAMPGDK_AMALGAMATION)
 
@@ -52,7 +57,7 @@ add_samp_plugin(PySAMP
   test/callbackstest.cpp
 )
 
-target_link_libraries(PySAMP sampgdk)
+target_link_libraries(PySAMP ${SAMPGDK_LIBRARY})
 
 find_package(Doxygen)
 if(DOXYGEN_FOUND)
