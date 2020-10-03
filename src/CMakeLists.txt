@@ -3,14 +3,14 @@ project(PySAMP)
 add_compile_options(-std=c++11)
 
 
-cmake_minimum_required(VERSION 3.12)
+cmake_minimum_required(VERSION 3.7)
 list(APPEND CMAKE_MODULE_PATH ${SAMPGDK_DIR}/cmake)
 
 add_compile_options(-std=c++11)
-set(PYTHON_MIN_VERSION "3.5.2")
+set(PYTHON_MIN_VERSION "3.5")
 
-find_package (Python ${PYTHON_MIN_VERSION})
-find_package (PythonLibs ${PYTHON_MIN_VERSION})
+find_package (PythonInterp ${PYTHON_MIN_VERSION} REQUIRED)
+find_package (PythonLibs ${PYTHON_MIN_VERSION} REQUIRED)
 
 find_library (SAMPGDK_LIBRARY
     NAMES sampgdk sampgdk4s
