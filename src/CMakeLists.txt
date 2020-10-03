@@ -7,7 +7,7 @@ cmake_minimum_required(VERSION 3.7)
 list(APPEND CMAKE_MODULE_PATH ${SAMPGDK_DIR}/cmake)
 
 add_compile_options(-std=c++11)
-set(PYTHON_MIN_VERSION "3.5")
+set(PYTHON_MIN_VERSION 3.8)
 
 find_package (PythonInterp ${PYTHON_MIN_VERSION} REQUIRED)
 find_package (PythonLibs ${PYTHON_MIN_VERSION} REQUIRED)
@@ -27,12 +27,12 @@ include_directories(
   ${SAMPSDK_INCLUDE_DIR}
   ${CMAKE_CURRENT_SOURCE_DIR}/bindings
   ${CMAKE_CURRENT_SOURCE_DIR}/pysamp
-  ${PYTHON_INCLUDE_DIR}
+  ${PYTHON_INCLUDE_DIRS}
 )
 
 message(STATUS "PYTHON_LIBRARY = ${PYTHON_LIBRARY}")
 message(STATUS "PYTHON_EXECUTABLE = ${PYTHON_EXECUTABLE}")
-message(STATUS "PYTHON_INCLUDE_DIR = ${PYTHON_INCLUDE_DIR}")
+message(STATUS "PYTHON_INCLUDE_DIRS = ${PYTHON_INCLUDE_DIRS}")
 message(STATUS "SAMPGDK_LIBRARY = ${SAMPGDK_LIBRARY}")
 
 add_definitions(-DSAMPGDK_AMALGAMATION)
@@ -54,8 +54,6 @@ add_samp_plugin(PySAMP
   bindings/samp.h
   bindings/const.h
   bindings/const.cpp
-  test/callbackstest.h
-  test/callbackstest.cpp
 )
 
 target_link_libraries(PySAMP ${SAMPGDK_LIBRARY})

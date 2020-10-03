@@ -37,5 +37,5 @@ RUN apt-get update && apt-get install -y python3.8-dev:i386 libpython3.8-dev:i38
 WORKDIR /usr/src/pysamp
 COPY . .
 
-RUN [ "cmake", "./src", "-G", "Unix Makefiles", "-DSAMPSDK_DIR=/root/sampsdk", "-DSAMPGDK_DIR=/root/sampgdk", "-DCMAKE_BUILD_TYPE=Debug" ]    
+RUN [ "cmake", "./src", "-G", "Unix Makefiles", "-DSAMPSDK_DIR=/root/sampsdk", "-DSAMPGDK_DIR=/root/sampgdk", "-DCMAKE_BUILD_TYPE=Debug", "-DPYTHON_INCLUDE_DIRS=/usr/include/i386-linux-gnu/python3.8", "-DPYTHON_LIBRARY=/usr/lib/i386-linux-gnu/libpython3.8.so" ]    
 CMD make; cp ./PySAMP.so /target/
