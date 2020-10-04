@@ -1,0 +1,321 @@
+/* Copyright (C) 2011-2015 Zeex
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+const int MAX_PLAYER_NAME       = 24;
+const int MAX_CLIENT_MESSAGE    = 144;
+const int MAX_PLAYERS           = 1000;
+const int MAX_VEHICLES          = 2000;
+const int MAX_ACTORS            = 1000;
+const int INVALID_PLAYER_ID     = 0xFFFF;
+const int INVALID_VEHICLE_ID    = 0xFFFF;
+const int INVALID_ACTOR_ID      = 0xFFFF;
+const int NO_TEAM               = 255;
+const int MAX_OBJECTS           = 1000;
+const int INVALID_OBJECT_ID     = 0xFFFF;
+const int MAX_GANG_ZONES        = 1024;
+const int MAX_TEXT_DRAWS        = 2048;
+const int MAX_PLAYER_TEXT_DRAWS = 256;
+const int MAX_MENUS             = 128;
+const int MAX_3DTEXT_GLOBAL     = 1024;
+const int MAX_3DTEXT_PLAYER     = 1024;
+const int MAX_PICKUPS           = 4096;
+const int INVALID_MENU          = 0xFF;
+const int INVALID_TEXT_DRAW     = 0xFFFF;
+const int INVALID_GANG_ZONE     = -1;
+const int INVALID_3DTEXT_ID     = 0xFFFF;
+
+[native] bool SendClientMessage(int playerid, int color, string message);
+[native] bool SendClientMessageToAll(int color, string message);
+[native] bool SendPlayerMessageToPlayer(int playerid, int senderid, string message);
+[native] bool SendPlayerMessageToAll(int senderid, string message);
+[native] bool SendDeathMessage(int killer, int killee, int weapon);
+[native] bool SendDeathMessageToPlayer(int playerid, int killer, int killee, int weapon);
+[native] bool GameTextForAll(string text, int time, int style);
+[native] bool GameTextForPlayer(int playerid, string text, int time, int style);
+[native] int GetTickCount();
+[native] int GetMaxPlayers();
+[native] float VectorSize(float x, float y, float z);
+[native] int GetPlayerPoolSize();
+[native] int GetVehiclePoolSize();
+[native] int GetActorPoolSize();
+
+[native] bool SHA256_PassHash(string password, string salt, [out] string ret_hash, int ret_hash_len);
+
+[native] bool SetSVarInt(string varname, int int_value);
+[native] int GetSVarInt(string varname);
+[native] bool SetSVarString(string varname, string string_value);
+[native] bool GetSVarString(string varname, [out] string string_return, int len);
+[native] bool SetSVarFloat(string varname, float float_value);
+[native] float GetSVarFloat(string varname);
+[native] bool DeleteSVar(string varname);
+
+const int SERVER_VARTYPE_NONE = 0;
+const int SERVER_VARTYPE_INT = 1;
+const int SERVER_VARTYPE_STRING = 2;
+const int SERVER_VARTYPE_FLOAT = 3;
+
+[native] int GetSVarsUpperIndex();
+[native] bool GetSVarNameAtIndex(int index, [out] string ret_varname, int ret_len);
+[native] int GetSVarType(string varname);
+
+[native] bool SetGameModeText(string text);
+[native] bool SetTeamCount(int count);
+[native] int AddPlayerClass(int modelid, float spawn_x, float spawn_y, float spawn_z, float z_angle, int weapon1, int weapon1_ammo, int weapon2, int weapon2_ammo, int weapon3, int weapon3_ammo);
+[native] int AddPlayerClassEx(int teamid, int modelid, float spawn_x, float spawn_y, float spawn_z, float z_angle, int weapon1, int weapon1_ammo, int weapon2, int weapon2_ammo, int weapon3, int weapon3_ammo);
+[native] int AddStaticVehicle(int modelid, float spawn_x, float spawn_y, float spawn_z, float z_angle, int color1, int color2);
+[native] int AddStaticVehicleEx(int modelid, float spawn_x, float spawn_y, float spawn_z, float z_angle, int color1, int color2, int respawn_delay, bool addsiren = false);
+[native] int AddStaticPickup(int model, int type, float x, float y, float z, int virtualworld = 0);
+[native] int CreatePickup(int model, int type, float x, float y, float z, int virtualworld = 0);
+[native] bool DestroyPickup(int pickup);
+[native] bool ShowNameTags(bool show);
+[native] bool ShowPlayerMarkers(int mode);
+[native] bool GameModeExit();
+[native] bool SetWorldTime(int hour);
+[native] bool GetWeaponName(int weaponid, [out] string name, int size);
+[native] bool EnableTirePopping(bool enable);
+[native] bool EnableVehicleFriendlyFire();
+[native] bool AllowInteriorWeapons(bool allow);
+[native] bool SetWeather(int weatherid);
+[native] bool SetGravity(float gravity);
+[native] float GetGravity();
+[native] bool AllowAdminTeleport(bool allow);
+[native] bool SetDeathDropAmount(int amount);
+[native] bool CreateExplosion(float x, float y, float z, int type, float radius);
+[native] bool EnableZoneNames(bool enable);
+[native] bool UsePlayerPedAnims();
+[native] bool DisableInteriorEnterExits();
+[native] bool SetNameTagDrawDistance(float distance);
+[native] bool DisableNameTagLOS();
+[native] bool LimitGlobalChatRadius(float chat_radius);
+[native] bool LimitPlayerMarkerRadius(float marker_radius);
+
+[native] bool ConnectNPC(string name, string script);
+[native] bool IsPlayerNPC(int playerid);
+
+[native] bool IsPlayerAdmin(int playerid);
+[native] bool Kick(int playerid);
+[native] bool Ban(int playerid);
+[native] bool BanEx(int playerid, string reason);
+[native] bool SendRconCommand(string command);
+[native] bool GetPlayerNetworkStats(int playerid, [out] string retstr, int size);
+[native] bool GetNetworkStats([out] string retstr, int size);
+[native] bool GetPlayerVersion(int playerid, [out] string version, int len);
+[native] bool BlockIpAddress(string ip_address, int timems);
+[native] bool UnBlockIpAddress(string ip_address);
+
+[native] bool GetServerVarAsString(string varname, [out] string value, int size);
+[native] int GetServerVarAsInt(string varname);
+[native] bool GetServerVarAsBool(string varname);
+[native] bool GetConsoleVarAsString(string varname, [out] string buffer, int len);
+[native] int GetConsoleVarAsInt(string varname);
+[native] bool GetConsoleVarAsBool(string varname);
+
+[native] int GetServerTickRate();
+[native] int NetStats_GetConnectedTime(int playerid);
+[native] int NetStats_MessagesReceived(int playerid);
+[native] int NetStats_BytesReceived(int playerid);
+[native] int NetStats_MessagesSent(int playerid);
+[native] int NetStats_BytesSent(int playerid);
+[native] int NetStats_MessagesRecvPerSecond(int playerid);
+[native] float NetStats_PacketLossPercent(int playerid);
+[native] int NetStats_ConnectionStatus(int playerid);
+[native] bool NetStats_GetIpPort(int playerid, [out] string ip_port, int ip_port_len);
+
+[native] int CreateMenu(string title, int columns, float x, float y, float col1width, float col2width = 0.0);
+[native] bool DestroyMenu(int menuid);
+[native] int AddMenuItem(int menuid, int column, string menutext);
+[native] bool SetMenuColumnHeader(int menuid, int column, string columnheader);
+[native] bool ShowMenuForPlayer(int menuid, int playerid);
+[native] bool HideMenuForPlayer(int menuid, int playerid);
+[native] bool IsValidMenu(int menuid);
+[native] bool DisableMenu(int menuid);
+[native] bool DisableMenuRow(int menuid, int row);
+[native] int GetPlayerMenu(int playerid);
+
+const int TEXT_DRAW_FONT_SPRITE_DRAW   = 4;
+const int TEXT_DRAW_FONT_MODEL_PREVIEW = 5;
+
+[native] int TextDrawCreate(float x, float y, string text);
+[native] bool TextDrawDestroy(int text);
+[native] bool TextDrawLetterSize(int text, float x, float y);
+[native] bool TextDrawTextSize(int text, float x, float y);
+[native] bool TextDrawAlignment(int text, int alignment);
+[native] bool TextDrawColor(int text, int color);
+[native] bool TextDrawUseBox(int text, bool use);
+[native] bool TextDrawBoxColor(int text, int color);
+[native] bool TextDrawSetShadow(int text, int size);
+[native] bool TextDrawSetOutline(int text, int size);
+[native] bool TextDrawBackgroundColor(int text, int color);
+[native] bool TextDrawFont(int text, int font);
+[native] bool TextDrawSetProportional(int text, bool set);
+[native] bool TextDrawSetSelectable(int text, bool set);
+[native] bool TextDrawShowForPlayer(int playerid, int text);
+[native] bool TextDrawHideForPlayer(int playerid, int text);
+[native] bool TextDrawShowForAll(int text);
+[native] bool TextDrawHideForAll(int text);
+[native] bool TextDrawSetString(int text, string string);
+[native] bool TextDrawSetPreviewModel(int text, int modelindex);
+[native] bool TextDrawSetPreviewRot(int text, float fRotX, float fRotY, float fRotZ, float fZoom = 1.0);
+[native] bool TextDrawSetPreviewVehCol(int text, int color1, int color2);
+
+[native] bool SelectTextDraw(int playerid, int hovercolor);
+[native] bool CancelSelectTextDraw(int playerid);
+
+[native] int GangZoneCreate(float minx, float miny, float maxx, float maxy);
+[native] bool GangZoneDestroy(int zone);
+[native] bool GangZoneShowForPlayer(int playerid, int zone, int color);
+[native] bool GangZoneShowForAll(int zone, int color);
+[native] bool GangZoneHideForPlayer(int playerid, int zone);
+[native] bool GangZoneHideForAll(int zone);
+[native] bool GangZoneFlashForPlayer(int playerid, int zone, int flashcolor);
+[native] bool GangZoneFlashForAll(int zone, int flashcolor);
+[native] bool GangZoneStopFlashForPlayer(int playerid, int zone);
+[native] bool GangZoneStopFlashForAll(int zone);
+
+[native] int Create3DTextLabel(string text, int color, float x, float y, float z, float DrawDistance, int virtualworld, bool testLOS = false);
+[native] bool Delete3DTextLabel(int id);
+[native] bool Attach3DTextLabelToPlayer(int id, int playerid, float OffsetX, float OffsetY, float OffsetZ);
+[native] bool Attach3DTextLabelToVehicle(int id, int vehicleid, float OffsetX, float OffsetY, float OffsetZ);
+[native] bool Update3DTextLabelText(int id, int color, string text);
+
+[native] int CreatePlayer3DTextLabel(int playerid, string text, int color, float x, float y, float z, float DrawDistance, int attachedplayer = INVALID_PLAYER_ID, int attachedvehicle = INVALID_VEHICLE_ID, bool testLOS = false);
+[native] bool DeletePlayer3DTextLabel(int playerid, int id);
+[native] bool UpdatePlayer3DTextLabelText(int playerid, int id, int color, string text);
+
+const int DIALOG_STYLE_MSGBOX          = 0;
+const int DIALOG_STYLE_INPUT           = 1;
+const int DIALOG_STYLE_LIST            = 2;
+const int DIALOG_STYLE_PASSWORD        = 3;
+const int DIALOG_STYLE_TABLIST         = 4;
+const int DIALOG_STYLE_TABLIST_HEADERS = 5;
+
+[native] bool ShowPlayerDialog(int playerid, int dialogid, int style, string caption, string info, string button1, string button2);
+
+[native, noimpl] int SetTimer(int interval, bool repeat, TimerCallback callback, [in, out] void param);
+[native, noimpl] bool KillTimer(int timerid);
+
+const int PLAYER_STATE_NONE                    = 0;
+const int PLAYER_STATE_ONFOOT                  = 1;
+const int PLAYER_STATE_DRIVER                  = 2;
+const int PLAYER_STATE_PASSENGER               = 3;
+const int PLAYER_STATE_EXIT_VEHICLE            = 4;
+const int PLAYER_STATE_ENTER_VEHICLE_DRIVER    = 5;
+const int PLAYER_STATE_ENTER_VEHICLE_PASSENGER = 6;
+const int PLAYER_STATE_WASTED                  = 7;
+const int PLAYER_STATE_SPAWNED                 = 8;
+const int PLAYER_STATE_SPECTATING              = 9;
+
+const int PLAYER_MARKERS_MODE_OFF              = 0;
+const int PLAYER_MARKERS_MODE_GLOBAL           = 1;
+const int PLAYER_MARKERS_MODE_STREAMED         = 2;
+
+const int WEAPON_BRASSKNUCKLE     = 1;
+const int WEAPON_GOLFCLUB         = 2;
+const int WEAPON_NITESTICK        = 3;
+const int WEAPON_KNIFE            = 4;
+const int WEAPON_BAT              = 5;
+const int WEAPON_SHOVEL           = 6;
+const int WEAPON_POOLSTICK        = 7;
+const int WEAPON_KATANA           = 8;
+const int WEAPON_CHAINSAW         = 9;
+const int WEAPON_DILDO            = 10;
+const int WEAPON_DILDO2           = 11;
+const int WEAPON_VIBRATOR         = 12;
+const int WEAPON_VIBRATOR2        = 13;
+const int WEAPON_FLOWER           = 14;
+const int WEAPON_CANE             = 15;
+const int WEAPON_GRENADE          = 16;
+const int WEAPON_TEARGAS          = 17;
+const int WEAPON_MOLTOV           = 18;
+const int WEAPON_COLT45           = 22;
+const int WEAPON_SILENCED         = 23;
+const int WEAPON_DEAGLE           = 24;
+const int WEAPON_SHOTGUN          = 25;
+const int WEAPON_SAWEDOFF         = 26;
+const int WEAPON_SHOTGSPA         = 27;
+const int WEAPON_UZI              = 28;
+const int WEAPON_MP5              = 29;
+const int WEAPON_AK47             = 30;
+const int WEAPON_M4               = 31;
+const int WEAPON_TEC9             = 32;
+const int WEAPON_RIFLE            = 33;
+const int WEAPON_SNIPER           = 34;
+const int WEAPON_ROCKETLAUNCHER   = 35;
+const int WEAPON_HEATSEEKER       = 36;
+const int WEAPON_FLAMETHROWER     = 37;
+const int WEAPON_MINIGUN          = 38;
+const int WEAPON_SATCHEL          = 39;
+const int WEAPON_BOMB             = 40;
+const int WEAPON_SPRAYCAN         = 41;
+const int WEAPON_FIREEXTINGUISHER = 42;
+const int WEAPON_CAMERA           = 43;
+const int WEAPON_NIGHTVISION      = 44;
+const int WEAPON_INFRARED         = 45;
+const int WEAPON_PARACHUTE        = 46;
+const int WEAPON_VEHICLE          = 49;
+const int WEAPON_DROWN            = 53;
+const int WEAPON_COLLISION        = 54;
+
+const int KEY_ACTION           = 1;
+const int KEY_CROUCH           = 2;
+const int KEY_FIRE             = 4;
+const int KEY_SPRINT           = 8;
+const int KEY_SECONDARY_ATTACK = 16;
+const int KEY_JUMP             = 32;
+const int KEY_LOOK_RIGHT       = 64;
+const int KEY_HANDBRAKE        = 128;
+const int KEY_LOOK_LEFT        = 256;
+const int KEY_SUBMISSION       = 512;
+const int KEY_LOOK_BEHIND      = 512;
+const int KEY_WALK             = 1024;
+const int KEY_ANALOG_UP        = 2048;
+const int KEY_ANALOG_DOWN      = 4096;
+const int KEY_ANALOG_LEFT      = 8192;
+const int KEY_ANALOG_RIGHT     = 16384;
+const int KEY_YES              = 65536;
+const int KEY_NO               = 131072;
+const int KEY_CTRL_BACK        = 262144;
+const int KEY_UP               = -128;
+const int KEY_DOWN             = 128;
+const int KEY_LEFT             = -128;
+const int KEY_RIGHT            = 128;
+
+const int BODY_PART_TORSO = 3;
+const int BODY_PART_GROIN = 4;
+const int BODY_PART_LEFT_ARM = 5;
+const int BODY_PART_RIGHT_ARM = 6;
+const int BODY_PART_LEFT_LEG = 7;
+const int BODY_PART_RIGHT_LEG = 8;
+const int BODY_PART_HEAD = 9;
+
+[native] bool gpci(int playerid, [out] string buffer, int size);
+
+
+const int CLICK_SOURCE_SCOREBOARD = 0;
+
+
+const int EDIT_RESPONSE_CANCEL = 0;
+const int EDIT_RESPONSE_FINAL  = 1;
+const int EDIT_RESPONSE_UPDATE = 2;
+
+const int SELECT_OBJECT_GLOBAL_OBJECT = 1;
+const int SELECT_OBJECT_PLAYER_OBJECT = 2;
+
+
+const int BULLET_HIT_TYPE_NONE          = 0;
+const int BULLET_HIT_TYPE_PLAYER        = 1;
+const int BULLET_HIT_TYPE_VEHICLE       = 2;
+const int BULLET_HIT_TYPE_OBJECT        = 3;
+const int BULLET_HIT_TYPE_PLAYER_OBJECT = 4;

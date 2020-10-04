@@ -1,0 +1,257 @@
+/* Copyright (C) 2011-2015 Zeex
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+const int SPECIAL_ACTION_NONE             = 0;
+const int SPECIAL_ACTION_DUCK             = 1;
+const int SPECIAL_ACTION_USEJETPACK       = 2;
+const int SPECIAL_ACTION_ENTER_VEHICLE    = 3;
+const int SPECIAL_ACTION_EXIT_VEHICLE     = 4;
+const int SPECIAL_ACTION_DANCE1           = 5;
+const int SPECIAL_ACTION_DANCE2           = 6;
+const int SPECIAL_ACTION_DANCE3           = 7;
+const int SPECIAL_ACTION_DANCE4           = 8;
+const int SPECIAL_ACTION_HANDSUP          = 10;
+const int SPECIAL_ACTION_USECELLPHONE     = 11;
+const int SPECIAL_ACTION_SITTING          = 12;
+const int SPECIAL_ACTION_STOPUSECELLPHONE = 13;
+const int SPECIAL_ACTION_DRINK_BEER       = 20;
+const int SPECIAL_ACTION_SMOKE_CIGGY      = 21;
+const int SPECIAL_ACTION_DRINK_WINE       = 22;
+const int SPECIAL_ACTION_DRINK_SPRUNK     = 23;
+const int SPECIAL_ACTION_CUFFED           = 24;
+const int SPECIAL_ACTION_CARRY            = 25;
+
+const int FIGHT_STYLE_NORMAL   = 4;
+const int FIGHT_STYLE_BOXING   = 5;
+const int FIGHT_STYLE_KUNGFU   = 6;
+const int FIGHT_STYLE_KNEEHEAD = 7;
+const int FIGHT_STYLE_GRABKICK = 15;
+const int FIGHT_STYLE_ELBOW    = 16;
+
+const int WEAPONSKILL_PISTOL          = 0;
+const int WEAPONSKILL_PISTOL_SILENCED = 1;
+const int WEAPONSKILL_DESERT_EAGLE    = 2;
+const int WEAPONSKILL_SHOTGUN         = 3;
+const int WEAPONSKILL_SAWNOFF_SHOTGUN = 4;
+const int WEAPONSKILL_SPAS12_SHOTGUN  = 5;
+const int WEAPONSKILL_MICRO_UZI       = 6;
+const int WEAPONSKILL_MP5             = 7;
+const int WEAPONSKILL_AK47            = 8;
+const int WEAPONSKILL_M4              = 9;
+const int WEAPONSKILL_SNIPERRIFLE     = 10;
+
+const int WEAPONSTATE_UNKNOWN      = -1;
+const int WEAPONSTATE_NO_BULLETS   =  0;
+const int WEAPONSTATE_LAST_BULLET  =  1;
+const int WEAPONSTATE_MORE_BULLETS =  2;
+const int WEAPONSTATE_RELOADING    =  3;
+
+[native] bool SetSpawnInfo(int playerid, int team, int skin, float x, float y, float z, float rotation, int weapon1, int weapon1_ammo, int weapon2, int weapon2_ammo, int weapon3, int weapon3_ammo);
+[native] bool SpawnPlayer(int playerid);
+
+[native] bool SetPlayerPos(int playerid, float x, float y, float z);
+[native] bool SetPlayerPosFindZ(int playerid, float x, float y, float z);
+[native] bool GetPlayerPos(int playerid, [out] float x, [out] float y, [out] float z);
+[native] bool SetPlayerFacingAngle(int playerid, float angle);
+[native] bool GetPlayerFacingAngle(int playerid, [out] float angle);
+[native] bool IsPlayerInRangeOfPoint(int playerid, float range, float x, float y, float z);
+[native] float GetPlayerDistanceFromPoint(int playerid, float x, float y, float z);
+[native] bool IsPlayerStreamedIn(int playerid, int forplayerid);
+[native] bool SetPlayerInterior(int playerid, int interiorid);
+[native] int GetPlayerInterior(int playerid);
+[native] bool SetPlayerHealth(int playerid, float health);
+[native] bool GetPlayerHealth(int playerid, [out] float health);
+[native] bool SetPlayerArmour(int playerid, float armour);
+[native] bool GetPlayerArmour(int playerid, [out] float armour);
+[native] bool SetPlayerAmmo(int playerid, int weaponid, int ammo);
+[native] int GetPlayerAmmo(int playerid);
+[native] int GetPlayerWeaponState(int playerid);
+[native] int GetPlayerTargetPlayer(int playerid);
+[native] int GetPlayerTargetActor(int playerid);
+[native] bool SetPlayerTeam(int playerid, int teamid);
+[native] int GetPlayerTeam(int playerid);
+[native] bool SetPlayerScore(int playerid, int score);
+[native] int GetPlayerScore(int playerid);
+[native] int GetPlayerDrunkLevel(int playerid);
+[native] bool SetPlayerDrunkLevel(int playerid, int level);
+[native] bool SetPlayerColor(int playerid, int color);
+[native] int GetPlayerColor(int playerid);
+[native] bool SetPlayerSkin(int playerid, int skinid);
+[native] int GetPlayerSkin(int playerid);
+[native] bool GivePlayerWeapon(int playerid, int weaponid, int ammo);
+[native] bool ResetPlayerWeapons(int playerid);
+[native] bool SetPlayerArmedWeapon(int playerid, int weaponid);
+[native] bool GetPlayerWeaponData(int playerid, int slot, [out] int weapon, [out] int ammo);
+[native] bool GivePlayerMoney(int playerid, int money);
+[native] bool ResetPlayerMoney(int playerid);
+[native] int SetPlayerName(int playerid, string name);
+[native] int GetPlayerMoney(int playerid);
+[native] int GetPlayerState(int playerid);
+[native] bool GetPlayerIp(int playerid, [out] string ip, int size);
+[native] int GetPlayerPing(int playerid);
+[native] int GetPlayerWeapon(int playerid);
+[native] bool GetPlayerKeys(int playerid, [out] int keys, [out] int updown, [out] int leftright);
+[native] int GetPlayerName(int playerid, [out] string name, int size);
+[native] bool SetPlayerTime(int playerid, int hour, int minute);
+[native] bool GetPlayerTime(int playerid, [out] int hour, [out] int minute);
+[native] bool TogglePlayerClock(int playerid, bool toggle);
+[native] bool SetPlayerWeather(int playerid, int weather);
+[native] bool ForceClassSelection(int playerid);
+[native] bool SetPlayerWantedLevel(int playerid, int level);
+[native] int GetPlayerWantedLevel(int playerid);
+[native] bool SetPlayerFightingStyle(int playerid, int style);
+[native] int GetPlayerFightingStyle(int playerid);
+[native] bool SetPlayerVelocity(int playerid, float x, float y, float z);
+[native] bool GetPlayerVelocity(int playerid, [out] float x, [out] float y, [out] float z);
+[native] bool PlayCrimeReportForPlayer(int playerid, int suspectid, int crime);
+[native] bool PlayAudioStreamForPlayer(int playerid, string url, float posX = 0.0, float posY = 0.0, float posZ = 0.0, float distance = 50.0, bool usepos = false);
+[native] bool StopAudioStreamForPlayer(int playerid);
+[native] bool SetPlayerShopName(int playerid, string shopname);
+[native] bool SetPlayerSkillLevel(int playerid, int skill, int level);
+[native] int GetPlayerSurfingVehicleID(int playerid);
+[native] int GetPlayerSurfingObjectID(int playerid);
+[native] bool RemoveBuildingForPlayer(int playerid, int modelid, float fX, float fY, float fZ, float fRadius);
+[native] bool GetPlayerLastShotVectors(int playerid, [out] float fOriginX, [out] float fOriginY, [out] float fOriginZ, [out] float fHitPosX, [out] float fHitPosY, [out] float fHitPosZ);
+
+const int MAX_PLAYER_ATTACHED_OBJECTS = 10;
+
+[native] bool SetPlayerAttachedObject(int playerid, int index, int modelid, int bone, float fOffsetX = 0.0, float fOffsetY = 0.0, float fOffsetZ = 0.0, float fRotX = 0.0, float fRotY = 0.0, float fRotZ = 0.0, float fScaleX = 1.0, float fScaleY = 1.0, float fScaleZ = 1.0, int materialcolor1 = 0, int materialcolor2 = 0);
+[native] bool RemovePlayerAttachedObject(int playerid, int index);
+[native] bool IsPlayerAttachedObjectSlotUsed(int playerid, int index);
+[native] bool EditAttachedObject(int playerid, int index);
+
+[native] int CreatePlayerTextDraw(int playerid, float x, float y, string text);
+[native] bool PlayerTextDrawDestroy(int playerid, int text);
+[native] bool PlayerTextDrawLetterSize(int playerid, int text, float x, float y);
+[native] bool PlayerTextDrawTextSize(int playerid, int text, float x, float y);
+[native] bool PlayerTextDrawAlignment(int playerid, int text, int alignment);
+[native] bool PlayerTextDrawColor(int playerid, int text, int color);
+[native] bool PlayerTextDrawUseBox(int playerid, int text, bool use);
+[native] bool PlayerTextDrawBoxColor(int playerid, int text, int color);
+[native] bool PlayerTextDrawSetShadow(int playerid, int text, int size);
+[native] bool PlayerTextDrawSetOutline(int playerid, int text, int size);
+[native] bool PlayerTextDrawBackgroundColor(int playerid, int text, int color);
+[native] bool PlayerTextDrawFont(int playerid, int text, int font);
+[native] bool PlayerTextDrawSetProportional(int playerid, int text, bool set);
+[native] bool PlayerTextDrawSetSelectable(int playerid, int text, bool set);
+[native] bool PlayerTextDrawShow(int playerid, int text);
+[native] bool PlayerTextDrawHide(int playerid, int text);
+[native] bool PlayerTextDrawSetString(int playerid, int text, string string);
+[native] bool PlayerTextDrawSetPreviewModel(int playerid, int text, int modelindex);
+[native] bool PlayerTextDrawSetPreviewRot(int playerid, int text, float fRotX, float fRotY, float fRotZ, float fZoom = 1.0);
+[native] bool PlayerTextDrawSetPreviewVehCol(int playerid, int text, int color1, int color2);
+
+const int PLAYER_VARTYPE_NONE   = 0;
+const int PLAYER_VARTYPE_INT    = 1;
+const int PLAYER_VARTYPE_STRING = 2;
+const int PLAYER_VARTYPE_FLOAT  = 3;
+
+[native] bool SetPVarInt(int playerid, string varname, int value);
+[native] int GetPVarInt(int playerid, string varname);
+[native] bool SetPVarString(int playerid, string varname, string value);
+[native] bool GetPVarString(int playerid, string varname, [out] string value, int size);
+[native] bool SetPVarFloat(int playerid, string varname, float value);
+[native] float GetPVarFloat(int playerid, string varname);
+[native] bool DeletePVar(int playerid, string varname);
+
+[native] int GetPVarsUpperIndex(int playerid);
+[native] bool GetPVarNameAtIndex(int playerid, int index, [out] string varname, int size);
+[native] int GetPVarType(int playerid, string varname);
+
+const int MAX_CHATBUBBLE_LENGTH = 144;
+
+[native] bool SetPlayerChatBubble(int playerid, string text, int color, float drawdistance, int expiretime);
+
+[native] bool PutPlayerInVehicle(int playerid, int vehicleid, int seatid);
+[native] int GetPlayerVehicleID(int playerid);
+[native] int GetPlayerVehicleSeat(int playerid);
+[native] bool RemovePlayerFromVehicle(int playerid);
+[native] bool TogglePlayerControllable(int playerid, bool toggle);
+[native] bool PlayerPlaySound(int playerid, int soundid, float x, float y, float z);
+[native] bool ApplyAnimation(int playerid, string animlib, string animname, float fDelta, bool loop, bool lockx, bool locky, bool freeze, int time, bool forcesync = false);
+[native] bool ClearAnimations(int playerid, bool forcesync = false);
+[native] int GetPlayerAnimationIndex(int playerid);
+[native] bool GetAnimationName(int index, [out] string animlib, int animlib_size, [out] string animname, int animname_size);
+[native] int GetPlayerSpecialAction(int playerid);
+[native] bool SetPlayerSpecialAction(int playerid, int actionid);
+[native] bool DisableRemoteVehicleCollisions(int playerid, bool disable);
+
+[native] bool SetPlayerCheckpoint(int playerid, float x, float y, float z, float size);
+[native] bool DisablePlayerCheckpoint(int playerid);
+[native] bool SetPlayerRaceCheckpoint(int playerid, int type, float x, float y, float z, float nextx, float nexty, float nextz, float size);
+[native] bool DisablePlayerRaceCheckpoint(int playerid);
+[native] bool SetPlayerWorldBounds(int playerid, float x_max, float x_min, float y_max, float y_min);
+[native] bool SetPlayerMarkerForPlayer(int playerid, int showplayerid, int color);
+[native] bool ShowPlayerNameTagForPlayer(int playerid, int showplayerid, bool show);
+
+const int MAPICON_LOCAL             = 0;
+const int MAPICON_GLOBAL            = 1;
+const int MAPICON_LOCAL_CHECKPOINT  = 2;
+const int MAPICON_GLOBAL_CHECKPOINT = 3;
+
+[native] bool SetPlayerMapIcon(int playerid, int iconid, float x, float y, float z, int markertype, int color, int style = MAPICON_LOCAL);
+[native] bool RemovePlayerMapIcon(int playerid, int iconid);
+
+[native] bool AllowPlayerTeleport(int playerid, bool allow);
+
+const int CAMERA_CUT  = 2;
+const int CAMERA_MOVE = 1;
+
+[native] bool SetPlayerCameraPos(int playerid, float x, float y, float z);
+[native] bool SetPlayerCameraLookAt(int playerid, float x, float y, float z, int cut = CAMERA_CUT);
+[native] bool SetCameraBehindPlayer(int playerid);
+[native] bool GetPlayerCameraPos(int playerid, [out] float x, [out] float y, [out] float z);
+[native] bool GetPlayerCameraFrontVector(int playerid, [out] float x, [out] float y, [out] float z);
+[native] int GetPlayerCameraMode(int playerid);
+[native] bool EnablePlayerCameraTarget(int playerid, bool enable);
+[native] int GetPlayerCameraTargetObject(int playerid);
+[native] int GetPlayerCameraTargetVehicle(int playerid);
+[native] int GetPlayerCameraTargetPlayer(int playerid);
+[native] int GetPlayerCameraTargetActor(int playerid);
+[native] float GetPlayerCameraAspectRatio(int playerid);
+[native] float GetPlayerCameraZoom(int playerid);
+[native] bool AttachCameraToObject(int playerid, int objectid);
+[native] bool AttachCameraToPlayerObject(int playerid, int playerobjectid);
+[native] bool InterpolateCameraPos(int playerid, float FromX, float FromY, float FromZ, float ToX, float ToY, float ToZ, int time, int cut = CAMERA_CUT);
+[native] bool InterpolateCameraLookAt(int playerid, float FromX, float FromY, float FromZ, float ToX, float ToY, float ToZ, int time, int cut = CAMERA_CUT);
+
+[native] bool IsPlayerConnected(int playerid);
+[native] bool IsPlayerInVehicle(int playerid, int vehicleid);
+[native] bool IsPlayerInAnyVehicle(int playerid);
+[native] bool IsPlayerInCheckpoint(int playerid);
+[native] bool IsPlayerInRaceCheckpoint(int playerid);
+
+[native] bool SetPlayerVirtualWorld(int playerid, int worldid);
+[native] int GetPlayerVirtualWorld(int playerid);
+
+[native] bool EnableStuntBonusForPlayer(int playerid, bool enable);
+[native] bool EnableStuntBonusForAll(bool enable);
+
+const int SPECTATE_MODE_NORMAL = 1;
+const int SPECTATE_MODE_FIXED  = 2;
+const int SPECTATE_MODE_SIDE   = 3;
+
+[native] bool TogglePlayerSpectating(int playerid, bool toggle);
+[native] bool PlayerSpectatePlayer(int playerid, int targetplayerid, int mode = SPECTATE_MODE_NORMAL);
+[native] bool PlayerSpectateVehicle(int playerid, int targetvehicleid, int mode = SPECTATE_MODE_NORMAL);
+
+const int PLAYER_RECORDING_TYPE_NONE   = 0;
+const int PLAYER_RECORDING_TYPE_DRIVER = 1;
+const int PLAYER_RECORDING_TYPE_ONFOOT = 2;
+
+[native] bool StartRecordingPlayerData(int playerid, int recordtype, string recordname);
+[native] bool StopRecordingPlayerData(int playerid);
+
+[native] bool CreateExplosionForPlayer(int playerid, float X, float Y, float Z, int type, float Radius);

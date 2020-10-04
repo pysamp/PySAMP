@@ -3,40 +3,49 @@ project(PySAMP)
 add_compile_options(-std=c++11)
 
 
-cmake_minimum_required(VERSION 2.8)
-list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
+cmake_minimum_required(VERSION 3.7)
+list(APPEND CMAKE_MODULE_PATH ${SAMPGDK_DIR}/cmake)
 
-#find_package (Python3 COMPONENTS Interpreter Development)
+add_compile_options(-std=c++11)
+set(PYTHON_MIN_VERSION 3.8)
 
-find_package (PythonInterp 3.5.3)
-find_package (PythonLibs 3.5.3)
+find_package (PythonInterp ${PYTHON_MIN_VERSION} REQUIRED)
+find_package (PythonLibs ${PYTHON_MIN_VERSION} REQUIRED)
+
+find_library (SAMPGDK_LIBRARY
+    NAMES sampgdk sampgdk4s
+    HINTS "${CMAKE_PREFIX_PATH}/lib/")
 
 include(AMXConfig)
 include(AddSAMPPlugin)
+include(FindSAMPSDK)
 
 include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}
-  ${CMAKE_CURRENT_SOURCE_DIR}/amx
+  ${SAMPSDK_DIR}/amx
+  ${SAMPGDK_DIR}/build/lib/sampgdk/
+  ${SAMPSDK_INCLUDE_DIR}
   ${CMAKE_CURRENT_SOURCE_DIR}/bindings
   ${CMAKE_CURRENT_SOURCE_DIR}/pysamp
-  ${PYTHON_INCLUDE_DIR}
+  ${PYTHON_INCLUDE_DIRS}
 )
 
 message(STATUS "PYTHON_LIBRARY = ${PYTHON_LIBRARY}")
 message(STATUS "PYTHON_EXECUTABLE = ${PYTHON_EXECUTABLE}")
-message(STATUS "PYTHON_INCLUDE_DIR = ${PYTHON_INCLUDE_DIR}")
+message(STATUS "PYTHON_INCLUDE_DIRS = ${PYTHON_INCLUDE_DIRS}")
+message(STATUS "SAMPGDK_LIBRARY = ${SAMPGDK_LIBRARY}")
 
 add_definitions(-DSAMPGDK_AMALGAMATION)
 
 link_libraries(${PYTHON_LIBRARIES})
 
-add_samp_plugin(pySAMP
-  amxplugin.cpp
+add_samp_plugin(PySAMP
+  ${SAMPSDK_DIR}/amxplugin.cpp
   main.h
   main.cpp
   main.def
-  sampgdk.c
-  sampgdk.h
+  ${SAMPGDK_DIR}/build/lib/sampgdk/sampgdk.c
+  ${SAMPGDK_DIR}/build/lib/sampgdk/sampgdk.h
   pysamp/pysamp.cpp
   pysamp/pysamp.h
   pysamp/pygamemode.cpp
@@ -45,9 +54,9 @@ add_samp_plugin(pySAMP
   bindings/samp.h
   bindings/const.h
   bindings/const.cpp
-  test/callbackstest.h
-  test/callbackstest.cpp
 )
+
+target_link_libraries(PySAMP ${SAMPGDK_LIBRARY})
 
 find_package(Doxygen)
 if(DOXYGEN_FOUND)
