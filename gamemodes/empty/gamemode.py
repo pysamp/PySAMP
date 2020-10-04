@@ -8,6 +8,7 @@ def OnGameModeExit():
     return True
     
 def OnPlayerConnect(playerid):
+    SendClientMessage(playerid, 0xFF000000, "Hello %s from Python" % GetPlayerName(playerid, 32))
     return True
     
 def OnPlayerDisconnect(playerid, reason):

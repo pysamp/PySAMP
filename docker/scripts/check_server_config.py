@@ -13,6 +13,10 @@ if __name__ == "__main__":
                 continue
             line = line.rstrip(' \r\n')
             k,v = line.split(' ', 1)
+            
+            if k == 'gamemode0' and v != 'empty 1':
+                v = 'empty 1'
+
             if k == 'plugins' and 'PySAMP.so' not in v:
                 added_plugins = True
                 v += 'PySAMP.so'
