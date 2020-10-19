@@ -16,10 +16,14 @@ if __name__ == "__main__":
             
             if k == 'gamemode0' and v != 'empty 1':
                 v = 'empty 1'
-
+            if k == 'filterscripts' and 'empty' not in v:
+                v = 'empty'
+            if k == 'plugins' and 'crashdetect.so' not in v:
+                added_plugins = True
+                v = 'crashdetect.so ' + v
             if k == 'plugins' and 'PySAMP.so' not in v:
                 added_plugins = True
-                v += 'PySAMP.so'
+                v += ' PySAMP.so'
             elif k == 'plugins' and 'PySAMP.so' in v:
                 added_plugins = True
             if k == 'rcon_password' and v == 'changeme':
@@ -28,7 +32,7 @@ if __name__ == "__main__":
             updated_config += '%s %s\n' % (k, v)
 
         if not added_plugins:
-            updated_config += 'plugins PySAMP.so\n'
+            updated_config += 'plugins crashdetect.so PySAMP.so\n'
 
     with open(os.path.join(sys.argv[1], 'server.cfg'), 'w') as f:
         f.write(updated_config)

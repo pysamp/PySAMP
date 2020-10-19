@@ -1,4 +1,4 @@
-#define VERSION "1.1.0-200"
+#define VERSION "1.1.0-300"
 
 #include <stdio.h>
 #include <string.h>
@@ -12,6 +12,8 @@
 std::thread threading;
 bool threadingInitialized = false;
 
+extern void *pAMXFunctions;
+
 PLUGIN_EXPORT unsigned int PLUGIN_CALL Supports()
 {
 	return sampgdk::Supports() | SUPPORTS_PROCESS_TICK;
@@ -19,47 +21,96 @@ PLUGIN_EXPORT unsigned int PLUGIN_CALL Supports()
 
 PLUGIN_EXPORT bool PLUGIN_CALL Load(void **ppData) 
 {
-	std::cout << "Loading PYSAMP" << std::endl;
-	try {
-		PySAMP::load();
-	} catch (std::exception) {
-		return false;
-	}
+	pAMXFunctions = ppData[PLUGIN_DATA_AMX_EXPORTS];
+	sampgdk::logprintf("PySAMP %s", VERSION);
 	
-	bool sgdk = sampgdk::Load(ppData);
-	if (sgdk) 
-	{
-		sampgdk::logprintf("PySAMP %s", VERSION);
-
-		threadingInitialized = true;
-		threading = std::thread([] { 
-			PyGILState_STATE state = PyGILState_Ensure();
-			PySAMP::callback("OnThreadingInit", NULL);
-			PyGILState_Release(state);
-		});
-
-		
-	}
-	return sgdk;
+	return sampgdk::Load(ppData);
 }
 
-PLUGIN_EXPORT void PLUGIN_CALL Unload()
+void startThreading()
 {
-	sampgdk::Unload();
+	threadingInitialized = true;
+	threading = std::thread([] { 
+		sampgdk::logprintf("Initializing Threading");
+		PySAMP::callback("OnThreadingInit", NULL);
+		sampgdk::logprintf("Initialized Threading");
+	});
 }
 
-PLUGIN_EXPORT void PLUGIN_CALL ProcessTick()
+void stopThreading()
 {
-	sampgdk::ProcessTick();
-	PySAMP::callback("OnProcessTick", NULL);
-}
-
-
-PLUGIN_EXPORT bool PLUGIN_CALL OnGameModeExit() {
+	sampgdk::logprintf("Stopping PYSAMP-Threading");
 	if(threadingInitialized)
 	{
 		PySAMP::callback("OnThreadingStopSignal", NULL);
 		threading.join();
 	}
-	return PySAMP::callback("OnGameModeExit", NULL);
+}
+
+PLUGIN_EXPORT void PLUGIN_CALL Unload()
+{
+	stopThreading();
+	PySAMP::disable();
+	// if (PySAMP::isInitialized())
+    //		sampgdk::Unload();
+}
+
+PLUGIN_EXPORT void PLUGIN_CALL ProcessTick()
+{
+	if (PySAMP::isLoaded()) {
+		PySAMP::callback("OnProcessTick", NULL);
+	}
+	sampgdk::ProcessTick();
+}
+
+PLUGIN_EXPORT bool PLUGIN_CALL OnGameModeExit()
+{
+	stopThreading();
+	PySAMP::disable();
+
+	bool result = PySAMP::callback("OnGameModeExit", NULL);
+	return result;
+}
+
+PLUGIN_EXPORT bool PLUGIN_CALL OnGameModeInit()
+{
+	sampgdk::logprintf("Loading PYSAMP");
+	try {
+		if (PySAMP::isLoaded())
+			PySAMP::reload();
+		else
+			PySAMP::load();
+	} catch (std::exception) {
+		return false;
+	}
+	startThreading();
+	bool result = PySAMP::callback("OnGameModeInit", NULL);
+	return result;
+}
+
+
+PLUGIN_EXPORT bool PLUGIN_CALL OnPublicCall(AMX *amx, const char *name,
+    cell *params, cell *retval)
+{
+	if (strcmp(name, "OnGameModeInit") == 0 || strcmp(name, "OnGameModeExit") == 0) {
+		return true;
+	}
+	return PySAMP::callback(name, createParameterObject(amx, name, params)) || strcmp(name, "OnRconCommand") == 0;
+}
+
+
+PLUGIN_EXPORT bool PLUGIN_CALL OnRconCommand(const char * cmd) {
+	sampgdk::logprintf("rcon command: %s", cmd);
+	if (strcmp(cmd, "pyreload") == 0)
+	{
+		PySAMP::callback("OnPyUnload", NULL);
+		stopThreading();
+		PySAMP::disable();
+		PySAMP::reload();
+		startThreading();
+		PySAMP::callback("OnPyReload", NULL);
+		return true;
+	}
+
+	return false;
 }

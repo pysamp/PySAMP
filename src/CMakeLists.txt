@@ -6,7 +6,6 @@ add_compile_options(-std=c++11)
 cmake_minimum_required(VERSION 3.7)
 list(APPEND CMAKE_MODULE_PATH ${SAMPGDK_DIR}/cmake)
 
-add_compile_options(-std=c++11)
 set(PYTHON_MIN_VERSION 3.8)
 
 find_package (PythonInterp ${PYTHON_MIN_VERSION} REQUIRED)
