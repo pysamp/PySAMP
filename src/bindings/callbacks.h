@@ -3,7 +3,6 @@
 
 #include "sampgdk.h"
 #include "pysamp/pysamp.h"
-#include "stacktrace.h"
 
 #include <stdio.h>
 #include <stdarg.h>
