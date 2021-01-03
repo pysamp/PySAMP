@@ -59,14 +59,15 @@ void PyGamemode::reload()
 	if (pModule)
 	{
 		sampgdk::logprintf("PyGamemode::reload()-begin");
-		Py_XDECREF(pModule);
-		pModule = PyImport_ReloadModule(pModule);
-		if (!pModule) 
+		PyObject* pNewModule = PyImport_ReloadModule(pModule);
+		if (!pNewModule) 
 		{
 			PyErr_Print();
 			sampgdk::logprintf("PyGamemode::PyGamemode(%s) failed!", "gamemode.py");
 		} else {
-			Py_XINCREF(pModule);
+			Py_XDECREF(pModule);
+			Py_XINCREF(pNewModule);
+			pModule = pNewModule;
 		}
 		sampgdk::logprintf("PyGamemode::reload()-end");
 		disabled = false;
@@ -142,7 +143,8 @@ bool PyGamemode::callback(const char * name, PyObject * pArgs, bool obtainLock)
 				ret = tru == 1;
 		}
 
-		// sampgdk::logprintf("%s called with return %i", name, ret);
+		if (strcmp(name, "OnProcessTick") != 0)
+			sampgdk::logprintf("%s called with return %i", name, ret);
 
 		//Py_XDECREF(pValue);
 		Py_XDECREF(pFunc);

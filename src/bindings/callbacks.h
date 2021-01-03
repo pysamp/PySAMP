@@ -75,9 +75,8 @@ PyObject * createParameterObject(AMX *amx, const char *callback_name, cell *para
         return nullptr;
     std::string format = callback_format.at(callback_name);
     int number_of_arguments = format.length();
-    PyObject *arguments = PyTuple_New(number_of_arguments);
 
-    sampgdk::logprintf("number_of_arguments: %d", number_of_arguments);
+    PyObject *arguments = PyTuple_New(number_of_arguments);
 
     for (int i = 0; i < number_of_arguments; i++) {
         const char type = format.at(i);
