@@ -77,6 +77,8 @@ PyObject * createParameterObject(AMX *amx, const char *callback_name, cell *para
     int number_of_arguments = format.length();
     PyObject *arguments = PyTuple_New(number_of_arguments);
 
+    sampgdk::logprintf("number_of_arguments: %d", number_of_arguments);
+
     for (int i = 0; i < number_of_arguments; i++) {
         const char type = format.at(i);
         cell param = parameters[i+1];
@@ -87,15 +89,15 @@ PyObject * createParameterObject(AMX *amx, const char *callback_name, cell *para
                 argument = PyLong_FromLong((int) param);
                 break;
             case 'y':
-                  int length;
+                int length;
                 char *string_value;
-                  cell *phys_addr;
-                if (param == 0 || amx_GetAddr(amx, param, &phys_addr) != AMX_ERR_NONE) {
+                cell *phys_addr;
+                if (amx_GetAddr(amx, param, &phys_addr) != AMX_ERR_NONE) { //param == 0 || 
                     argument = Py_None;
                     break;
                 }
                 amx_StrLen(phys_addr, &length);
-                  string_value = (char *)malloc((length + 1) * sizeof(char));
+                string_value = (char *)malloc((length + 1) * sizeof(char));
                 if (amx_GetString(string_value, phys_addr, 0, length + 1) != AMX_ERR_NONE) {
                     free(string_value);
                     argument = Py_None;

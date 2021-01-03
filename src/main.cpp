@@ -23,6 +23,9 @@ PLUGIN_EXPORT bool PLUGIN_CALL Load(void **ppData)
 {
 	pAMXFunctions = ppData[PLUGIN_DATA_AMX_EXPORTS];
 	sampgdk::logprintf("PySAMP %s", VERSION);
+
+	//load libpython to support numpy and other libraries
+	dlopen("libpython3.8.so.1", RTLD_GLOBAL);
 	
 	return sampgdk::Load(ppData);
 }

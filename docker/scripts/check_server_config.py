@@ -14,7 +14,7 @@ if __name__ == "__main__":
             line = line.rstrip(' \r\n')
             k,v = line.split(' ', 1)
             
-            if k == 'gamemode0' and v != 'empty 1':
+            if k == 'gamemode0' and v == 'grandlarc 1':
                 v = 'empty 1'
             if k == 'filterscripts' and 'empty' not in v:
                 v = 'empty'

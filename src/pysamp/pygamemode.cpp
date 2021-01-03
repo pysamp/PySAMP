@@ -24,7 +24,7 @@ PyGamemode::PyGamemode(const char * path)
 	char cCurrentPath[FILENAME_MAX];
 	GetCurrentDir(cCurrentPath, sizeof(cCurrentPath));
 	char* absolute = strcat(cCurrentPath, path);
-	
+
 	PyObject* sysPath = PySys_GetObject("path");
 
 	if(!sysPath)
@@ -42,8 +42,8 @@ void PyGamemode::load()
 {
 	pName = PyUnicode_DecodeFSDefault("gamemode");
 	pModule = PyImport_Import(pName);
-	Py_INCREF(pModule);
-	Py_DECREF(pName);
+	Py_XINCREF(pModule);
+	Py_XDECREF (pName);
 	if (!pModule) 
 	{
 		PyErr_Print();
@@ -59,14 +59,14 @@ void PyGamemode::reload()
 	if (pModule)
 	{
 		sampgdk::logprintf("PyGamemode::reload()-begin");
-		Py_DECREF(pModule);
+		Py_XDECREF(pModule);
 		pModule = PyImport_ReloadModule(pModule);
 		if (!pModule) 
 		{
 			PyErr_Print();
 			sampgdk::logprintf("PyGamemode::PyGamemode(%s) failed!", "gamemode.py");
 		} else {
-			Py_INCREF(pModule);
+			Py_XINCREF(pModule);
 		}
 		sampgdk::logprintf("PyGamemode::reload()-end");
 		disabled = false;
