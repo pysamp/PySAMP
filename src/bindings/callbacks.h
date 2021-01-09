@@ -22,8 +22,8 @@ std::map<std::string, std::string> _createCallbackFormatMap()
     callback_format["OnPlayerEnterVehicle"] = "iiO";
     callback_format["OnPlayerExitVehicle"] = "ii";
     callback_format["OnPlayerStateChange"] = "iii";
-    callback_format["OnPlayerEnterCheckpoi"] = "i";
-    callback_format["OnPlayerLeaveCheckpoi"] = "i";
+    callback_format["OnPlayerEnterCheckpoint"] = "i";
+    callback_format["OnPlayerLeaveCheckpoint"] = "i";
     callback_format["OnPlayerEnterRaceCheckpoint"] = "i";
     callback_format["OnPlayerLeaveRaceCheckpoint"] = "i";
     callback_format["OnRconCommand"] = "y";
@@ -33,13 +33,13 @@ std::map<std::string, std::string> _createCallbackFormatMap()
     callback_format["OnPlayerPickUpPickup"] = "ii";
     callback_format["OnVehicleMod"] = "iii";
     callback_format["OnEnterExitModShop"] = "iii";
-    callback_format["OnVehiclePaijob"] = "iii";
+    callback_format["OnVehiclePaintjob"] = "iii"; //
     callback_format["OnVehicleRespray"] = "iiii";
     callback_format["OnVehicleDamageStatusUpdate"] = "ii";
     callback_format["OnUnoccupiedVehicleUpdate"] = "iiiffffff";
     callback_format["OnPlayerSelectedMenuRow"] = "ii";
     callback_format["OnPlayerExitedMenu"] = "i";
-    callback_format["OnPlayerieriorChange"] = "iii";
+    callback_format["OnPlayerInteriorChange"] = "iii";
     callback_format["OnPlayerKeyStateChange"] = "iii";
     callback_format["OnRconLoginAttempt"] = "yyO";
     callback_format["OnPlayerUpdate"] = "i";
