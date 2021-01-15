@@ -143,9 +143,6 @@ bool PyGamemode::callback(const char * name, PyObject * pArgs, bool obtainLock)
 				ret = tru == 1;
 		}
 
-		if (strcmp(name, "OnProcessTick") != 0)
-			sampgdk::logprintf("%s called with return %i", name, ret);
-
 		//Py_XDECREF(pValue);
 		Py_XDECREF(pFunc);
 		if (pArgs)
