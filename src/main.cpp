@@ -2,6 +2,7 @@
 
 #include <stdio.h>
 #include <string.h>
+#include "config.h"
 #include "main.h"
 #include "sampgdk.h"
 #include "pysamp/pysamp.h"
@@ -22,10 +23,12 @@ PLUGIN_EXPORT unsigned int PLUGIN_CALL Supports()
 PLUGIN_EXPORT bool PLUGIN_CALL Load(void **ppData) 
 {
 	pAMXFunctions = ppData[PLUGIN_DATA_AMX_EXPORTS];
-	sampgdk::logprintf("PySAMP %s", VERSION);
+	sampgdk::logprintf("PySAMP %s for python%s", PYSAMP_VERSION, PYTHON_VERSION);
 
+#ifndef WIN32
 	//load libpython to support numpy and other libraries
-	dlopen("libpython3.8.so.1", RTLD_GLOBAL);
+	dlopen(PYTHON_LIBRARY, RTLD_GLOBAL);
+#endif
 	
 	return sampgdk::Load(ppData);
 }
