@@ -41,6 +41,28 @@ and then:
 sudo apt install python3-dev:i386
 ```
 
+# Run using docker
+## Requirements
+- Linux based OS
+- Docker 20.10.0 or greater. Previous versions may work, but they are not tested. Read more [here](https://docs.docker.com/engine/install/) how to install docker on your specific Linux Distribution
+
+## How to get started?
+With our docker setup, you can run your entire SA-MP server inside a docker container. Under `/server` you will find a 0.3.7 server root folder as you would recognise it. Our docker setup builds the container, generates the PySAMP runtime / plugin, and afterwards uses the `server` directory to start up a SA-MP server for you.
+
+
+1. If you haven't already, please clone the latest main branch of the [repository](https://github.com/habecker/PySAMP/tree/main).  You can clone the repository to your server using `git clone https://github.com/habecker/PySAMP.git`
+2. Proceed to the `/docker` folder inside the repo, here you can find the docker-related files. Inspect the files if you need to know what they do in detail.
+3. Next up, let us make the bash-scripts executable by running `chmod +x *.sh` inside the `/docker` folder.
+4. From the same folder (`/docker`), run the SA-MP server located in `/server` by running `./server.sh`, and gently wait for the process to complete. This will build the docker container and start your server.
+
+## Default actions and notes
+- If there are no existing `/server` directory, it will be created. SA-MP server version 0.3.7-R3  will be downloaded and installed.
+- If there are no gamemode in `/server/gamemodes` called `empty.amx`, the docker container will then put that there to get the server started. If you have defined a different gamemode in `/server/server.cfg`, this file will not be loaded.
+- If there is no filterscript in `/server/filterscripts` called `empty.amx`, the docker container will put that there when the server starts. If you have defined other filterscripts in `/server/server.cfg`, this file will not be loaded.
+- The [Crashdetect](https://github.com/Zeex/samp-plugin-crashdetect) plugin is added automatically, unless it already exists.
+- Server starts at port 7777 and it is exposed at port 7777. If you change the port in the `/server/server.cfg`, you will also need to change the docker arguments in `/docker/server.sh`. For example, if you want to run on port 8888, the last line should contain `-p 8888:8888 -p 8888:8888/udp` instead of `-p 7777:7777 -p 7777:7777/udp`.
+
+
 # Compiling
 If the uploaded binaries don't suite your needs, you might have to compile the project on your own. 
 You can also create an issue, so I can compile it for your system, just mention your system architecture.
