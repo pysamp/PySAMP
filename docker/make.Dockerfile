@@ -41,5 +41,5 @@ RUN apt-get update && apt-get install -y gdb vim valgrind libc6-dbg:i386
 WORKDIR /usr/src/pysamp
 COPY . .
 
-RUN [ "cmake", "./src", "-G", "Unix Makefiles", "-DCMAKE_BUILD_TYPE=Debug", "-DSAMPSDK_DIR=/root/sampsdk", "-DSAMPGDK_DIR=/root/sampgdk", "-DPYTHON_INCLUDE_DIRS=/usr/include/i386-linux-gnu/python3.8", "-DPYTHON_LIBRARY=/usr/lib/i386-linux-gnu/libpython3.8.so" ]    
+RUN [ "cmake", "./src", "-G", "Unix Makefiles", "-DCMAKE_BUILD_TYPE=Debug", "-DSAMPSDK_DIR=/root/sampsdk", "-DSAMPGDK_DIR=/root/sampgdk", "-DPYTHON_INCLUDE_DIRS=/usr/include/i386-linux-gnu/python3.8", "-DPYTHON_LIBRARY=/usr/lib/i386-linux-gnu/libpython3.8.so", "-DPYTHON_STATIC_LIBRARY=libpython3.8.so.1.0", "-DPYTHON_VERSION=3.8.6" ]    
 CMD make; cp ./PySAMP.so /target/

@@ -12,6 +12,8 @@ set(PYSAMP_REVISION 000)
 
 set(PYSAMP_VERSION "${PYSAMP_MAJOR_VERSION}.${PYSAMP_MINOR_VERSION}.${PYSAMP_REVISION}")
 set(PYTHON_VERSION "PYTHON_VERSION" CACHE STRING "The version of python to use (eg. 3.8)")
+set(PYTHON_STATIC_LIBRARY "PYTHON_STATIC_LIBRARY" CACHE STRING "The name of the python library to use (eg. libpython3.8.so.1.0") 
+
 
 add_definitions( -DPYTHON_VERSION=${PYTHON_VERSION} )
 add_definitions( -DPYSAMP_VERSION=${PYSAMP_VERSION} )
