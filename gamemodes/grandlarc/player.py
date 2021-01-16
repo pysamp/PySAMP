@@ -13,10 +13,6 @@ class Player:
         self.playerid = playerid
         self.city_selection = city_selection
         self.has_city_selected = has_city_selected
-        self.last_city_selection_tick = GetTickCount()
+        self.last_city_selection_tick = 0
         pass
-
-    asd = 1
-
-
     pass
