@@ -1329,8 +1329,8 @@ static PyObject* pysamp_setplayerdrunklevel(PyObject *self, PyObject *args)
 static PyObject* pysamp_setplayercolor(PyObject *self, PyObject *args)
 {
 	int arg1 = -1;
-	int arg0 = -1;
-	if (!PyArg_ParseTuple(args, "ii:SetPlayerColor", &arg0, &arg1))
+	unsigned long arg0 = -1;
+	if (!PyArg_ParseTuple(args, "ik:SetPlayerColor", &arg0, &arg1))
 	{
 		PyErr_Print();
 		return NULL;
@@ -2057,10 +2057,10 @@ static PyObject* pysamp_playertextdrawalignment(PyObject *self, PyObject *args)
 
 static PyObject* pysamp_playertextdrawcolor(PyObject *self, PyObject *args)
 {
-	int arg2 = -1;
+	unsigned long arg2 = -1;
 	int arg1 = -1;
 	int arg0 = -1;
-	if (!PyArg_ParseTuple(args, "iii:PlayerTextDrawColor", &arg0, &arg1, &arg2))
+	if (!PyArg_ParseTuple(args, "iik:PlayerTextDrawColor", &arg0, &arg1, &arg2))
 	{
 		PyErr_Print();
 		return NULL;
@@ -2089,10 +2089,10 @@ static PyObject* pysamp_playertextdrawusebox(PyObject *self, PyObject *args)
 
 static PyObject* pysamp_playertextdrawboxcolor(PyObject *self, PyObject *args)
 {
-	int arg2 = -1;
+	unsigned long arg2 = -1;
 	int arg1 = -1;
 	int arg0 = -1;
-	if (!PyArg_ParseTuple(args, "iii:PlayerTextDrawBoxColor", &arg0, &arg1, &arg2))
+	if (!PyArg_ParseTuple(args, "iik:PlayerTextDrawBoxColor", &arg0, &arg1, &arg2))
 	{
 		PyErr_Print();
 		return NULL;
@@ -2137,10 +2137,10 @@ static PyObject* pysamp_playertextdrawsetoutline(PyObject *self, PyObject *args)
 
 static PyObject* pysamp_playertextdrawbackgroundcolor(PyObject *self, PyObject *args)
 {
-	int arg2 = -1;
+	unsigned long arg2 = -1;
 	int arg1 = -1;
 	int arg0 = -1;
-	if (!PyArg_ParseTuple(args, "iii:PlayerTextDrawBackgroundColor", &arg0, &arg1, &arg2))
+	if (!PyArg_ParseTuple(args, "iik:PlayerTextDrawBackgroundColor", &arg0, &arg1, &arg2))
 	{
 		PyErr_Print();
 		return NULL;
@@ -2284,11 +2284,11 @@ static PyObject* pysamp_playertextdrawsetpreviewrot(PyObject *self, PyObject *ar
 
 static PyObject* pysamp_playertextdrawsetpreviewvehcol(PyObject *self, PyObject *args)
 {
-	int arg3 = -1;
-	int arg2 = -1;
+	unsigned long arg3 = -1;
+	unsigned long arg2 = -1;
 	int arg1 = -1;
 	int arg0 = -1;
-	if (!PyArg_ParseTuple(args, "iiii:PlayerTextDrawSetPreviewVehCol", &arg0, &arg1, &arg2, &arg3))
+	if (!PyArg_ParseTuple(args, "iikk:PlayerTextDrawSetPreviewVehCol", &arg0, &arg1, &arg2, &arg3))
 	{
 		PyErr_Print();
 		return NULL;
@@ -2468,10 +2468,10 @@ static PyObject* pysamp_setplayerchatbubble(PyObject *self, PyObject *args)
 {
 	int arg4 = -1;
 	float arg3 = -1.0f;
-	int arg2 = -1;
+	unsigned long arg2 = -1;
 	const char* arg1 = "";
 	int arg0 = -1;
-	if (!PyArg_ParseTuple(args, "iyifi:SetPlayerChatBubble", &arg0, &arg1, &arg2, &arg3, &arg4))
+	if (!PyArg_ParseTuple(args, "iykfi:SetPlayerChatBubble", &arg0, &arg1, &arg2, &arg3, &arg4))
 	{
 		PyErr_Print();
 		return NULL;
@@ -2777,10 +2777,10 @@ static PyObject* pysamp_setplayerworldbounds(PyObject *self, PyObject *args)
 
 static PyObject* pysamp_setplayermarkerforplayer(PyObject *self, PyObject *args)
 {
-	int arg2 = -1;
+	unsigned long arg2 = -1;
 	int arg1 = -1;
 	int arg0 = -1;
-	if (!PyArg_ParseTuple(args, "iii:SetPlayerMarkerForPlayer", &arg0, &arg1, &arg2))
+	if (!PyArg_ParseTuple(args, "iik:SetPlayerMarkerForPlayer", &arg0, &arg1, &arg2))
 	{
 		PyErr_Print();
 		return NULL;
@@ -2810,14 +2810,14 @@ static PyObject* pysamp_showplayernametagforplayer(PyObject *self, PyObject *arg
 static PyObject* pysamp_setplayermapicon(PyObject *self, PyObject *args)
 {
 	int arg7 = MAPICON_LOCAL;
-	int arg6 = -1;
+	unsigned long arg6 = -1;
 	int arg5 = -1;
 	float arg4 = -1.0f;
 	float arg3 = -1.0f;
 	float arg2 = -1.0f;
 	int arg1 = -1;
 	int arg0 = -1;
-	if (!PyArg_ParseTuple(args, "iifffii|i:SetPlayerMapIcon", &arg0, &arg1, &arg2, &arg3, &arg4, &arg5, &arg6, &arg7))
+	if (!PyArg_ParseTuple(args, "iifffik|i:SetPlayerMapIcon", &arg0, &arg1, &arg2, &arg3, &arg4, &arg5, &arg6, &arg7))
 	{
 		PyErr_Print();
 		return NULL;
@@ -4821,9 +4821,9 @@ static PyObject* pysamp_textdrawalignment(PyObject *self, PyObject *args)
 
 static PyObject* pysamp_textdrawcolor(PyObject *self, PyObject *args)
 {
-	int arg1 = -1;
+	unsigned long arg1 = -1;
 	int arg0 = -1;
-	if (!PyArg_ParseTuple(args, "ii:TextDrawColor", &arg0, &arg1))
+	if (!PyArg_ParseTuple(args, "ik:TextDrawColor", &arg0, &arg1))
 	{
 		PyErr_Print();
 		return NULL;
@@ -4851,9 +4851,9 @@ static PyObject* pysamp_textdrawusebox(PyObject *self, PyObject *args)
 
 static PyObject* pysamp_textdrawboxcolor(PyObject *self, PyObject *args)
 {
-	int arg1 = -1;
+	unsigned long arg1 = -1;
 	int arg0 = -1;
-	if (!PyArg_ParseTuple(args, "ii:TextDrawBoxColor", &arg0, &arg1))
+	if (!PyArg_ParseTuple(args, "ik:TextDrawBoxColor", &arg0, &arg1))
 	{
 		PyErr_Print();
 		return NULL;
@@ -4896,9 +4896,9 @@ static PyObject* pysamp_textdrawsetoutline(PyObject *self, PyObject *args)
 
 static PyObject* pysamp_textdrawbackgroundcolor(PyObject *self, PyObject *args)
 {
-	int arg1 = -1;
+	unsigned long arg1 = -1;
 	int arg0 = -1;
-	if (!PyArg_ParseTuple(args, "ii:TextDrawBackgroundColor", &arg0, &arg1))
+	if (!PyArg_ParseTuple(args, "ik:TextDrawBackgroundColor", &arg0, &arg1))
 	{
 		PyErr_Print();
 		return NULL;
@@ -5064,10 +5064,10 @@ static PyObject* pysamp_textdrawsetpreviewrot(PyObject *self, PyObject *args)
 
 static PyObject* pysamp_textdrawsetpreviewvehcol(PyObject *self, PyObject *args)
 {
-	int arg2 = -1;
-	int arg1 = -1;
+	unsigned long arg2 = -1;
+	unsigned long arg1 = -1;
 	int arg0 = -1;
-	if (!PyArg_ParseTuple(args, "iii:TextDrawSetPreviewVehCol", &arg0, &arg1, &arg2))
+	if (!PyArg_ParseTuple(args, "ikk:TextDrawSetPreviewVehCol", &arg0, &arg1, &arg2))
 	{
 		PyErr_Print();
 		return NULL;
@@ -5139,10 +5139,10 @@ static PyObject* pysamp_gangzonedestroy(PyObject *self, PyObject *args)
 
 static PyObject* pysamp_gangzoneshowforplayer(PyObject *self, PyObject *args)
 {
-	int arg2 = -1;
+	unsigned long arg2 = -1;
 	int arg1 = -1;
 	int arg0 = -1;
-	if (!PyArg_ParseTuple(args, "iii:GangZoneShowForPlayer", &arg0, &arg1, &arg2))
+	if (!PyArg_ParseTuple(args, "iik:GangZoneShowForPlayer", &arg0, &arg1, &arg2))
 	{
 		PyErr_Print();
 		return NULL;
@@ -5155,9 +5155,9 @@ static PyObject* pysamp_gangzoneshowforplayer(PyObject *self, PyObject *args)
 
 static PyObject* pysamp_gangzoneshowforall(PyObject *self, PyObject *args)
 {
-	int arg1 = -1;
+	unsigned long arg1 = -1;
 	int arg0 = -1;
-	if (!PyArg_ParseTuple(args, "ii:GangZoneShowForAll", &arg0, &arg1))
+	if (!PyArg_ParseTuple(args, "ik:GangZoneShowForAll", &arg0, &arg1))
 	{
 		PyErr_Print();
 		return NULL;
