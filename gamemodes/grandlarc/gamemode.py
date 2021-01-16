@@ -67,29 +67,29 @@ def OnGameModeInit():
     AddPlayerClass(271,1759.0189,-1898.1260,13.5622,266.4503,-1,-1,-1,-1,-1,-1)
     AddPlayerClass(272,1759.0189,-1898.1260,13.5622,266.4503,-1,-1,-1,-1,-1,-1)
 
-    total_vehicles_from_files == (
+    total_vehicles_from_files = (
     # SPECIAL:
-    LoadStaticVehiclesFromFile("vehicles/trains.txt")       + 
-    LoadStaticVehiclesFromFile("vehicles/pilots.txt")       + 
+    LoadStaticVehiclesFromFile("scriptfiles/vehicles/trains.txt")       + 
+    LoadStaticVehiclesFromFile("scriptfiles/vehicles/pilots.txt")       + 
     # Las Venturas
-    LoadStaticVehiclesFromFile("vehicles/lv_law.txt")       +  
-    LoadStaticVehiclesFromFile("vehicles/lv_airport.txt")   + 
-    LoadStaticVehiclesFromFile("vehicles/lv_gen.txt")       + 
+    LoadStaticVehiclesFromFile("scriptfiles/vehicles/lv_law.txt")       +  
+    LoadStaticVehiclesFromFile("scriptfiles/vehicles/lv_airport.txt")   + 
+    LoadStaticVehiclesFromFile("scriptfiles/vehicles/lv_gen.txt")       + 
     # San fierro
-    LoadStaticVehiclesFromFile("vehicles/sf_law.txt")       + 
-    LoadStaticVehiclesFromFile("vehicles/sf_airport.txt")   + 
-    LoadStaticVehiclesFromFile("vehicles/sf_gen.txt")       + 
+    LoadStaticVehiclesFromFile("scriptfiles/vehicles/sf_law.txt")       + 
+    LoadStaticVehiclesFromFile("scriptfiles/vehicles/sf_airport.txt")   + 
+    LoadStaticVehiclesFromFile("scriptfiles/vehicles/sf_gen.txt")       + 
     # Los Santos
-    LoadStaticVehiclesFromFile("vehicles/ls_law.txt")       +  
-    LoadStaticVehiclesFromFile("vehicles/ls_airport.txt")   + 
-    LoadStaticVehiclesFromFile("vehicles/ls_gen_inner.txt") + 
-    LoadStaticVehiclesFromFile("vehicles/ls_gen_outer.txt") + 
+    LoadStaticVehiclesFromFile("scriptfiles/vehicles/ls_law.txt")       +  
+    LoadStaticVehiclesFromFile("scriptfiles/vehicles/ls_airport.txt")   + 
+    LoadStaticVehiclesFromFile("scriptfiles/vehicles/ls_gen_inner.txt") + 
+    LoadStaticVehiclesFromFile("scriptfiles/vehicles/ls_gen_outer.txt") + 
     # Other areas
-    LoadStaticVehiclesFromFile("vehicles/whetstone.txt")    + 
-    LoadStaticVehiclesFromFile("vehicles/bone.txt")         + 
-    LoadStaticVehiclesFromFile("vehicles/flint.txt")        + 
-    LoadStaticVehiclesFromFile("vehicles/tierra.txt")       + 
-    LoadStaticVehiclesFromFile("vehicles/red_county.txt"))
+    LoadStaticVehiclesFromFile("scriptfiles/vehicles/whetstone.txt")    + 
+    LoadStaticVehiclesFromFile("scriptfiles/vehicles/bone.txt")         + 
+    LoadStaticVehiclesFromFile("scriptfiles/vehicles/flint.txt")        + 
+    LoadStaticVehiclesFromFile("scriptfiles/vehicles/tierra.txt")       + 
+    LoadStaticVehiclesFromFile("scriptfiles/vehicles/red_county.txt"))
 
 
     print("Total vehicles from files: {}".format(total_vehicles_from_files))

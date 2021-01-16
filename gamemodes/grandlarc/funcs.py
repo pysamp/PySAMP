@@ -3,7 +3,6 @@ import os
 
 def LoadStaticVehiclesFromFile(filename):
     vehicles_loaded = 0
-    print("Loc: {}".format(os.getcwd()))
     try:
         with open(filename, "r") as f:
             lines = f.readlines()
@@ -14,13 +13,14 @@ def LoadStaticVehiclesFromFile(filename):
                 if len(index) < 1:
                     continue
                 
-                vehicletype = index[0]
+                vehicletype = int(index[0])
                 SpawnX = float(index[1])
                 SpawnY = float(index[2]) 
                 SpawnZ = float(index[3])
                 SpawnRot = float(index[4])
-                Color1 = index[5]
-                Color2 = index[6]
+                Color1 = int(index[5])
+                Color2 = int(index[6].split(";")[0]) 
+                #There are comments at the end of the line so i am cutting that off
 
                 
                 if vehicletype < 400 or vehicletype > 611: 
@@ -37,9 +37,9 @@ def LoadStaticVehiclesFromFile(filename):
                 AddStaticVehicleEx(vehicletype,SpawnX,SpawnY,SpawnZ,SpawnRot,Color1,Color2,(30*60)) # respawn 30 minutes
                 vehicles_loaded +=1
             f.close()
-            print("Loaded {} vehicles from: {}".format(vehicles_loaded,filename))
+            print("Loaded {} vehicles from: {}".format(int(vehicles_loaded),filename))
     except IOError as error:
         print(error)
 
 
-    return vehicles_loaded
+    return int(vehicles_loaded)
