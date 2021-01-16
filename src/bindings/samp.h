@@ -82,10 +82,10 @@ static PyObject* pysamp_getactorvirtualworld(PyObject *self, PyObject *args)
 static PyObject* pysamp_applyactoranimation(PyObject *self, PyObject *args)
 {
 	int arg8 = -1;
-	bool arg7 = false;
-	bool arg6 = false;
-	bool arg5 = false;
-	bool arg4 = false;
+	int arg7 = 0;
+	int arg6 = 0;
+	int arg5 = 0;
+	int arg4 = 0;
 	float arg3 = -1.0f;
 	const char* arg2 = "";
 	const char* arg1 = "";
@@ -211,7 +211,7 @@ static PyObject* pysamp_getactorhealth(PyObject *self, PyObject *args)
 
 static PyObject* pysamp_setactorinvulnerable(PyObject *self, PyObject *args)
 {
-	bool arg1 = true;
+	int arg1 = true;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i|p:SetActorInvulnerable", &arg0, &arg1))
 	{
@@ -295,7 +295,7 @@ static PyObject* pysamp_attachobjecttovehicle(PyObject *self, PyObject *args)
 
 static PyObject* pysamp_attachobjecttoobject(PyObject *self, PyObject *args)
 {
-	bool arg8 = false;
+	int arg8 = false;
 	float arg7 = -1.0f;
 	float arg6 = -1.0f;
 	float arg5 = -1.0f;
@@ -858,7 +858,7 @@ static PyObject* pysamp_setobjectmaterialtext(PyObject *self, PyObject *args)
 	int arg9 = 0;
 	int arg8 = 0;
 	int arg7 = 0xFFFFFFFF;
-	bool arg6 = true;
+	int arg6 = true;
 	int arg5 = 24;
 	const char* arg4 = "Arial";
 	int arg3 = OBJECT_MATERIAL_SIZE_256x128;
@@ -884,7 +884,7 @@ static PyObject* pysamp_setplayerobjectmaterialtext(PyObject *self, PyObject *ar
 	int arg10 = 0;
 	int arg9 = 0;
 	int arg8 = 0xFFFFFFFF;
-	bool arg7 = true;
+	int arg7 = true;
 	int arg6 = 24;
 	const char* arg5 = "Arial";
 	int arg4 = OBJECT_MATERIAL_SIZE_256x128;
@@ -908,7 +908,7 @@ static PyObject* pysamp_setplayerobjectmaterialtext(PyObject *self, PyObject *ar
 
 static PyObject* pysamp_setobjectsdefaultcameracol(PyObject *self, PyObject *args)
 {
-	bool arg0 = false;
+	int arg0 = false;
 	if (!PyArg_ParseTuple(args, "p:SetObjectsDefaultCameraCol", &arg0))
 	{
 		PyErr_Print();
@@ -1620,7 +1620,7 @@ static PyObject* pysamp_getplayertime(PyObject *self, PyObject *args)
 
 static PyObject* pysamp_toggleplayerclock(PyObject *self, PyObject *args)
 {
-	bool arg1 = false;
+	int arg1 = false;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ip:TogglePlayerClock", &arg0, &arg1))
 	{
@@ -1769,7 +1769,7 @@ static PyObject* pysamp_playcrimereportforplayer(PyObject *self, PyObject *args)
 
 static PyObject* pysamp_playaudiostreamforplayer(PyObject *self, PyObject *args)
 {
-	bool arg6 = false;
+	int arg6 = false;
 	float arg5 = 50.0;
 	float arg4 = 0.0;
 	float arg3 = 0.0;
@@ -2073,7 +2073,7 @@ static PyObject* pysamp_playertextdrawcolor(PyObject *self, PyObject *args)
 
 static PyObject* pysamp_playertextdrawusebox(PyObject *self, PyObject *args)
 {
-	bool arg2 = false;
+	int arg2 = false;
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "iip:PlayerTextDrawUseBox", &arg0, &arg1, &arg2))
@@ -2169,7 +2169,7 @@ static PyObject* pysamp_playertextdrawfont(PyObject *self, PyObject *args)
 
 static PyObject* pysamp_playertextdrawsetproportional(PyObject *self, PyObject *args)
 {
-	bool arg2 = false;
+	int arg2 = false;
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "iip:PlayerTextDrawSetProportional", &arg0, &arg1, &arg2))
@@ -2185,7 +2185,7 @@ static PyObject* pysamp_playertextdrawsetproportional(PyObject *self, PyObject *
 
 static PyObject* pysamp_playertextdrawsetselectable(PyObject *self, PyObject *args)
 {
-	bool arg2 = false;
+	int arg2 = false;
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "iip:PlayerTextDrawSetSelectable", &arg0, &arg1, &arg2))
@@ -2542,7 +2542,7 @@ static PyObject* pysamp_removeplayerfromvehicle(PyObject *self, PyObject *args)
 
 static PyObject* pysamp_toggleplayercontrollable(PyObject *self, PyObject *args)
 {
-	bool arg1 = false;
+	int arg1 = false;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ip:TogglePlayerControllable", &arg0, &arg1))
 	{
@@ -2575,12 +2575,12 @@ static PyObject* pysamp_playerplaysound(PyObject *self, PyObject *args)
 
 static PyObject* pysamp_applyanimation(PyObject *self, PyObject *args)
 {
-	bool arg9 = false;
+	int arg9 = false;
 	int arg8 = -1;
-	bool arg7 = false;
-	bool arg6 = false;
-	bool arg5 = false;
-	bool arg4 = false;
+	int arg7 = false;
+	int arg6 = false;
+	int arg5 = false;
+	int arg4 = false;
 	float arg3 = -1.0f;
 	const char* arg2 = "";
 	const char* arg1 = "";
@@ -2601,7 +2601,7 @@ static PyObject* pysamp_applyanimation(PyObject *self, PyObject *args)
 
 static PyObject* pysamp_clearanimations(PyObject *self, PyObject *args)
 {
-	bool arg1 = false;
+	int arg1 = false;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i|p:ClearAnimations", &arg0, &arg1))
 	{
@@ -2676,7 +2676,7 @@ static PyObject* pysamp_setplayerspecialaction(PyObject *self, PyObject *args)
 
 static PyObject* pysamp_disableremotevehiclecollisions(PyObject *self, PyObject *args)
 {
-	bool arg1 = false;
+	int arg1 = false;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ip:DisableRemoteVehicleCollisions", &arg0, &arg1))
 	{
@@ -2793,7 +2793,7 @@ static PyObject* pysamp_setplayermarkerforplayer(PyObject *self, PyObject *args)
 
 static PyObject* pysamp_showplayernametagforplayer(PyObject *self, PyObject *args)
 {
-	bool arg2 = false;
+	int arg2 = false;
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "iip:ShowPlayerNameTagForPlayer", &arg0, &arg1, &arg2))
@@ -2845,7 +2845,7 @@ static PyObject* pysamp_removeplayermapicon(PyObject *self, PyObject *args)
 
 static PyObject* pysamp_allowplayerteleport(PyObject *self, PyObject *args)
 {
-	bool arg1 = false;
+	int arg1 = false;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ip:AllowPlayerTeleport", &arg0, &arg1))
 	{
@@ -2954,7 +2954,7 @@ static PyObject* pysamp_getplayercameramode(PyObject *self, PyObject *args)
 
 static PyObject* pysamp_enableplayercameratarget(PyObject *self, PyObject *args)
 {
-	bool arg1 = false;
+	int arg1 = false;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ip:EnablePlayerCameraTarget", &arg0, &arg1))
 	{
@@ -3220,7 +3220,7 @@ static PyObject* pysamp_getplayervirtualworld(PyObject *self, PyObject *args)
 
 static PyObject* pysamp_enablestuntbonusforplayer(PyObject *self, PyObject *args)
 {
-	bool arg1 = false;
+	int arg1 = false;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ip:EnableStuntBonusForPlayer", &arg0, &arg1))
 	{
@@ -3235,7 +3235,7 @@ static PyObject* pysamp_enablestuntbonusforplayer(PyObject *self, PyObject *args
 
 static PyObject* pysamp_enablestuntbonusforall(PyObject *self, PyObject *args)
 {
-	bool arg0 = false;
+	int arg0 = false;
 	if (!PyArg_ParseTuple(args, "p:EnableStuntBonusForAll", &arg0))
 	{
 		PyErr_Print();
@@ -3249,7 +3249,7 @@ static PyObject* pysamp_enablestuntbonusforall(PyObject *self, PyObject *args)
 
 static PyObject* pysamp_toggleplayerspectating(PyObject *self, PyObject *args)
 {
-	bool arg1 = false;
+	int arg1 = false;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ip:TogglePlayerSpectating", &arg0, &arg1))
 	{
@@ -3814,7 +3814,7 @@ static PyObject* pysamp_addstaticvehicle(PyObject *self, PyObject *args)
 
 static PyObject* pysamp_addstaticvehicleex(PyObject *self, PyObject *args)
 {
-	bool arg8 = false;
+	int arg8 = false;
 	int arg7 = -1;
 	int arg6 = -1;
 	int arg5 = -1;
@@ -3885,7 +3885,7 @@ static PyObject* pysamp_destroypickup(PyObject *self, PyObject *args)
 
 static PyObject* pysamp_shownametags(PyObject *self, PyObject *args)
 {
-	bool arg0 = false;
+	long arg0 = 0;
 	if (!PyArg_ParseTuple(args, "p:ShowNameTags", &arg0))
 	{
 		PyErr_Print();
@@ -3956,7 +3956,7 @@ static PyObject* pysamp_getweaponname(PyObject *self, PyObject *args)
 
 static PyObject* pysamp_enabletirepopping(PyObject *self, PyObject *args)
 {
-	bool arg0 = false;
+	int arg0 = false;
 	if (!PyArg_ParseTuple(args, "p:EnableTirePopping", &arg0))
 	{
 		PyErr_Print();
@@ -3983,7 +3983,7 @@ static PyObject* pysamp_enablevehiclefriendlyfire(PyObject *self, PyObject *args
 
 static PyObject* pysamp_allowinteriorweapons(PyObject *self, PyObject *args)
 {
-	bool arg0 = false;
+	int arg0 = false;
 	if (!PyArg_ParseTuple(args, "p:AllowInteriorWeapons", &arg0))
 	{
 		PyErr_Print();
@@ -4037,7 +4037,7 @@ static PyObject* pysamp_getgravity(PyObject *self, PyObject *args)
 
 static PyObject* pysamp_allowadminteleport(PyObject *self, PyObject *args)
 {
-	bool arg0 = false;
+	int arg0 = false;
 	if (!PyArg_ParseTuple(args, "p:AllowAdminTeleport", &arg0))
 	{
 		PyErr_Print();
@@ -4083,7 +4083,7 @@ static PyObject* pysamp_createexplosion(PyObject *self, PyObject *args)
 
 static PyObject* pysamp_enablezonenames(PyObject *self, PyObject *args)
 {
-	bool arg0 = false;
+	int arg0 = false;
 	if (!PyArg_ParseTuple(args, "p:EnableZoneNames", &arg0))
 	{
 		PyErr_Print();
@@ -4836,7 +4836,7 @@ static PyObject* pysamp_textdrawcolor(PyObject *self, PyObject *args)
 
 static PyObject* pysamp_textdrawusebox(PyObject *self, PyObject *args)
 {
-	bool arg1 = false;
+	int arg1 = false;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ip:TextDrawUseBox", &arg0, &arg1))
 	{
@@ -4926,7 +4926,7 @@ static PyObject* pysamp_textdrawfont(PyObject *self, PyObject *args)
 
 static PyObject* pysamp_textdrawsetproportional(PyObject *self, PyObject *args)
 {
-	bool arg1 = false;
+	int arg1 = false;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ip:TextDrawSetProportional", &arg0, &arg1))
 	{
@@ -4941,7 +4941,7 @@ static PyObject* pysamp_textdrawsetproportional(PyObject *self, PyObject *args)
 
 static PyObject* pysamp_textdrawsetselectable(PyObject *self, PyObject *args)
 {
-	bool arg1 = false;
+	int arg1 = false;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ip:TextDrawSetSelectable", &arg0, &arg1))
 	{
@@ -5329,7 +5329,7 @@ static PyObject* pysamp_getvehicledistancefrompoint(PyObject *self, PyObject *ar
 
 static PyObject* pysamp_createvehicle(PyObject *self, PyObject *args)
 {
-	bool arg8 = false;
+	int arg8 = false;
 	int arg7 = -1;
 	int arg6 = -1;
 	int arg5 = -1;
