@@ -13,56 +13,111 @@ const wchar_t *GetWC(const char *c)
 
 PyGamemode::PyGamemode(const char * path)
 {
+	sampgdk::logprintf("PyGamemode::PyGamemode(%s)", path);
 	SAMPConsts::create();
 	if (PyImport_AppendInittab("pysamp", &PyInit_samp) == -1) {
 		sampgdk::logprintf("Couldn't load module.");
 		return;
 	}
-#ifndef WIN32
-	dlopen("libpython3.5m.so", RTLD_LAZY | RTLD_GLOBAL);
-#endif
 
 	Py_Initialize();
 	char cCurrentPath[FILENAME_MAX];
 	GetCurrentDir(cCurrentPath, sizeof(cCurrentPath));
 	char* absolute = strcat(cCurrentPath, path);
-	
+
 	PyObject* sysPath = PySys_GetObject("path");
 
 	if(!sysPath)
 		sampgdk::logprintf("Setting python workspace failed.");
 
 	PyList_Append(sysPath, PyUnicode_FromString(absolute));
-
-	pName = PyUnicode_DecodeFSDefault("gamemode");
-	pModule = PyImport_Import(pName);
-	if (!pModule) 
-	{
-		PyErr_Print();
-		sampgdk::logprintf("PyGamemode::PyGamemode(%s) failed!", "gamemode.py");
-	}
-
 }
 
 PyGamemode::~PyGamemode()
 {
-	delete this->pDict, this->pModule, this->pName;
+	PyGamemode::unload();
 }
 
-bool PyGamemode::callback(const char * name, PyObject * pArgs)
+void PyGamemode::load()
 {
-	PyGILState_STATE gstate;
-	gstate = PyGILState_Ensure();
+	pName = PyUnicode_DecodeFSDefault("gamemode");
+	pModule = PyImport_Import(pName);
+	Py_XINCREF(pModule);
+	Py_XDECREF (pName);
+	if (!pModule) 
+	{
+		PyErr_Print();
+		sampgdk::logprintf("PyGamemode::PyGamemode(%s) failed!", "gamemode.py");
+	} else {
+		loaded = true;
+	}
+	disabled = false;
+}
 
+void PyGamemode::reload()
+{
+	if (pModule)
+	{
+		sampgdk::logprintf("PyGamemode::reload()-begin");
+		PyObject* pNewModule = PyImport_ReloadModule(pModule);
+		if (!pNewModule) 
+		{
+			PyErr_Print();
+			sampgdk::logprintf("PyGamemode::PyGamemode(%s) failed!", "gamemode.py");
+		} else {
+			Py_XDECREF(pModule);
+			Py_XINCREF(pNewModule);
+			pModule = pNewModule;
+		}
+		sampgdk::logprintf("PyGamemode::reload()-end");
+		disabled = false;
+	}
+}
+
+void PyGamemode::unload()
+{
+	if (pModule) 
+	{
+		Py_XDECREF(pModule);
+		Py_FinalizeEx();
+	}
+	loaded = false;
+}
+
+void PyGamemode::disable()
+{
+	disabled = true;
+}
+
+bool PyGamemode::isLoaded()
+{
+	return PyGamemode::loaded;
+}
+bool PyGamemode::isEnabled()
+{
+	return PyGamemode::isLoaded() && !PyGamemode::disabled;
+}
+
+bool PyGamemode::callback(const char * name, PyObject * pArgs, bool obtainLock)
+{
+	bool ret = false;
 	// if Module does not exists don't forward callback to python function
-	if (!pModule) {
-		return false;
+	if (disabled || !pModule) {
+		return ret;
+	}
+
+	PyGILState_STATE gstate;
+
+	if (obtainLock)
+	{
+		gstate = PyGILState_Ensure();
 	}
 
 	PyObject* pFunc = PyObject_GetAttrString(pModule, name);
 
-	if(pFunc)
+	if(pFunc) {
 		Py_INCREF(pFunc);
+	}
 	
 	if (pArgs) {
 		Py_INCREF(pArgs);
@@ -78,7 +133,7 @@ bool PyGamemode::callback(const char * name, PyObject * pArgs)
 			PyErr_Print();
 			//PyErr_Clear();
 
-		bool ret = false;
+		ret = false;
 		if (pValue) 
 		{
 			int tru = PyObject_IsTrue(pValue);
@@ -88,14 +143,16 @@ bool PyGamemode::callback(const char * name, PyObject * pArgs)
 				ret = tru == 1;
 		}
 
-		//sampgdk::logprintf("%s called with return %i", name, ret);
-
-		Py_XDECREF(pValue);
+		//Py_XDECREF(pValue);
 		Py_XDECREF(pFunc);
 		if (pArgs)
 			Py_XDECREF(pArgs);
-		return ret;
 	}	
 	
-	return false;
+	if (obtainLock)
+	{
+		PyGILState_Release(gstate);
+	}
+
+	return ret;
 }

@@ -6,7 +6,15 @@ def OnGameModeInit():
     
 def OnGameModeExit():
     return True
-    
+
+def OnPyUnload():
+    OnGameModeExit()
+    return True
+
+def OnPyReload():
+    OnGameModeInit()
+    return True
+
 def OnPlayerConnect(playerid):
     SendClientMessage(playerid, 0xFF000000, "Hello %s from Python" % GetPlayerName(playerid, 32))
     return True
