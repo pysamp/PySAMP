@@ -5257,6 +5257,162 @@ static PyObject* pysamp_gangzonestopflashforall(PyObject *self, PyObject *args)
 	Py_RETURN_FALSE;
 }
 
+
+static PyObject* pysamp_create3dtextlabel(PyObject *self, PyObject *args)
+{
+	const char* text;
+	unsigned long color = -1;
+	float x = 0.0;
+	float y = 0.0;
+	float z = 0.0;
+	float drawDistance = 0.0;
+	int virtualworld = -1;
+	int testLOS = 0;
+
+	if (!PyArg_ParseTuple(args, "ykffffi|i:Create3DTextLabel", &text, &color, &x, &y, &z, &drawDistance, &virtualworld, &testLOS))
+	{
+		PyErr_Print();
+		return NULL;
+	}
+
+	int ret = Create3DTextLabel(text, color, x, y, z, drawDistance, virtualworld, testLOS);
+	PyObject* out = Py_BuildValue("i", ret);
+	return out;
+}
+
+static PyObject* pysamp_delete3dtextlabel(PyObject *self, PyObject *args)
+{
+	int id = -1;
+	if (!PyArg_ParseTuple(args, "i", &id))
+	{
+		PyErr_Print();
+		return NULL;
+	}
+	bool ret = Delete3DTextLabel(id);
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
+}
+
+static PyObject* pysamp_attach3dtextlabeltoplayer(PyObject *self, PyObject *args)
+{
+	int id;
+	int playerid;
+	float offsetX;
+	float offsetY;
+	float offsetZ;
+
+	if (!PyArg_ParseTuple(args, "iifff", &id, &playerid, &offsetX, &offsetY, &offsetZ))
+	{
+		PyErr_Print();
+		return NULL;
+	}
+
+	bool ret = Attach3DTextLabelToPlayer(id, playerid, offsetX, offsetY, offsetZ);
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
+}
+
+static PyObject* pysamp_attach3dtextlabeltovehicle(PyObject *self, PyObject *args)
+{
+	int id;
+	int vehicleid;
+	float offsetX;
+	float offsetY;
+	float offsetZ;
+
+	if (!PyArg_ParseTuple(args, "iifff", &id, &vehicleid, &offsetX, &offsetY, &offsetZ))
+	{
+		PyErr_Print();
+		return NULL;
+	}
+
+	bool ret = Attach3DTextLabelToVehicle(id, vehicleid, offsetX, offsetY, offsetZ);
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
+}
+
+static PyObject* pysamp_update3dtextlabeltext(PyObject *self, PyObject *args)
+{
+	int id;
+	unsigned long color;
+	const char* text;
+
+	if (!PyArg_ParseTuple(args, "iky", &id, &color, &text))
+	{
+		PyErr_Print();
+		return NULL;
+	}
+
+	bool ret = Update3DTextLabelText(id, color, text);
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
+}
+
+static PyObject* pysamp_createplayer3dtextlabel(PyObject *self, PyObject *args)
+{
+	int playerid;
+	const char* text;
+	unsigned long color;
+	float x;
+	float y;
+	float z;
+	float drawDistance;
+	int attachedplayer = 0xFFFF;
+	int attachedvehicle = 0xFFFF;
+	int testLOS = 0;
+
+	if (!PyArg_ParseTuple(args, "iykffff|iip", &playerid, &text, &color, &x, &y, &z, &drawDistance, &attachedplayer, &attachedvehicle, &testLOS))
+	{
+		PyErr_Print();
+		return NULL;
+	}
+
+	int ret = CreatePlayer3DTextLabel(playerid, text, color, x, y, z, drawDistance, attachedplayer, attachedvehicle, testLOS);
+	PyObject* out = Py_BuildValue("i", ret);
+	return out;
+}
+
+static PyObject* pysamp_deleteplayer3dtextlabel(PyObject *self, PyObject *args)
+{
+	int playerid;
+	int id;
+
+	if (!PyArg_ParseTuple(args, "ii", &playerid, &id))
+	{
+		PyErr_Print();
+		return NULL;
+	}
+
+	bool ret = DeletePlayer3DTextLabel(playerid, id);
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
+}
+
+static PyObject* pysamp_updateplayer3dtextlabeltext(PyObject *self, PyObject *args)
+{
+	int playerid;
+	int id;
+	unsigned long color;
+	const char* text;
+
+	if (!PyArg_ParseTuple(args, "iiky", &playerid, &id, &color, &text))
+	{
+		PyErr_Print();
+		return NULL;
+	}
+
+	bool ret = UpdatePlayer3DTextLabelText(playerid, id, color, text);
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
+}
+
+
 static PyObject* pysamp_showplayerdialog(PyObject *self, PyObject *args)
 {
 	const char* arg6 = "";
