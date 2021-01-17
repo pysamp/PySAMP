@@ -6525,6 +6525,14 @@ static PyMethodDef PySAMPMethods[] = {
 	{ "GetVehicleVirtualWorld", pysamp_getvehiclevirtualworld, METH_VARARGS, NULL },
 	{ "GetVehicleModelInfo", pysamp_getvehiclemodelinfo, METH_VARARGS, NULL },
 	{ "Const", pysamp_const, METH_VARARGS, NULL },
+	{ "Create3DTextLabel", pysamp_create3dtextlabel, METH_VARARGS, NULL },
+	{ "Delete3DTextLabel", pysamp_delete3dtextlabel, METH_VARARGS, NULL },
+	{ "Attach3DTextLabelToPlayer", pysamp_attach3dtextlabeltoplayer, METH_VARARGS, NULL },
+	{ "Attach3DTextLabelToVehicle", pysamp_attach3dtextlabeltovehicle, METH_VARARGS, NULL },
+	{ "Update3DTextLabelText", pysamp_update3dtextlabeltext, METH_VARARGS, NULL },
+	{ "CreatePlayer3DTextLabel", pysamp_createplayer3dtextlabel, METH_VARARGS, NULL },
+	{ "DeletePlayer3DTextLabel", pysamp_deleteplayer3dtextlabel, METH_VARARGS, NULL },
+	{ "UpdatePlayer3DTextLabelText", pysamp_updateplayer3dtextlabeltext, METH_VARARGS, NULL },
 	{ NULL, NULL, 0, NULL }
 };
 
