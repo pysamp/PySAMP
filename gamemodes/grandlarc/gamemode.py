@@ -109,7 +109,7 @@ def OnPlayerConnect(playerid):
 def OnPlayerDisconnect(playerid, reason):
     for player in players:
         if player.playerid == playerid:
-            players.pop(player)
+            players.remove(player)
             break
     return True
     
@@ -117,7 +117,6 @@ def OnPlayerSpawn(playerid):
     if IsPlayerNPC(playerid):
         return True
     randspawn = 0
-
     SetPlayerInterior(playerid, 0)
     TogglePlayerClock(playerid, 0)
     ResetPlayerMoney(playerid)
@@ -130,7 +129,6 @@ def OnPlayerSpawn(playerid):
     
             if player.city_selection == CITY_LOS_SANTOS:
                 randspawn = random.randint(0, len(gRandomSpawns_LosSantos))
-
                 SetPlayerPos(playerid, 
                     gRandomSpawns_LosSantos[randspawn[0]], 
                     gRandomSpawns_LosSantos[randspawn[1]], 
@@ -150,7 +148,6 @@ def OnPlayerSpawn(playerid):
                     gRandomSpawns_LasVenturas[randspawn[1]], 
                     gRandomSpawns_LasVenturas[randspawn[2]]
                 )
-
     SetPlayerSkillLevel(playerid,WEAPONSKILL_PISTOL,200)
     SetPlayerSkillLevel(playerid,WEAPONSKILL_PISTOL_SILENCED,200)
     SetPlayerSkillLevel(playerid,WEAPONSKILL_DESERT_EAGLE,200)
@@ -241,7 +238,9 @@ def ClassSel_SetupSelectedCity(playerid):
 
     for player in players:
         if player.playerid == playerid:
-
+            if player.city_selection == -1:
+                player.city_selection = CITY_LOS_SANTOS
+            
             if player.city_selection == CITY_LOS_SANTOS:
                 SetPlayerInterior(playerid,0)
                 SetPlayerCameraPos(playerid,1630.6136,-2286.0298,110.0)
@@ -260,7 +259,7 @@ def ClassSel_SetupSelectedCity(playerid):
                 TextDrawShowForPlayer(playerid,txtSanFierro)
                 TextDrawHideForPlayer(playerid,txtLasVenturas)
 
-            else: # slight modification - let us handle any value.
+            elif player.city_selection == CITY_LAS_VENTURAS:
                 SetPlayerInterior(playerid,0)
                 SetPlayerCameraPos(playerid,1310.6155,1675.9182,110.7390)
                 SetPlayerCameraLookAt(playerid,2285.2944,1919.3756,68.2275)
@@ -315,39 +314,25 @@ def ClassSel_HandleCitySelection(playerid):
                 TextDrawHideForPlayer(playerid,txtLosSantos)
                 TextDrawHideForPlayer(playerid,txtSanFierro)
                 TextDrawHideForPlayer(playerid,txtLasVenturas)
-                TogglePlayerSpectating(playerid,0)
-            
+                TogglePlayerSpectating(playerid,False)
             if lr > 0 :
                 ClassSel_SwitchToNextCity(playerid)
-    
             elif lr < 0 :
                 ClassSel_SwitchToPreviousCity(playerid)
-    
-
-
-
-    
-def OnVehicleSpawn(vehicleid):
     return True
-    
-def OnVehicleDeath(vehicleid, killerid):
-    return True
-    
+
 def OnPlayerText(playerid, text):
-    text = decode(text)
     return True
-    
-def OnPlayerCommandText(playerid, cmdtext):
-    cmdtext = decode(cmdtext)
-    return False
-    
+
 def OnPlayerRequestClass(playerid, classid):
     if IsPlayerNPC(playerid):
         return True
+
     for player in players:
         if player.playerid == playerid:
             if player.has_city_selected == True:
                 ClassSel_SetupCharSelection(playerid)
+                return True
             else:
                 if GetPlayerState(playerid) != PLAYER_STATE_SPECTATING:
                     TogglePlayerSpectating(playerid, 1)
@@ -355,166 +340,25 @@ def OnPlayerRequestClass(playerid, classid):
                     player.city_selection = -1
     return True
     
-def OnPlayerEnterVehicle(playerid, vehicleid, ispassenger):
-    return True
-    
-def OnPlayerExitVehicle(playerid, vehicleid):
-    return True
-    
-def OnPlayerStateChange(playerid, newstate, oldstate):
-    return True
-    
-def OnPlayerEnterCheckpoint(playerid):
-    return True
-    
-def OnPlayerLeaveCheckpoint(playerid):
-    return True
-    
-def OnPlayerEnterRaceCheckpoint(playerid):
-    return True
-    
-def OnPlayerLeaveRaceCheckpoint(playerid):
-    return True
-    
-def OnRconCommand(cmd):
-    cmd = decode(cmd)
-    return False
-    
-def OnPlayerRequestSpawn(playerid):
-    return True
-    
-def OnObjectMoved(objectid):
-    return True
-    
-def OnPlayerObjectMoved(playerid, objectid):
-    return True
-    
-def OnPlayerPickUpPickup(playerid, pickupid):
-    return True
-    
-def OnVehicleMod(playerid, vehicleid, componentid):
-    return True
-    
-def OnEnterExitModShop(playerid, enterexit, interiorid):
-    return True
-    
-def OnVehiclePaintjob(playerid, vehicleid, paintjobid):
-    return True
-    
-def OnVehicleRespray(playerid, vehicleid, color1, color2):
-    return True
-    
-def OnVehicleDamageStatusUpdate(vehicleid, playerid):
-    return False
-    
-def OnUnoccupiedVehicleUpdate(vehicleid, playerid, passenger_seat, new_x, new_y, new_z, vel_x, vel_y, vel_z):
-    return True
-    
-def OnPlayerSelectedMenuRow(playerid, row):
-    return True
-    
-def OnPlayerExitedMenu(playerid):
-    return True
-    
-def OnPlayerInteriorChange(playerid, newinteriorid, oldinteriorid):
-    return True
-    
-def OnPlayerKeyStateChange(playerid, newkeys, oldkeys):
-    return True
-    
-def OnRconLoginAttempt(ip, password, success):
-    password = decode(password)
-    return True
+
     
 def OnPlayerUpdate(playerid):
     if IsPlayerConnected(playerid) == False:
         return False
+    if IsPlayerNPC(playerid):
+        return True
     for player in players:
         if player.playerid == playerid:
             if ( player.has_city_selected == False and
             GetPlayerState(playerid) == PLAYER_STATE_SPECTATING ):
                 ClassSel_HandleCitySelection(playerid)
     
-    if GetPlayerInterior(playerid) != 0 and GetPlayerWeapon(playerid) != 0:
-        SetPlayerArmedWeapon(playerid, 0) # Fists
-        return False #No syncing until they change their weapon
+    # if GetPlayerInterior(playerid) != 0 and GetPlayerWeapon(playerid) != 0:
+    #     SetPlayerArmedWeapon(playerid, 0) # Fists
+    #     return False #No syncing until they change their weapon
     
-    if GetPlayerWeapon(playerid) == 38 or GetPlayerSpecialAction(playerid) == 2: #minigun and jetpack not allowed
-        Kick(playerid)
-        return False
+    # if GetPlayerWeapon(playerid) == 38 or GetPlayerSpecialAction(playerid) == 2: #minigun and jetpack not allowed
+    #     Kick(playerid)
+    #     return False
     return True
     
-def OnPlayerStreamIn(playerid, forplayerid):
-    return True
-    
-def OnPlayerStreamOut(playerid, forplayerid):
-    return True
-    
-def OnVehicleStreamIn(vehicleid, forplayerid):
-        return True
-        
-def OnVehicleStreamOut(vehicleid, forplayerid):
-    return True
-    
-def OnActorStreamIn(actorid, forplayerid):
-    return True
-    
-def OnActorStreamOut(actorid, forplayerid):
-    return True
-    
-def OnDialogResponse(playerid, dialogid, response, listitem, inputtext):
-    return False
-    
-def OnPlayerTakeDamage(playerid, issuerid, amount, weaponid, bodypart):
-    return False
-    
-def OnPlayerGiveDamage(playerid, damagedid, amount, weaponid, bodypart):
-    return False
-    
-def OnPlayerGiveDamageActor(playerid, damaged_actorid, amount, weaponid, bodypart):
-    return False
-    
-def OnPlayerClickMap(playerid, fX, fY, fZ):
-    return False
-    
-def OnPlayerClickTextDraw(playerid, clickedid):
-    return False
-    
-def OnPlayerClickPlayerTextDraw(playerid, playertextid):
-    return False
-    
-def OnIncomingConnection(playerid, ip_address, port):
-    ip_address = decode(ip_address)
-    return False
-    
-def OnTrailerUpdate(playerid, vehicleid):
-    return True
-    
-def OnVehicleSirenStateChange(playerid, vehicleid, newstate):
-    return True
-    
-def OnPlayerClickPlayer(playerid, clickedplayerid, source):
-    return False
-    
-def OnPlayerEditObject(playerid, playerobject, objectid, response, fX, fY, fZ, fRotX, fRotY, fRotZ):
-    return False
-    
-def OnPlayerEditAttachedObject(playerid, response, index, modelid, boneid, fOffsetX, fOffsetY, fOffsetZ, fRotX, fRotY, fRotZ, fScaleX, fScaleY, fScaleZ):
-    return False
-    
-def OnPlayerSelectObject(playerid, type, objectid, modelid, fX, fY, fZ):
-    return False
-    
-def OnPlayerWeaponShot(playerid, weaponid, hittype, hitid, fX, fY, fZ):
-    return False
-
-def OnProcessTick():
-    return None
-
-""" you can initialize your own additional threads here, note that OnThreadingInit isn't supposed to be a worker thread but gives you the ability to start them. Otherwise it would block the plugin initialization """
-def OnThreadingInit():
-    return None
-
-""" your initialized threads must be shutdown during this callbac """
-def OnThreadingStopSignal():
-    return None
