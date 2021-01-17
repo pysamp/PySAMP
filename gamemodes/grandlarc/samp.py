@@ -1201,43 +1201,26 @@ def IsValidActor(actorid):
 def HTTP(index, type, url, data, callback):
     return pysamp.HTTP(index, type, encode(url), encode(data), encode(callback))
 
+def Create3DTextLabel(text, color, x, y, z, drawDistance, virtualworld, testLOS=False):
+    return pysamp.Create3DTextLabel(text, color, x, y, z, drawDistance, virtualworld, testLOS)
 
-MAX_PLAYER_NAME			= 24
-MAX_PLAYERS				= 1000
-MAX_VEHICLES			= 2000
-MAX_ACTORS				= 1000
-INVALID_PLAYER_ID		= 0xFFFF
-INVALID_VEHICLE_ID		= 0xFFFF
-INVALID_ACTOR_ID		= 0xFFFF
-NO_TEAM					= 255
-MAX_OBJECTS				= 1000
-INVALID_OBJECT_ID		= 0xFFFF
-MAX_GANG_ZONES			= 1024
-MAX_TEXT_DRAWS			= 2048
-MAX_PLAYER_TEXT_DRAWS	= 256
-MAX_MENUS				= 128
-MAX_3DTEXT_GLOBAL		= 1024
-MAX_3DTEXT_PLAYER		= 1024
-MAX_PICKUPS				= 4096
-INVALID_MENU			= 0xFF
-INVALID_TEXT_DRAW		= 0xFFFF
-INVALID_GANG_ZONE		= -1
-INVALID_3DTEXT_ID		= 0xFFFF
-WEAPONSKILL_PISTOL = 0
-WEAPONSKILL_PISTOL_SILENCED = 1
-WEAPONSKILL_DESERT_EAGLE = 2
-WEAPONSKILL_SHOTGUN = 3
-WEAPONSKILL_SAWNOFF_SHOTGUN = 4
-WEAPONSKILL_SPAS12_SHOTGUN = 5
-WEAPONSKILL_MICRO_UZI = 6
-WEAPONSKILL_MP5 = 7
-WEAPONSKILL_AK47 = 8
-WEAPONSKILL_M4 = 9
-WEAPONSKILL_SNIPERRIFLE = 10
-PLAYER_STATE_NONE				=		0
-PLAYER_STATE_ONFOOT				=		1
-PLAYER_STATE_DRIVER				=		2
-PLAYER_STATE_PASSENGER			=		3
-PLAYER_STATE_WASTED				=		7
-PLAYER_STATE_SPAWNED			=		8
-PLAYER_STATE_SPECTATING			=		9
+def Delete3DTextLabel(id):
+    return pysamp.Delete3DTextLabel(id)
+
+def Attach3DTextLabelToPlayer(id, playerid, offsetX, offsetY, offsetZ):
+    return pysamp.Attach3DTextLabelToPlayer(id, playerid, offsetX, offsetY, offsetZ)
+
+def Attach3DTextLabelToVehicle(id, vehicleid, offsetX, offsetY, offsetZ):
+    return pysamp.Attach3DTextLabelToVehicle(id, vehicleid, offsetX, offsetY, offsetZ)
+
+def Update3DTextLabelText(id, color, text):
+    return pysamp.Update3DTextLabelText(id, color, text)
+
+def CreatePlayer3DTextLabel(playerid, text, color, x, y, z, drawDistance, attachedplayer=Const('INVALID_PLAYER_ID'), attachedvehicle=Const('INVALID_VEHICLE_ID'), testLOS=False):
+    return pysamp.CreatePlayer3DTextLabel(playerid, text, color, x, y, z, drawDistance, attachedplayer, attachedvehicle, testLOS)
+
+def DeletePlayer3DTextLabel(playerid, id):
+    return pysamp.DeletePlayer3DTextLabel(playerid, id)
+
+def UpdatePlayer3DTextLabelText(playerid, id, color, text):
+    return pysamp.UpdatePlayer3DTextLabelText(playerid, id, color, text)

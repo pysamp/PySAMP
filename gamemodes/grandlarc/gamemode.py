@@ -148,17 +148,17 @@ def OnPlayerSpawn(playerid):
                     gRandomSpawns_LasVenturas[randspawn[1]], 
                     gRandomSpawns_LasVenturas[randspawn[2]]
                 )
-    SetPlayerSkillLevel(playerid,WEAPONSKILL_PISTOL,200)
-    SetPlayerSkillLevel(playerid,WEAPONSKILL_PISTOL_SILENCED,200)
-    SetPlayerSkillLevel(playerid,WEAPONSKILL_DESERT_EAGLE,200)
-    SetPlayerSkillLevel(playerid,WEAPONSKILL_SHOTGUN,200)
-    SetPlayerSkillLevel(playerid,WEAPONSKILL_SAWNOFF_SHOTGUN,200)
-    SetPlayerSkillLevel(playerid,WEAPONSKILL_SPAS12_SHOTGUN,200)
-    SetPlayerSkillLevel(playerid,WEAPONSKILL_MICRO_UZI,200)
-    SetPlayerSkillLevel(playerid,WEAPONSKILL_MP5,200)
-    SetPlayerSkillLevel(playerid,WEAPONSKILL_AK47,200)
-    SetPlayerSkillLevel(playerid,WEAPONSKILL_M4,200)
-    SetPlayerSkillLevel(playerid,WEAPONSKILL_SNIPERRIFLE,200)
+    SetPlayerSkillLevel(playerid,Const("WEAPONSKILL_PISTOL"),200)
+    SetPlayerSkillLevel(playerid,Const("WEAPONSKILL_PISTOL_SILENCED"),200)
+    SetPlayerSkillLevel(playerid,Const("WEAPONSKILL_DESERT_EAGLE"),200)
+    SetPlayerSkillLevel(playerid,Const("WEAPONSKILL_SHOTGUN"),200)
+    SetPlayerSkillLevel(playerid,Const("WEAPONSKILL_SAWNOFF_SHOTGUN"),200)
+    SetPlayerSkillLevel(playerid,Const("WEAPONSKILL_SPAS12_SHOTGUN"),200)
+    SetPlayerSkillLevel(playerid,Const("WEAPONSKILL_MICRO_UZI"),200)
+    SetPlayerSkillLevel(playerid,Const("WEAPONSKILL_MP5"),200)
+    SetPlayerSkillLevel(playerid,Const("WEAPONSKILL_AK47"),200)
+    SetPlayerSkillLevel(playerid,Const("WEAPONSKILL_M4"),200)
+    SetPlayerSkillLevel(playerid,Const("WEAPONSKILL_SNIPERRIFLE"),200)
     
     GivePlayerWeapon(playerid,22,100) # Colt 45            
     return True
@@ -173,7 +173,7 @@ def OnPlayerDeath(playerid, killerid, reason):
 
 # Used to init textdraws of city names
 def ClassSel_InitCityNameText(txtInit):
-
+    global txtClassSelHelper
     TextDrawUseBox(txtInit, 0)
     TextDrawLetterSize(txtInit,1.25,3.0)
     TextDrawFont(txtInit, 0)
@@ -181,10 +181,13 @@ def ClassSel_InitCityNameText(txtInit):
     TextDrawSetOutline(txtInit,1)
     TextDrawColor(txtInit,4008636159)
     TextDrawBackgroundColor(txtClassSelHelper,255)
-    pass
+    return
 
 def ClassSel_InitTextDraws():
-
+    global txtLosSantos
+    global txtSanFierro
+    global txtLasVenturas
+    global txtClassSelHelper
     # Init our observer helper text display
     txtLosSantos = TextDrawCreate(10.0, 380.0, "Los Santos")
     ClassSel_InitCityNameText(txtLosSantos)
@@ -205,7 +208,7 @@ def ClassSel_InitTextDraws():
     TextDrawSetOutline(txtClassSelHelper,1)
     TextDrawBackgroundColor(txtClassSelHelper,255)
     TextDrawColor(txtClassSelHelper,4294967295)
-    pass
+    return
 
 
 def ClassSel_SetupCharSelection(playerid):
@@ -232,9 +235,12 @@ def ClassSel_SetupCharSelection(playerid):
                 SetPlayerCameraPos(playerid,352.9164,194.5702,1014.1875)
                 SetPlayerCameraLookAt(playerid,349.0453,193.2271,1014.1797)
             break
-    pass
+    return
 
 def ClassSel_SetupSelectedCity(playerid):
+    global txtLosSantos
+    global txtSanFierro
+    global txtLasVenturas
 
     for player in players:
         if player.playerid == playerid:
@@ -268,7 +274,7 @@ def ClassSel_SetupSelectedCity(playerid):
                 TextDrawHideForPlayer(playerid,txtSanFierro)
                 TextDrawShowForPlayer(playerid,txtLasVenturas)
             break
-    pass
+    return
 
 def ClassSel_SwitchToNextCity(playerid):
 
@@ -282,7 +288,7 @@ def ClassSel_SwitchToNextCity(playerid):
     
     PlayerPlaySound(playerid,1052,0.0,0.0,0.0)
     ClassSel_SetupSelectedCity(playerid)
-    pass
+    return
 
 def ClassSel_SwitchToPreviousCity(playerid):
     for player in players:
@@ -295,19 +301,22 @@ def ClassSel_SwitchToPreviousCity(playerid):
 
     PlayerPlaySound(playerid,1053,0.0,0.0,0.0)
     ClassSel_SetupSelectedCity(playerid)
-    pass
+    return
 
 def ClassSel_HandleCitySelection(playerid):
-
+    global txtLosSantos
+    global txtSanFierro
+    global txtLasVenturas
+    global txtClassSelHelper
     (Keys, ud, lr) = GetPlayerKeys(playerid)
     for player in players:
         if player.playerid == playerid:
-            if player.city_selection == -1 : 
-                ClassSel_SwitchToNextCity(playerid)
-                pass
             # only allow selection every ~500 ms
             if GetTickCount() - player.last_city_selection_tick < 500:
-                pass
+                break
+            if player.city_selection == -1 : 
+                ClassSel_SwitchToNextCity(playerid)
+                break
             if Keys & 4 :
                 player.has_city_selected = True
                 TextDrawHideForPlayer(playerid,txtClassSelHelper)
@@ -319,6 +328,7 @@ def ClassSel_HandleCitySelection(playerid):
                 ClassSel_SwitchToNextCity(playerid)
             elif lr < 0 :
                 ClassSel_SwitchToPreviousCity(playerid)
+            break
     return True
 
 def OnPlayerText(playerid, text):
@@ -327,14 +337,14 @@ def OnPlayerText(playerid, text):
 def OnPlayerRequestClass(playerid, classid):
     if IsPlayerNPC(playerid):
         return True
-
+    global txtClassSelHelper
     for player in players:
         if player.playerid == playerid:
             if player.has_city_selected == True:
                 ClassSel_SetupCharSelection(playerid)
                 return True
             else:
-                if GetPlayerState(playerid) != PLAYER_STATE_SPECTATING:
+                if GetPlayerState(playerid) != Const("PLAYER_STATE_SPECTATING"):
                     TogglePlayerSpectating(playerid, 1)
                     TextDrawShowForPlayer(playerid, txtClassSelHelper)
                     player.city_selection = -1
@@ -350,7 +360,7 @@ def OnPlayerUpdate(playerid):
     for player in players:
         if player.playerid == playerid:
             if ( player.has_city_selected == False and
-            GetPlayerState(playerid) == PLAYER_STATE_SPECTATING ):
+            GetPlayerState(playerid) == Const("PLAYER_STATE_SPECTATING") ):
                 ClassSel_HandleCitySelection(playerid)
     
     # if GetPlayerInterior(playerid) != 0 and GetPlayerWeapon(playerid) != 0:
