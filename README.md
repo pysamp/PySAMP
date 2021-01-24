@@ -34,15 +34,18 @@ It wraps the SA-MP functions and handles the encoding and decoding of strings, s
 There are three different ways to install the plugin depending on your system. Recommended and supported are the first two ways:
 
 <details>
-  <summary><h2 style="display:inline-block;">Windows</h2><br></summary>
+  <summary>Windows<br></summary>
 
+  <hr>
   Using PySAMP on a Windows machine is fairly easy.
   Just set your server up and copy the `pysamp-launcher.bat` from the current release to the server directory and start it. It automatically checks all preconditions and downloads an embedded python interpreter automatically. It then sets up the environment path and starts the server itself. It should be then used as a launcher-script to start the server; so use it to start your server as of now.
+  <hr>
 </details>
 
 <details>
-  <summary><h2 style="display:inline-block;">Linux / OS independent</h2><br></summary>
+  <summary>Linux / OS independent<br></summary>
 
+  <hr>
 ## Run using docker
 ### Requirements
 - Docker 20.10.0 or greater. Previous versions may work, but they are not tested. Read more [here](https://docs.docker.com/engine/install/) how to install docker on your specific Linux Distribution
@@ -64,15 +67,17 @@ With our docker setup, you can run your entire SA-MP server inside a docker cont
 - The [Crashdetect](https://github.com/Zeex/samp-plugin-crashdetect) plugin is added automatically, unless it already exists.
 - Server starts at port 7777 and it is exposed at port 7777. If you change the port in the `/server/server.cfg`, you will also need to change the docker arguments in `/docker/server.sh`. For example, if you want to run on port 8888, the last line should contain `-p 8888:8888 -p 8888:8888/udp` instead of `-p 7777:7777 -p 7777:7777/udp`.
 
+  <hr>
 </details>
 
 <details>
-  <summary><h2 style="display:inline-block;">Manual Installation (not recommended, unsupported)</h2><br></summary>
-
+  <summary>Manual Installation (not recommended, unsupported)<br></summary>
+  <hr>
   1. Install Python 3.8.6 (32 bit Version is <b>required</b>)
   1. Copy the PySAMP.so to the plugins directory of your server
   1. create a python directory on your server
   1. copy gamemode.py, samp.py and const.py to the directory (samp.py and const.py are also needed to be copied on any update!)
+  <hr>
 </details>
 
 # Thanks to
