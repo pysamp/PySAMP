@@ -74,6 +74,7 @@ With our docker setup, you can run your entire SA-MP server inside a docker cont
 <details>
   <summary>Manual Installation (not recommended, unsupported)<br></summary>
   <hr>
+ 
   1. Install Python 3.8.6 (32 bit Version is <b>required</b>)
   1. Copy the PySAMP.so to the plugins directory of your server
   1. create a python directory on your server
