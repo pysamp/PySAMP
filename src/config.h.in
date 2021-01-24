@@ -1,0 +1,11 @@
+#ifndef VERSION_H
+#define VERSION_H
+
+#define PYSAMP_VERSION "@PYSAMP_VERSION@ (" __DATE__ " " __TIME__ ")"
+#define PYTHON_VERSION "@PYTHON_VERSION@"
+
+#ifndef WIN32
+#define PYTHON_LIBRARY "@PYTHON_STATIC_LIBRARY@" 
+#endif
+
+#endif

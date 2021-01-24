@@ -2,15 +2,24 @@ project(PySAMP)
 
 add_compile_options(-std=c++11)
 
-
 cmake_minimum_required(VERSION 3.7)
 list(APPEND CMAKE_MODULE_PATH ${SAMPGDK_DIR}/cmake)
 
-add_compile_options(-std=c++11)
-set(PYTHON_MIN_VERSION 3.8)
 
-find_package (PythonInterp ${PYTHON_MIN_VERSION} REQUIRED)
-find_package (PythonLibs ${PYTHON_MIN_VERSION} REQUIRED)
+set(PYSAMP_MAJOR_VERSION 1)
+set(PYSAMP_MINOR_VERSION 2)
+set(PYSAMP_REVISION 000)
+
+set(PYSAMP_VERSION "${PYSAMP_MAJOR_VERSION}.${PYSAMP_MINOR_VERSION}.${PYSAMP_REVISION}")
+set(PYTHON_VERSION "PYTHON_VERSION" CACHE STRING "The version of python to use (eg. 3.8)")
+set(PYTHON_STATIC_LIBRARY "PYTHON_STATIC_LIBRARY" CACHE STRING "The name of the python library to use (eg. libpython3.8.so.1.0") 
+
+
+add_definitions( -DPYTHON_VERSION=${PYTHON_VERSION} )
+add_definitions( -DPYSAMP_VERSION=${PYSAMP_VERSION} )
+
+find_package (PythonInterp ${PYTHON_VERSION} REQUIRED)
+find_package (PythonLibs ${PYTHON_VERSION} REQUIRED)
 
 find_library (SAMPGDK_LIBRARY
     NAMES sampgdk sampgdk4s
@@ -28,6 +37,7 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/bindings
   ${CMAKE_CURRENT_SOURCE_DIR}/pysamp
   ${PYTHON_INCLUDE_DIRS}
+  ${CMAKE_BINARY_DIR}/generated/
 )
 
 message(STATUS "PYTHON_LIBRARY = ${PYTHON_LIBRARY}")
@@ -39,8 +49,11 @@ add_definitions(-DSAMPGDK_AMALGAMATION)
 
 link_libraries(${PYTHON_LIBRARIES})
 
+configure_file( config.h.in ${CMAKE_BINARY_DIR}/generated/config.h )
+
 add_samp_plugin(PySAMP
   ${SAMPSDK_DIR}/amxplugin.cpp
+  ${CMAKE_BINARY_DIR}/generated/config.h
   main.h
   main.cpp
   main.def

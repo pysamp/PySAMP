@@ -82,10 +82,10 @@ static PyObject* pysamp_getactorvirtualworld(PyObject *self, PyObject *args)
 static PyObject* pysamp_applyactoranimation(PyObject *self, PyObject *args)
 {
 	int arg8 = -1;
-	bool arg7 = false;
-	bool arg6 = false;
-	bool arg5 = false;
-	bool arg4 = false;
+	int arg7 = 0;
+	int arg6 = 0;
+	int arg5 = 0;
+	int arg4 = 0;
 	float arg3 = -1.0f;
 	const char* arg2 = "";
 	const char* arg1 = "";
@@ -211,7 +211,7 @@ static PyObject* pysamp_getactorhealth(PyObject *self, PyObject *args)
 
 static PyObject* pysamp_setactorinvulnerable(PyObject *self, PyObject *args)
 {
-	bool arg1 = true;
+	int arg1 = true;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i|p:SetActorInvulnerable", &arg0, &arg1))
 	{
@@ -295,7 +295,7 @@ static PyObject* pysamp_attachobjecttovehicle(PyObject *self, PyObject *args)
 
 static PyObject* pysamp_attachobjecttoobject(PyObject *self, PyObject *args)
 {
-	bool arg8 = false;
+	int arg8 = false;
 	float arg7 = -1.0f;
 	float arg6 = -1.0f;
 	float arg5 = -1.0f;
@@ -858,7 +858,7 @@ static PyObject* pysamp_setobjectmaterialtext(PyObject *self, PyObject *args)
 	int arg9 = 0;
 	int arg8 = 0;
 	int arg7 = 0xFFFFFFFF;
-	bool arg6 = true;
+	int arg6 = true;
 	int arg5 = 24;
 	const char* arg4 = "Arial";
 	int arg3 = OBJECT_MATERIAL_SIZE_256x128;
@@ -884,7 +884,7 @@ static PyObject* pysamp_setplayerobjectmaterialtext(PyObject *self, PyObject *ar
 	int arg10 = 0;
 	int arg9 = 0;
 	int arg8 = 0xFFFFFFFF;
-	bool arg7 = true;
+	int arg7 = true;
 	int arg6 = 24;
 	const char* arg5 = "Arial";
 	int arg4 = OBJECT_MATERIAL_SIZE_256x128;
@@ -908,7 +908,7 @@ static PyObject* pysamp_setplayerobjectmaterialtext(PyObject *self, PyObject *ar
 
 static PyObject* pysamp_setobjectsdefaultcameracol(PyObject *self, PyObject *args)
 {
-	bool arg0 = false;
+	int arg0 = false;
 	if (!PyArg_ParseTuple(args, "p:SetObjectsDefaultCameraCol", &arg0))
 	{
 		PyErr_Print();
@@ -1329,8 +1329,8 @@ static PyObject* pysamp_setplayerdrunklevel(PyObject *self, PyObject *args)
 static PyObject* pysamp_setplayercolor(PyObject *self, PyObject *args)
 {
 	int arg1 = -1;
-	int arg0 = -1;
-	if (!PyArg_ParseTuple(args, "ii:SetPlayerColor", &arg0, &arg1))
+	unsigned long arg0 = -1;
+	if (!PyArg_ParseTuple(args, "ik:SetPlayerColor", &arg0, &arg1))
 	{
 		PyErr_Print();
 		return NULL;
@@ -1620,7 +1620,7 @@ static PyObject* pysamp_getplayertime(PyObject *self, PyObject *args)
 
 static PyObject* pysamp_toggleplayerclock(PyObject *self, PyObject *args)
 {
-	bool arg1 = false;
+	int arg1 = false;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ip:TogglePlayerClock", &arg0, &arg1))
 	{
@@ -1769,7 +1769,7 @@ static PyObject* pysamp_playcrimereportforplayer(PyObject *self, PyObject *args)
 
 static PyObject* pysamp_playaudiostreamforplayer(PyObject *self, PyObject *args)
 {
-	bool arg6 = false;
+	int arg6 = false;
 	float arg5 = 50.0;
 	float arg4 = 0.0;
 	float arg3 = 0.0;
@@ -2057,10 +2057,10 @@ static PyObject* pysamp_playertextdrawalignment(PyObject *self, PyObject *args)
 
 static PyObject* pysamp_playertextdrawcolor(PyObject *self, PyObject *args)
 {
-	int arg2 = -1;
+	unsigned long arg2 = -1;
 	int arg1 = -1;
 	int arg0 = -1;
-	if (!PyArg_ParseTuple(args, "iii:PlayerTextDrawColor", &arg0, &arg1, &arg2))
+	if (!PyArg_ParseTuple(args, "iik:PlayerTextDrawColor", &arg0, &arg1, &arg2))
 	{
 		PyErr_Print();
 		return NULL;
@@ -2073,7 +2073,7 @@ static PyObject* pysamp_playertextdrawcolor(PyObject *self, PyObject *args)
 
 static PyObject* pysamp_playertextdrawusebox(PyObject *self, PyObject *args)
 {
-	bool arg2 = false;
+	int arg2 = false;
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "iip:PlayerTextDrawUseBox", &arg0, &arg1, &arg2))
@@ -2089,10 +2089,10 @@ static PyObject* pysamp_playertextdrawusebox(PyObject *self, PyObject *args)
 
 static PyObject* pysamp_playertextdrawboxcolor(PyObject *self, PyObject *args)
 {
-	int arg2 = -1;
+	unsigned long arg2 = -1;
 	int arg1 = -1;
 	int arg0 = -1;
-	if (!PyArg_ParseTuple(args, "iii:PlayerTextDrawBoxColor", &arg0, &arg1, &arg2))
+	if (!PyArg_ParseTuple(args, "iik:PlayerTextDrawBoxColor", &arg0, &arg1, &arg2))
 	{
 		PyErr_Print();
 		return NULL;
@@ -2137,10 +2137,10 @@ static PyObject* pysamp_playertextdrawsetoutline(PyObject *self, PyObject *args)
 
 static PyObject* pysamp_playertextdrawbackgroundcolor(PyObject *self, PyObject *args)
 {
-	int arg2 = -1;
+	unsigned long arg2 = -1;
 	int arg1 = -1;
 	int arg0 = -1;
-	if (!PyArg_ParseTuple(args, "iii:PlayerTextDrawBackgroundColor", &arg0, &arg1, &arg2))
+	if (!PyArg_ParseTuple(args, "iik:PlayerTextDrawBackgroundColor", &arg0, &arg1, &arg2))
 	{
 		PyErr_Print();
 		return NULL;
@@ -2169,7 +2169,7 @@ static PyObject* pysamp_playertextdrawfont(PyObject *self, PyObject *args)
 
 static PyObject* pysamp_playertextdrawsetproportional(PyObject *self, PyObject *args)
 {
-	bool arg2 = false;
+	int arg2 = false;
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "iip:PlayerTextDrawSetProportional", &arg0, &arg1, &arg2))
@@ -2185,7 +2185,7 @@ static PyObject* pysamp_playertextdrawsetproportional(PyObject *self, PyObject *
 
 static PyObject* pysamp_playertextdrawsetselectable(PyObject *self, PyObject *args)
 {
-	bool arg2 = false;
+	int arg2 = false;
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "iip:PlayerTextDrawSetSelectable", &arg0, &arg1, &arg2))
@@ -2284,11 +2284,11 @@ static PyObject* pysamp_playertextdrawsetpreviewrot(PyObject *self, PyObject *ar
 
 static PyObject* pysamp_playertextdrawsetpreviewvehcol(PyObject *self, PyObject *args)
 {
-	int arg3 = -1;
-	int arg2 = -1;
+	unsigned long arg3 = -1;
+	unsigned long arg2 = -1;
 	int arg1 = -1;
 	int arg0 = -1;
-	if (!PyArg_ParseTuple(args, "iiii:PlayerTextDrawSetPreviewVehCol", &arg0, &arg1, &arg2, &arg3))
+	if (!PyArg_ParseTuple(args, "iikk:PlayerTextDrawSetPreviewVehCol", &arg0, &arg1, &arg2, &arg3))
 	{
 		PyErr_Print();
 		return NULL;
@@ -2468,10 +2468,10 @@ static PyObject* pysamp_setplayerchatbubble(PyObject *self, PyObject *args)
 {
 	int arg4 = -1;
 	float arg3 = -1.0f;
-	int arg2 = -1;
+	unsigned long arg2 = -1;
 	const char* arg1 = "";
 	int arg0 = -1;
-	if (!PyArg_ParseTuple(args, "iyifi:SetPlayerChatBubble", &arg0, &arg1, &arg2, &arg3, &arg4))
+	if (!PyArg_ParseTuple(args, "iykfi:SetPlayerChatBubble", &arg0, &arg1, &arg2, &arg3, &arg4))
 	{
 		PyErr_Print();
 		return NULL;
@@ -2542,7 +2542,7 @@ static PyObject* pysamp_removeplayerfromvehicle(PyObject *self, PyObject *args)
 
 static PyObject* pysamp_toggleplayercontrollable(PyObject *self, PyObject *args)
 {
-	bool arg1 = false;
+	int arg1 = false;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ip:TogglePlayerControllable", &arg0, &arg1))
 	{
@@ -2575,12 +2575,12 @@ static PyObject* pysamp_playerplaysound(PyObject *self, PyObject *args)
 
 static PyObject* pysamp_applyanimation(PyObject *self, PyObject *args)
 {
-	bool arg9 = false;
+	int arg9 = false;
 	int arg8 = -1;
-	bool arg7 = false;
-	bool arg6 = false;
-	bool arg5 = false;
-	bool arg4 = false;
+	int arg7 = false;
+	int arg6 = false;
+	int arg5 = false;
+	int arg4 = false;
 	float arg3 = -1.0f;
 	const char* arg2 = "";
 	const char* arg1 = "";
@@ -2601,7 +2601,7 @@ static PyObject* pysamp_applyanimation(PyObject *self, PyObject *args)
 
 static PyObject* pysamp_clearanimations(PyObject *self, PyObject *args)
 {
-	bool arg1 = false;
+	int arg1 = false;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i|p:ClearAnimations", &arg0, &arg1))
 	{
@@ -2676,7 +2676,7 @@ static PyObject* pysamp_setplayerspecialaction(PyObject *self, PyObject *args)
 
 static PyObject* pysamp_disableremotevehiclecollisions(PyObject *self, PyObject *args)
 {
-	bool arg1 = false;
+	int arg1 = false;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ip:DisableRemoteVehicleCollisions", &arg0, &arg1))
 	{
@@ -2777,10 +2777,10 @@ static PyObject* pysamp_setplayerworldbounds(PyObject *self, PyObject *args)
 
 static PyObject* pysamp_setplayermarkerforplayer(PyObject *self, PyObject *args)
 {
-	int arg2 = -1;
+	unsigned long arg2 = -1;
 	int arg1 = -1;
 	int arg0 = -1;
-	if (!PyArg_ParseTuple(args, "iii:SetPlayerMarkerForPlayer", &arg0, &arg1, &arg2))
+	if (!PyArg_ParseTuple(args, "iik:SetPlayerMarkerForPlayer", &arg0, &arg1, &arg2))
 	{
 		PyErr_Print();
 		return NULL;
@@ -2793,7 +2793,7 @@ static PyObject* pysamp_setplayermarkerforplayer(PyObject *self, PyObject *args)
 
 static PyObject* pysamp_showplayernametagforplayer(PyObject *self, PyObject *args)
 {
-	bool arg2 = false;
+	int arg2 = false;
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "iip:ShowPlayerNameTagForPlayer", &arg0, &arg1, &arg2))
@@ -2810,14 +2810,14 @@ static PyObject* pysamp_showplayernametagforplayer(PyObject *self, PyObject *arg
 static PyObject* pysamp_setplayermapicon(PyObject *self, PyObject *args)
 {
 	int arg7 = MAPICON_LOCAL;
-	int arg6 = -1;
+	unsigned long arg6 = -1;
 	int arg5 = -1;
 	float arg4 = -1.0f;
 	float arg3 = -1.0f;
 	float arg2 = -1.0f;
 	int arg1 = -1;
 	int arg0 = -1;
-	if (!PyArg_ParseTuple(args, "iifffii|i:SetPlayerMapIcon", &arg0, &arg1, &arg2, &arg3, &arg4, &arg5, &arg6, &arg7))
+	if (!PyArg_ParseTuple(args, "iifffik|i:SetPlayerMapIcon", &arg0, &arg1, &arg2, &arg3, &arg4, &arg5, &arg6, &arg7))
 	{
 		PyErr_Print();
 		return NULL;
@@ -2845,7 +2845,7 @@ static PyObject* pysamp_removeplayermapicon(PyObject *self, PyObject *args)
 
 static PyObject* pysamp_allowplayerteleport(PyObject *self, PyObject *args)
 {
-	bool arg1 = false;
+	int arg1 = false;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ip:AllowPlayerTeleport", &arg0, &arg1))
 	{
@@ -2954,7 +2954,7 @@ static PyObject* pysamp_getplayercameramode(PyObject *self, PyObject *args)
 
 static PyObject* pysamp_enableplayercameratarget(PyObject *self, PyObject *args)
 {
-	bool arg1 = false;
+	int arg1 = false;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ip:EnablePlayerCameraTarget", &arg0, &arg1))
 	{
@@ -3220,7 +3220,7 @@ static PyObject* pysamp_getplayervirtualworld(PyObject *self, PyObject *args)
 
 static PyObject* pysamp_enablestuntbonusforplayer(PyObject *self, PyObject *args)
 {
-	bool arg1 = false;
+	int arg1 = false;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ip:EnableStuntBonusForPlayer", &arg0, &arg1))
 	{
@@ -3235,7 +3235,7 @@ static PyObject* pysamp_enablestuntbonusforplayer(PyObject *self, PyObject *args
 
 static PyObject* pysamp_enablestuntbonusforall(PyObject *self, PyObject *args)
 {
-	bool arg0 = false;
+	int arg0 = false;
 	if (!PyArg_ParseTuple(args, "p:EnableStuntBonusForAll", &arg0))
 	{
 		PyErr_Print();
@@ -3249,7 +3249,7 @@ static PyObject* pysamp_enablestuntbonusforall(PyObject *self, PyObject *args)
 
 static PyObject* pysamp_toggleplayerspectating(PyObject *self, PyObject *args)
 {
-	bool arg1 = false;
+	int arg1 = false;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ip:TogglePlayerSpectating", &arg0, &arg1))
 	{
@@ -3814,7 +3814,7 @@ static PyObject* pysamp_addstaticvehicle(PyObject *self, PyObject *args)
 
 static PyObject* pysamp_addstaticvehicleex(PyObject *self, PyObject *args)
 {
-	bool arg8 = false;
+	int arg8 = false;
 	int arg7 = -1;
 	int arg6 = -1;
 	int arg5 = -1;
@@ -3885,7 +3885,7 @@ static PyObject* pysamp_destroypickup(PyObject *self, PyObject *args)
 
 static PyObject* pysamp_shownametags(PyObject *self, PyObject *args)
 {
-	bool arg0 = false;
+	long arg0 = 0;
 	if (!PyArg_ParseTuple(args, "p:ShowNameTags", &arg0))
 	{
 		PyErr_Print();
@@ -3956,7 +3956,7 @@ static PyObject* pysamp_getweaponname(PyObject *self, PyObject *args)
 
 static PyObject* pysamp_enabletirepopping(PyObject *self, PyObject *args)
 {
-	bool arg0 = false;
+	int arg0 = false;
 	if (!PyArg_ParseTuple(args, "p:EnableTirePopping", &arg0))
 	{
 		PyErr_Print();
@@ -3983,7 +3983,7 @@ static PyObject* pysamp_enablevehiclefriendlyfire(PyObject *self, PyObject *args
 
 static PyObject* pysamp_allowinteriorweapons(PyObject *self, PyObject *args)
 {
-	bool arg0 = false;
+	int arg0 = false;
 	if (!PyArg_ParseTuple(args, "p:AllowInteriorWeapons", &arg0))
 	{
 		PyErr_Print();
@@ -4037,7 +4037,7 @@ static PyObject* pysamp_getgravity(PyObject *self, PyObject *args)
 
 static PyObject* pysamp_allowadminteleport(PyObject *self, PyObject *args)
 {
-	bool arg0 = false;
+	int arg0 = false;
 	if (!PyArg_ParseTuple(args, "p:AllowAdminTeleport", &arg0))
 	{
 		PyErr_Print();
@@ -4083,7 +4083,7 @@ static PyObject* pysamp_createexplosion(PyObject *self, PyObject *args)
 
 static PyObject* pysamp_enablezonenames(PyObject *self, PyObject *args)
 {
-	bool arg0 = false;
+	int arg0 = false;
 	if (!PyArg_ParseTuple(args, "p:EnableZoneNames", &arg0))
 	{
 		PyErr_Print();
@@ -4821,9 +4821,9 @@ static PyObject* pysamp_textdrawalignment(PyObject *self, PyObject *args)
 
 static PyObject* pysamp_textdrawcolor(PyObject *self, PyObject *args)
 {
-	int arg1 = -1;
+	unsigned long arg1 = -1;
 	int arg0 = -1;
-	if (!PyArg_ParseTuple(args, "ii:TextDrawColor", &arg0, &arg1))
+	if (!PyArg_ParseTuple(args, "ik:TextDrawColor", &arg0, &arg1))
 	{
 		PyErr_Print();
 		return NULL;
@@ -4836,7 +4836,7 @@ static PyObject* pysamp_textdrawcolor(PyObject *self, PyObject *args)
 
 static PyObject* pysamp_textdrawusebox(PyObject *self, PyObject *args)
 {
-	bool arg1 = false;
+	int arg1 = false;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ip:TextDrawUseBox", &arg0, &arg1))
 	{
@@ -4851,9 +4851,9 @@ static PyObject* pysamp_textdrawusebox(PyObject *self, PyObject *args)
 
 static PyObject* pysamp_textdrawboxcolor(PyObject *self, PyObject *args)
 {
-	int arg1 = -1;
+	unsigned long arg1 = -1;
 	int arg0 = -1;
-	if (!PyArg_ParseTuple(args, "ii:TextDrawBoxColor", &arg0, &arg1))
+	if (!PyArg_ParseTuple(args, "ik:TextDrawBoxColor", &arg0, &arg1))
 	{
 		PyErr_Print();
 		return NULL;
@@ -4896,9 +4896,9 @@ static PyObject* pysamp_textdrawsetoutline(PyObject *self, PyObject *args)
 
 static PyObject* pysamp_textdrawbackgroundcolor(PyObject *self, PyObject *args)
 {
-	int arg1 = -1;
+	unsigned long arg1 = -1;
 	int arg0 = -1;
-	if (!PyArg_ParseTuple(args, "ii:TextDrawBackgroundColor", &arg0, &arg1))
+	if (!PyArg_ParseTuple(args, "ik:TextDrawBackgroundColor", &arg0, &arg1))
 	{
 		PyErr_Print();
 		return NULL;
@@ -4926,7 +4926,7 @@ static PyObject* pysamp_textdrawfont(PyObject *self, PyObject *args)
 
 static PyObject* pysamp_textdrawsetproportional(PyObject *self, PyObject *args)
 {
-	bool arg1 = false;
+	int arg1 = false;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ip:TextDrawSetProportional", &arg0, &arg1))
 	{
@@ -4941,7 +4941,7 @@ static PyObject* pysamp_textdrawsetproportional(PyObject *self, PyObject *args)
 
 static PyObject* pysamp_textdrawsetselectable(PyObject *self, PyObject *args)
 {
-	bool arg1 = false;
+	int arg1 = false;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ip:TextDrawSetSelectable", &arg0, &arg1))
 	{
@@ -5064,10 +5064,10 @@ static PyObject* pysamp_textdrawsetpreviewrot(PyObject *self, PyObject *args)
 
 static PyObject* pysamp_textdrawsetpreviewvehcol(PyObject *self, PyObject *args)
 {
-	int arg2 = -1;
-	int arg1 = -1;
+	unsigned long arg2 = -1;
+	unsigned long arg1 = -1;
 	int arg0 = -1;
-	if (!PyArg_ParseTuple(args, "iii:TextDrawSetPreviewVehCol", &arg0, &arg1, &arg2))
+	if (!PyArg_ParseTuple(args, "ikk:TextDrawSetPreviewVehCol", &arg0, &arg1, &arg2))
 	{
 		PyErr_Print();
 		return NULL;
@@ -5139,10 +5139,10 @@ static PyObject* pysamp_gangzonedestroy(PyObject *self, PyObject *args)
 
 static PyObject* pysamp_gangzoneshowforplayer(PyObject *self, PyObject *args)
 {
-	int arg2 = -1;
+	unsigned long arg2 = -1;
 	int arg1 = -1;
 	int arg0 = -1;
-	if (!PyArg_ParseTuple(args, "iii:GangZoneShowForPlayer", &arg0, &arg1, &arg2))
+	if (!PyArg_ParseTuple(args, "iik:GangZoneShowForPlayer", &arg0, &arg1, &arg2))
 	{
 		PyErr_Print();
 		return NULL;
@@ -5155,9 +5155,9 @@ static PyObject* pysamp_gangzoneshowforplayer(PyObject *self, PyObject *args)
 
 static PyObject* pysamp_gangzoneshowforall(PyObject *self, PyObject *args)
 {
-	int arg1 = -1;
+	unsigned long arg1 = -1;
 	int arg0 = -1;
-	if (!PyArg_ParseTuple(args, "ii:GangZoneShowForAll", &arg0, &arg1))
+	if (!PyArg_ParseTuple(args, "ik:GangZoneShowForAll", &arg0, &arg1))
 	{
 		PyErr_Print();
 		return NULL;
@@ -5257,6 +5257,162 @@ static PyObject* pysamp_gangzonestopflashforall(PyObject *self, PyObject *args)
 	Py_RETURN_FALSE;
 }
 
+
+static PyObject* pysamp_create3dtextlabel(PyObject *self, PyObject *args)
+{
+	const char* text;
+	unsigned long color = -1;
+	float x = 0.0;
+	float y = 0.0;
+	float z = 0.0;
+	float drawDistance = 0.0;
+	int virtualworld = -1;
+	int testLOS = 0;
+
+	if (!PyArg_ParseTuple(args, "ykffffi|i:Create3DTextLabel", &text, &color, &x, &y, &z, &drawDistance, &virtualworld, &testLOS))
+	{
+		PyErr_Print();
+		return NULL;
+	}
+
+	int ret = Create3DTextLabel(text, color, x, y, z, drawDistance, virtualworld, testLOS);
+	PyObject* out = Py_BuildValue("i", ret);
+	return out;
+}
+
+static PyObject* pysamp_delete3dtextlabel(PyObject *self, PyObject *args)
+{
+	int id = -1;
+	if (!PyArg_ParseTuple(args, "i", &id))
+	{
+		PyErr_Print();
+		return NULL;
+	}
+	bool ret = Delete3DTextLabel(id);
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
+}
+
+static PyObject* pysamp_attach3dtextlabeltoplayer(PyObject *self, PyObject *args)
+{
+	int id;
+	int playerid;
+	float offsetX;
+	float offsetY;
+	float offsetZ;
+
+	if (!PyArg_ParseTuple(args, "iifff", &id, &playerid, &offsetX, &offsetY, &offsetZ))
+	{
+		PyErr_Print();
+		return NULL;
+	}
+
+	bool ret = Attach3DTextLabelToPlayer(id, playerid, offsetX, offsetY, offsetZ);
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
+}
+
+static PyObject* pysamp_attach3dtextlabeltovehicle(PyObject *self, PyObject *args)
+{
+	int id;
+	int vehicleid;
+	float offsetX;
+	float offsetY;
+	float offsetZ;
+
+	if (!PyArg_ParseTuple(args, "iifff", &id, &vehicleid, &offsetX, &offsetY, &offsetZ))
+	{
+		PyErr_Print();
+		return NULL;
+	}
+
+	bool ret = Attach3DTextLabelToVehicle(id, vehicleid, offsetX, offsetY, offsetZ);
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
+}
+
+static PyObject* pysamp_update3dtextlabeltext(PyObject *self, PyObject *args)
+{
+	int id;
+	unsigned long color;
+	const char* text;
+
+	if (!PyArg_ParseTuple(args, "iky", &id, &color, &text))
+	{
+		PyErr_Print();
+		return NULL;
+	}
+
+	bool ret = Update3DTextLabelText(id, color, text);
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
+}
+
+static PyObject* pysamp_createplayer3dtextlabel(PyObject *self, PyObject *args)
+{
+	int playerid;
+	const char* text;
+	unsigned long color;
+	float x;
+	float y;
+	float z;
+	float drawDistance;
+	int attachedplayer = 0xFFFF;
+	int attachedvehicle = 0xFFFF;
+	int testLOS = 0;
+
+	if (!PyArg_ParseTuple(args, "iykffff|iip", &playerid, &text, &color, &x, &y, &z, &drawDistance, &attachedplayer, &attachedvehicle, &testLOS))
+	{
+		PyErr_Print();
+		return NULL;
+	}
+
+	int ret = CreatePlayer3DTextLabel(playerid, text, color, x, y, z, drawDistance, attachedplayer, attachedvehicle, testLOS);
+	PyObject* out = Py_BuildValue("i", ret);
+	return out;
+}
+
+static PyObject* pysamp_deleteplayer3dtextlabel(PyObject *self, PyObject *args)
+{
+	int playerid;
+	int id;
+
+	if (!PyArg_ParseTuple(args, "ii", &playerid, &id))
+	{
+		PyErr_Print();
+		return NULL;
+	}
+
+	bool ret = DeletePlayer3DTextLabel(playerid, id);
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
+}
+
+static PyObject* pysamp_updateplayer3dtextlabeltext(PyObject *self, PyObject *args)
+{
+	int playerid;
+	int id;
+	unsigned long color;
+	const char* text;
+
+	if (!PyArg_ParseTuple(args, "iiky", &playerid, &id, &color, &text))
+	{
+		PyErr_Print();
+		return NULL;
+	}
+
+	bool ret = UpdatePlayer3DTextLabelText(playerid, id, color, text);
+	if (ret)
+		Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
+}
+
+
 static PyObject* pysamp_showplayerdialog(PyObject *self, PyObject *args)
 {
 	const char* arg6 = "";
@@ -5329,7 +5485,7 @@ static PyObject* pysamp_getvehicledistancefrompoint(PyObject *self, PyObject *ar
 
 static PyObject* pysamp_createvehicle(PyObject *self, PyObject *args)
 {
-	bool arg8 = false;
+	int arg8 = false;
 	int arg7 = -1;
 	int arg6 = -1;
 	int arg5 = -1;
@@ -6369,6 +6525,14 @@ static PyMethodDef PySAMPMethods[] = {
 	{ "GetVehicleVirtualWorld", pysamp_getvehiclevirtualworld, METH_VARARGS, NULL },
 	{ "GetVehicleModelInfo", pysamp_getvehiclemodelinfo, METH_VARARGS, NULL },
 	{ "Const", pysamp_const, METH_VARARGS, NULL },
+	{ "Create3DTextLabel", pysamp_create3dtextlabel, METH_VARARGS, NULL },
+	{ "Delete3DTextLabel", pysamp_delete3dtextlabel, METH_VARARGS, NULL },
+	{ "Attach3DTextLabelToPlayer", pysamp_attach3dtextlabeltoplayer, METH_VARARGS, NULL },
+	{ "Attach3DTextLabelToVehicle", pysamp_attach3dtextlabeltovehicle, METH_VARARGS, NULL },
+	{ "Update3DTextLabelText", pysamp_update3dtextlabeltext, METH_VARARGS, NULL },
+	{ "CreatePlayer3DTextLabel", pysamp_createplayer3dtextlabel, METH_VARARGS, NULL },
+	{ "DeletePlayer3DTextLabel", pysamp_deleteplayer3dtextlabel, METH_VARARGS, NULL },
+	{ "UpdatePlayer3DTextLabelText", pysamp_updateplayer3dtextlabeltext, METH_VARARGS, NULL },
 	{ NULL, NULL, 0, NULL }
 };
 

@@ -25,12 +25,21 @@
 class PyGamemode
 {
 private:	
-	PyObject *pName = 0, *pModule = 0, *pDict = 0;
+	PyObject *pName = nullptr, *pModule = nullptr;
 	bool initialized = false;
+	bool loaded = false;
+	bool disabled = false;
+	const char* path;
 public:
-	PyGamemode(const char* path);
+	PyGamemode(const char* apath);
 	~PyGamemode();
-	bool callback(const char* name , PyObject* pArgs);
+	bool callback(const char* name , PyObject* pArgs, bool obtainLock);
+	void load();
+	void reload();
+	void unload();
+	bool isLoaded();
+	void disable();
+	bool isEnabled();
 };
 
 #endif

@@ -7,22 +7,38 @@
 if [[ ! -d ../server ]]; then
     mkdir ../server
     cd ../server
-    wget http://files.sa-mp.com/samp037svr_R2-1.tar.gz
-    tar xvf samp037svr_R2-1.tar.gz
+    wget http://files.sa-mp.com/samp037svr_R3.tar.gz
+    tar xvf samp037svr_R3.tar.gz
     mv samp03/* ./
     rm -rf samp03
     cd ../docker
-fi
-
-# add empty gamemode if it doesn't exist
-if [[ ! -f ../server/gamemodes/empty.amx ]]; then
-    cp ./scripts/empty.amx ../server/gamemodes/
 fi
 
 # create plugins folder
 if [[ ! -d ../server/plugins ]]; then
     mkdir ../server/plugins
 fi
+
+# add crashdetect plugin to server
+if [[ ! -f ../server/plugins/crashdetect.so ]]; then
+    cd ../server/plugins
+    wget https://github.com/Zeex/samp-plugin-crashdetect/releases/download/v4.20/crashdetect-4.20-linux.tar.gz
+    tar xvf crashdetect-4.20-linux.tar.gz
+    rm crashdetect-4.20-linux.tar.gz
+    mv crashdetect-4.20-linux/crashdetect.so ./
+    rm -rf crashdetect-4.20-linux/
+    cd ../../docker
+fi
+
+# add empty gamemode if it doesn't exist
+if [[ ! -f ../server/gamemodes/empty.amx ]]; then
+    cp ./scripts/empty.amx ../server/gamemodes/
+fi
+# add empty filterscript if it doesn't exist
+if [[ ! -f ../server/filterscripts/empty.amx ]]; then
+    cp ./scripts/empty_filterscript.amx ../server/filterscripts/empty.amx
+fi
+
 
 # copy plugin to server
 cp ../target/PySAMP.so ../server/plugins/
