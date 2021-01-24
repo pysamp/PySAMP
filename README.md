@@ -46,6 +46,7 @@ There are three different ways to install the plugin depending on your system. R
   <summary>Linux / OS independent<br></summary>
 
   <hr>
+  
 ## Run using docker
 ### Requirements
 - Docker 20.10.0 or greater. Previous versions may work, but they are not tested. Read more [here](https://docs.docker.com/engine/install/) how to install docker on your specific Linux Distribution
