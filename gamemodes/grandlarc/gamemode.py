@@ -130,23 +130,23 @@ def OnPlayerSpawn(playerid):
             if player.city_selection == CITY_LOS_SANTOS:
                 randspawn = random.randint(0, len(gRandomSpawns_LosSantos))
                 SetPlayerPos(playerid, 
-                    gRandomSpawns_LosSantos[randspawn[0]], 
-                    gRandomSpawns_LosSantos[randspawn[1]], 
-                    gRandomSpawns_LosSantos[randspawn[2]]
+                    gRandomSpawns_LosSantos[randspawn][0], 
+                    gRandomSpawns_LosSantos[randspawn][1], 
+                    gRandomSpawns_LosSantos[randspawn][2]
                 )
             elif player.city_selection == CITY_SAN_FIERRO:
                 randspawn = random.randint(0, len(gRandomSpawns_SanFierro))
                 SetPlayerPos(playerid, 
-                    gRandomSpawns_SanFierro[randspawn[0]], 
-                    gRandomSpawns_SanFierro[randspawn[1]], 
-                    gRandomSpawns_SanFierro[randspawn[2]]
+                    gRandomSpawns_SanFierro[randspawn][0], 
+                    gRandomSpawns_SanFierro[randspawn][1], 
+                    gRandomSpawns_SanFierro[randspawn][2]
                 )
             elif player.city_selection == CITY_LAS_VENTURAS:
                 randspawn = random.randint(0, len(gRandomSpawns_LasVenturas))
                 SetPlayerPos(playerid, 
-                    gRandomSpawns_LasVenturas[randspawn[0]], 
-                    gRandomSpawns_LasVenturas[randspawn[1]], 
-                    gRandomSpawns_LasVenturas[randspawn[2]]
+                    gRandomSpawns_LasVenturas[randspawn][0], 
+                    gRandomSpawns_LasVenturas[randspawn][1], 
+                    gRandomSpawns_LasVenturas[randspawn][2]
                 )
     SetPlayerSkillLevel(playerid,Const("WEAPONSKILL_PISTOL"),200)
     SetPlayerSkillLevel(playerid,Const("WEAPONSKILL_PISTOL_SILENCED"),200)
