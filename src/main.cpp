@@ -106,11 +106,19 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPublicCall2(AMX *amx, const char *name,
 	if (strcmp(name, "OnGameModeInit") == 0 || strcmp(name, "OnGameModeExit") == 0 || strcmp(name, "OnPlayerCommandText") == 0) {
 		return false;
 	}
+
+	bool doesStop = callback_return_configuration.count(name) > 0;
 	bool result = PySAMP::callback(name, createParameterObject(amx, name, params));
-	if (!strcmp(name, "OnRconCommand") == 0 && result)
+
+	if (doesStop)
 	{
-		*stop = true;
+		bool stopOnReturnValue = callback_return_configuration.at(name);
+		if (result == stopOnReturnValue)
+		{
+			*stop = true;
+		}
 	}
+
 	*retval = result;
 	return result;
 }

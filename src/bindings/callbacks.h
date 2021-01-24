@@ -67,7 +67,46 @@ std::map<std::string, std::string> _createCallbackFormatMap()
     return callback_format;
 }
 
+/* creates map of all callbacks which can prohibit further callback propagation to other filterscripts / gamemodes / plugins */
+std::map<std::string, bool> _createCallbackReturnConfiguration()
+{
+    std::map<std::string, bool> map;
+    map["OnDialogResponse"] = 0;
+    map["OnGameModeExit"] = 0;
+    map["OnGameModeInit"] = 0;
+    map["OnIncomingConnection"] = 1;
+    map["OnPlayerClickMap"] = 1;
+    map["OnPlayerClickPlayer"] = 1;
+    map["OnPlayerClickPlayerTextDraw"] = 1;
+    map["OnPlayerClickTextDraw"] = 1;
+    map["OnPlayerCommandText"] = 1;
+    map["OnPlayerConnect"] = 0;
+    map["OnPlayerDeath"] = 0;
+    map["OnPlayerDisconnect"] = 0;
+    map["OnPlayerEditAttachedObject"] = 1;
+    map["OnPlayerEditObject"] = 1;
+    map["OnPlayerGiveDamage"] = 1;
+    map["OnPlayerGiveDamageActor"] = 1;
+    map["OnPlayerRequestSpawn"] = 0;
+    map["OnPlayerSelectObject"] = 1;
+    map["OnPlayerSpawn"] = 0;
+    map["OnPlayerTakeDamage"] = 1;
+    map["OnPlayerText"] = 0;
+    map["OnPlayerWeaponShot"] = 0;
+    map["OnRconCommand"] = 1;
+    map["OnUnoccupiedVehicleUpdate"] = 0;
+    map["OnVehicleDamageStatusUpdate"] = 1;
+    map["OnVehicleMod"] = 0;
+    map["OnVehiclePaintjob"] = 0;
+    map["OnVehicleRespray"] = 0;
+    map["OnVehicleSirenStateChange"] = 1;
+    map["OnVehicleSpawn"] = 0;
+    return map;
+}
+
 std::map<std::string, std::string> callback_format = _createCallbackFormatMap();
+
+std::map<std::string, bool> callback_return_configuration = _createCallbackReturnConfiguration();
 
 PyObject * createParameterObject(AMX *amx, const char *callback_name, cell *parameters)
 {
