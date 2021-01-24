@@ -17,7 +17,7 @@ public OnPlayerConnect(playerid)
 from samp import *
 
 def OnPlayerConnect(playerid):
-    name = GetPlayerName(playerid, Const('MAX_PLAYER_NAME'))
+    name = GetPlayerName(playerid, MAX_PLAYER_NAME.get())
     SendClientMessageToAll(0x000000FF,  '%s has joined the server.'.format(name))
     return 1
 ```
@@ -29,24 +29,26 @@ It wraps the SA-MP functions and handles the encoding and decoding of strings, s
 *Caution:* with this module, you also get the decode method. Use it to decode the bytestrings as seen in the example gamemode in `gamemodes/empty/`.
 
 
-# Using
-Make sure, that you installed the 32-bit Python 3.5m version on your server!
-For debian and ubuntu, this should work:
-```bash
-sudo dpkg --add-architecture i386
-sudo apt-get update
-```
-and then:
-```bash
-sudo apt install python3-dev:i386
-```
+# Getting Started
 
-# Run using docker
-## Requirements
-- Linux based OS
+There are three different ways to install the plugin depending on your system. Recommended and supported are the first two ways:
+
+<details>
+  <summary><h2 style="display:inline-block;">Windows</h2><br></summary>
+
+  Using PySAMP on a Windows machine is fairly easy.
+  Just set your server up and copy the `pysamp-launcher.bat` from the current release to the server directory and start it. It automatically checks all preconditions and downloads an embedded python interpreter automatically. It then sets up the environment path and starts the server itself. It should be then used as a launcher-script to start the server; so use it to start your server as of now.
+</details>
+
+<details>
+  <summary><h2 style="display:inline-block;">Linux / OS independent</h2><br></summary>
+
+## Run using docker
+### Requirements
 - Docker 20.10.0 or greater. Previous versions may work, but they are not tested. Read more [here](https://docs.docker.com/engine/install/) how to install docker on your specific Linux Distribution
+- Your user needs to be added to the docker group
 
-## How to get started?
+### How to get started?
 With our docker setup, you can run your entire SA-MP server inside a docker container. Under `/server` you will find a 0.3.7 server root folder as you would recognise it. Our docker setup builds the container, generates the PySAMP runtime / plugin, and afterwards uses the `server` directory to start up a SA-MP server for you.
 
 
@@ -55,26 +57,26 @@ With our docker setup, you can run your entire SA-MP server inside a docker cont
 3. Next up, let us make the bash-scripts executable by running `chmod +x *.sh` inside the `/docker` folder.
 4. From the same folder (`/docker`), run the SA-MP server located in `/server` by running `./server.sh`, and gently wait for the process to complete. This will build the docker container and start your server.
 
-## Default actions and notes
+### Default actions and notes
 - If there are no existing `/server` directory, it will be created. SA-MP server version 0.3.7-R3  will be downloaded and installed.
 - If there are no gamemode in `/server/gamemodes` called `empty.amx`, the docker container will then put that there to get the server started. If you have defined a different gamemode in `/server/server.cfg`, this file will not be loaded.
 - If there is no filterscript in `/server/filterscripts` called `empty.amx`, the docker container will put that there when the server starts. If you have defined other filterscripts in `/server/server.cfg`, this file will not be loaded.
 - The [Crashdetect](https://github.com/Zeex/samp-plugin-crashdetect) plugin is added automatically, unless it already exists.
 - Server starts at port 7777 and it is exposed at port 7777. If you change the port in the `/server/server.cfg`, you will also need to change the docker arguments in `/docker/server.sh`. For example, if you want to run on port 8888, the last line should contain `-p 8888:8888 -p 8888:8888/udp` instead of `-p 7777:7777 -p 7777:7777/udp`.
 
+</details>
 
-# Compiling
-If the uploaded binaries don't suite your needs, you might have to compile the project on your own. 
-You can also create an issue, so I can compile it for your system, just mention your system architecture.
+<details>
+  <summary><h2 style="display:inline-block;">Manual Installation (not recommended, unsupported)</h2><br></summary>
 
-So, if you want to compile it on your own, note the following things.
-- You read the [SAMPGDK tutorial](https://github.com/Zeex/sampgdk/wiki/Setting-up-GDK-with-CMake).
-- Python (3.5 Linux)/(3.6 Windows) (32 bit version!) is installed on your computer
-- You copied the sampsdk and sampgdk files into the src folder, as defined in CMakeLists.txt
-
-Use cmake to create a project and then compile it as you're used to it.
+  1. Install Python 3.8.6 (32 bit Version is <b>required</b>)
+  1. Copy the PySAMP.so to the plugins directory of your server
+  1. create a python directory on your server
+  1. copy gamemode.py, samp.py and const.py to the directory (samp.py and const.py are also needed to be copied on any update!)
+</details>
 
 # Thanks to
-- SA:MP Team for developing SA:MP
-- Zeex for developing the SAMPGDK which is used by pySAMP
+- [@dennorske](https://github.com/dennorske) for reviving this project
+- SA:MP Team for developing SA:MP, especially [@Y-Less](https://github.com/Y-Less)
+- [@Zeex](https://github.com/Zeex) for developing the SAMPGDK which is used by PySAMP
 - Python Software Foundation
