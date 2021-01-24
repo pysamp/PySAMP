@@ -1,4 +1,5 @@
 from samp import *
+from const import *
 
 def OnGameModeInit():
     SetGameModeText('PySAMP')
@@ -16,7 +17,7 @@ def OnPyReload():
     return True
 
 def OnPlayerConnect(playerid):
-    SendClientMessage(playerid, 0xFF000000, "Hello %s from Python" % GetPlayerName(playerid, 32))
+    SendClientMessage(playerid, 0xFF000000, "Hello %s from Python" % GetPlayerName(playerid, MAX_PLAYER_NAME.get()))
     return True
     
 def OnPlayerDisconnect(playerid, reason):
