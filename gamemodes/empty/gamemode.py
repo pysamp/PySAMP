@@ -1,4 +1,5 @@
 from samp import *
+from const import *
 
 def OnGameModeInit():
     SetGameModeText('PySAMP')
@@ -16,7 +17,7 @@ def OnPyReload():
     return True
 
 def OnPlayerConnect(playerid):
-    SendClientMessage(playerid, 0xFF000000, "Hello %s from Python" % GetPlayerName(playerid, 32))
+    SendClientMessage(playerid, 0xFF000000, "Hello %s from Python" % GetPlayerName(playerid, MAX_PLAYER_NAME.get()))
     return True
     
 def OnPlayerDisconnect(playerid, reason):
@@ -32,11 +33,11 @@ def OnVehicleSpawn(vehicleid):
     return True
     
 def OnVehicleDeath(vehicleid, killerid):
-    return True
+    return False
     
 def OnPlayerText(playerid, text):
     text = decode(text)
-    return True
+    return False
     
 def OnPlayerCommandText(playerid, cmdtext):
     cmdtext = decode(cmdtext)
@@ -46,25 +47,25 @@ def OnPlayerRequestClass(playerid, classid):
     return True
     
 def OnPlayerEnterVehicle(playerid, vehicleid, ispassenger):
-    return True
+    return False
     
 def OnPlayerExitVehicle(playerid, vehicleid):
-    return True
+    return False
     
 def OnPlayerStateChange(playerid, newstate, oldstate):
-    return True
+    return False
     
 def OnPlayerEnterCheckpoint(playerid):
-    return True
+    return False
     
 def OnPlayerLeaveCheckpoint(playerid):
-    return True
+    return False
     
 def OnPlayerEnterRaceCheckpoint(playerid):
-    return True
+    return False
     
 def OnPlayerLeaveRaceCheckpoint(playerid):
-    return True
+    return False
     
 def OnRconCommand(cmd):
     cmd = decode(cmd)
@@ -74,19 +75,19 @@ def OnPlayerRequestSpawn(playerid):
     return True
     
 def OnObjectMoved(objectid):
-    return True
+    return False
     
 def OnPlayerObjectMoved(playerid, objectid):
-    return True
+    return False
     
 def OnPlayerPickUpPickup(playerid, pickupid):
-    return True
+    return False
     
 def OnVehicleMod(playerid, vehicleid, componentid):
     return True
     
 def OnEnterExitModShop(playerid, enterexit, interiorid):
-    return True
+    return False
     
 def OnVehiclePaintjob(playerid, vehicleid, paintjobid):
     return True
@@ -101,41 +102,41 @@ def OnUnoccupiedVehicleUpdate(vehicleid, playerid, passenger_seat, new_x, new_y,
     return True
     
 def OnPlayerSelectedMenuRow(playerid, row):
-    return True
+    return False
     
 def OnPlayerExitedMenu(playerid):
-    return True
+    return False
     
 def OnPlayerInteriorChange(playerid, newinteriorid, oldinteriorid):
-    return True
+    return False
     
 def OnPlayerKeyStateChange(playerid, newkeys, oldkeys):
-    return True
+    return False
     
 def OnRconLoginAttempt(ip, password, success):
     password = decode(password)
-    return True
+    return False
     
 def OnPlayerUpdate(playerid):
     return True
     
 def OnPlayerStreamIn(playerid, forplayerid):
-    return True
+    return False
     
 def OnPlayerStreamOut(playerid, forplayerid):
-    return True
+    return False
     
 def OnVehicleStreamIn(vehicleid, forplayerid):
-        return True
+    return False
         
 def OnVehicleStreamOut(vehicleid, forplayerid):
-    return True
+    return False
     
 def OnActorStreamIn(actorid, forplayerid):
-    return True
+    return False
     
 def OnActorStreamOut(actorid, forplayerid):
-    return True
+    return False
     
 def OnDialogResponse(playerid, dialogid, response, listitem, inputtext):
     return False
@@ -166,7 +167,7 @@ def OnTrailerUpdate(playerid, vehicleid):
     return True
     
 def OnVehicleSirenStateChange(playerid, vehicleid, newstate):
-    return True
+    return False
     
 def OnPlayerClickPlayer(playerid, clickedplayerid, source):
     return False
@@ -181,7 +182,7 @@ def OnPlayerSelectObject(playerid, type, objectid, modelid, fX, fY, fZ):
     return False
     
 def OnPlayerWeaponShot(playerid, weaponid, hittype, hitid, fX, fY, fZ):
-    return False
+    return True
 
 def OnProcessTick():
     return None
