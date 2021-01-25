@@ -40,6 +40,7 @@ public:
 	bool isLoaded();
 	void disable();
 	bool isEnabled();
+	bool hasAttribute(const char* name);
 };
 
 #endif

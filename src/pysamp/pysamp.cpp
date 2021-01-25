@@ -62,3 +62,9 @@ bool PySAMP::isEnabled()
 {
 	return PySAMP::isLoaded() && PySAMP::gamemode->isEnabled();
 }
+
+
+bool PySAMP::hasAttribute(const char* name)
+{
+	return PySAMP::isLoaded() && PySAMP::gamemode->hasAttribute(name);
+}

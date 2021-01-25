@@ -105,7 +105,6 @@ std::map<std::string, bool> _createCallbackReturnConfiguration()
 }
 
 std::map<std::string, std::string> callback_format = _createCallbackFormatMap();
-
 std::map<std::string, bool> callback_return_configuration = _createCallbackReturnConfiguration();
 
 PyObject * createParameterObject(AMX *amx, const char *callback_name, cell *parameters)

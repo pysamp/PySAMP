@@ -34,6 +34,7 @@ public:
 	static bool isInitialized();
 	static bool isLoaded();
 	static bool isEnabled();
+	static bool hasAttribute(const char* name);
 };
 
 
