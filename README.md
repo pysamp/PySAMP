@@ -82,6 +82,11 @@ With our docker setup, you can run your entire SA-MP server inside a docker cont
   <hr>
 </details>
 
+# Community
+<img src="https://pics.ducky.rocks/images/2019/12/10/imaged9f253a7387d8393.th.png" alt="Discord Logo" width="40"/> 
+
+Join us over at [Discord](https://discord.gg/puw5VeQtbx)! You can join the discussion or even ask for help/support.
+
 # Thanks to
 - [@dennorske](https://github.com/dennorske) for reviving this project
 - SA:MP Team for developing SA:MP, especially [@Y-Less](https://github.com/Y-Less)
