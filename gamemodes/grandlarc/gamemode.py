@@ -5,6 +5,28 @@ from funcs import *
 from vars import *
 from player import *
 
+################################
+"""
+Hello dear user! 
+Welcome to the Python version of the original Grand Larceny gamemode!
+We wanted to convert this classic gamemode into what it would look like
+in python, and here is the result. We took our liberty to nick it "PyLarc".
+
+The intention behind converting it, was to give you all an idea of how the plugin works,
+and to give you all a good example.
+
+We have tried to show how player classes can be implemented (check player.py), and
+also how the general usage works. 
+
+Everything here should function as in the original PAWN version, and if you 
+find any bugs, you can report them on our repo; https://github.com/habecker/PySAMP/issues
+
+For now, enjoy the code, and good luck!
+denNorske & Habecker
+"""
+################################
+
+
 def OnGameModeInit():
     SetGameModeText('PyLarc')
     print("-----------------------------------------------")
@@ -345,6 +367,9 @@ def OnPlayerRequestClass(playerid, classid):
                 return True
             else:
                 if GetPlayerState(playerid) != Const("PLAYER_STATE_SPECTATING"):
+                    SpawnPlayer(playerid) # Why? 
+                    #Else player does not load in correctly and the toggle below will disconnect the player. 
+                    # Read the known issues on our repo wiki. 
                     TogglePlayerSpectating(playerid, 1)
                     TextDrawShowForPlayer(playerid, txtClassSelHelper)
                     player.city_selection = -1
@@ -363,12 +388,12 @@ def OnPlayerUpdate(playerid):
             GetPlayerState(playerid) == Const("PLAYER_STATE_SPECTATING") ):
                 ClassSel_HandleCitySelection(playerid)
     
-    # if GetPlayerInterior(playerid) != 0 and GetPlayerWeapon(playerid) != 0:
-    #     SetPlayerArmedWeapon(playerid, 0) # Fists
-    #     return False #No syncing until they change their weapon
+    if GetPlayerInterior(playerid) != 0 and GetPlayerWeapon(playerid) != 0:
+        SetPlayerArmedWeapon(playerid, 0) # Fists
+        return False #No syncing until they change their weapon
     
-    # if GetPlayerWeapon(playerid) == 38 or GetPlayerSpecialAction(playerid) == 2: #minigun and jetpack not allowed
-    #     Kick(playerid)
-    #     return False
+    if GetPlayerWeapon(playerid) == 38 or GetPlayerSpecialAction(playerid) == 2: #minigun and jetpack not allowed
+        Kick(playerid)
+        return False
     return True
     

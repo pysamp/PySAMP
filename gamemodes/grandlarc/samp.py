@@ -1202,7 +1202,7 @@ def HTTP(index, type, url, data, callback):
     return pysamp.HTTP(index, type, encode(url), encode(data), encode(callback))
 
 def Create3DTextLabel(text, color, x, y, z, drawDistance, virtualworld, testLOS=False):
-    return pysamp.Create3DTextLabel(text, color, x, y, z, drawDistance, virtualworld, testLOS)
+    return pysamp.Create3DTextLabel(encode(text), color, x, y, z, drawDistance, virtualworld, testLOS)
 
 def Delete3DTextLabel(id):
     return pysamp.Delete3DTextLabel(id)
@@ -1214,13 +1214,14 @@ def Attach3DTextLabelToVehicle(id, vehicleid, offsetX, offsetY, offsetZ):
     return pysamp.Attach3DTextLabelToVehicle(id, vehicleid, offsetX, offsetY, offsetZ)
 
 def Update3DTextLabelText(id, color, text):
-    return pysamp.Update3DTextLabelText(id, color, text)
+    return pysamp.Update3DTextLabelText(id, color, encode(text))
 
 def CreatePlayer3DTextLabel(playerid, text, color, x, y, z, drawDistance, attachedplayer=Const('INVALID_PLAYER_ID'), attachedvehicle=Const('INVALID_VEHICLE_ID'), testLOS=False):
-    return pysamp.CreatePlayer3DTextLabel(playerid, text, color, x, y, z, drawDistance, attachedplayer, attachedvehicle, testLOS)
+    return pysamp.CreatePlayer3DTextLabel(playerid, encode(text), color, x, y, z, drawDistance, attachedplayer, attachedvehicle, testLOS)
 
 def DeletePlayer3DTextLabel(playerid, id):
     return pysamp.DeletePlayer3DTextLabel(playerid, id)
 
 def UpdatePlayer3DTextLabelText(playerid, id, color, text):
-    return pysamp.UpdatePlayer3DTextLabelText(playerid, id, color, text)
+    return pysamp.UpdatePlayer3DTextLabelText(playerid, id, color, encode(text))
+
