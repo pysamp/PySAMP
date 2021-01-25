@@ -1,16 +1,14 @@
 @echo off
 @setlocal
 
-todo update
-
 SETLOCAL ENABLEDELAYEDEXPANSION
 (set \n=^
 %=DONT REMOVE THIS=%
 )
 
-SET PYSAMP_VERSION=1.1.1
-SET PYSAMP_EMPTY_GAMEMODE_URL=https://github.com/habecker/PySAMP/releases/download/PRE-1.1.1-rc.2/empty-gamemode.zip
-SET PYSAMP_DLL_URL=https://github.com/habecker/PySAMP/releases/download/PRE-1.1.1-rc.2/PySAMP.dll
+SET PYSAMP_VERSION=1.2.0
+SET PYSAMP_EMPTY_GAMEMODE_URL=https://github.com/habecker/PySAMP/releases/download/1.2.0/empty-gamemode.zip
+SET PYSAMP_DLL_URL=https://github.com/habecker/PySAMP/releases/download/1.2.0/PySAMP.dll
 
 
 Rem http://github.com/habecker/PySAMP/releases/latest/download/pySAMP.dll
@@ -100,6 +98,7 @@ if not exist ".\python\" (
     powershell Expand-Archive empty-gamemode.zip -DestinationPath .\
     move empty\gamemode.py .\gamemode.py
     move empty\samp.py .\samp.py
+    move empty\const.py .\const.py
     del /f /s /q empty-gamemode.zip 1>nul
     del /f /s /q empty 1>nul
     rmdir /s /q empty
