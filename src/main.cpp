@@ -105,7 +105,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPublicCall2(AMX *amx, const char *name,
 
 	if (!PySAMP::hasAttribute(name))
 	{
-		return true;
+		return false;
 	}
 
 	if (strcmp(name, "OnGameModeInit") == 0 || strcmp(name, "OnGameModeExit") == 0 || strcmp(name, "OnPlayerCommandText") == 0) {
