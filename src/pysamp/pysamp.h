@@ -23,12 +23,13 @@
 class PySAMP
 {
 private:
-	static PyGamemode* gamemode;
+	static PyGamemode *gamemode;
 public:
 	static void load();
 	static void reload();
 	static void unload();
 	static void disable();
+	static bool hasCallback(const char* name);
 	static bool callback(const char* name, PyObject * pArgs);
 	static bool callback(const char* name, PyObject * pArgs, bool obtainLock);
 	static bool isInitialized();

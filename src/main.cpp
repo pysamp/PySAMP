@@ -1,14 +1,4 @@
-#define VERSION "1.1.0-300"
-
-#include <stdio.h>
-#include <string.h>
-#include "config.h"
 #include "main.h"
-#include "sampgdk.h"
-#include "pysamp/pysamp.h"
-#include "bindings/callbacks.h"
-#include "test/callbackstest.h"
-#include <thread>
 
 std::thread threading;
 bool threadingInitialized = false;
@@ -29,18 +19,20 @@ PLUGIN_EXPORT bool PLUGIN_CALL Load(void **ppData)
 	//load libpython to support numpy and other libraries
 	dlopen(PYTHON_LIBRARY, RTLD_GLOBAL);
 #endif
-	
 	return sampgdk::Load(ppData);
 }
 
 void startThreading()
 {
-	threadingInitialized = true;
-	threading = std::thread([] { 
-		sampgdk::logprintf("Initializing Threading");
-		PySAMP::callback("OnThreadingInit", NULL);
-		sampgdk::logprintf("Initialized Threading");
-	});
+	if (PySAMP::hasCallback("OnThreadingInit"))
+	{
+		threading = std::thread([] {
+			sampgdk::logprintf("Initializing Threading");
+			PySAMP::callback("OnThreadingInit", NULL);
+			sampgdk::logprintf("Initialized Threading");
+		});
+		threadingInitialized = true;
+	}
 }
 
 void stopThreading()
@@ -80,6 +72,12 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnGameModeExit()
 
 PLUGIN_EXPORT bool PLUGIN_CALL OnGameModeInit()
 {
+	/*
+	int numNatives = 0;
+	AMX_NATIVE native = sampgdk_FindNative("FCNPC_SetWeapon23");
+	if (native != NULL)
+		sampgdk::logprintf("Found FCNPC_SetWeapon23!");
+	*/
 	sampgdk::logprintf("Loading PYSAMP");
 	try {
 		if (PySAMP::isLoaded())
@@ -104,6 +102,11 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPublicCall2(AMX *amx, const char *name,
 	}
 
 	if (strcmp(name, "OnGameModeInit") == 0 || strcmp(name, "OnGameModeExit") == 0 || strcmp(name, "OnPlayerCommandText") == 0) {
+		return false;
+	}
+
+	if (callback_format.count(name) == 0) {
+		sampgdk::logprintf("Callback %s not found", name);
 		return false;
 	}
 
@@ -144,7 +147,6 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnRconCommand(const char * cmd) {
 PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerCommandText(int playerid,
 	const char *cmdtext) {
 	char* cmd = fromConst(cmdtext);
-	sampgdk::logprintf(cmd);
 	bool ret = PySAMP::callback("OnPlayerCommandText", Py_BuildValue("(iy)", playerid, cmd));
 	delete[] cmd;
 	return ret;

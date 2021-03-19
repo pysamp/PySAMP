@@ -20,6 +20,11 @@ PyGamemode::PyGamemode(const char * path)
 		return;
 	}
 
+	if (PyImport_AppendInittab("_pynative", &PyNative_createModule) == -1) {
+		sampgdk::logprintf("Couldn't load module.");
+		return;
+	}
+
 	Py_Initialize();
 	char cCurrentPath[FILENAME_MAX];
 	GetCurrentDir(cCurrentPath, sizeof(cCurrentPath));
@@ -96,6 +101,18 @@ bool PyGamemode::isLoaded()
 bool PyGamemode::isEnabled()
 {
 	return PyGamemode::isLoaded() && !PyGamemode::disabled;
+}
+
+bool PyGamemode::hasCallback(const char* name)
+{
+	bool ret = false;
+	// if Module does not exists don't check if the callback exists
+	if (disabled || !pModule) {
+		return ret;
+	}
+
+	PyObject* pFunc = PyObject_GetAttrString(pModule, name);
+	return pFunc && PyCallable_Check(pFunc) == 1;
 }
 
 bool PyGamemode::callback(const char * name, PyObject * pArgs, bool obtainLock)

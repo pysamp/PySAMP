@@ -2,14 +2,14 @@
 #define CALLBACKS_H
 
 #include "sampgdk.h"
-#include "pysamp/pysamp.h"
 
 #include <stdio.h>
 #include <stdarg.h>
 
-std::map<std::string, std::string> _createCallbackFormatMap()
+static std::map<std::string, std::string> _createCallbackFormatMap()
 {
     std::map<std::string, std::string> callback_format;
+    callback_format["FCNPC_OnCreate"] = "i";
     callback_format["OnPlayerConnect"] = "i";
     callback_format["OnPlayerDisconnect"] = "ii";
     callback_format["OnPlayerSpawn"] = "i";
@@ -68,7 +68,7 @@ std::map<std::string, std::string> _createCallbackFormatMap()
 }
 
 /* creates map of all callbacks which can prohibit further callback propagation to other filterscripts / gamemodes / plugins */
-std::map<std::string, bool> _createCallbackReturnConfiguration()
+static std::map<std::string, bool> _createCallbackReturnConfiguration()
 {
     std::map<std::string, bool> map;
     map["OnDialogResponse"] = 0;
@@ -104,11 +104,11 @@ std::map<std::string, bool> _createCallbackReturnConfiguration()
     return map;
 }
 
-std::map<std::string, std::string> callback_format = _createCallbackFormatMap();
+static std::map<std::string, std::string> callback_format = _createCallbackFormatMap();
 
-std::map<std::string, bool> callback_return_configuration = _createCallbackReturnConfiguration();
+static std::map<std::string, bool> callback_return_configuration = _createCallbackReturnConfiguration();
 
-PyObject * createParameterObject(AMX *amx, const char *callback_name, cell *parameters)
+static PyObject * createParameterObject(AMX *amx, const char *callback_name, cell *parameters)
 {
     if (callback_format.count(callback_name) == 0)
         return nullptr;
@@ -161,7 +161,7 @@ PyObject * createParameterObject(AMX *amx, const char *callback_name, cell *para
     return arguments;
 }
 
-char* fromConst(const char * str) {
+static char* fromConst(const char * str) {
     const size_t len = strlen(str);
     char * cstr = new char[len + 1];
     strncpy(cstr, str, len);

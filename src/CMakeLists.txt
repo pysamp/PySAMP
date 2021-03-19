@@ -8,7 +8,7 @@ list(APPEND CMAKE_MODULE_PATH ${SAMPGDK_DIR}/cmake)
 
 set(PYSAMP_MAJOR_VERSION 1)
 set(PYSAMP_MINOR_VERSION 2)
-set(PYSAMP_REVISION 000)
+set(PYSAMP_REVISION 1)
 
 set(PYSAMP_VERSION "${PYSAMP_MAJOR_VERSION}.${PYSAMP_MINOR_VERSION}.${PYSAMP_REVISION}")
 set(PYTHON_VERSION "PYTHON_VERSION" CACHE STRING "The version of python to use (eg. 3.8)")
@@ -65,6 +65,7 @@ add_samp_plugin(PySAMP
   pysamp/pygamemode.h
   bindings/callbacks.h
   bindings/samp.h
+  bindings/native.h
   bindings/const.h
   bindings/const.cpp
 )

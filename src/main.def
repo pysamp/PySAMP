@@ -7,3 +7,4 @@ EXPORTS
 	OnGameModeInit
 	OnGameModeExit
 	OnPlayerCommandText
+	OnRconCommand

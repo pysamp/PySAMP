@@ -36,6 +36,13 @@ void PySAMP::unload()
 	PySAMP::gamemode = nullptr;
 }
 
+bool PySAMP::hasCallback(const char* name)
+{
+	if (PySAMP::gamemode && PySAMP::gamemode->isLoaded())
+		return PySAMP::gamemode->hasCallback(name);
+	return 0;
+}
+
 bool PySAMP::callback(const char * name, PyObject * pArgs)
 {
 	return PySAMP::callback(name, pArgs, true);
