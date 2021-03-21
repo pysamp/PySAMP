@@ -1,5 +1,4 @@
-#ifndef PYSAMP_H
-#define PYSAMP_H
+#pragma once
 
 #if PY_TEST == 0
 	#ifdef WIN32
@@ -36,7 +35,3 @@ public:
 	static bool isLoaded();
 	static bool isEnabled();
 };
-
-
-
-#endif // PYSAMP_H

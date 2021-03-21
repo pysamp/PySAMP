@@ -1,5 +1,4 @@
-#ifndef PYGAMEMODE_H
-#define PYGAMEMODE_H
+#pragma once
 
 #include <Python.h>
 #include "sampgdk.h"
@@ -46,5 +45,3 @@ public:
 	void disable();
 	bool isEnabled();
 };
-
-#endif

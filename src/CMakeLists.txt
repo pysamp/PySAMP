@@ -5,7 +5,6 @@ add_compile_options(-std=c++11)
 cmake_minimum_required(VERSION 3.7)
 list(APPEND CMAKE_MODULE_PATH ${SAMPGDK_DIR}/cmake)
 
-
 set(PYSAMP_MAJOR_VERSION 1)
 set(PYSAMP_MINOR_VERSION 2)
 set(PYSAMP_REVISION 1)
@@ -14,9 +13,12 @@ set(PYSAMP_VERSION "${PYSAMP_MAJOR_VERSION}.${PYSAMP_MINOR_VERSION}.${PYSAMP_REV
 set(PYTHON_VERSION "PYTHON_VERSION" CACHE STRING "The version of python to use (eg. 3.8)")
 set(PYTHON_STATIC_LIBRARY "PYTHON_STATIC_LIBRARY" CACHE STRING "The name of the python library to use (eg. libpython3.8.so.1.0") 
 
-
 add_definitions( -DPYTHON_VERSION=${PYTHON_VERSION} )
 add_definitions( -DPYSAMP_VERSION=${PYSAMP_VERSION} )
+
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
 
 find_package (PythonInterp ${PYTHON_VERSION} REQUIRED)
 find_package (PythonLibs ${PYTHON_VERSION} REQUIRED)
@@ -34,6 +36,7 @@ include_directories(
   ${SAMPSDK_DIR}/amx
   ${SAMPGDK_DIR}/build/lib/sampgdk/
   ${SAMPSDK_INCLUDE_DIR}
+  ${CMAKE_CURRENT_SOURCE_DIR}/logging
   ${CMAKE_CURRENT_SOURCE_DIR}/bindings
   ${CMAKE_CURRENT_SOURCE_DIR}/pysamp
   ${PYTHON_INCLUDE_DIRS}
@@ -54,20 +57,24 @@ configure_file( config.h.in ${CMAKE_BINARY_DIR}/generated/config.h )
 add_samp_plugin(PySAMP
   ${SAMPSDK_DIR}/amxplugin.cpp
   ${CMAKE_BINARY_DIR}/generated/config.h
-  main.h
-  main.cpp
-  main.def
   ${SAMPGDK_DIR}/build/lib/sampgdk/sampgdk.c
   ${SAMPGDK_DIR}/build/lib/sampgdk/sampgdk.h
+  logging/logger.h
+  logging/logger.cpp
   pysamp/pysamp.cpp
   pysamp/pysamp.h
   pysamp/pygamemode.cpp
   pysamp/pygamemode.h
-  bindings/callbacks.h
   bindings/samp.h
   bindings/native.h
+  bindings/native.cpp
+  bindings/callbacks.h
+  bindings/callbacks.cpp
   bindings/const.h
   bindings/const.cpp
+  main.h
+  main.cpp
+  main.def
 )
 
 target_link_libraries(PySAMP ${SAMPGDK_LIBRARY})
@@ -81,3 +88,4 @@ if(DOXYGEN_FOUND)
     COMMENT "Generating API documentation with Doxygen" VERBATIM
   )
 endif(DOXYGEN_FOUND)
+

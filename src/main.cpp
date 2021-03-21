@@ -5,16 +5,23 @@ bool threadingInitialized = false;
 
 extern void *pAMXFunctions;
 
+static Logger logger = Logger("main");
+
 PLUGIN_EXPORT unsigned int PLUGIN_CALL Supports()
 {
-	return sampgdk::Supports() | SUPPORTS_PROCESS_TICK;
+	return sampgdk::Supports() | SUPPORTS_AMX_NATIVES  | SUPPORTS_PROCESS_TICK;
 }
 
 PLUGIN_EXPORT bool PLUGIN_CALL Load(void **ppData) 
 {
 	pAMXFunctions = ppData[PLUGIN_DATA_AMX_EXPORTS];
 	sampgdk::logprintf("PySAMP %s for python%s", PYSAMP_VERSION, PYTHON_VERSION);
+	
+	initializeDefaultCallbacks();
 
+#ifdef PY_TRACE == 1
+	Logger::setGlobalLevel(LogLevel::TRACE);
+#endif
 #ifndef WIN32
 	//load libpython to support numpy and other libraries
 	dlopen(PYTHON_LIBRARY, RTLD_GLOBAL);
@@ -27,9 +34,9 @@ void startThreading()
 	if (PySAMP::hasCallback("OnThreadingInit"))
 	{
 		threading = std::thread([] {
-			sampgdk::logprintf("Initializing Threading");
+			logger.debug("Initializing Threading");
 			PySAMP::callback("OnThreadingInit", NULL);
-			sampgdk::logprintf("Initialized Threading");
+			logger.debug("Initialized Threading");
 		});
 		threadingInitialized = true;
 	}
@@ -37,7 +44,7 @@ void startThreading()
 
 void stopThreading()
 {
-	sampgdk::logprintf("Stopping PYSAMP-Threading");
+	logger.debug("Stopping PYSAMP-Threading");
 	if(threadingInitialized)
 	{
 		PySAMP::callback("OnThreadingStopSignal", NULL);
@@ -78,7 +85,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnGameModeInit()
 	if (native != NULL)
 		sampgdk::logprintf("Found FCNPC_SetWeapon23!");
 	*/
-	sampgdk::logprintf("Loading PYSAMP");
+	logger.debug("Loading PYSAMP");
 	try {
 		if (PySAMP::isLoaded())
 			PySAMP::reload();
@@ -92,10 +99,14 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnGameModeInit()
 	return result;
 }
 
-
 PLUGIN_EXPORT bool PLUGIN_CALL OnPublicCall2(AMX *amx, const char *name,
     cell *params, cell *retval, bool* stop)
 {
+	//TODO make this configurable!
+	bool skipLog = strcmp(name, "OnPlayerTick") == 0 || strcmp(name, "OnPlayerUpdate") == 0 || strcmp(name, "OnUpdate") == 0 || strcmp(name, "FCNPC_OnUpdate") == 0;
+	if (!skipLog)
+		logger.trace("Begin OnPublicCall2 for %s", name);
+	
 	if (Py_IsInitialized() == 0)
 	{
 		return false;
@@ -106,29 +117,47 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPublicCall2(AMX *amx, const char *name,
 	}
 
 	if (callback_format.count(name) == 0) {
-		sampgdk::logprintf("Callback %s not found", name);
+		logger.error("Callback %s not found", name);
 		return false;
 	}
 
-	bool doesStop = callback_return_configuration.count(name) > 0;
+	if (!PySAMP::hasCallback(name)) {
+		if (!skipLog)
+			logger.trace("Skipping callback because python gamemode has no callback: %s", name);
+		return false;
+	}
+
+	bool hasReturnValue = callback_return_configuration.count(name) > 0;
+
+	if (!skipLog)
+		logger.trace("Calling python callback for %s with param format %s", name, callback_format.at(name).c_str());
+
 	bool result = PySAMP::callback(name, createParameterObject(amx, name, params));
 
-	if (doesStop)
+	if (!skipLog)
+		logger.trace("Python callback for %s returned %d", name, result);
+
+	if (hasReturnValue)
 	{
+		if (!skipLog)
+			logger.trace("Check if callback propagation should stop for %s", name);
 		bool stopOnReturnValue = callback_return_configuration.at(name);
 		if (result == stopOnReturnValue)
 		{
+			if (!skipLog)
+				logger.trace("Stop callback propagation for %s", name);
 			*stop = true;
 		}
+		*retval = result;
 	}
-
-	*retval = result;
+	if (!skipLog)
+		logger.trace("End OnPublicCall2 for %s", name);
 	return result;
 }
 
 
 PLUGIN_EXPORT bool PLUGIN_CALL OnRconCommand(const char * cmd) {
-	sampgdk::logprintf("rcon command: %s", cmd);
+	logger.trace("rcon command: %s", cmd);
 	if (strcmp(cmd, "pyreload") == 0)
 	{
 		PySAMP::callback("OnPyUnload", NULL);

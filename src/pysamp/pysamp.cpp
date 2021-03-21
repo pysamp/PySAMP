@@ -2,10 +2,11 @@
 
 PyGamemode* PySAMP::gamemode = nullptr;
 
+static Logger logger = Logger("pysamp");
 
 void PySAMP::load()
 {
-	sampgdk::logprintf("Loading PySAMP gamemode");
+	logger.info("Loading PySAMP gamemode");
 	PySAMP::gamemode = new PyGamemode(PYTHON_PATH);
 
 	if (!PyEval_ThreadsInitialized()) 
@@ -18,7 +19,7 @@ void PySAMP::load()
 
 void PySAMP::reload()
 {
-	sampgdk::logprintf("Reloading PySAMP gamemode");
+	logger.info("Reloading PySAMP gamemode");
 	if (PySAMP::isLoaded())
 		PySAMP::gamemode->reload();
 }
@@ -31,7 +32,7 @@ void PySAMP::disable()
 
 void PySAMP::unload()
 {
-	sampgdk::logprintf("Unloading PySAMP gamemode");
+	logger.info("Unloading PySAMP gamemode");
 	delete PySAMP::gamemode;
 	PySAMP::gamemode = nullptr;
 }

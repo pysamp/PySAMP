@@ -1,5 +1,6 @@
 #include "pygamemode.h"
 
+static Logger logger = Logger("pygamemode");
 
 //see http://stackoverflow.com/questions/8032080/how-to-convert-char-to-wchar-t
 const wchar_t *GetWC(const char *c)
@@ -13,15 +14,15 @@ const wchar_t *GetWC(const char *c)
 
 PyGamemode::PyGamemode(const char * path)
 {
-	sampgdk::logprintf("PyGamemode::PyGamemode(%s)", path);
+	logger.debug("PyGamemode::PyGamemode(%s)", path);
 	SAMPConsts::create();
 	if (PyImport_AppendInittab("pysamp", &PyInit_samp) == -1) {
-		sampgdk::logprintf("Couldn't load module.");
+		logger.error("Couldn't load module.");
 		return;
 	}
 
 	if (PyImport_AppendInittab("_pynative", &PyNative_createModule) == -1) {
-		sampgdk::logprintf("Couldn't load module.");
+		logger.error("Couldn't load module.");
 		return;
 	}
 
@@ -33,7 +34,7 @@ PyGamemode::PyGamemode(const char * path)
 	PyObject* sysPath = PySys_GetObject("path");
 
 	if(!sysPath)
-		sampgdk::logprintf("Setting python workspace failed.");
+		logger.error("Setting python workspace failed.");
 
 	PyList_Append(sysPath, PyUnicode_FromString(absolute));
 }
@@ -52,7 +53,7 @@ void PyGamemode::load()
 	if (!pModule) 
 	{
 		PyErr_Print();
-		sampgdk::logprintf("PyGamemode::PyGamemode(%s) failed!", "gamemode.py");
+		logger.error("PyGamemode::PyGamemode(%s) failed!", "gamemode.py");
 	} else {
 		loaded = true;
 	}
@@ -63,18 +64,18 @@ void PyGamemode::reload()
 {
 	if (pModule)
 	{
-		sampgdk::logprintf("PyGamemode::reload()-begin");
+		logger.trace("PyGamemode::reload()-begin");
 		PyObject* pNewModule = PyImport_ReloadModule(pModule);
 		if (!pNewModule) 
 		{
+			logger.error("Loading PyGamemode gamemode.py failed!");
 			PyErr_Print();
-			sampgdk::logprintf("PyGamemode::PyGamemode(%s) failed!", "gamemode.py");
 		} else {
 			Py_XDECREF(pModule);
 			Py_XINCREF(pNewModule);
 			pModule = pNewModule;
 		}
-		sampgdk::logprintf("PyGamemode::reload()-end");
+		logger.trace("PyGamemode::reload()-end");
 		disabled = false;
 	}
 }
@@ -122,7 +123,7 @@ bool PyGamemode::callback(const char * name, PyObject * pArgs, bool obtainLock)
 	if (disabled || !pModule) {
 		return ret;
 	}
-
+	
 	PyGILState_STATE gstate;
 
 	if (obtainLock)
@@ -155,7 +156,7 @@ bool PyGamemode::callback(const char * name, PyObject * pArgs, bool obtainLock)
 		{
 			int tru = PyObject_IsTrue(pValue);
 			if (tru == -1)
-				sampgdk::logprintf("An error occured at %s in python gamemode. It doesn't return boolean.", name);
+				logger.error("An error occured at %s in python gamemode. It doesn't return boolean.", name);
 			else
 				ret = tru == 1;
 		}

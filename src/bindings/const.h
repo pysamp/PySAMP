@@ -1,5 +1,4 @@
-#ifndef CONST_H
-#define CONST_H
+#pragma once
 
 #include<string>
 #include<map>
@@ -30,5 +29,3 @@ static PyObject* pysamp_const(PyObject *self, PyObject *args)
 	return out;
 }
 
-
-#endif // !CONST_H

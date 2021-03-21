@@ -1,5 +1,5 @@
-#ifndef samp_h
-#define samp_h
+#pragma once
+
 #include <Python.h>
 #include <iostream>
 #include "sampgdk.h"
@@ -6545,4 +6545,3 @@ static PyObject* PyInit_samp()
 {
 	return PyModule_Create(&PySAMPModule);
 }
-#endif // !samp_h
