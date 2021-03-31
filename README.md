@@ -17,9 +17,9 @@ public OnPlayerConnect(playerid)
 from samp import *
 from const import *
 
-def OnPlayerConnect(playerid):
-    name = GetPlayerName(playerid, MAX_PLAYER_NAME.get())
-    SendClientMessageToAll(0x000000FF,  '%s has joined the server.'.format(name))
+def on_player_connect(playerid):
+    name = get_player_name(playerid, MAX_PLAYER_NAME.get())
+    send_client_message_to_all(0x000000FF,  '%s has joined the server.'.format(name))
     return 1
 ```
 
