@@ -8,8 +8,8 @@ total_vehicles_from_files = 0
 
 # Textdraws
 txtClassSelHelper = 65535
-txtLosSantos = 65535
-txtSanFierro = 65535
-txtLasVenturas = 65535
+txt_ls = 65535
+txt_sf = 65535
+txt_lv = 65535
 
 players = []

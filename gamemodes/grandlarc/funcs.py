@@ -1,7 +1,7 @@
 from samp import *
 import os
 
-def LoadStaticVehiclesFromFile(filename):
+def load_vehs_from_file(filename):
     vehicles_loaded = 0
     try:
         with open(filename, "r") as f:
@@ -34,7 +34,7 @@ def LoadStaticVehiclesFromFile(filename):
                 ):
                     continue
 
-                AddStaticVehicleEx(vehicletype,SpawnX,SpawnY,SpawnZ,SpawnRot,Color1,Color2,(30*60)) # respawn 30 minutes
+                add_static_vehicle_ex(vehicletype,SpawnX,SpawnY,SpawnZ,SpawnRot,Color1,Color2,(30*60)) # respawn 30 minutes
                 vehicles_loaded +=1
             f.close()
             print("Loaded {} vehicles from: {}".format(int(vehicles_loaded),filename))

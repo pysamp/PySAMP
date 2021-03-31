@@ -22,7 +22,7 @@ gArmySpawns = [
 [272.6040,1989.7307,17.6406,268.3605]
 ]
 
-gRandomSpawns_LosSantos = [
+spawn_ls = [
 [1751.1097,-2106.4529,13.5469,183.1979], # El-Corona - Outside random house
 [2652.6418,-1989.9175,13.9988,182.7107], # Random house in willowfield - near playa de seville and stadium
 [2489.5225,-1957.9258,13.5881,2.3440], # Hotel in willowfield - near cluckin bell
@@ -57,7 +57,7 @@ gRandomSpawns_LosSantos = [
 [2509.4346,-2637.6543,13.6453,358.3565] # Ocean Docks spawn 2
 ]
 
-gRandomSpawns_LasVenturas = [
+spawn_lv = [
 [1435.8024,2662.3647,11.3926,1.1650], #  Northern train station
 [1457.4762,2773.4868,10.8203,272.2754], #  Northern golf club
 [1739.6390,2803.0569,14.2735,285.3929], #  Northern housing estate 1
@@ -103,7 +103,7 @@ gRandomSpawns_LasVenturas = [
 [1412.6187,2000.0596,14.7396,271.3568] #  South baseball stadium houses
 ]
 
-gRandomSpawns_SanFierro = [
+spawn_sf = [
 [-2723.4639,-314.8138,7.1839,43.5562],  # golf course spawn
 [-2694.5344,64.5550,4.3359,95.0190],  # in front of a house
 [-2458.2000,134.5419,35.1719,303.9446],  # hotel

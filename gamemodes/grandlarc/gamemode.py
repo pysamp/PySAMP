@@ -27,122 +27,122 @@ denNorske & Habecker
 ################################
 
 
-def OnGameModeInit():
-    SetGameModeText('PyLarc')
+def on_game_mode_init():
+    set_game_mode_text('PyLarc')
     print("-----------------------------------------------")
     print("Running Grand Larceny - by the SA-MP team\nRe-written to python 3.8.6 by the PySAMP Team")
     print("-----------------------------------------------")
-    ShowPlayerMarkers(1) # PLAYER_MARKERS_MODE_GLOBAL = 1
-    ShowNameTags(True)
-    SetNameTagDrawDistance(40)
-    EnableStuntBonusForAll(False)
-    DisableInteriorEnterExits()
-    SetWeather(2)
+    show_player_markers(1) # PLAYER_MARKERS_MODE_GLOBAL = 1
+    show_name_tags(True)
+    set_name_tag_draw_distance(40)
+    enable_stunt_bonus_for_all(False)
+    disable_interior_enter_exits()
+    set_weather(2)
     #LimitGlobalChatRadius(300.0)
     
-    ClassSel_InitTextDraws()
+    class_sel_init_textdraws()
 
     # Player Class
-    AddPlayerClass(1,1759.0189,-1898.1260,13.5622,266.4503,-1,-1,-1,-1,-1,-1)
-    AddPlayerClass(2,1759.0189,-1898.1260,13.5622,266.4503,-1,-1,-1,-1,-1,-1)
-    AddPlayerClass(47,1759.0189,-1898.1260,13.5622,266.4503,-1,-1,-1,-1,-1,-1)
-    AddPlayerClass(48,1759.0189,-1898.1260,13.5622,266.4503,-1,-1,-1,-1,-1,-1)
-    AddPlayerClass(49,1759.0189,-1898.1260,13.5622,266.4503,-1,-1,-1,-1,-1,-1)
-    AddPlayerClass(50,1759.0189,-1898.1260,13.5622,266.4503,-1,-1,-1,-1,-1,-1)
-    AddPlayerClass(51,1759.0189,-1898.1260,13.5622,266.4503,-1,-1,-1,-1,-1,-1)
-    AddPlayerClass(52,1759.0189,-1898.1260,13.5622,266.4503,-1,-1,-1,-1,-1,-1)
-    AddPlayerClass(53,1759.0189,-1898.1260,13.5622,266.4503,-1,-1,-1,-1,-1,-1)
-    AddPlayerClass(54,1759.0189,-1898.1260,13.5622,266.4503,-1,-1,-1,-1,-1,-1)
-    AddPlayerClass(55,1759.0189,-1898.1260,13.5622,266.4503,-1,-1,-1,-1,-1,-1)
-    AddPlayerClass(56,1759.0189,-1898.1260,13.5622,266.4503,-1,-1,-1,-1,-1,-1)
-    AddPlayerClass(57,1759.0189,-1898.1260,13.5622,266.4503,-1,-1,-1,-1,-1,-1)
-    AddPlayerClass(58,1759.0189,-1898.1260,13.5622,266.4503,-1,-1,-1,-1,-1,-1)
-    AddPlayerClass(68,1759.0189,-1898.1260,13.5622,266.4503,-1,-1,-1,-1,-1,-1)
-    AddPlayerClass(69,1759.0189,-1898.1260,13.5622,266.4503,-1,-1,-1,-1,-1,-1)
-    AddPlayerClass(70,1759.0189,-1898.1260,13.5622,266.4503,-1,-1,-1,-1,-1,-1)
-    AddPlayerClass(71,1759.0189,-1898.1260,13.5622,266.4503,-1,-1,-1,-1,-1,-1)
-    AddPlayerClass(72,1759.0189,-1898.1260,13.5622,266.4503,-1,-1,-1,-1,-1,-1)
-    AddPlayerClass(73,1759.0189,-1898.1260,13.5622,266.4503,-1,-1,-1,-1,-1,-1)
-    AddPlayerClass(75,1759.0189,-1898.1260,13.5622,266.4503,-1,-1,-1,-1,-1,-1)
-    AddPlayerClass(76,1759.0189,-1898.1260,13.5622,266.4503,-1,-1,-1,-1,-1,-1)
-    AddPlayerClass(78,1759.0189,-1898.1260,13.5622,266.4503,-1,-1,-1,-1,-1,-1)
-    AddPlayerClass(79,1759.0189,-1898.1260,13.5622,266.4503,-1,-1,-1,-1,-1,-1)
-    AddPlayerClass(80,1759.0189,-1898.1260,13.5622,266.4503,-1,-1,-1,-1,-1,-1)
-    AddPlayerClass(81,1759.0189,-1898.1260,13.5622,266.4503,-1,-1,-1,-1,-1,-1)
-    AddPlayerClass(82,1759.0189,-1898.1260,13.5622,266.4503,-1,-1,-1,-1,-1,-1)
-    AddPlayerClass(83,1759.0189,-1898.1260,13.5622,266.4503,-1,-1,-1,-1,-1,-1)
-    AddPlayerClass(84,1759.0189,-1898.1260,13.5622,266.4503,-1,-1,-1,-1,-1,-1)
-    AddPlayerClass(85,1759.0189,-1898.1260,13.5622,266.4503,-1,-1,-1,-1,-1,-1)
-    AddPlayerClass(87,1759.0189,-1898.1260,13.5622,266.4503,-1,-1,-1,-1,-1,-1)
-    AddPlayerClass(88,1759.0189,-1898.1260,13.5622,266.4503,-1,-1,-1,-1,-1,-1)
-    AddPlayerClass(89,1759.0189,-1898.1260,13.5622,266.4503,-1,-1,-1,-1,-1,-1)
-    AddPlayerClass(91,1759.0189,-1898.1260,13.5622,266.4503,-1,-1,-1,-1,-1,-1)
-    AddPlayerClass(92,1759.0189,-1898.1260,13.5622,266.4503,-1,-1,-1,-1,-1,-1)
-    AddPlayerClass(93,1759.0189,-1898.1260,13.5622,266.4503,-1,-1,-1,-1,-1,-1)
-    AddPlayerClass(95,1759.0189,-1898.1260,13.5622,266.4503,-1,-1,-1,-1,-1,-1)
-    AddPlayerClass(96,1759.0189,-1898.1260,13.5622,266.4503,-1,-1,-1,-1,-1,-1)
-    AddPlayerClass(97,1759.0189,-1898.1260,13.5622,266.4503,-1,-1,-1,-1,-1,-1)
-    AddPlayerClass(98,1759.0189,-1898.1260,13.5622,266.4503,-1,-1,-1,-1,-1,-1)
-    AddPlayerClass(99,1759.0189,-1898.1260,13.5622,266.4503,-1,-1,-1,-1,-1,-1)
-    AddPlayerClass(269,1759.0189,-1898.1260,13.5622,266.4503,-1,-1,-1,-1,-1,-1)
-    AddPlayerClass(270,1759.0189,-1898.1260,13.5622,266.4503,-1,-1,-1,-1,-1,-1)
-    AddPlayerClass(271,1759.0189,-1898.1260,13.5622,266.4503,-1,-1,-1,-1,-1,-1)
-    AddPlayerClass(272,1759.0189,-1898.1260,13.5622,266.4503,-1,-1,-1,-1,-1,-1)
+    add_player_class(1,1759.0189,-1898.1260,13.5622,266.4503,-1,-1,-1,-1,-1,-1)
+    add_player_class(2,1759.0189,-1898.1260,13.5622,266.4503,-1,-1,-1,-1,-1,-1)
+    add_player_class(47,1759.0189,-1898.1260,13.5622,266.4503,-1,-1,-1,-1,-1,-1)
+    add_player_class(48,1759.0189,-1898.1260,13.5622,266.4503,-1,-1,-1,-1,-1,-1)
+    add_player_class(49,1759.0189,-1898.1260,13.5622,266.4503,-1,-1,-1,-1,-1,-1)
+    add_player_class(50,1759.0189,-1898.1260,13.5622,266.4503,-1,-1,-1,-1,-1,-1)
+    add_player_class(51,1759.0189,-1898.1260,13.5622,266.4503,-1,-1,-1,-1,-1,-1)
+    add_player_class(52,1759.0189,-1898.1260,13.5622,266.4503,-1,-1,-1,-1,-1,-1)
+    add_player_class(53,1759.0189,-1898.1260,13.5622,266.4503,-1,-1,-1,-1,-1,-1)
+    add_player_class(54,1759.0189,-1898.1260,13.5622,266.4503,-1,-1,-1,-1,-1,-1)
+    add_player_class(55,1759.0189,-1898.1260,13.5622,266.4503,-1,-1,-1,-1,-1,-1)
+    add_player_class(56,1759.0189,-1898.1260,13.5622,266.4503,-1,-1,-1,-1,-1,-1)
+    add_player_class(57,1759.0189,-1898.1260,13.5622,266.4503,-1,-1,-1,-1,-1,-1)
+    add_player_class(58,1759.0189,-1898.1260,13.5622,266.4503,-1,-1,-1,-1,-1,-1)
+    add_player_class(68,1759.0189,-1898.1260,13.5622,266.4503,-1,-1,-1,-1,-1,-1)
+    add_player_class(69,1759.0189,-1898.1260,13.5622,266.4503,-1,-1,-1,-1,-1,-1)
+    add_player_class(70,1759.0189,-1898.1260,13.5622,266.4503,-1,-1,-1,-1,-1,-1)
+    add_player_class(71,1759.0189,-1898.1260,13.5622,266.4503,-1,-1,-1,-1,-1,-1)
+    add_player_class(72,1759.0189,-1898.1260,13.5622,266.4503,-1,-1,-1,-1,-1,-1)
+    add_player_class(73,1759.0189,-1898.1260,13.5622,266.4503,-1,-1,-1,-1,-1,-1)
+    add_player_class(75,1759.0189,-1898.1260,13.5622,266.4503,-1,-1,-1,-1,-1,-1)
+    add_player_class(76,1759.0189,-1898.1260,13.5622,266.4503,-1,-1,-1,-1,-1,-1)
+    add_player_class(78,1759.0189,-1898.1260,13.5622,266.4503,-1,-1,-1,-1,-1,-1)
+    add_player_class(79,1759.0189,-1898.1260,13.5622,266.4503,-1,-1,-1,-1,-1,-1)
+    add_player_class(80,1759.0189,-1898.1260,13.5622,266.4503,-1,-1,-1,-1,-1,-1)
+    add_player_class(81,1759.0189,-1898.1260,13.5622,266.4503,-1,-1,-1,-1,-1,-1)
+    add_player_class(82,1759.0189,-1898.1260,13.5622,266.4503,-1,-1,-1,-1,-1,-1)
+    add_player_class(83,1759.0189,-1898.1260,13.5622,266.4503,-1,-1,-1,-1,-1,-1)
+    add_player_class(84,1759.0189,-1898.1260,13.5622,266.4503,-1,-1,-1,-1,-1,-1)
+    add_player_class(85,1759.0189,-1898.1260,13.5622,266.4503,-1,-1,-1,-1,-1,-1)
+    add_player_class(87,1759.0189,-1898.1260,13.5622,266.4503,-1,-1,-1,-1,-1,-1)
+    add_player_class(88,1759.0189,-1898.1260,13.5622,266.4503,-1,-1,-1,-1,-1,-1)
+    add_player_class(89,1759.0189,-1898.1260,13.5622,266.4503,-1,-1,-1,-1,-1,-1)
+    add_player_class(91,1759.0189,-1898.1260,13.5622,266.4503,-1,-1,-1,-1,-1,-1)
+    add_player_class(92,1759.0189,-1898.1260,13.5622,266.4503,-1,-1,-1,-1,-1,-1)
+    add_player_class(93,1759.0189,-1898.1260,13.5622,266.4503,-1,-1,-1,-1,-1,-1)
+    add_player_class(95,1759.0189,-1898.1260,13.5622,266.4503,-1,-1,-1,-1,-1,-1)
+    add_player_class(96,1759.0189,-1898.1260,13.5622,266.4503,-1,-1,-1,-1,-1,-1)
+    add_player_class(97,1759.0189,-1898.1260,13.5622,266.4503,-1,-1,-1,-1,-1,-1)
+    add_player_class(98,1759.0189,-1898.1260,13.5622,266.4503,-1,-1,-1,-1,-1,-1)
+    add_player_class(99,1759.0189,-1898.1260,13.5622,266.4503,-1,-1,-1,-1,-1,-1)
+    add_player_class(269,1759.0189,-1898.1260,13.5622,266.4503,-1,-1,-1,-1,-1,-1)
+    add_player_class(270,1759.0189,-1898.1260,13.5622,266.4503,-1,-1,-1,-1,-1,-1)
+    add_player_class(271,1759.0189,-1898.1260,13.5622,266.4503,-1,-1,-1,-1,-1,-1)
+    add_player_class(272,1759.0189,-1898.1260,13.5622,266.4503,-1,-1,-1,-1,-1,-1)
 
     total_vehicles_from_files = (
     # SPECIAL:
-    LoadStaticVehiclesFromFile("scriptfiles/vehicles/trains.txt")       + 
-    LoadStaticVehiclesFromFile("scriptfiles/vehicles/pilots.txt")       + 
+    load_vehs_from_file("scriptfiles/vehicles/trains.txt")       + 
+    load_vehs_from_file("scriptfiles/vehicles/pilots.txt")       + 
     # Las Venturas
-    LoadStaticVehiclesFromFile("scriptfiles/vehicles/lv_law.txt")       +  
-    LoadStaticVehiclesFromFile("scriptfiles/vehicles/lv_airport.txt")   + 
-    LoadStaticVehiclesFromFile("scriptfiles/vehicles/lv_gen.txt")       + 
+    load_vehs_from_file("scriptfiles/vehicles/lv_law.txt")       +  
+    load_vehs_from_file("scriptfiles/vehicles/lv_airport.txt")   + 
+    load_vehs_from_file("scriptfiles/vehicles/lv_gen.txt")       + 
     # San fierro
-    LoadStaticVehiclesFromFile("scriptfiles/vehicles/sf_law.txt")       + 
-    LoadStaticVehiclesFromFile("scriptfiles/vehicles/sf_airport.txt")   + 
-    LoadStaticVehiclesFromFile("scriptfiles/vehicles/sf_gen.txt")       + 
+    load_vehs_from_file("scriptfiles/vehicles/sf_law.txt")       + 
+    load_vehs_from_file("scriptfiles/vehicles/sf_airport.txt")   + 
+    load_vehs_from_file("scriptfiles/vehicles/sf_gen.txt")       + 
     # Los Santos
-    LoadStaticVehiclesFromFile("scriptfiles/vehicles/ls_law.txt")       +  
-    LoadStaticVehiclesFromFile("scriptfiles/vehicles/ls_airport.txt")   + 
-    LoadStaticVehiclesFromFile("scriptfiles/vehicles/ls_gen_inner.txt") + 
-    LoadStaticVehiclesFromFile("scriptfiles/vehicles/ls_gen_outer.txt") + 
+    load_vehs_from_file("scriptfiles/vehicles/ls_law.txt")       +  
+    load_vehs_from_file("scriptfiles/vehicles/ls_airport.txt")   + 
+    load_vehs_from_file("scriptfiles/vehicles/ls_gen_inner.txt") + 
+    load_vehs_from_file("scriptfiles/vehicles/ls_gen_outer.txt") + 
     # Other areas
-    LoadStaticVehiclesFromFile("scriptfiles/vehicles/whetstone.txt")    + 
-    LoadStaticVehiclesFromFile("scriptfiles/vehicles/bone.txt")         + 
-    LoadStaticVehiclesFromFile("scriptfiles/vehicles/flint.txt")        + 
-    LoadStaticVehiclesFromFile("scriptfiles/vehicles/tierra.txt")       + 
-    LoadStaticVehiclesFromFile("scriptfiles/vehicles/red_county.txt"))
+    load_vehs_from_file("scriptfiles/vehicles/whetstone.txt")    + 
+    load_vehs_from_file("scriptfiles/vehicles/bone.txt")         + 
+    load_vehs_from_file("scriptfiles/vehicles/flint.txt")        + 
+    load_vehs_from_file("scriptfiles/vehicles/tierra.txt")       + 
+    load_vehs_from_file("scriptfiles/vehicles/red_county.txt"))
 
 
     print("Total vehicles from files: {}".format(total_vehicles_from_files))
     return True
     
-def OnGameModeExit():
+def on_gamemode_exit():
     return True
 
 
-def OnPlayerConnect(playerid):
-    GameTextForPlayer(playerid,"~w~Grand Larceny",3000,4)
-    SendClientMessage(playerid,COLOR_WHITE,"Welcome to Grand Larceny")
-    _player_obj = Player(playerid, -1, False, GetTickCount())
+def on_player_connect(playerid):
+    game_text_for_player(playerid,"~w~Grand Larceny",3000,4)
+    send_client_message(playerid,COLOR_WHITE,"Welcome to Grand Larceny")
+    _player_obj = Player(playerid, -1, False, get_tick_count())
     players.append(_player_obj)
     return True
     
-def OnPlayerDisconnect(playerid, reason):
+def on_player_disconnect(playerid, reason):
     for player in players:
         if player.playerid == playerid:
             players.remove(player)
             break
     return True
     
-def OnPlayerSpawn(playerid):
-    if IsPlayerNPC(playerid):
+def on_player_spawn(playerid):
+    if is_player_npc(playerid):
         return True
     randspawn = 0
-    SetPlayerInterior(playerid, 0)
-    TogglePlayerClock(playerid, 0)
-    ResetPlayerMoney(playerid)
-    GivePlayerMoney(playerid, 30000)
+    set_player_interior(playerid, 0)
+    toggle_player_clock(playerid, 0)
+    reset_player_money(playerid)
+    give_player_money(playerid, 30000)
 
 
     for player in players:
@@ -150,119 +150,119 @@ def OnPlayerSpawn(playerid):
             player.has_city_selected = False
     
             if player.city_selection == CITY_LOS_SANTOS:
-                randspawn = random.randint(0, len(gRandomSpawns_LosSantos))
-                SetPlayerPos(playerid, 
-                    gRandomSpawns_LosSantos[randspawn][0], 
-                    gRandomSpawns_LosSantos[randspawn][1], 
-                    gRandomSpawns_LosSantos[randspawn][2]
+                randspawn = random.randint(0, len(spawn_ls))
+                set_player_pos(playerid, 
+                    spawn_ls[randspawn][0], 
+                    spawn_ls[randspawn][1], 
+                    spawn_ls[randspawn][2]
                 )
             elif player.city_selection == CITY_SAN_FIERRO:
-                randspawn = random.randint(0, len(gRandomSpawns_SanFierro))
-                SetPlayerPos(playerid, 
-                    gRandomSpawns_SanFierro[randspawn][0], 
-                    gRandomSpawns_SanFierro[randspawn][1], 
-                    gRandomSpawns_SanFierro[randspawn][2]
+                randspawn = random.randint(0, len(spawn_sf))
+                set_player_pos(playerid, 
+                    spawn_sf[randspawn][0], 
+                    spawn_sf[randspawn][1], 
+                    spawn_sf[randspawn][2]
                 )
             elif player.city_selection == CITY_LAS_VENTURAS:
-                randspawn = random.randint(0, len(gRandomSpawns_LasVenturas))
-                SetPlayerPos(playerid, 
-                    gRandomSpawns_LasVenturas[randspawn][0], 
-                    gRandomSpawns_LasVenturas[randspawn][1], 
-                    gRandomSpawns_LasVenturas[randspawn][2]
+                randspawn = random.randint(0, len(spawn_lv))
+                set_player_pos(playerid, 
+                    spawn_lv[randspawn][0], 
+                    spawn_lv[randspawn][1], 
+                    spawn_lv[randspawn][2]
                 )
-    SetPlayerSkillLevel(playerid,Const("WEAPONSKILL_PISTOL"),200)
-    SetPlayerSkillLevel(playerid,Const("WEAPONSKILL_PISTOL_SILENCED"),200)
-    SetPlayerSkillLevel(playerid,Const("WEAPONSKILL_DESERT_EAGLE"),200)
-    SetPlayerSkillLevel(playerid,Const("WEAPONSKILL_SHOTGUN"),200)
-    SetPlayerSkillLevel(playerid,Const("WEAPONSKILL_SAWNOFF_SHOTGUN"),200)
-    SetPlayerSkillLevel(playerid,Const("WEAPONSKILL_SPAS12_SHOTGUN"),200)
-    SetPlayerSkillLevel(playerid,Const("WEAPONSKILL_MICRO_UZI"),200)
-    SetPlayerSkillLevel(playerid,Const("WEAPONSKILL_MP5"),200)
-    SetPlayerSkillLevel(playerid,Const("WEAPONSKILL_AK47"),200)
-    SetPlayerSkillLevel(playerid,Const("WEAPONSKILL_M4"),200)
-    SetPlayerSkillLevel(playerid,Const("WEAPONSKILL_SNIPERRIFLE"),200)
+    set_player_skill_level(playerid,Const("WEAPONSKILL_PISTOL"),200)
+    set_player_skill_level(playerid,Const("WEAPONSKILL_PISTOL_SILENCED"),200)
+    set_player_skill_level(playerid,Const("WEAPONSKILL_DESERT_EAGLE"),200)
+    set_player_skill_level(playerid,Const("WEAPONSKILL_SHOTGUN"),200)
+    set_player_skill_level(playerid,Const("WEAPONSKILL_SAWNOFF_SHOTGUN"),200)
+    set_player_skill_level(playerid,Const("WEAPONSKILL_SPAS12_SHOTGUN"),200)
+    set_player_skill_level(playerid,Const("WEAPONSKILL_MICRO_UZI"),200)
+    set_player_skill_level(playerid,Const("WEAPONSKILL_MP5"),200)
+    set_player_skill_level(playerid,Const("WEAPONSKILL_AK47"),200)
+    set_player_skill_level(playerid,Const("WEAPONSKILL_M4"),200)
+    set_player_skill_level(playerid,Const("WEAPONSKILL_SNIPERRIFLE"),200)
     
-    GivePlayerWeapon(playerid,22,100) # Colt 45            
+    give_player_weapon(playerid,22,100) # Colt 45            
     return True
 
-def OnPlayerDeath(playerid, killerid, reason):
+def on_player_death(playerid, killerid, reason):
     if killerid == 65535:
-        ResetPlayerMoney(playerid)
+        reset_player_money(playerid)
     else:
-        GivePlayerMoney(killerid, GetPlayerMoney(playerid))
-        ResetPlayerMoney(playerid)
+        give_player_money(killerid, get_player_money(playerid))
+        reset_player_money(playerid)
     return True
 
 # Used to init textdraws of city names
-def ClassSel_InitCityNameText(txtInit):
-    global txtClassSelHelper
-    TextDrawUseBox(txtInit, 0)
-    TextDrawLetterSize(txtInit,1.25,3.0)
-    TextDrawFont(txtInit, 0)
-    TextDrawSetShadow(txtInit,0)
-    TextDrawSetOutline(txtInit,1)
-    TextDrawColor(txtInit,4008636159)
-    TextDrawBackgroundColor(txtClassSelHelper,255)
+def class_sel_init_city_textdraws(txtInit):
+    global txt_class_sel_helper
+    text_draw_use_box(txtInit, 0)
+    text_draw_letter_size(txtInit,1.25,3.0)
+    text_draw_font(txtInit, 0)
+    text_draw_set_shadow(txtInit,0)
+    text_draw_set_outline(txtInit,1)
+    text_draw_color(txtInit,4008636159)
+    text_draw_background_color(txt_class_sel_helper,255)
     return
 
-def ClassSel_InitTextDraws():
-    global txtLosSantos
-    global txtSanFierro
-    global txtLasVenturas
-    global txtClassSelHelper
+def class_sel_init_textdraws():
+    global txt_ls
+    global txt_sf
+    global txt_lv
+    global txt_class_sel_helper
     # Init our observer helper text display
-    txtLosSantos = TextDrawCreate(10.0, 380.0, "Los Santos")
-    ClassSel_InitCityNameText(txtLosSantos)
-    txtSanFierro = TextDrawCreate(10.0, 380.0, "San Fierro")
-    ClassSel_InitCityNameText(txtSanFierro)
-    txtLasVenturas = TextDrawCreate(10.0, 380.0, "Las Venturas")
-    ClassSel_InitCityNameText(txtLasVenturas)
+    txt_ls = text_draw_create(10.0, 380.0, "Los Santos")
+    class_sel_init_city_textdraws(txt_ls)
+    txt_sf = text_draw_create(10.0, 380.0, "San Fierro")
+    class_sel_init_city_textdraws(txt_sf)
+    txt_lv = text_draw_create(10.0, 380.0, "Las Venturas")
+    class_sel_init_city_textdraws(txt_lv)
 
     # Init our observer helper text display
-    txtClassSelHelper = TextDrawCreate(10.0, 415.0,
+    txt_class_sel_helper = text_draw_create(10.0, 415.0,
         " Press ~b~~k~~GO_LEFT~ ~w~or ~b~~k~~GO_RIGHT~ ~w~to switch cities.~n~ Press ~r~~k~~PED_FIREWEAPON~ ~w~to select.")
-    TextDrawUseBox(txtClassSelHelper, 1)
-    TextDrawBoxColor(txtClassSelHelper,572662459)
-    TextDrawLetterSize(txtClassSelHelper,0.3,1.0)
-    TextDrawTextSize(txtClassSelHelper,400.0,40.0)
-    TextDrawFont(txtClassSelHelper, 2)
-    TextDrawSetShadow(txtClassSelHelper,0)
-    TextDrawSetOutline(txtClassSelHelper,1)
-    TextDrawBackgroundColor(txtClassSelHelper,255)
-    TextDrawColor(txtClassSelHelper,4294967295)
+    text_draw_use_box(txt_class_sel_helper, 1)
+    text_draw_box_color(txt_class_sel_helper,572662459)
+    text_draw_letter_size(txt_class_sel_helper,0.3,1.0)
+    text_draw_text_size(txt_class_sel_helper,400.0,40.0)
+    text_draw_font(txt_class_sel_helper, 2)
+    text_draw_set_shadow(txt_class_sel_helper,0)
+    text_draw_set_outline(txt_class_sel_helper,1)
+    text_draw_background_color(txt_class_sel_helper,255)
+    text_draw_color(txt_class_sel_helper,4294967295)
     return
 
 
-def ClassSel_SetupCharSelection(playerid):
+def class_sel_setup_char_selection(playerid):
     for player in players:
         if player.playerid == playerid:
             if player.city_selection == CITY_LOS_SANTOS:
-                SetPlayerInterior(playerid,11)
-                SetPlayerPos(playerid,508.7362,-87.4335,998.9609)
-                SetPlayerFacingAngle(playerid,0.0)
-                SetPlayerCameraPos(playerid,508.7362,-83.4335,998.9609)
-                SetPlayerCameraLookAt(playerid,508.7362,-87.4335,998.9609)
+                set_player_interior(playerid,11)
+                set_player_pos(playerid,508.7362,-87.4335,998.9609)
+                set_player_facing_angle(playerid,0.0)
+                set_player_camera_pos(playerid,508.7362,-83.4335,998.9609)
+                set_player_camera_look_at(playerid,508.7362,-87.4335,998.9609)
             
             elif player.city_selection == CITY_SAN_FIERRO:
-                SetPlayerInterior(playerid,3)
-                SetPlayerPos(playerid,-2673.8381,1399.7424,918.3516)
-                SetPlayerFacingAngle(playerid,181.0)
-                SetPlayerCameraPos(playerid,-2673.2776,1394.3859,918.3516)
-                SetPlayerCameraLookAt(playerid,-2673.8381,1399.7424,918.3516)
+                set_player_interior(playerid,3)
+                set_player_pos(playerid,-2673.8381,1399.7424,918.3516)
+                set_player_facing_angle(playerid,181.0)
+                set_player_camera_pos(playerid,-2673.2776,1394.3859,918.3516)
+                set_player_camera_look_at(playerid,-2673.8381,1399.7424,918.3516)
             
             elif player.city_selection == CITY_LAS_VENTURAS:
-                SetPlayerInterior(playerid,3)
-                SetPlayerPos(playerid,349.0453,193.2271,1014.1797)
-                SetPlayerFacingAngle(playerid,286.25)
-                SetPlayerCameraPos(playerid,352.9164,194.5702,1014.1875)
-                SetPlayerCameraLookAt(playerid,349.0453,193.2271,1014.1797)
+                set_player_interior(playerid,3)
+                set_player_pos(playerid,349.0453,193.2271,1014.1797)
+                set_player_facing_angle(playerid,286.25)
+                set_player_camera_pos(playerid,352.9164,194.5702,1014.1875)
+                set_player_camera_look_at(playerid,349.0453,193.2271,1014.1797)
             break
     return
 
-def ClassSel_SetupSelectedCity(playerid):
-    global txtLosSantos
-    global txtSanFierro
-    global txtLasVenturas
+def class_sel_setup_selected_city(playerid):
+    global txt_ls
+    global txt_sf
+    global txt_lv
 
     for player in players:
         if player.playerid == playerid:
@@ -270,130 +270,130 @@ def ClassSel_SetupSelectedCity(playerid):
                 player.city_selection = CITY_LOS_SANTOS
             
             if player.city_selection == CITY_LOS_SANTOS:
-                SetPlayerInterior(playerid,0)
-                SetPlayerCameraPos(playerid,1630.6136,-2286.0298,110.0)
-                SetPlayerCameraLookAt(playerid,1887.6034,-1682.1442,47.6167)
+                set_player_interior(playerid,0)
+                set_player_camera_pos(playerid,1630.6136,-2286.0298,110.0)
+                set_player_camera_look_at(playerid,1887.6034,-1682.1442,47.6167)
 
-                TextDrawShowForPlayer(playerid,txtLosSantos)
-                TextDrawHideForPlayer(playerid,txtSanFierro)
-                TextDrawHideForPlayer(playerid,txtLasVenturas)
+                text_draw_show_for_player(playerid,txt_ls)
+                text_draw_hide_for_player(playerid,txt_sf)
+                text_draw_hide_for_player(playerid,txt_lv)
 
             elif player.city_selection == CITY_SAN_FIERRO:
-                SetPlayerInterior(playerid,0)
-                SetPlayerCameraPos(playerid,-1300.8754,68.0546,129.4823)
-                SetPlayerCameraLookAt(playerid,-1817.9412,769.3878,132.6589)
+                set_player_interior(playerid,0)
+                set_player_camera_pos(playerid,-1300.8754,68.0546,129.4823)
+                set_player_camera_look_at(playerid,-1817.9412,769.3878,132.6589)
 
-                TextDrawHideForPlayer(playerid,txtLosSantos)
-                TextDrawShowForPlayer(playerid,txtSanFierro)
-                TextDrawHideForPlayer(playerid,txtLasVenturas)
+                text_draw_hide_for_player(playerid,txt_ls)
+                text_draw_show_for_player(playerid,txt_sf)
+                text_draw_hide_for_player(playerid,txt_lv)
 
             elif player.city_selection == CITY_LAS_VENTURAS:
-                SetPlayerInterior(playerid,0)
-                SetPlayerCameraPos(playerid,1310.6155,1675.9182,110.7390)
-                SetPlayerCameraLookAt(playerid,2285.2944,1919.3756,68.2275)
+                set_player_interior(playerid,0)
+                set_player_camera_pos(playerid,1310.6155,1675.9182,110.7390)
+                set_player_camera_look_at(playerid,2285.2944,1919.3756,68.2275)
 
-                TextDrawHideForPlayer(playerid,txtLosSantos)
-                TextDrawHideForPlayer(playerid,txtSanFierro)
-                TextDrawShowForPlayer(playerid,txtLasVenturas)
+                text_draw_hide_for_player(playerid,txt_ls)
+                text_draw_hide_for_player(playerid,txt_sf)
+                text_draw_show_for_player(playerid,txt_lv)
             break
     return
 
-def ClassSel_SwitchToNextCity(playerid):
+def class_sel_go_next_city(playerid):
 
     for player in players:
         if player.playerid == playerid:
-            player.last_city_selection_tick = GetTickCount()
+            player.last_city_selection_tick = get_tick_count()
             player.city_selection += 1
             if player.city_selection > CITY_LAS_VENTURAS:
                     player.city_selection = CITY_LOS_SANTOS
             break
     
-    PlayerPlaySound(playerid,1052,0.0,0.0,0.0)
-    ClassSel_SetupSelectedCity(playerid)
+    player_play_sound(playerid,1052,0.0,0.0,0.0)
+    class_sel_setup_selected_city(playerid)
     return
 
-def ClassSel_SwitchToPreviousCity(playerid):
+def class_sel_go_previous_city(playerid):
     for player in players:
         if player.playerid == playerid:
-            player.last_city_selection_tick = GetTickCount()
+            player.last_city_selection_tick = get_tick_count()
             player.city_selection -= 1
             if player.city_selection < CITY_LOS_SANTOS:
                     player.city_selection = CITY_LAS_VENTURAS
             break
 
-    PlayerPlaySound(playerid,1053,0.0,0.0,0.0)
-    ClassSel_SetupSelectedCity(playerid)
+    player_play_sound(playerid,1053,0.0,0.0,0.0)
+    class_sel_setup_selected_city(playerid)
     return
 
-def ClassSel_HandleCitySelection(playerid):
-    global txtLosSantos
-    global txtSanFierro
-    global txtLasVenturas
-    global txtClassSelHelper
-    (Keys, ud, lr) = GetPlayerKeys(playerid)
+def class_sel_handle_city_selection(playerid):
+    global txt_ls
+    global txt_sf
+    global txt_lv
+    global txt_class_sel_helper
+    (Keys, ud, lr) = get_player_keys(playerid)
     for player in players:
         if player.playerid == playerid:
             # only allow selection every ~500 ms
-            if GetTickCount() - player.last_city_selection_tick < 500:
+            if get_tick_count() - player.last_city_selection_tick < 500:
                 break
             if player.city_selection == -1 : 
-                ClassSel_SwitchToNextCity(playerid)
+                class_sel_go_next_city(playerid)
                 break
             if Keys & 4 :
                 player.has_city_selected = True
-                TextDrawHideForPlayer(playerid,txtClassSelHelper)
-                TextDrawHideForPlayer(playerid,txtLosSantos)
-                TextDrawHideForPlayer(playerid,txtSanFierro)
-                TextDrawHideForPlayer(playerid,txtLasVenturas)
-                TogglePlayerSpectating(playerid,False)
+                text_draw_hide_for_player(playerid,txt_class_sel_helper)
+                text_draw_hide_for_player(playerid,txt_ls)
+                text_draw_hide_for_player(playerid,txt_sf)
+                text_draw_hide_for_player(playerid,txt_lv)
+                toggle_player_spectating(playerid,False)
             if lr > 0 :
-                ClassSel_SwitchToNextCity(playerid)
+                class_sel_go_next_city(playerid)
             elif lr < 0 :
-                ClassSel_SwitchToPreviousCity(playerid)
+                class_sel_go_previous_city(playerid)
             break
     return True
 
-def OnPlayerText(playerid, text):
+def on_player_text(playerid, text):
     return True
 
-def OnPlayerRequestClass(playerid, classid):
-    if IsPlayerNPC(playerid):
+def on_player_request_class(playerid, classid):
+    if is_player_npc(playerid):
         return True
-    global txtClassSelHelper
+    global txt_class_sel_helper
     for player in players:
         if player.playerid == playerid:
             if player.has_city_selected == True:
-                ClassSel_SetupCharSelection(playerid)
+                class_sel_setup_char_selection(playerid)
                 return True
             else:
-                if GetPlayerState(playerid) != Const("PLAYER_STATE_SPECTATING"):
-                    SpawnPlayer(playerid) # Why? 
+                if get_player_state(playerid) != Const("PLAYER_STATE_SPECTATING"):
+                    spawn_player(playerid) # Why? 
                     #Else player does not load in correctly and the toggle below will disconnect the player. 
                     # Read the known issues on our repo wiki. 
-                    TogglePlayerSpectating(playerid, 1)
-                    TextDrawShowForPlayer(playerid, txtClassSelHelper)
+                    toggle_player_spectating(playerid, 1)
+                    text_draw_show_for_player(playerid, txt_class_sel_helper)
                     player.city_selection = -1
     return True
     
 
     
-def OnPlayerUpdate(playerid):
-    if IsPlayerConnected(playerid) == False:
+def on_player_update(playerid):
+    if is_player_connected(playerid) == False:
         return False
-    if IsPlayerNPC(playerid):
+    if is_player_npc(playerid):
         return True
     for player in players:
         if player.playerid == playerid:
             if ( player.has_city_selected == False and
-            GetPlayerState(playerid) == Const("PLAYER_STATE_SPECTATING") ):
-                ClassSel_HandleCitySelection(playerid)
+            get_player_state(playerid) == Const("PLAYER_STATE_SPECTATING") ):
+                class_sel_handle_city_selection(playerid)
     
-    if GetPlayerInterior(playerid) != 0 and GetPlayerWeapon(playerid) != 0:
-        SetPlayerArmedWeapon(playerid, 0) # Fists
+    if get_player_interior(playerid) != 0 and get_player_weapon(playerid) != 0:
+        set_player_armed_weapon(playerid, 0) # Fists
         return False #No syncing until they change their weapon
     
-    if GetPlayerWeapon(playerid) == 38 or GetPlayerSpecialAction(playerid) == 2: #minigun and jetpack not allowed
-        Kick(playerid)
+    if get_player_weapon(playerid) == 38 or get_player_special_action(playerid) == 2: #minigun and jetpack not allowed
+        kick(playerid)
         return False
     return True
     
