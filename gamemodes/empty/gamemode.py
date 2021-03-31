@@ -1,196 +1,196 @@
 from samp import *
 from const import *
 
-def OnGameModeInit():
-    SetGameModeText('PySAMP')
+def on_game_mode_init():
+    set_game_mode_text('PySAMP')
     return True
     
-def OnGameModeExit():
+def on_gamemode_exit():
     return True
 
-def OnPyUnload():
-    OnGameModeExit()
+def on_py_unload():
+    on_gamemode_exit()
     return True
 
-def OnPyReload():
-    OnGameModeInit()
+def on_py_reload():
+    on_game_mode_init()
     return True
 
-def OnPlayerConnect(playerid):
-    SendClientMessage(playerid, 0xFF000000, "Hello %s from Python" % GetPlayerName(playerid, MAX_PLAYER_NAME.get()))
+def on_player_connect(playerid):
+    send_client_message(playerid, 0xFF000000, "Hello %s from Python" % GetPlayerName(playerid, MAX_PLAYER_NAME.get()))
     return True
     
-def OnPlayerDisconnect(playerid, reason):
+def on_player_disconnect(playerid, reason):
     return True
     
-def OnPlayerSpawn(playerid):
+def on_player_spawn(playerid):
     return True
     
-def OnPlayerDeath(playerid, killerid, reason):
+def on_player_death(playerid, killerid, reason):
     return True
     
-def OnVehicleSpawn(vehicleid):
+def on_vehicle_spawn(vehicleid):
     return True
     
-def OnVehicleDeath(vehicleid, killerid):
+def on_vehicle_death(vehicleid, killerid):
     return False
     
-def OnPlayerText(playerid, text):
+def on_player_death(playerid, text):
     text = decode(text)
     return False
     
-def OnPlayerCommandText(playerid, cmdtext):
+def on_player_command_text(playerid, cmdtext):
     cmdtext = decode(cmdtext)
     return False
     
-def OnPlayerRequestClass(playerid, classid):
+def on_player_request_class(playerid, classid):
     return True
     
-def OnPlayerEnterVehicle(playerid, vehicleid, ispassenger):
+def on_player_enter_vehicle(playerid, vehicleid, ispassenger):
     return False
     
-def OnPlayerExitVehicle(playerid, vehicleid):
+def on_player_exit_vehicle(playerid, vehicleid):
     return False
     
-def OnPlayerStateChange(playerid, newstate, oldstate):
+def on_player_state_change(playerid, newstate, oldstate):
     return False
     
-def OnPlayerEnterCheckpoint(playerid):
+def on_player_enter_checkpoint(playerid):
     return False
     
-def OnPlayerLeaveCheckpoint(playerid):
+def on_player_leave_checkpoint(playerid):
     return False
     
-def OnPlayerEnterRaceCheckpoint(playerid):
+def on_player_enter_race_checkpoint(playerid):
     return False
     
-def OnPlayerLeaveRaceCheckpoint(playerid):
+def on_player_leave_race_checkpoint(playerid):
     return False
     
-def OnRconCommand(cmd):
+def on_rcon_command(cmd):
     cmd = decode(cmd)
     return False
     
-def OnPlayerRequestSpawn(playerid):
+def on_player_request_spawn(playerid):
     return True
     
-def OnObjectMoved(objectid):
+def on_object_moved(objectid):
     return False
     
-def OnPlayerObjectMoved(playerid, objectid):
+def on_player_object_moved(playerid, objectid):
     return False
     
-def OnPlayerPickUpPickup(playerid, pickupid):
+def on_player_pick_up_pickup(playerid, pickupid):
     return False
     
-def OnVehicleMod(playerid, vehicleid, componentid):
+def on_vehicle_mod(playerid, vehicleid, componentid):
     return True
     
-def OnEnterExitModShop(playerid, enterexit, interiorid):
+def on_enter_exit_mod_shop(playerid, enterexit, interiorid):
     return False
     
-def OnVehiclePaintjob(playerid, vehicleid, paintjobid):
+def on_vehicle_paintjob(playerid, vehicleid, paintjobid):
     return True
     
-def OnVehicleRespray(playerid, vehicleid, color1, color2):
+def on_vehicle_respray(playerid, vehicleid, color1, color2):
     return True
     
-def OnVehicleDamageStatusUpdate(vehicleid, playerid):
+def on_vehicle_damage_status_update(vehicleid, playerid):
     return False
     
-def OnUnoccupiedVehicleUpdate(vehicleid, playerid, passenger_seat, new_x, new_y, new_z, vel_x, vel_y, vel_z):
+def on_unoccupied_vehicle_update(vehicleid, playerid, passenger_seat, new_x, new_y, new_z, vel_x, vel_y, vel_z):
     return True
     
-def OnPlayerSelectedMenuRow(playerid, row):
+def on_player_selected_menu_row(playerid, row):
     return False
     
-def OnPlayerExitedMenu(playerid):
+def on_player_exited_menu(playerid):
     return False
     
-def OnPlayerInteriorChange(playerid, newinteriorid, oldinteriorid):
+def on_player_interior_change(playerid, newinteriorid, oldinteriorid):
     return False
     
-def OnPlayerKeyStateChange(playerid, newkeys, oldkeys):
+def on_player_key_state_change(playerid, newkeys, oldkeys):
     return False
     
-def OnRconLoginAttempt(ip, password, success):
+def on_rcon_login_attempt(ip, password, success):
     password = decode(password)
     return False
     
-def OnPlayerUpdate(playerid):
+def on_player_update(playerid):
     return True
     
-def OnPlayerStreamIn(playerid, forplayerid):
+def on_player_stream_in(playerid, forplayerid):
     return False
     
-def OnPlayerStreamOut(playerid, forplayerid):
+def on_player_stream_out(playerid, forplayerid):
     return False
     
-def OnVehicleStreamIn(vehicleid, forplayerid):
+def on_vehicle_stream_in(vehicleid, forplayerid):
     return False
         
-def OnVehicleStreamOut(vehicleid, forplayerid):
+def on_vehicle_stream_out(vehicleid, forplayerid):
     return False
     
-def OnActorStreamIn(actorid, forplayerid):
+def on_actor_stream_in(actorid, forplayerid):
     return False
     
-def OnActorStreamOut(actorid, forplayerid):
+def on_actor_stream_out(actorid, forplayerid):
     return False
     
-def OnDialogResponse(playerid, dialogid, response, listitem, inputtext):
+def on_dialog_response(playerid, dialogid, response, listitem, inputtext):
     return False
     
-def OnPlayerTakeDamage(playerid, issuerid, amount, weaponid, bodypart):
+def on_player_take_damage(playerid, issuerid, amount, weaponid, bodypart):
     return False
     
-def OnPlayerGiveDamage(playerid, damagedid, amount, weaponid, bodypart):
+def on_player_give_damage(playerid, damagedid, amount, weaponid, bodypart):
     return False
     
-def OnPlayerGiveDamageActor(playerid, damaged_actorid, amount, weaponid, bodypart):
+def on_player_give_damage_actor(playerid, damaged_actorid, amount, weaponid, bodypart):
     return False
     
-def OnPlayerClickMap(playerid, fX, fY, fZ):
+def on_player_click_map(playerid, fX, fY, fZ):
     return False
     
-def OnPlayerClickTextDraw(playerid, clickedid):
+def on_player_click_textdraw(playerid, clickedid):
     return False
     
-def OnPlayerClickPlayerTextDraw(playerid, playertextid):
+def on_player_click_player_textdraw(playerid, playertextid):
     return False
     
-def OnIncomingConnection(playerid, ip_address, port):
+def on_incoming_connection(playerid, ip_address, port):
     ip_address = decode(ip_address)
     return False
     
-def OnTrailerUpdate(playerid, vehicleid):
+def on_trailer_update(playerid, vehicleid):
     return True
     
-def OnVehicleSirenStateChange(playerid, vehicleid, newstate):
+def on_vehicle_siren_state_change(playerid, vehicleid, newstate):
     return False
     
-def OnPlayerClickPlayer(playerid, clickedplayerid, source):
+def on_player_click_player(playerid, clickedplayerid, source):
     return False
     
-def OnPlayerEditObject(playerid, playerobject, objectid, response, fX, fY, fZ, fRotX, fRotY, fRotZ):
+def on_player_edit_object(playerid, playerobject, objectid, response, fX, fY, fZ, fRotX, fRotY, fRotZ):
     return False
     
-def OnPlayerEditAttachedObject(playerid, response, index, modelid, boneid, fOffsetX, fOffsetY, fOffsetZ, fRotX, fRotY, fRotZ, fScaleX, fScaleY, fScaleZ):
+def on_player_edit_attached_object(playerid, response, index, modelid, boneid, fOffsetX, fOffsetY, fOffsetZ, fRotX, fRotY, fRotZ, fScaleX, fScaleY, fScaleZ):
     return False
     
-def OnPlayerSelectObject(playerid, type, objectid, modelid, fX, fY, fZ):
+def on_player_select_object(playerid, type, objectid, modelid, fX, fY, fZ):
     return False
     
-def OnPlayerWeaponShot(playerid, weaponid, hittype, hitid, fX, fY, fZ):
+def on_player_weapon_shot(playerid, weaponid, hittype, hitid, fX, fY, fZ):
     return True
 
-def OnProcessTick():
+def on_process_tick():
     return None
 
 """ you can initialize your own additional threads here, note that OnThreadingInit isn't supposed to be a worker thread but gives you the ability to start them. Otherwise it would block the plugin initialization """
-def OnThreadingInit():
+def on_threading_init():
     return None
 
 """ your initialized threads must be shutdown during this callbac """
-def OnThreadingStopSignal():
+def on_threading_stop_signal():
     return None
