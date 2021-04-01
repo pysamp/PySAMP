@@ -2418,12 +2418,155 @@ def update_player_3d_text_label_text(playerid, id, color, text):
 	return UpdatePlayer3DTextLabelText(playerid, id, color, text)
 
 
+class Vehicle:
+    def __init__(self, vehicletype, x, y, z, rotation, color1, color2, respawn_delay, addsiren=False):
+        self.id = create_vehicle(
+            vehicletype, x, y, z, rotation, color1, color2, respawn_delay, addsiren)
+
+    def is_valid(self):
+        return IsValidVehicle(self.id)
+
+    def get_distance_from_point(self, x, y, z):
+        return GetVehicleDistanceFromPoint(self.id, x, y, z)
+
+    def destroy(self):
+        return DestroyVehicle(self.id)
+
+    def is_streamed_in(self, forplayerid):
+        return IsVehicleStreamedIn(self.id, forplayerid)
+
+    @property
+    def pos(self):
+        return GetVehiclePos(self.id)
+
+    @pos.setter
+    def pos(self, x, y, z):
+        return SetVehiclePos(self.id, x, y, z)
+
+    @property
+    def z_angle(self):
+        return GetVehicleZAngle(self.id)
+
+    @z_angle.setter
+    def z_angle(self, z_angle):
+        return SetVehicleZAngle(self.id, z_angle)
+
+    @property
+    def rotation_quat(self):
+        return GetVehicleRotationQuat(self.id)
+
+    def set_params_for_player(self, playerid, objective, doorslocked):
+        return SetVehicleParamsForPlayer(self.id, playerid, objective, doorslocked)
+
+    @property
+    def params_ex(self):
+        return GetVehicleParamsEx(self.id)
+
+    @params_ex.setter
+    def params_ex(self, engine, lights, alarm, doors, bonnet, boot, objective):
+        return SetVehicleParamsEx(self.id, engine, lights, alarm, doors, bonnet, boot, objective)
+
+    @property
+    def params_siren_state(self):
+        return GetVehicleParamsSirenState(self.id)
+
+    @property
+    def params_car_doors(self):
+        return GetVehicleParamsCarDoors(self.id)
+
+    @params_car_doors.setter
+    def params_car_doors(self, driver, passenger, backleft, backright):
+        return SetVehicleParamsCarDoors(self.id, driver, passenger, backleft, backright)
+
+    @property
+    def params_car_windows(self):
+        return GetVehicleParamsCarWindows(self.id)
+
+    @params_car_windows.setter
+    def params_car_windows(self, driver, passenger, backleft, backright):
+        return SetVehicleParamsCarWindows(self.id, driver, passenger, backleft, backright)
+
+    def set_to_respawn(self):
+        return SetVehicleToRespawn(self.id)
+
+    def link_to_interior(self, interiorid):
+        return LinkVehicleToInterior(self.id, interiorid)
+
+    def add_component(self, componentid):
+        return AddVehicleComponent(self.id, componentid)
+
+    def remove_component(self, componentid):
+        return RemoveVehicleComponent(self.id, componentid)
+
+    def change_color(self, color1, color2):
+        return ChangeVehicleColor(self.id, color1, color2)
+
+    def change_paintjob(self, paintjobid):
+        return ChangeVehiclePaintjob(self.id, paintjobid)
+
+    @property
+    def health(self):
+        return GetVehicleHealth(self.id)
+
+    @health.setter
+    def health(self, health):
+        return SetVehicleHealth(self.id, health)
+
+    def detach_trailer(self):
+        return DetachTrailerFromVehicle(self.id)
+
+    def is_trailer_attached(self):
+        return IsTrailerAttachedToVehicle(self.id)
+
+    @property
+    def trailer(self):
+        return GetVehicleTrailer(self.id)
+
+    def set_number_plate(self, numberplate):
+        return SetVehicleNumberPlate(self.id, numberplate)
+
+    @property
+    def model(self):
+        return GetVehicleModel(self.id)
+
+    def get_component_in_slot(self, slot):
+        return GetVehicleComponentInSlot(self.id, slot)
+
+    def repair(self):
+        return RepairVehicle(self.id)
+
+    @property
+    def velocity(self):
+        return GetVehicleVelocity(self.id)
+
+    @velocity.setter
+    def velocity(self, X, Y, Z):
+        return SetVehicleVelocity(self.id, X, Y, Z)
+
+    def set_angular_velocity(self, X, Y, Z):
+        return SetVehicleAngularVelocity(self.id, X, Y, Z)
+
+    @property
+    def damage_status(self):
+        return GetVehicleDamageStatus(self.id)
+
+    @damage_status.setter
+    def damage_status(self, panels, doors, lights, tires):
+        return UpdateVehicleDamageStatus(self.id, panels, doors, lights, tires)
+
+    @property
+    def virtual_world(self):
+        return GetVehicleVirtualWorld(self.id)
+
+    @virtual_world.setter
+    def virtual_world(self, worldid):
+        return SetVehicleVirtualWorld(self.id, worldid)
+
 
 class Player:
     def __init__(self, nick, playerid):
         self.nick = nick
         self.id = playerid
-        self.ip = Player.get_ip(self.id, 16)
 
     def set_spawn_info(self, team, skin, x, y, z, rotation, weapon1, weapon1_ammo, weapon2, weapon2_ammo, weapon3, weapon3_ammo):
         return SetSpawnInfo(self.id, team, skin, x, y, z, rotation, weapon1, weapon1_ammo, weapon2, weapon2_ammo, weapon3, weapon3_ammo)
@@ -2431,92 +2574,117 @@ class Player:
     def spawn(self):
         return SpawnPlayer(self.id)
 
-    def set_pos(self, x, y, z):
-        return SetPlayerPos(self.id, x, y, z)
-
     def set_pos_find_z(self, x, y, z):
         return SetPlayerPosFindZ(self.id, x, y, z)
-
-    def get_pos(self):
+    
+    @property
+    def pos(self):
         return GetPlayerPos(self.id)
-
-    def set_facing_angle(self, angle):
-        return SetPlayerFacingAngle(self.id, angle)
-
-    def get_facing_angle(self):
+    
+    @pos.setter
+    def pos(self, x,y,z):
+        return SetPlayerPos(self.id, x,y,z)
+    
+    @property
+    def facing_angle(self):
         return GetPlayerFacingAngle(self.id)
+
+    @facing_angle.setter
+    def facing_angle(self, angle):
+        return SetPlayerFacingAngle(self.id, angle)
 
     def is_in_range_of_point(self, range, x, y, z):
         return IsPlayerInRangeOfPoint(self.id, range, x, y, z)
 
-    def get_distance_from_point(self, x, y, z):
+    def distance_from_point(self, x, y, z):
         return GetPlayerDistanceFromPoint(self.id, x, y, z)
 
     def is_streamed_in(self, forplayerid):
         return IsPlayerStreamedIn(self.id, forplayerid)
 
-    def set_interior(self, interiorid):
-        return SetPlayerInterior(self.id, interiorid)
-
-    def get_interior(self):
+    @property
+    def interior(self):
         return GetPlayerInterior(self.id)
 
-    def set_health(self, health):
-        return SetPlayerHealth(self.id, health)
+    @interior.setter
+    def interior(self, interiorid):
+        return SetPlayerInterior(self.id, interiorid)
 
-    def get_health(self):
+    @property
+    def health(self):
         return GetPlayerHealth(self.id)
 
-    def set_armour(self, armour):
-        return SetPlayerArmour(self.id, armour)
+    @health.setter
+    def health(self, health):
+        return SetPlayerHealth(self.id, health)
 
-    def get_armour(self):
+    @property
+    def armour(self):
         return GetPlayerArmour(self.id)
 
-    def set_ammo(self, weaponid, ammo):
-        return SetPlayerAmmo(self.id, weaponid, ammo)
+    @armour.setter
+    def armour(self, armour):
+        return SetPlayerArmour(self.id, armour)
 
-    def get_ammo(self):
+    @property
+    def ammo(self):
         return GetPlayerAmmo(self.id)
 
-    def get_weapon_state(self):
+    @ammo.setter
+    def ammo(self, weaponid, ammo):
+        return SetPlayerAmmo(self.id, weaponid, ammo)
+
+    @property
+    def weapon_state(self):
         return GetPlayerWeaponState(self.id)
 
-    def get_target(self):
+    @property
+    def target(self):
         return GetPlayerTargetPlayer(self.id)
 
-    def get_target_actor(self):
+    @property
+    def target_actor(self):
         return GetPlayerTargetActor(self.id)
 
-    def set_team(self, teamid):
-        return SetPlayerTeam(self.id, teamid)
-
-    def get_team(self):
+    @property
+    def team(self):
         return GetPlayerTeam(self.id)
 
-    def set_score(self, score):
-        return SetPlayerScore(self.id, score)
+    @team.setter
+    def team(self, teamid):
+        return SetPlayerTeam(self.id, teamid)
 
-    def get_score(self):
+    @property
+    def score(self):
         return GetPlayerScore(self.id)
 
-    def get_drunk_level(self):
+    @score.setter
+    def score(self, score):
+        return SetPlayerScore(self.id, score)
+
+    @property
+    def drunk_level(self):
         return GetPlayerDrunkLevel(self.id)
 
-    def set_drunk_level(self, level):
+    @drunk_level.setter
+    def drunk_level(self, level):
         return SetPlayerDrunkLevel(self.id, level)
 
-    def set_color(self, color):
-        return SetPlayerColor(self.id, color)
-
-    def get_color(self):
+    @property
+    def color(self):
         return GetPlayerColor(self.id)
 
-    def set_skin(self, skinid):
-        return SetPlayerSkin(self.id, skinid)
+    @color.setter
+    def color(self, color):
+        return SetPlayerColor(self.id, color)
 
-    def get_skin(self):
+    @property
+    def skin(self):
         return GetPlayerSkin(self.id)
+        
+    @skin.setter
+    def skin(self, skinid):
+        return SetPlayerSkin(self.id, skinid)
 
     def give_weapon(self, weaponid, ammo):
         return GivePlayerWeapon(self.id, weaponid, ammo)
@@ -2536,35 +2704,50 @@ class Player:
     def reset_money(self):
         return ResetPlayerMoney(self.id)
 
-    def set_name(self, name):
+    @property
+    def name(self, size):
+        return GetPlayerName(self.id, Const("MAX_PLAYER_NAME"))
+        
+    @name.setter
+    def name(self, name):
         return SetPlayerName(self.id, name)
 
-    def get_money(self):
+    @property
+    def money(self):
         return GetPlayerMoney(self.id)
 
-    def get_state(self):
+    @money.setter
+    def money(self, money):
+        ResetPlayerMoney(self.id)
+        return GivePlayerMoney(self.id, money)
+    
+    @property
+    def state(self):
         return GetPlayerState(self.id)
 
-    def get_ip(self, size):
-        return GetPlayerIp(self.id, size)
+    @property
+    def ip(self):
+        return GetPlayerIp(self.id, 16)
 
-    def get_ping(self):
+    @property
+    def ping(self):
         return GetPlayerPing(self.id)
 
-    def get_weapon(self):
+    @property
+    def weapon(self):
         return GetPlayerWeapon(self.id)
 
-    def get_keys(self):
+    @property
+    def keys(self):
         return GetPlayerKeys(self.id)
 
-    def get_name(self, size):
-        return GetPlayerName(self.id, size)
-
-    def set_time(self, hour, minute):
-        return SetPlayerTime(self.id, hour, minute)
-
-    def get_time(self):
+    @property
+    def time(self):
         return GetPlayerTime(self.id)
+
+    @time.setter
+    def time(self, hour, minute):
+        return SetPlayerTime(self.id, hour, minute)
 
     def toggle_clock(self, toggle):
         return TogglePlayerClock(self.id, toggle)
@@ -2575,23 +2758,29 @@ class Player:
     def force_class_selection(self):
         return ForceClassSelection(self.id)
 
-    def set_wanted_level(self, level):
-        return SetPlayerWantedLevel(self.id, level)
-
-    def get_wanted_level(self):
+    @property
+    def wanted_level(self):
         return GetPlayerWantedLevel(self.id)
 
-    def set_fighting_style(self, style):
-        return SetPlayerFightingStyle(self.id, style)
+    @wanted_level.setter
+    def wanted_level(self, level):
+        return SetPlayerWantedLevel(self.id, level)
 
-    def get_fighting_style(self):
+    @property
+    def fighting_style(self):
         return GetPlayerFightingStyle(self.id)
 
-    def set_velocity(self, x, y, z):
-        return SetPlayerVelocity(self.id, x, y, z)
+    @fighting_style.setter
+    def fighting_style(self, style):
+        return SetPlayerFightingStyle(self.id, style)
 
-    def get_velocity(self):
+    @property
+    def velocity(self):
         return GetPlayerVelocity(self.id)
+    
+    @velocity.setter
+    def velocity(self, x, y, z):
+        return SetPlayerVelocity(self.id, x, y, z)
 
     def play_crime_report(self, suspectid, crime):
         return PlayCrimeReportForPlayer(self.id, suspectid, crime)
@@ -2608,16 +2797,19 @@ class Player:
     def set_skill_level(self, skill, level):
         return SetPlayerSkillLevel(self.id, skill, level)
 
-    def get_surfing_vehicle_id(self):
+    @property
+    def surfing_vehicle_id(self):
         return GetPlayerSurfingVehicleID(self.id)
 
-    def get_surfing_object_id(self):
+    @property
+    def surfing_object_id(self):
         return GetPlayerSurfingObjectID(self.id)
 
     def remove_building(self, modelid, fX, fY, fZ, fRadius):
         return RemoveBuildingForPlayer(self.id, modelid, fX, fY, fZ, fRadius)
 
-    def get_last_shot_vectors(self):
+    @property
+    def last_shot_vectors(self):
         return GetPlayerLastShotVectors(self.id)
 
     def set_attached_object(self, index, modelid, bone, fOffsetX=0.0, fOffsetY=0.0, fOffsetZ=0.0, fRotX=0.0, fRotY=0.0, fRotZ=0.0, fScaleX=1.0, fScaleY=1.0, fScaleZ=1.0, materialcolor1=0, materialcolor2=0):
@@ -2692,28 +2884,29 @@ class Player:
     def text_draw_set_preview_veh_col(self, text, color1, color2):
         return PlayerTextDrawSetPreviewVehCol(self.id, text, color1, color2)
 
-    def set_pvar_int(self, varname, value):
-        return SetPVarInt(self.id, varname, value)
-
     def get_pvar_int(self, varname):
         return GetPVarInt(self.id, varname)
-
-    def set_pvar_string(self, varname, value):
-        return SetPVarString(self.id, varname, value)
+    
+    def set_pvar_int(self, varname, value):
+        return SetPVarInt(self.id, varname, value)
 
     def get_pvar_string(self, varname, size):
         return GetPVarString(self.id, varname, size)
 
-    def set_pvar_float(self, varname, value):
-        return SetPVarFloat(self.id, varname, value)
+    def set_pvar_string(self, varname, value):
+        return SetPVarString(self.id, varname, value)
 
     def get_pvar_float(self, varname):
         return GetPVarFloat(self.id, varname)
 
+    def set_pvar_float(self, varname, value):
+        return SetPVarFloat(self.id, varname, value)
+
     def delete_pvar(self, varname):
         return DeletePVar(self.id, varname)
 
-    def get_pvars_upper_index(self):
+    @property
+    def pvars_upper_index(self):
         return GetPVarsUpperIndex(self.id)
 
     def get_pvar_name_at_index(self, index, size):
@@ -2728,10 +2921,12 @@ class Player:
     def put_in_vehicle(self, vehicleid, seatid):
         return PutPlayerInVehicle(self.id, vehicleid, seatid)
 
-    def get_vehicle_id(self):
+    @property
+    def vehicle_id(self):
         return GetPlayerVehicleID(self.id)
 
-    def get_vehicle_seat(self):
+    @property
+    def vehicle_seat(self):
         return GetPlayerVehicleSeat(self.id)
 
     def remove_from_vehicle(self):
@@ -2749,13 +2944,16 @@ class Player:
     def clear_animations(self, forcesync=False):
         return ClearAnimations(self.id, forcesync=False)
 
-    def get_animation_index(self):
+    @property
+    def animation_index(self):
         return GetPlayerAnimationIndex(self.id)
 
-    def get_special_action(self):
+    @property
+    def special_action(self):
         return GetPlayerSpecialAction(self.id)
 
-    def set_special_action(self, actionid):
+    @special_action.setter
+    def special_action(self, actionid):
         return SetPlayerSpecialAction(self.id, actionid)
 
     def disable_remote_vehicle_collisions(self, disable):
@@ -2791,8 +2989,6 @@ class Player:
     def allow_teleport(self, allow):
         return AllowPlayerTeleport(self.id, allow)
 
-    def set_camera_pos(self, x, y, z):
-        return SetPlayerCameraPos(self.id, x, y, z)
 
     def set_camera_look_at(self, x, y, z, cut=Const('CAMERA_CUT')):
         return SetPlayerCameraLookAt(self.id, x, y, z, cut=Const('CAMERA_CUT'))
@@ -2800,34 +2996,46 @@ class Player:
     def set_camera_behind(self):
         return SetCameraBehindPlayer(self.id)
 
-    def get_camera_pos(self):
+    @property
+    def camera_pos(self):
         return GetPlayerCameraPos(self.id)
+
+    @camera_pos.setter
+    def camera_pos(self, x, y, z):
+        return SetPlayerCameraPos(self.id, x, y, z)
 
     def get_camera_front_vector(self):
         return GetPlayerCameraFrontVector(self.id)
 
-    def get_camera_mode(self):
+    @property
+    def camera_mode(self):
         return GetPlayerCameraMode(self.id)
 
     def enable_camera_target(self, enable):
         return EnablePlayerCameraTarget(self.id, enable)
 
-    def get_camera_target_object(self):
+    @property
+    def camera_target_object(self):
         return GetPlayerCameraTargetObject(self.id)
 
-    def get_camera_target_vehicle(self):
+    @property
+    def camera_target_vehicle(self):
         return GetPlayerCameraTargetVehicle(self.id)
 
-    def get_camera_target(self):
+    @property
+    def camera_target(self):
         return GetPlayerCameraTargetPlayer(self.id)
 
-    def get_camera_target_actor(self):
+    @property
+    def camera_target_actor(self):
         return GetPlayerCameraTargetActor(self.id)
 
-    def get_camera_aspect_ratio(self):
+    @property
+    def camera_aspect_ratio(self):
         return GetPlayerCameraAspectRatio(self.id)
 
-    def get_camera_zoom(self):
+    @property
+    def camera_zoom(self):
         return GetPlayerCameraZoom(self.id)
 
     def attach_camera_to_object(self, objectid):
@@ -2842,7 +3050,8 @@ class Player:
     def interpolate_camera_look_at(self, FromX, FromY, FromZ, ToX, ToY, ToZ, time, cut=Const('CAMERA_CUT')):
         return InterpolateCameraLookAt(self.id, FromX, FromY, FromZ, ToX, ToY, ToZ, time, cut=Const('CAMERA_CUT'))
 
-    def is_connected(self):
+    @property
+    def connected(self):
         return IsPlayerConnected(self.id)
 
     def is_in_vehicle(self, vehicleid):
@@ -2857,11 +3066,13 @@ class Player:
     def is_in_race_checkpoint(self):
         return IsPlayerInRaceCheckpoint(self.id)
 
-    def set_virtual_world(self, worldid):
-        return SetPlayerVirtualWorld(self.id, worldid)
-
-    def get_virtual_world(self):
+    @property
+    def virtual_world(self):
         return GetPlayerVirtualWorld(self.id)
+
+    @virtual_world.setter
+    def virtual_world(self, worldid):
+        return SetPlayerVirtualWorld(self.id, worldid)
 
     def enable_stunt_bonus(self, enable):
         return EnableStuntBonusForPlayer(self.id, enable)
@@ -2902,17 +3113,17 @@ class Player:
     def attach_object_to_vehicle(self, objectid, vehicleid, fOffsetX, fOffsetY, fOffsetZ, fRotX, fRotY, RotZ):
         return AttachPlayerObjectToVehicle(self.id, objectid, vehicleid, fOffsetX, fOffsetY, fOffsetZ, fRotX, fRotY, RotZ)
 
-    def set_object_pos(self, objectid, x, y, z):
-        return SetPlayerObjectPos(self.id, objectid, x, y, z)
-
     def get_object_pos(self, objectid):
         return GetPlayerObjectPos(self.id, objectid)
 
-    def set_object_rot(self, objectid, rotX, rotY, rotZ):
-        return SetPlayerObjectRot(self.id, objectid, rotX, rotY, rotZ)
+    def set_object_pos(self, objectid, x, y, z):
+        return SetPlayerObjectPos(self.id, objectid, x, y, z)
 
     def get_object_rot(self, objectid):
         return GetPlayerObjectRot(self.id, objectid)
+
+    def set_object_rot(self, objectid, rotX, rotY, rotZ):
+        return SetPlayerObjectRot(self.id, objectid, rotX, rotY, rotZ)
 
     def get_object_model(self, objectid):
         return GetPlayerObjectModel(self.id, objectid)
@@ -2953,9 +3164,11 @@ class Player:
     def game_text(self, text, time, style):
         return GameTextForPlayer(self.id, text, time, style)
 
+    @property
     def is_npc(self):
         return IsPlayerNPC(self.id)
 
+    @property
     def is_admin(self):
         return IsPlayerAdmin(self.id)
 
@@ -2968,7 +3181,8 @@ class Player:
     def ban_ex(self, reason):
         return BanEx(self.id, reason)
 
-    def get_network_stats(self, size):
+    @property
+    def network_stats(self, size):
         return GetPlayerNetworkStats(self.id, size)
 
     def get_version(self, len):
@@ -3001,7 +3215,8 @@ class Player:
     def net_stats_get_ip_port(self, ip_port_len):
         return NetStats_GetIpPort(self.id, ip_port_len)
 
-    def get_menu(self):
+    @property
+    def menu(self):
         return GetPlayerMenu(self.id)
 
     def text_draw_show(self, text):
