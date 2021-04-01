@@ -35,7 +35,7 @@ def on_vehicle_spawn(vehicleid):
 def on_vehicle_death(vehicleid, killerid):
     return False
     
-def on_player_death(playerid, text):
+def on_player_text(playerid, text):
     text = decode(text)
     return False
     
