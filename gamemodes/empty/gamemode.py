@@ -17,7 +17,7 @@ def on_py_reload():
     return True
 
 def on_player_connect(playerid):
-    send_client_message(playerid, 0xFF000000, "Hello %s from Python" % GetPlayerName(playerid, MAX_PLAYER_NAME.get()))
+    send_client_message(playerid, 0xFF000000, "Hello %s from Python" % get_player_name(playerid, MAX_PLAYER_NAME.get()))
     return True
     
 def on_player_disconnect(playerid, reason):
