@@ -2192,9 +2192,6 @@ def gang_zone_stop_flash_for_all(zone):
 def show_player_dialog(playerid, dialogid, style, caption, info, button1, button2):
 	return ShowPlayerDialog(playerid, dialogid, style, caption, info, button1, button2)
 
-def gpci(playerid, size):
-	return gpci(playerid, size)
-
 def add_char_model(baseid, newid, dffname, txdname):
 	return AddCharModel(baseid, newid, dffname, txdname)
 
@@ -2419,4 +2416,629 @@ def delete_player_3d_text_label(playerid, id):
 
 def update_player_3d_text_label_text(playerid, id, color, text):
 	return UpdatePlayer3DTextLabelText(playerid, id, color, text)
+
+
+
+class Player:
+    def __init__(self, nick, playerid):
+        self.nick = nick
+        self.id = playerid
+        self.ip = Player.get_ip(self.id, 16)
+
+    def set_spawn_info(self, team, skin, x, y, z, rotation, weapon1, weapon1_ammo, weapon2, weapon2_ammo, weapon3, weapon3_ammo):
+        return SetSpawnInfo(self.id, team, skin, x, y, z, rotation, weapon1, weapon1_ammo, weapon2, weapon2_ammo, weapon3, weapon3_ammo)
+
+    def spawn(self):
+        return SpawnPlayer(self.id)
+
+    def set_pos(self, x, y, z):
+        return SetPlayerPos(self.id, x, y, z)
+
+    def set_pos_find_z(self, x, y, z):
+        return SetPlayerPosFindZ(self.id, x, y, z)
+
+    def get_pos(self):
+        return GetPlayerPos(self.id)
+
+    def set_facing_angle(self, angle):
+        return SetPlayerFacingAngle(self.id, angle)
+
+    def get_facing_angle(self):
+        return GetPlayerFacingAngle(self.id)
+
+    def is_in_range_of_point(self, range, x, y, z):
+        return IsPlayerInRangeOfPoint(self.id, range, x, y, z)
+
+    def get_distance_from_point(self, x, y, z):
+        return GetPlayerDistanceFromPoint(self.id, x, y, z)
+
+    def is_streamed_in(self, forplayerid):
+        return IsPlayerStreamedIn(self.id, forplayerid)
+
+    def set_interior(self, interiorid):
+        return SetPlayerInterior(self.id, interiorid)
+
+    def get_interior(self):
+        return GetPlayerInterior(self.id)
+
+    def set_health(self, health):
+        return SetPlayerHealth(self.id, health)
+
+    def get_health(self):
+        return GetPlayerHealth(self.id)
+
+    def set_armour(self, armour):
+        return SetPlayerArmour(self.id, armour)
+
+    def get_armour(self):
+        return GetPlayerArmour(self.id)
+
+    def set_ammo(self, weaponid, ammo):
+        return SetPlayerAmmo(self.id, weaponid, ammo)
+
+    def get_ammo(self):
+        return GetPlayerAmmo(self.id)
+
+    def get_weapon_state(self):
+        return GetPlayerWeaponState(self.id)
+
+    def get_target(self):
+        return GetPlayerTargetPlayer(self.id)
+
+    def get_target_actor(self):
+        return GetPlayerTargetActor(self.id)
+
+    def set_team(self, teamid):
+        return SetPlayerTeam(self.id, teamid)
+
+    def get_team(self):
+        return GetPlayerTeam(self.id)
+
+    def set_score(self, score):
+        return SetPlayerScore(self.id, score)
+
+    def get_score(self):
+        return GetPlayerScore(self.id)
+
+    def get_drunk_level(self):
+        return GetPlayerDrunkLevel(self.id)
+
+    def set_drunk_level(self, level):
+        return SetPlayerDrunkLevel(self.id, level)
+
+    def set_color(self, color):
+        return SetPlayerColor(self.id, color)
+
+    def get_color(self):
+        return GetPlayerColor(self.id)
+
+    def set_skin(self, skinid):
+        return SetPlayerSkin(self.id, skinid)
+
+    def get_skin(self):
+        return GetPlayerSkin(self.id)
+
+    def give_weapon(self, weaponid, ammo):
+        return GivePlayerWeapon(self.id, weaponid, ammo)
+
+    def reset_weapons(self):
+        return ResetPlayerWeapons(self.id)
+
+    def set_armed_weapon(self, weaponid):
+        return SetPlayerArmedWeapon(self.id, weaponid)
+
+    def get_weapon_data(self, slot):
+        return GetPlayerWeaponData(self.id, slot)
+
+    def give_money(self, money):
+        return GivePlayerMoney(self.id, money)
+
+    def reset_money(self):
+        return ResetPlayerMoney(self.id)
+
+    def set_name(self, name):
+        return SetPlayerName(self.id, name)
+
+    def get_money(self):
+        return GetPlayerMoney(self.id)
+
+    def get_state(self):
+        return GetPlayerState(self.id)
+
+    def get_ip(self, size):
+        return GetPlayerIp(self.id, size)
+
+    def get_ping(self):
+        return GetPlayerPing(self.id)
+
+    def get_weapon(self):
+        return GetPlayerWeapon(self.id)
+
+    def get_keys(self):
+        return GetPlayerKeys(self.id)
+
+    def get_name(self, size):
+        return GetPlayerName(self.id, size)
+
+    def set_time(self, hour, minute):
+        return SetPlayerTime(self.id, hour, minute)
+
+    def get_time(self):
+        return GetPlayerTime(self.id)
+
+    def toggle_clock(self, toggle):
+        return TogglePlayerClock(self.id, toggle)
+
+    def set_weather(self, weather):
+        return SetPlayerWeather(self.id, weather)
+
+    def force_class_selection(self):
+        return ForceClassSelection(self.id)
+
+    def set_wanted_level(self, level):
+        return SetPlayerWantedLevel(self.id, level)
+
+    def get_wanted_level(self):
+        return GetPlayerWantedLevel(self.id)
+
+    def set_fighting_style(self, style):
+        return SetPlayerFightingStyle(self.id, style)
+
+    def get_fighting_style(self):
+        return GetPlayerFightingStyle(self.id)
+
+    def set_velocity(self, x, y, z):
+        return SetPlayerVelocity(self.id, x, y, z)
+
+    def get_velocity(self):
+        return GetPlayerVelocity(self.id)
+
+    def play_crime_report(self, suspectid, crime):
+        return PlayCrimeReportForPlayer(self.id, suspectid, crime)
+
+    def play_audio_stream(self, url, posX=0.0, posY=0.0, posZ=0.0, distance=50.0, usepos=False):
+        return PlayAudioStreamForPlayer(self.id, url, posX=0.0, posY=0.0, posZ=0.0, distance=50.0, usepos=False)
+
+    def stop_audio_stream(self):
+        return StopAudioStreamForPlayer(self.id)
+
+    def set_shop_name(self, shopname):
+        return SetPlayerShopName(self.id, shopname)
+
+    def set_skill_level(self, skill, level):
+        return SetPlayerSkillLevel(self.id, skill, level)
+
+    def get_surfing_vehicle_id(self):
+        return GetPlayerSurfingVehicleID(self.id)
+
+    def get_surfing_object_id(self):
+        return GetPlayerSurfingObjectID(self.id)
+
+    def remove_building(self, modelid, fX, fY, fZ, fRadius):
+        return RemoveBuildingForPlayer(self.id, modelid, fX, fY, fZ, fRadius)
+
+    def get_last_shot_vectors(self):
+        return GetPlayerLastShotVectors(self.id)
+
+    def set_attached_object(self, index, modelid, bone, fOffsetX=0.0, fOffsetY=0.0, fOffsetZ=0.0, fRotX=0.0, fRotY=0.0, fRotZ=0.0, fScaleX=1.0, fScaleY=1.0, fScaleZ=1.0, materialcolor1=0, materialcolor2=0):
+        return SetPlayerAttachedObject(self.id, index, modelid, bone, fOffsetX=0.0, fOffsetY=0.0, fOffsetZ=0.0, fRotX=0.0, fRotY=0.0, fRotZ=0.0, fScaleX=1.0, fScaleY=1.0, fScaleZ=1.0, materialcolor1=0, materialcolor2=0)
+
+    def remove_attached_object(self, index):
+        return RemovePlayerAttachedObject(self.id, index)
+
+    def is_attached_object_slot_used(self, index):
+        return IsPlayerAttachedObjectSlotUsed(self.id, index)
+
+    def edit_attached_object(self, index):
+        return EditAttachedObject(self.id, index)
+
+    def create_text_draw(self, x, y, text):
+        return CreatePlayerTextDraw(self.id, x, y, text)
+
+    def text_draw_destroy(self, text):
+        return PlayerTextDrawDestroy(self.id, text)
+
+    def text_draw_letter_size(self, text, x, y):
+        return PlayerTextDrawLetterSize(self.id, text, x, y)
+
+    def text_draw_text_size(self, text, x, y):
+        return PlayerTextDrawTextSize(self.id, text, x, y)
+
+    def text_draw_alignment(self, text, alignment):
+        return PlayerTextDrawAlignment(self.id, text, alignment)
+
+    def text_draw_color(self, text, color):
+        return PlayerTextDrawColor(self.id, text, color)
+
+    def text_draw_use_box(self, text, use):
+        return PlayerTextDrawUseBox(self.id, text, use)
+
+    def text_draw_box_color(self, text, color):
+        return PlayerTextDrawBoxColor(self.id, text, color)
+
+    def text_draw_set_shadow(self, text, size):
+        return PlayerTextDrawSetShadow(self.id, text, size)
+
+    def text_draw_set_outline(self, text, size):
+        return PlayerTextDrawSetOutline(self.id, text, size)
+
+    def text_draw_background_color(self, text, color):
+        return PlayerTextDrawBackgroundColor(self.id, text, color)
+
+    def text_draw_font(self, text, font):
+        return PlayerTextDrawFont(self.id, text, font)
+
+    def text_draw_set_proportional(self, text, set):
+        return PlayerTextDrawSetProportional(self.id, text, set)
+
+    def text_draw_set_selectable(self, text, set):
+        return PlayerTextDrawSetSelectable(self.id, text, set)
+
+    def player_text_draw_show(self, text):
+        return PlayerTextDrawShow(self.id, text)
+
+    def text_draw_hide(self, text):
+        return PlayerTextDrawHide(self.id, text)
+
+    def text_draw_set_string(self, text, string):
+        return PlayerTextDrawSetString(self.id, text, string)
+
+    def text_draw_set_preview_model(self, text, modelindex):
+        return PlayerTextDrawSetPreviewModel(self.id, text, modelindex)
+
+    def text_draw_set_preview_rot(self, text, fRotX, fRotY, fRotZ, fZoom=1.0):
+        return PlayerTextDrawSetPreviewRot(self.id, text, fRotX, fRotY, fRotZ, fZoom=1.0)
+
+    def text_draw_set_preview_veh_col(self, text, color1, color2):
+        return PlayerTextDrawSetPreviewVehCol(self.id, text, color1, color2)
+
+    def set_pvar_int(self, varname, value):
+        return SetPVarInt(self.id, varname, value)
+
+    def get_pvar_int(self, varname):
+        return GetPVarInt(self.id, varname)
+
+    def set_pvar_string(self, varname, value):
+        return SetPVarString(self.id, varname, value)
+
+    def get_pvar_string(self, varname, size):
+        return GetPVarString(self.id, varname, size)
+
+    def set_pvar_float(self, varname, value):
+        return SetPVarFloat(self.id, varname, value)
+
+    def get_pvar_float(self, varname):
+        return GetPVarFloat(self.id, varname)
+
+    def delete_pvar(self, varname):
+        return DeletePVar(self.id, varname)
+
+    def get_pvars_upper_index(self):
+        return GetPVarsUpperIndex(self.id)
+
+    def get_pvar_name_at_index(self, index, size):
+        return GetPVarNameAtIndex(self.id, index, size)
+
+    def get_pvar_type(self, varname):
+        return GetPVarType(self.id, varname)
+
+    def set_chat_bubble(self, text, color, drawdistance, expiretime):
+        return SetPlayerChatBubble(self.id, text, color, drawdistance, expiretime)
+
+    def put_in_vehicle(self, vehicleid, seatid):
+        return PutPlayerInVehicle(self.id, vehicleid, seatid)
+
+    def get_vehicle_id(self):
+        return GetPlayerVehicleID(self.id)
+
+    def get_vehicle_seat(self):
+        return GetPlayerVehicleSeat(self.id)
+
+    def remove_from_vehicle(self):
+        return RemovePlayerFromVehicle(self.id)
+
+    def toggle_controllable(self, toggle):
+        return TogglePlayerControllable(self.id, toggle)
+
+    def play_sound(self, soundid, x, y, z):
+        return PlayerPlaySound(self.id, soundid, x, y, z)
+
+    def apply_animation(self, animlib, animname, fDelta, loop, lockx, locky, freeze, time, forcesync=False):
+        return ApplyAnimation(self.id, animlib, animname, fDelta, loop, lockx, locky, freeze, time, forcesync=False)
+
+    def clear_animations(self, forcesync=False):
+        return ClearAnimations(self.id, forcesync=False)
+
+    def get_animation_index(self):
+        return GetPlayerAnimationIndex(self.id)
+
+    def get_special_action(self):
+        return GetPlayerSpecialAction(self.id)
+
+    def set_special_action(self, actionid):
+        return SetPlayerSpecialAction(self.id, actionid)
+
+    def disable_remote_vehicle_collisions(self, disable):
+        return DisableRemoteVehicleCollisions(self.id, disable)
+
+    def set_checkpoint(self, x, y, z, size):
+        return SetPlayerCheckpoint(self.id, x, y, z, size)
+
+    def disable_checkpoint(self):
+        return DisablePlayerCheckpoint(self.id)
+
+    def set_race_checkpoint(self, type, x, y, z, nextx, nexty, nextz, size):
+        return SetPlayerRaceCheckpoint(self.id, type, x, y, z, nextx, nexty, nextz, size)
+
+    def disable_race_checkpoint(self):
+        return DisablePlayerRaceCheckpoint(self.id)
+
+    def set_world_bounds(self, x_max, x_min, y_max, y_min):
+        return SetPlayerWorldBounds(self.id, x_max, x_min, y_max, y_min)
+
+    def set_marker(self, showplayerid, color):
+        return SetPlayerMarkerForPlayer(self.id, showplayerid, color)
+
+    def show_name_tag(self, showplayerid, show):
+        return ShowPlayerNameTagForPlayer(self.id, showplayerid, show)
+
+    def set_map_icon(self, iconid, x, y, z, markertype, color, style=Const('MAPICON_LOCAL')):
+        return SetPlayerMapIcon(self.id, iconid, x, y, z, markertype, color, style=Const('MAPICON_LOCAL'))
+
+    def remove_map_icon(self, iconid):
+        return RemovePlayerMapIcon(self.id, iconid)
+
+    def allow_teleport(self, allow):
+        return AllowPlayerTeleport(self.id, allow)
+
+    def set_camera_pos(self, x, y, z):
+        return SetPlayerCameraPos(self.id, x, y, z)
+
+    def set_camera_look_at(self, x, y, z, cut=Const('CAMERA_CUT')):
+        return SetPlayerCameraLookAt(self.id, x, y, z, cut=Const('CAMERA_CUT'))
+
+    def set_camera_behind(self):
+        return SetCameraBehindPlayer(self.id)
+
+    def get_camera_pos(self):
+        return GetPlayerCameraPos(self.id)
+
+    def get_camera_front_vector(self):
+        return GetPlayerCameraFrontVector(self.id)
+
+    def get_camera_mode(self):
+        return GetPlayerCameraMode(self.id)
+
+    def enable_camera_target(self, enable):
+        return EnablePlayerCameraTarget(self.id, enable)
+
+    def get_camera_target_object(self):
+        return GetPlayerCameraTargetObject(self.id)
+
+    def get_camera_target_vehicle(self):
+        return GetPlayerCameraTargetVehicle(self.id)
+
+    def get_camera_target(self):
+        return GetPlayerCameraTargetPlayer(self.id)
+
+    def get_camera_target_actor(self):
+        return GetPlayerCameraTargetActor(self.id)
+
+    def get_camera_aspect_ratio(self):
+        return GetPlayerCameraAspectRatio(self.id)
+
+    def get_camera_zoom(self):
+        return GetPlayerCameraZoom(self.id)
+
+    def attach_camera_to_object(self, objectid):
+        return AttachCameraToObject(self.id, objectid)
+
+    def attach_camera_to_player_object(self, playerobjectid):
+        return AttachCameraToPlayerObject(self.id, playerobjectid)
+
+    def interpolate_camera_pos(self, FromX, FromY, FromZ, ToX, ToY, ToZ, time, cut=Const('CAMERA_CUT')):
+        return InterpolateCameraPos(self.id, FromX, FromY, FromZ, ToX, ToY, ToZ, time, cut=Const('CAMERA_CUT'))
+
+    def interpolate_camera_look_at(self, FromX, FromY, FromZ, ToX, ToY, ToZ, time, cut=Const('CAMERA_CUT')):
+        return InterpolateCameraLookAt(self.id, FromX, FromY, FromZ, ToX, ToY, ToZ, time, cut=Const('CAMERA_CUT'))
+
+    def is_connected(self):
+        return IsPlayerConnected(self.id)
+
+    def is_in_vehicle(self, vehicleid):
+        return IsPlayerInVehicle(self.id, vehicleid)
+
+    def is_in_any_vehicle(self):
+        return IsPlayerInAnyVehicle(self.id)
+
+    def is_in_checkpoint(self):
+        return IsPlayerInCheckpoint(self.id)
+
+    def is_in_race_checkpoint(self):
+        return IsPlayerInRaceCheckpoint(self.id)
+
+    def set_virtual_world(self, worldid):
+        return SetPlayerVirtualWorld(self.id, worldid)
+
+    def get_virtual_world(self):
+        return GetPlayerVirtualWorld(self.id)
+
+    def enable_stunt_bonus(self, enable):
+        return EnableStuntBonusForPlayer(self.id, enable)
+
+    def toggle_spectating(self, toggle):
+        return TogglePlayerSpectating(self.id, toggle)
+
+    def spectate(self, targetplayerid, mode=Const('SPECTATE_MODE_NORMAL')):
+        return PlayerSpectatePlayer(self.id, targetplayerid, mode=Const('SPECTATE_MODE_NORMAL'))
+
+    def spectate_vehicle(self, targetvehicleid, mode=Const('SPECTATE_MODE_NORMAL')):
+        return PlayerSpectateVehicle(self.id, targetvehicleid, mode=Const('SPECTATE_MODE_NORMAL'))
+
+    def start_recording_data(self, recordtype, recordname):
+        return StartRecordingPlayerData(self.id, recordtype, recordname)
+
+    def stop_recording_data(self):
+        return StopRecordingPlayerData(self.id)
+
+    def create_explosion(self, X, Y, Z, type, Radius):
+        return CreateExplosionForPlayer(self.id, X, Y, Z, type, Radius)
+
+    def edit_object(self, objectid):
+        return EditObject(self.id, objectid)
+
+    def edit_player_object(self, objectid):
+        return EditPlayerObject(self.id, objectid)
+
+    def select_object(self):
+        return SelectObject(self.id)
+
+    def cancel_edit(self):
+        return CancelEdit(self.id)
+
+    def create_object(self, modelid, x, y, z, rX, rY, rZ, DrawDistance=0.0):
+        return CreatePlayerObject(self.id, modelid, x, y, z, rX, rY, rZ, DrawDistance=0.0)
+
+    def attach_object_to_vehicle(self, objectid, vehicleid, fOffsetX, fOffsetY, fOffsetZ, fRotX, fRotY, RotZ):
+        return AttachPlayerObjectToVehicle(self.id, objectid, vehicleid, fOffsetX, fOffsetY, fOffsetZ, fRotX, fRotY, RotZ)
+
+    def set_object_pos(self, objectid, x, y, z):
+        return SetPlayerObjectPos(self.id, objectid, x, y, z)
+
+    def get_object_pos(self, objectid):
+        return GetPlayerObjectPos(self.id, objectid)
+
+    def set_object_rot(self, objectid, rotX, rotY, rotZ):
+        return SetPlayerObjectRot(self.id, objectid, rotX, rotY, rotZ)
+
+    def get_object_rot(self, objectid):
+        return GetPlayerObjectRot(self.id, objectid)
+
+    def get_object_model(self, objectid):
+        return GetPlayerObjectModel(self.id, objectid)
+
+    def set_object_no_camera_col(self, objectid):
+        return SetPlayerObjectNoCameraCol(self.id, objectid)
+
+    def is_valid_object(self, objectid):
+        return IsValidPlayerObject(self.id, objectid)
+
+    def destroy_object(self, objectid):
+        return DestroyPlayerObject(self.id, objectid)
+
+    def move_object(self, objectid, x, y, z, Speed, RotX=-1000.0, RotY=-1000.0, RotZ=-1000.0):
+        return MovePlayerObject(self.id, objectid, x, y, z, Speed, RotX=-1000.0, RotY=-1000.0, RotZ=-1000.0)
+
+    def stop_object(self, objectid):
+        return StopPlayerObject(self.id, objectid)
+
+    def is_object_moving(self, objectid):
+        return IsPlayerObjectMoving(self.id, objectid)
+
+    def set_object_material(self, objectid, materialindex, modelid, txdname, texturename, materialcolor=0):
+        return SetPlayerObjectMaterial(self.id, objectid, materialindex, modelid, txdname, texturename, materialcolor=0)
+
+    def set_object_material_text(self, objectid, text, materialindex=0, materialsize=Const('OBJECT_MATERIAL_SIZE_256x128'),  fontface="Arial", fontsize=24, bold=True, fontcolor=0xFFFFFFFF, backcolor=0, textalignment=0):
+        return SetPlayerObjectMaterialText(self.id, objectid, text, materialindex=0, materialsize=Const('OBJECT_MATERIAL_SIZE_256x128'), fontface="Arial", fontsize=24, bold=True, fontcolor=0xFFFFFFFF, backcolor=0, textalignment=0)
+
+    def send_client_message(self, color, message):
+        return SendClientMessage(self.id, color, message)
+
+    def send_message(self, senderid, message):
+        return SendPlayerMessageToPlayer(self.id, senderid, message)
+
+    def send_death_message(self, killer, killee, weapon):
+        return SendDeathMessageToPlayer(self.id, killer, killee, weapon)
+
+    def game_text(self, text, time, style):
+        return GameTextForPlayer(self.id, text, time, style)
+
+    def is_npc(self):
+        return IsPlayerNPC(self.id)
+
+    def is_admin(self):
+        return IsPlayerAdmin(self.id)
+
+    def kick(self):
+        return Kick(self.id)
+
+    def ban(self):
+        return Ban(self.id)
+
+    def ban_ex(self, reason):
+        return BanEx(self.id, reason)
+
+    def get_network_stats(self, size):
+        return GetPlayerNetworkStats(self.id, size)
+
+    def get_version(self, len):
+        return GetPlayerVersion(self.id, len)
+
+    def net_stats_get_connected_time(self):
+        return NetStats_GetConnectedTime(self.id)
+
+    def net_stats_messages_received(self):
+        return NetStats_MessagesReceived(self.id)
+
+    def net_stats_bytes_received(self):
+        return NetStats_BytesReceived(self.id)
+
+    def net_stats_messages_sent(self):
+        return NetStats_MessagesSent(self.id)
+
+    def net_stats_bytes_sent(self):
+        return NetStats_BytesSent(self.id)
+
+    def net_stats_messages_recv_per_second(self):
+        return NetStats_MessagesRecvPerSecond(self.id)
+
+    def net_stats_packet_loss_percent(self):
+        return NetStats_PacketLossPercent(self.id)
+
+    def net_stats_connection_status(self):
+        return NetStats_ConnectionStatus(self.id)
+
+    def net_stats_get_ip_port(self, ip_port_len):
+        return NetStats_GetIpPort(self.id, ip_port_len)
+
+    def get_menu(self):
+        return GetPlayerMenu(self.id)
+
+    def text_draw_show(self, text):
+        return TextDrawShowForPlayer(self.id, text)
+
+    def select_text_draw(self, hovercolor):
+        return SelectTextDraw(self.id, hovercolor)
+
+    def cancel_select_text_draw(self):
+        return CancelSelectTextDraw(self.id)
+
+    def gang_zone_show(self, zone, color):
+        return GangZoneShowForPlayer(self.id, zone, color)
+
+    def gang_zone_flash(self, zone, flashcolor):
+        return GangZoneFlashForPlayer(self.id, zone, flashcolor)
+
+    def gang_zone_stop_flash(self, zone):
+        return GangZoneStopFlashForPlayer(self.id, zone)
+
+    def show_dialog(self, dialogid, style, caption, info, button1, button2):
+        return ShowPlayerDialog(self.id, dialogid, style, caption, info, button1, button2)
+
+    def gpci(self, size):
+        return gpci(self.id, size)
+
+    def redirect_download(self, url):
+        return RedirectDownload(self.id, url)
+
+    def create_3d_text_label(self, text, color, x, y, z, drawDistance, attachedplayer=Const('INVALID_ID'), attachedvehicle=Const('INVALID_VEHICLE_ID'), testLOS=False):
+        return CreatePlayer3DTextLabel(self.id, text, color, x, y, z, drawDistance, attachedplayer=Const('INVALID_ID'), attachedvehicle=Const('INVALID_VEHICLE_ID'), testLOS=False)
+
+    def delete_3d_text_label(self, id):
+        return DeletePlayer3DTextLabel(self.id, id)
+
+    def update_3d_text_label_text(self, id, color, text):
+        return UpdatePlayer3DTextLabelText(self.id, id, color, text)
+
+
 
