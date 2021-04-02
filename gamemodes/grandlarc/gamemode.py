@@ -15,8 +15,7 @@ in python, and here is the result. We took our liberty to nick it "PyLarc".
 The intention behind converting it, was to give you all an idea of how the plugin works,
 and to give you all a good example.
 
-We have tried to show how player classes can be implemented (check player.py), and
-also how the general usage works. 
+EDIT April 2021: Converted gamemode to use newly made classes in samp.py for Players, Vehicles and Actors.
 
 Everything here should function as in the original PAWN version, and if you 
 find any bugs, you can report them on our repo; https://github.com/habecker/PySAMP/issues
@@ -122,54 +121,50 @@ def on_gamemode_exit():
 
 
 def on_player_connect(playerid):
-    game_text_for_player(playerid,"~w~Grand Larceny",3000,4)
-    send_client_message(playerid,COLOR_WHITE,"Welcome to Grand Larceny")
-    _player_obj = Player(playerid, -1, False, get_tick_count())
-    players.append(_player_obj)
+    global player
+    player_obj = PlayerVars(playerid) ## Create the player object
+    player[playerid] = player_obj ## then keep it tracked in a dict. (lookup by playerid)
+    player[playerid].game_text("~w~Grand Larceny",3000,4)
+    player[playerid].send_client_message(COLOR_WHITE,"Welcome to Grand Larceny")
     return True
     
 def on_player_disconnect(playerid, reason):
-    for player in players:
-        if player.playerid == playerid:
-            players.remove(player)
-            break
+    player.pop(playerid, 0)
     return True
     
 def on_player_spawn(playerid):
-    if is_player_npc(playerid):
+    global player
+    if player[playerid].is_npc:
         return True
     randspawn = 0
-    set_player_interior(playerid, 0)
-    toggle_player_clock(playerid, 0)
-    reset_player_money(playerid)
-    give_player_money(playerid, 30000)
+    player[playerid].interior = 0
+    player[playerid].toggle_clock(0)
+    player[playerid].reset_money()
+    player[playerid].give_money(30000)
 
-
-    for player in players:
-        if player.playerid == playerid:
-            player.has_city_selected = False
+    player[playerid].has_city_selected = False
     
-            if player.city_selection == CITY_LOS_SANTOS:
-                randspawn = random.randint(0, len(spawn_ls))
-                set_player_pos(playerid, 
-                    spawn_ls[randspawn][0], 
-                    spawn_ls[randspawn][1], 
-                    spawn_ls[randspawn][2]
-                )
-            elif player.city_selection == CITY_SAN_FIERRO:
-                randspawn = random.randint(0, len(spawn_sf))
-                set_player_pos(playerid, 
-                    spawn_sf[randspawn][0], 
-                    spawn_sf[randspawn][1], 
-                    spawn_sf[randspawn][2]
-                )
-            elif player.city_selection == CITY_LAS_VENTURAS:
-                randspawn = random.randint(0, len(spawn_lv))
-                set_player_pos(playerid, 
-                    spawn_lv[randspawn][0], 
-                    spawn_lv[randspawn][1], 
-                    spawn_lv[randspawn][2]
-                )
+    if player[playerid].city_selection == CITY_LOS_SANTOS:
+        randspawn = random.randint(0, len(spawn_ls))
+        player[playerid].pos() 
+            spawn_ls[randspawn][0], 
+            spawn_ls[randspawn][1], 
+            spawn_ls[randspawn][2]
+        )
+    elif player[playerid].city_selection == CITY_SAN_FIERRO:
+        randspawn = random.randint(0, len(spawn_sf))
+        set_player_pos(playerid, 
+            spawn_sf[randspawn][0], 
+            spawn_sf[randspawn][1], 
+            spawn_sf[randspawn][2]
+        )
+    elif player[playerid].city_selection == CITY_LAS_VENTURAS:
+        randspawn = random.randint(0, len(spawn_lv))
+        set_player_pos(playerid, 
+            spawn_lv[randspawn][0], 
+            spawn_lv[randspawn][1], 
+            spawn_lv[randspawn][2]
+        )
     set_player_skill_level(playerid,Const("WEAPONSKILL_PISTOL"),200)
     set_player_skill_level(playerid,Const("WEAPONSKILL_PISTOL_SILENCED"),200)
     set_player_skill_level(playerid,Const("WEAPONSKILL_DESERT_EAGLE"),200)

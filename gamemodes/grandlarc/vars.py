@@ -12,4 +12,4 @@ txt_ls = 65535
 txt_sf = 65535
 txt_lv = 65535
 
-players = []
+player = {}
