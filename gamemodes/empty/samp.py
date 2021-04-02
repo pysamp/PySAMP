@@ -2418,7 +2418,67 @@ def update_player_3d_text_label_text(playerid, id, color, text):
 	return UpdatePlayer3DTextLabelText(playerid, id, color, text)
 
 
+class Actor:
+    def __init__(self, modelid, x, y, z, rot):
+        self.id = CreateActor(modelid, x, y, z, rot)
+
+    def destroy(self):
+        return DestroyActor(self.id)
+
+    def streamed_in(self, forplayerid):
+        return IsActorStreamedIn(self.id, forplayerid)
+
+    @property
+    def virtual_world(self):
+        return GetActorVirtualWorld(self.id)
+
+    @virtual_world.setter
+    def virtual_world(self, vworld):
+        return SetActorVirtualWorld(self.id, vworld)
+
+    def apply_animation(self, animlib, animname, fDelta, loop, lockx, locky, freeze, time):
+        return ApplyActorAnimation(self.id, animlib, animname, fDelta, loop, lockx, locky, freeze, time)
+
+    def clear_animations(self):
+        return ClearActorAnimations(self.id)
+
+    @property
+    def pos(self):
+        return GetActorPos(self.id)
+
+    @pos.setter
+    def pos(self, x, y, z):
+        return SetActorPos(self.id, x, y, z)
+    @property
+    def facing_angle(self):
+        return GetActorFacingAngle(self.id)
+
+    @facing_angle.setter
+    def facing_angle(self, angle):
+        return SetActorFacingAngle(self.id, angle)
+
+    @property
+    def health(self):
+        return GetActorHealth(self.id)
+
+    @health.setter
+    def health(self, health):
+        return SetActorHealth(self.id, health)
+
+    @property
+    def invulnerable(self):
+        return IsActorInvulnerable(self.id)
+
+    @invulnerable.setter
+    def invulnerable(self, invulnerable = True):
+        return SetActorInvulnerable(self.id, invulnerable = True)
+
+    @property
+    def is_valid(self):
+        return IsValidActor(self.id)
+
 class Vehicle:
+    
     def __init__(self, vehicletype, x, y, z, rotation, color1, color2, respawn_delay, addsiren=False):
         self.id = create_vehicle(
             vehicletype, x, y, z, rotation, color1, color2, respawn_delay, addsiren)
@@ -2561,7 +2621,6 @@ class Vehicle:
     @virtual_world.setter
     def virtual_world(self, worldid):
         return SetVehicleVirtualWorld(self.id, worldid)
-
 
 class Player:
     def __init__(self, nick, playerid):
