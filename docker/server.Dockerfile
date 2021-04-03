@@ -14,9 +14,11 @@ RUN apt-get -qq update && \
 RUN apt-get -qq install libc6:i386 libncurses5:i386 libstdc++6:i386
 RUN apt-get -qq install gcc-i686-linux-gnu
 
+COPY ./docker/pip-modules.txt pip-modules.txt
+
 RUN python3.8 -m pip install --upgrade pip && \
-    python3.8 -m pip install -r requirements.txt --no-cache-dir 
-    # modules can be edited in requirements.txt. Copied from /gamemodes/empty/requirements.txt
+    python3.8 -m pip install -r pip-modules.txt --no-cache-dir
+    # modules can be edited in pip-modules.txt. Used from "docker/pip-modules.txt"
 
 WORKDIR /server
 
