@@ -15,7 +15,8 @@ RUN apt-get -qq install libc6:i386 libncurses5:i386 libstdc++6:i386
 RUN apt-get -qq install gcc-i686-linux-gnu
 
 RUN python3.8 -m pip install --upgrade pip && \
-    python3.8 -m pip install --no-cache-dir numpy tornado # TODO: make dependencies configurable
+    python3.8 -m pip install -r requirements.txt --no-cache-dir 
+    # modules can be edited in requirements.txt. Copied from /gamemodes/empty/requirements.txt
 
 WORKDIR /server
 
