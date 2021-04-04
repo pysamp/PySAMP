@@ -5,11 +5,3 @@ CITY_SAN_FIERRO = 1
 CITY_LAS_VENTURAS = 2
 
 total_vehicles_from_files = 0
-
-# Textdraws
-txtClassSelHelper = 65535
-txt_ls = 65535
-txt_sf = 65535
-txt_lv = 65535
-
-player = {}
