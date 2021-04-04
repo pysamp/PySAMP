@@ -2491,20 +2491,138 @@ class Actor(object):
         return IsValidActor(self.id)
 
 class Player(object):
+    """Track all players and interact with them using the Player Class
+
+    The class includes all functions that are in sa-mp where the first argument is "playerid".
+    The methods and properties are also renamed, to remove "player" and "get"/"set" words. 
+    
+    Ex:
+    -----------
+    ```py
+    ## old way
+    name = get_player_name(playerid, 16)
+    #################
+    # Do this when player connects;
+    player_obj = Player(playerid) 
+    # Then, access properties
+    name = player_obj.name
+    # or, access methods
+    player_obj.set_armed_weapon(weaponid)
+    ```
+
+    """
     def __init__(self, playerid):
         self.id = playerid
-
     def set_spawn_info(self, team, skin, x, y, z, rotation, weapon1, weapon1_ammo, weapon2, weapon2_ammo, weapon3, weapon3_ammo):
+        """ | METHOD |
+
+        This method can be used to change the spawn information of a specific player. 
+        It allows you to automatically set someone's spawn weapons, their team, skin and spawn position, 
+        normally used in case of minigames or automatic-spawn systems.
+        
+        Parameters
+        -----
+        ______________________________________
+        - int:team \t\t The Team-ID of the chosen player.
+        - int:skin \t\t The skin which the player will spawn with.
+        - float:X \t\t The X-coordinate of the player's spawn position.
+        - float:Y \t\t The Y-coordinate of the player's spawn position.
+        - float:Z \t\t The Z-coordinate of the player's spawn position.
+        - float:rotation \t The direction in which the player needs to be facing after spawning.
+        - int:weapon1: \t\t The first spawn-weapon for the player.
+        - int:weapon1_ammo: \t The amount of ammunition for the primary spawnweapon.
+        - int:weapon2: \t\t The second spawn-weapon for the player.
+        - int:weapon2_ammo: \t The amount of ammunition for the second spawnweapon.
+        - int:weapon3: \t\t The third spawn-weapon for the player.
+        - int:weapon3_ammo: \t The amount of ammunition for the third spawnweapon.
+        ______________________________________
+        Returns
+        ---------
+        This function does not return any specific values.
+        Examples
+        -----
+        ```py
+        def OnPlayerRequestClass(playerid, classid)
+            # This simple example demonstrates how to spawn every player automatically with
+            # CJ's skin, which is number 0. The player will spawn in Las Venturas, with
+            # 36 Sawnoff-Shotgun rounds and 150 Tec9 rounds.
+            player.set_spawn_info(0, 0, 1958.33, 1343.12, 15.36, 269.15, 26, 36, 28, 150, 0, 0 );
+        ```
+        """
         return SetSpawnInfo(self.id, team, skin, x, y, z, rotation, weapon1, weapon1_ammo, weapon2, weapon2_ammo, weapon3, weapon3_ammo)
 
     def spawn(self):
+        """ | METHOD | 
+        
+        (Re)Spawns a player.
+        ___________
+        no parameters
+        ___________
+        
+        Returns
+        -------------
+        - 1: The function executed successfully.
+        - 0: The function failed to execute. This means the player is not connected.
+        
+        
+        Examples
+        -------------
+        ```py
+        if "/spawn" in cmdtext[:6]:
+            player.spawn()
+            return True
+        ```
+        """
         return SpawnPlayer(self.id)
 
     def set_pos_find_z(self, x, y, z):
+        """| METHOD | 
+        
+        This sets the players position then adjusts the players z-coordinate to the nearest solid ground under the position
+        ________________
+        - Float:x \t The X coordinate to position the player at.
+        - Float:y \t The X coordinate to position the player at.
+        - Float:z \t The Z coordinate to position the player at.
+        ________________
+        
+        Returns
+        --------
+        - 1: The function executed successfully.
+        - 0: The function failed to execute. This means the player specified does not exist.
+        
+        NOTICE
+        ---------
+        - This function does not work if the new coordinates are far away from where the player currently is. 
+        - The Z height will be 0, which will likely put them underground.
+        """
         return SetPlayerPosFindZ(self.id, x, y, z)
 
     @property
     def pos(self):
+        """| PROPERTY | 
+        
+        Get or Set the position. Values inside tuple are floats.
+
+        Examples
+        ---------
+        - Getting the position:
+        
+        >>> `(x, y, z) = player.pos`
+        
+
+        - Setting the position:
+        >>> `player.pos = (x, y, z)`
+        
+        
+        Set
+        ----
+        - Returns true if successful, false if not.\n
+        Get
+        -----
+        - Returns: (x, y, z), raises ValueError if unsuccessful.
+        
+
+        """
         return GetPlayerPos(self.id)
 
     @pos.setter
@@ -2518,6 +2636,18 @@ class Player(object):
 
     @property
     def facing_angle(self):
+        """| PROPERTY | 
+        
+        Set / get the player's facing angle.
+
+            Example:
+            ---------- 
+            ```py
+            if player.facing_angle > 180:
+                player.facing_angle = 180
+            ```
+            Value: float
+        """
         return GetPlayerFacingAngle(self.id)
 
     @facing_angle.setter
@@ -2525,16 +2655,79 @@ class Player(object):
         return SetPlayerFacingAngle(self.id, angle)
 
     def is_in_range_of_point(self, range, x, y, z):
+        """| METHOD | 
+        
+        Checks if the player is in range of a point. 
+        
+        - Float:range \t The furthest distance the player can be from the point to be in range.
+        - Float:x \t The X coordinate of the point to check the range to.
+        - Float:y \t The Y coordinate of the point to check the range to.
+        - Float:z \t The Z coordinate of the point to check the range to.
+
+        Returns
+        -------
+        - True - The player is in range of the point.
+        - False - The player is not in range of the point.
+
+        Source: https://open.mp/docs/scripting/functions/IsPlayerInRangeOfPoint     
+        """
         return IsPlayerInRangeOfPoint(self.id, range, x, y, z)
 
     def distance_from_point(self, x, y, z):
+        """| METHOD | 
+        
+        Calculate the distance between a player and a map coordinate.
+
+        - Float:x \t The X map coordinate.
+        - Float:y \t The Y map coordinate.
+        - Float:z \t The Z map coordinate.
+        
+        Returns
+        -------
+        The distance between the player and the point as a float.
+        """
         return GetPlayerDistanceFromPoint(self.id, x, y, z)
 
     def is_streamed_in(self, forplayerid):
+        """| METHOD | 
+        
+        Checks if the player is streamed in another player's client.
+
+        - forplayerid \t The ID of the player to check if playerid is streamed in for.
+        
+        Returns
+        -------
+        - 1: The player is streamed in.
+        - 0: The player is not streamed in.
+        Examples
+        ------------
+        ```py
+        if player.is_streamed_in(0) ## can player 0 see this player?
+            player.send_client_message(-1, "ID 0 can see you.");
+        ```
+        """
         return IsPlayerStreamedIn(self.id, forplayerid)
 
     @property
+
     def interior(self):
+        """| PROPERTY | 
+        
+        Set or get the player's interior. Normal world is in interior 0.
+
+        A list of currently known interiors and their positions can be found here:
+        
+        https://open.mp/docs/scripting/resources/interiorids
+
+        The interior is a positive integer.
+
+        Example:
+        --------
+        ```py
+        if player.interior == 0:
+            player.interior = 5
+        ```
+        """
         return GetPlayerInterior(self.id)
 
     @interior.setter
@@ -2543,6 +2736,22 @@ class Player(object):
 
     @property
     def health(self):
+        """| PROPERTY | 
+        
+        Get or set the player's health.
+
+        Value should be a float between `0.0` and `100.0`
+
+        Example:
+        ------
+        ```py
+        if player.health < 10.0:
+            player.send_client_message(-1, "Watch out! You are almost dead: {} hp left!".format(player.health))
+
+        if player.health < 5.0:
+            player.health = 0.0 ## Setting health to 0, kills the player.  
+        ```
+        """
         return GetPlayerHealth(self.id)
 
     @health.setter
@@ -2551,6 +2760,22 @@ class Player(object):
 
     @property
     def armour(self):
+        """| PROPERTY | 
+        
+        Get or set the player's armour.
+
+        Value should be a float between `0.0` and `100.0`
+
+        Example:
+        ------
+        ```py
+        if player.armour < 10.0:
+            player.send_client_message(-1, "You are running out of armour: {} left!".format(player.armour))
+
+        if player.score > 90:
+            player.armour = 100.0 ## Set full armour.  
+        ```
+        """
         return GetPlayerArmour(self.id)
 
     @armour.setter
@@ -2559,6 +2784,20 @@ class Player(object):
 
     @property
     def ammo(self):
+        """| PROPERTY | 
+        
+        Get or set the amount of ammo in the player's current weapon.
+
+        Value should be an int between 0 and 32766. 
+        *Warning*: Values above 32766 can cause errors.
+
+        Example:
+        ------
+        ```py
+        if player.ammo < 10:
+            player.ammo = 5000 # Automatically fill up to 5000 when below 10 ammo.
+        ```
+        """
         return GetPlayerAmmo(self.id)
 
     @ammo.setter
@@ -2572,10 +2811,57 @@ class Player(object):
 
     @property
     def weapon_state(self):
+        """| PROPERTY | Read only | 
+        
+        Check the state of the player's weapon.
+        __________
+        - \tID \t Constant\t\t\t Description
+        >>>
+        - \t-1 \t WEAPONSTATE_UNKNOWN \t\t Unknown (Set when in a vehicle)
+        - \t 0 \t WEAPONSTATE_NO_BULLETS \t The weapon has no remaining ammo
+        - \t 1 \t WEAPONSTATE_LAST_BULLET \t The weapon has one remaining bullet
+        - \t 2 \t WEAPONSTATE_MORE_BULLETS \t The weapon has multiple bullets
+        - \t 3 \t WEAPONSTATE_RELOADING \t\t The player is reloading their weapon 
+        __________
+        Returns
+        ----
+        - The state of the weapon 
+
+
+        Example:
+        ---------
+        ```py
+        if player.weapon_state = WEAPONSTATE_LAST_BULLET.get():
+            player.send_client_message(-1, "You only have 1 bullet left!!")
+        ```
+        """
         return GetPlayerWeaponState(self.id)
 
     @property
     def target(self):
+        """| PROPERTY | Read only |
+        
+        Check who the player is aiming at.
+
+        Returns
+        -----
+        - The ID of the target player as an int, or `INVALID_PLAYER_ID` if none.
+
+        Notes:
+        ----
+        - Does not work for joypads/controllers, and after a certain distance.
+        - Does not work for the sniper rifle, as it doesn't lock on to anything and won't return a player. 
+
+        Example:
+        ----
+        ```py
+        ## Usually put under a timer or under on_player_update()
+        if player.target == INVALID_PLAYER_ID.get():
+            pass
+        elif player.target == 5:
+            player.send_client_message(-1, "You are currently aiming at player id 5")
+        ```
+        """
         return GetPlayerTargetPlayer(self.id)
 
     @property
@@ -2584,6 +2870,22 @@ class Player(object):
 
     @property
     def team(self):
+        """| PROPERTY | 
+        
+        Get or set the player's team ID.
+
+        -  0-254  are valid teams
+        -  255 is defined as NO_TEAM. The player is not on any team `(default)`
+        - -1 is returned if something went wrong reading the value. Not a valid team.
+
+        Example
+        ----
+        ```py
+        if player.team == NO_TEAM.get():
+            player.team = 15 ## Assign to team 15
+        
+        ```
+        """
         return GetPlayerTeam(self.id)
 
     @team.setter
@@ -2592,6 +2894,18 @@ class Player(object):
 
     @property
     def score(self):
+        """ | PROPERTY |
+        
+        Get or set the player's score as an int.
+
+        Example:
+        -----
+        ```py
+        if player.score == 0:
+            player.score += 1000
+        ```
+
+        """
         return GetPlayerScore(self.id)
 
     @score.setter
@@ -2600,6 +2914,20 @@ class Player(object):
 
     @property
     def drunk_level(self):
+        """ | PROPERTY |
+        
+        Get or set the player's drunk level.
+
+        Values:
+        ----
+        - 0 to 2000 \t\t No visible effect
+        - 2001 to 5000  \t Visible camera swaying and control issues in vehicles. HUD is visible.
+        - 5001 and above\t Swaying continues, but HUD becomes invisible.
+
+        NOTE: Drunk level with decrease with player fps. If you have 50 fps, the drunk level will decrease with 50 levels per second.
+        
+        More information: https://open.mp/docs/scripting/functions/SetPlayerDrunkLevel
+        """
         return GetPlayerDrunkLevel(self.id)
 
     @drunk_level.setter
@@ -2608,6 +2936,7 @@ class Player(object):
 
     @property
     def color(self):
+
         return GetPlayerColor(self.id)
 
     @color.setter

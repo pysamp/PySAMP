@@ -1,7 +1,8 @@
 from samp import *
 
 class PlayerVars(Player):
-
+    __doc__ += Player.__doc__ # This allows us to get documentation from parent class
+    
     def __init__(
         self, playerid, 
         city_selection = -1,
@@ -12,5 +13,3 @@ class PlayerVars(Player):
         self.has_city_selected = has_city_selected
         self.last_city_selection_tick = 0
         super().__init__(playerid) # To get all functionality from the parent "Player" class in samp.py
-        
-    
