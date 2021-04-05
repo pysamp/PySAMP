@@ -2716,7 +2716,6 @@ class Player(object):
         return IsPlayerStreamedIn(self.id, forplayerid)
 
     @property
-
     def interior(self):
         """| PROPERTY | 
         
@@ -4155,6 +4154,18 @@ class Player(object):
     def text_draw_font(self, text, font):
         """| METHOD |
 
+        Change the font of a textdraw. 
+
+        See all fonts here: https://sampwiki.blast.hk/wiki/PlayerTextDrawFont
+        ________
+
+        - text \t The ID of the player-textdraw to change the font of
+        - font \t There are four fonts, 0-3. Above 4 may crash the client. 
+        ________
+
+        Returns
+        -----
+        - No value is returned
 
         """
         return PlayerTextDrawFont(self.id, text, font)
@@ -4162,7 +4173,18 @@ class Player(object):
     def text_draw_set_proportional(self, text, set):
         """| METHOD |
 
+        Appears to scale text spacing to a proportional ratio. 
+        Useful when using PlayerTextDrawLetterSize to ensure the text has even character spacing.
+        _______________
+
+        - text \t The ID of the player-textdraw to set the proportionality of
+        - set  \t 1 to enable proportionality, 0 to disable
+        _______________
         
+        Returns
+        -----
+        - No value is returned
+
         """
         return PlayerTextDrawSetProportional(self.id, text, set)
 
@@ -4228,12 +4250,35 @@ class Player(object):
     def text_draw_set_string(self, text, string):
         """| METHOD |
 
+        Update the shown text in the player-textdraw. You don't have to show the textdraw again in order to apply the changes
 
+        ____________
+
+        - text  	The ID of the textdraw to change
+        - string	The new string for the TextDraw. Max length: 1023 characters
+        ____________
+
+        Returns
+        -----
+        - No values returned
+        
         """
         return PlayerTextDrawSetString(self.id, text, string)
 
     def text_draw_set_preview_model(self, text, modelindex):
         """| METHOD |
+
+        Sets a player textdraw 2D preview sprite of a specified model ID.
+        ____________
+
+        - text  	The ID of the textdraw to change
+        - modelid	The modelid to show. Can be any valid object id.
+        ____________
+
+        Returns
+        ----
+        1: The function executed successfully. If an invalid model is passed 'success' is reported, but the model will appear as a yellow/black question mark.
+        0: The function failed to execute. Player and/or textdraw do not exist.
 
 
         """
@@ -4242,13 +4287,39 @@ class Player(object):
     def text_draw_set_preview_rot(self, text, fRotX, fRotY, fRotZ, fZoom=1.0):
         """| METHOD |
 
+        Sets the rotation and zoom of a 3D model preview player-textdraw.
+        __________________
 
+        - text	\tThe ID of the player-textdraw to change.
+        - Float:fRotX	The X rotation value.
+        - Float:fRotY	The Y rotation value.
+        - Float:fRotZ	The Z rotation value.
+        - Float:fZoom	The zoom value, default value 1.0, smaller values make the camera closer and larger values make the camera further away.
+        __________________
+
+        Returns
+        ------
+        - No values returned
         """
         return PlayerTextDrawSetPreviewRot(self.id, text, fRotX, fRotY, fRotZ, fZoom)
 
     def text_draw_set_preview_veh_col(self, text, color1, color2):
         """| METHOD |
 
+        Set the color of a vehicle in a player-textdraw model preview (if a vehicle is shown).
+
+        The textdraw MUST use the font TEXT_DRAW_FONT_MODEL_PREVIEW and be showing a vehicle, in order for this method to have an effect.
+
+        _______________
+
+        - text  	The ID of the player's player-textdraw to change.
+        - color1	The color to set the vehicle's primary color to.
+        - color2	The color to set the vehicle's secondary color to.
+        _______________
+
+        Returns
+        ------
+        - No values returned
 
         """
         return PlayerTextDrawSetPreviewVehCol(self.id, text, color1, color2)
@@ -4968,7 +5039,7 @@ class Player(object):
 
     def gang_zone_stop_flash(self, zone):
         """| METHOD |
-        
+
 
         """
         return GangZoneStopFlashForPlayer(self.id, zone)
