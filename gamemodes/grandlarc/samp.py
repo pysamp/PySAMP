@@ -3133,7 +3133,7 @@ class Player(object):
         return ResetPlayerMoney(self.id)
 
     @property
-    def name(self, size):
+    def name(self):
         """| PROPERTY |
 
         Get or set the player's name. Max length is 25 character (`MAX_PLAYER_NAME`)
