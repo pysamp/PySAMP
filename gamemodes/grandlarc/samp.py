@@ -2925,7 +2925,7 @@ class Player(object):
         - 5001 and above\t Swaying continues, but HUD becomes invisible.
 
         NOTE: Drunk level with decrease with player fps. If you have 50 fps, the drunk level will decrease with 50 levels per second.
-        
+
         More information: https://open.mp/docs/scripting/functions/SetPlayerDrunkLevel
         """
         return GetPlayerDrunkLevel(self.id)
@@ -2936,7 +2936,21 @@ class Player(object):
 
     @property
     def color(self):
+        """| PROPERTY |
 
+        Get or set the player color.
+
+        NB: If you try to read the value before it is set, it will return 0!
+
+        Format: `0xRRGGBBAA`
+
+        Example:
+        ----
+        ```py
+        player.color = 0xFFFFFFFF
+        player.send_client_message(player.color, "This is a message with my color")
+        ```
+        """
         return GetPlayerColor(self.id)
 
     @color.setter
@@ -2945,6 +2959,32 @@ class Player(object):
 
     @property
     def skin(self):
+        """ | PROPERTY |
+
+        Get or set the player's skin, as an int. A skin is the character model.
+
+        See available skins and the corresponding ID's here: https://open.mp/docs/scripting/resources/skins
+
+        Value can be `0-73` or `75-311`. Default is `0` (CJ)
+
+        ___________
+        WARNING: 
+        ----
+        Known Bugs: If a player's skin is set when they are crouching, in a vehicle, or performing certain animations, 
+        they will become frozen or otherwise glitched. This can be fixed by using `player.toggle_controllable(1)`.
+
+        Players can be detected as being crouched through `player.special_action == SPECIAL_ACTION_DUCK.get()` 
+        Other players around the player may crash if he is in a vehicle or if he is entering/leaving a vehicle. 
+        Setting a player's skin when he is dead may crash players around him. Breaks sitting on bikes.
+        ___________
+
+        Example:
+        ----------
+        ```py
+        ## Set the player's skin to 45
+        player.skin = 45
+        ```
+        """
         return GetPlayerSkin(self.id)
 
     @skin.setter
@@ -2952,25 +2992,146 @@ class Player(object):
         return SetPlayerSkin(self.id, skinid)
 
     def give_weapon(self, weaponid, ammo):
+        """| METHOD |
+
+        Give the player a weapon with specified amount of ammo
+
+        See all weapon ID's here: https://open.mp/docs/scripting/resources/weaponids
+        ________
+        - weaponid \t Int, the ID of the weapon to give to the player.
+        - ammo \t\t Int, the amount of ammo to give to the player.
+        ________
+
+        Return
+        -------
+        - 1: The function was executed successfully.
+        - 0: The function failed to execute, player is not connected.
+
+        Example:
+        -------
+        ```py
+        player.give_weapon(6, 1) # Give a shovel
+        player.give_weapon(WEAPON_COLT45.get(), 500) # Give a Colt45 with 500 bullets
+        ```
+        """
         return GivePlayerWeapon(self.id, weaponid, ammo)
 
     def reset_weapons(self):
+        """ | METHOD |
+        
+        Removes all weapons from a player.
+
+        Returns
+        -------
+        - 1: The function was executed successfully.
+        - 0: The function failed to execute. This means the player specified does not exist.
+
+        Example
+        --------
+        ```py
+        
+            player.reset_weapons();
+            return 1;
+
+        """
         return ResetPlayerWeapons(self.id)
 
     def set_armed_weapon(self, weaponid):
+        """| METHOD |
+
+        Sets which weapon the player is holding. The player needs to have this weapon for it to work. 
+        It will not give the player a new weapon.
+
+        _________
+        - weaponid \t The weapon id the player should hold in hands
+        _________
+
+        Returns
+        ----
+        - 1: The function was executed successfully. Success is returned even when the function fails to execute (the player doesn't have the weapon specified, or it is an invalid weapon).
+        - 0: The function failed to execute. The player is not connected.
+
+        Example
+        -------
+        ```py
+        ## Lets make the player only have hands (put away weapons)
+        player.set_armed_weapon(0)
+
+        ```        
+
+        """
         return SetPlayerArmedWeapon(self.id, weaponid)
 
     def get_weapon_data(self, slot):
+        """| METHOD | 
+
+        ________
+        - slot \t The weapon slot to get data for (0-12)
+        ________
+
+        Return
+        ----
+        This method returns a tuple containing (weapons, ammo):
+        - weapons \t A variable containing the weapon ID.
+        - ammo    \t A variable containing the ammo.
+
+        Example
+        -----
+        ```py
+        (weapon, ammo) = player.get_weapon_data(4) # Get weapon data from slot 4
+
+        ### If you want to retrieve for all weapons, you can do something like this:
+        weapon_list = []
+        for slot in range(12):
+            (weap, am) = player.get_weapon_data(slot)
+            weapon_list.append((weap, am))
+
+        ## Print all values like this
+        for weap, am in weapon_list:
+            print("Weapon: {} | Ammo: {}".format(str(weap), str(am))
+        """
         return GetPlayerWeaponData(self.id, slot)
 
     def give_money(self, money):
+        """| METHOD |
+
+        Give money to or take money from a player
+
+        - money \t The amount of money you want to give to the player. Negative value to take money.
+
+        Recommendation
+        ----
+        You can use property `player.money += amount` or `player.money -= amount` instead.
+
+        Example
+        ------
+        ```py
+        player.give_money(1000) # Give player $1000
+        ```
+        """
         return GivePlayerMoney(self.id, money)
 
     def reset_money(self):
+        """| METHOD | 
+
+        Use this method to reset player money. You can also use `player.money = 0`.
+        """
         return ResetPlayerMoney(self.id)
 
     @property
     def name(self, size):
+        """| PROPERTY |
+
+        Get or set the player's name. Max length is 25 character (`MAX_PLAYER_NAME`)
+
+        Example:
+        -------
+        ```py
+        ## Change the name if it contains admin or moderator in it:
+        if "admin" in player.name or "moderator" in player.name:
+            player.name = "[GUEST]Player_{}".format(player.id) 
+        ```
+        """
         return GetPlayerName(self.id, MAX_PLAYER_NAME.get())
 
     @name.setter
@@ -2979,6 +3140,22 @@ class Player(object):
 
     @property
     def money(self):
+        """| PROPERTY |
+
+        Set or get the player money. The money can be a value between `-2147483647` and `2147483647`. 
+        
+        Negative numbers will be shown as red on the HUD.
+
+        Behind the scenes, setting money will first `reset_money` and then `give_money`.
+
+        Example
+        -------
+        ```py
+        ## Get and set player money:
+        if player.money == 0:
+            player.money == 5000; 
+        ```
+        """
         return GetPlayerMoney(self.id)
 
     @money.setter
@@ -2988,22 +3165,106 @@ class Player(object):
 
     @property
     def state(self):
+        """| PROPERTY | Read only |
+
+        Get the current player state.
+        
+        https://open.mp/docs/scripting/resources/playerstates
+
+        Returns
+        -----
+        - state \t Returns the state as an integer. 
+        
+        Example
+        ------
+        ```py
+        ## Check the player state:
+        if player.state == PLAYER_STATE_ONFOOT.get():
+            player.send_client_message(-1, "You are currently on foot")
+        ```
+        """
         return GetPlayerState(self.id)
 
     @property
     def ip(self):
+        """| PROPERTY | Read only |
+
+        Get the player's IP Address. Returns as a string
+
+        Example
+        ```py
+        player.send_client_message(-1, "Your IP: {}".format(player.ip))
+        ```
+        
+        """
         return GetPlayerIp(self.id, 16)
 
     @property
     def ping(self):
+        """| PROPERTY | Read only |
+
+        Get the player latency to server, represented in milliseconds.
+
+        Example
+        ------
+        ```py 
+        player.send_client_message(-1, "Your ping right now: {}".format(player.ping))
+        ```
+        """
         return GetPlayerPing(self.id)
 
     @property
     def weapon(self):
+        """| PROPERTY | Read only |
+
+        Get the weapon id (int) of the currently held weapon.
+
+        Return
+        -----
+        - weaponid \t Weapon that is currently held. May return -1 (invalid weapon)
+
+        Notice
+        -----
+        When the player state is PLAYER_STATE_DRIVER or PLAYER_STATE_PASSENGER,
+        this function returns the weapon held by the player before they entered the vehicle 
+
+        Example
+        ------
+        ```py 
+        player.send_client_message(-1, "Your current weapon right now: {}".format(str(player.weapon)))
+        ```
+        """
         return GetPlayerWeapon(self.id)
 
     @property
     def keys(self):
+        """| PROPERTY | Read only |
+
+        Check which keys a player is pressing. 
+        
+        See all keys here: https://sampwiki.blast.hk/wiki/Keys
+
+        Return
+        ---------
+        This method returns a Tuple with 3 values. It looks like this: `(keys, ud, lr)`
+        - keys   \t A set of bits containing the player's key states (bitmask)
+        - updown \t Up/down state.
+        - leftright\t Left/right state.
+
+        Example
+        ------
+        ```py 
+        (key, ud, lr) = player.keys
+        ```
+
+        Note
+        -------
+        Only the FUNCTION of keys can be detected; not actual keys. For example, it is not possible to detect if a player presses SPACE, 
+        but you can detect if they press SPRINT (which can be mapped (assigned/binded) to ANY key (but is space by default)). 
+        As of update 0.3.7, the keys "A" and "D" are not recognized when in a vehicle. 
+        However, keys "W" and "S" can be detected with the "keys" parameter.
+        
+        """
         return GetPlayerKeys(self.id)
 
     @property
@@ -3074,10 +3335,18 @@ class Player(object):
 
     @property
     def surfing_vehicle_id(self):
+        """| PROPERTY | Read only |
+
+        
+        """
         return GetPlayerSurfingVehicleID(self.id)
 
     @property
     def surfing_object_id(self):
+        """| PROPERTY | Read only |
+
+        
+        """
         return GetPlayerSurfingObjectID(self.id)
 
     def remove_building(self, modelid, fX, fY, fZ, fRadius):
@@ -3085,6 +3354,10 @@ class Player(object):
 
     @property
     def last_shot_vectors(self):
+        """| PROPERTY | Read only |
+
+        
+        """
         return GetPlayerLastShotVectors(self.id)
 
     def set_attached_object(self, index, modelid, bone, fOffsetX=0.0, fOffsetY=0.0, fOffsetZ=0.0, fRotX=0.0, fRotY=0.0, fRotZ=0.0, fScaleX=1.0, fScaleY=1.0, fScaleZ=1.0, materialcolor1=0, materialcolor2=0):
