@@ -3871,27 +3871,91 @@ class Player(object):
 
     def edit_attached_object(self, index):
         """| METHOD |
-        
 
+        Enter edition mode for an attached object.
+
+        - index \t the slot of the attached object to edit.
+
+        Returns
+        -------
+        1: success
+        0: failure
+
+        https://sampwiki.blast.hk/wiki/EditAttachedObject
         """
         return EditAttachedObject(self.id, index)
 
     def create_text_draw(self, x, y, text):
         """| METHOD |
 
+        Create a textdraw
 
+        - x: \t x-position as a float on the screen
+        - y: \t y-position as a float on the screen
+        - text:  the text to show.
+
+        https://sampwiki.blast.hk/wiki/CreatePlayerTextDraw
+
+        Returns
+        -----
+        - id \t The textdraw ID that references this textdraw as an integer.
+
+        Notes
+        ----
+        - You need the textdraw ID later in order to remove or edit it.
+        - The x,y coordinate is the top left coordinate for the text draw area based on a 640x448 "canvas" (irrespective of screen resolution). If you plan on using TextDrawAlignment with alignment 3 (right), the x,y coordinate is the top right coordinate for the text draw.
+        - This function merely CREATES the textdraw, you must use PlayerTextDrawShow to show it to a player.
+        - It is recommended to use WHOLE numbers instead of decimal positions when creating player textdraws to ensure resolution friendly design. 
+        - Player-textdraws are automatically destroyed when a player disconnects
+        - Keyboard key mapping codes (such as ~k~~VEHICLE_ENTER_EXIT~) Doesn't work beyond 255th character.
+
+        Warnings
+        ----
+        - If you choose values for y that are less than 1, the first text row will be invisible and only the shadow is visible.
+        - `text` must NOT be empty or the server will crash! Use " " (a space) or _ (underscore) instead
+        - If the last character in the text is a space (" "), the text will all be blank.
+        - If part of the text is off-screen, the color of the text will not show, only the shadow (if enabled) will. 
+        
         """
         return CreatePlayerTextDraw(self.id, x, y, text)
 
     def text_draw_destroy(self, text):
         """| METHOD |
 
+        Destroy a textdraw with a given textdraw ID.
 
+        - text \t The textdraw ID to destroy.
+
+        Returns
+        --------
+        0: failure
+        1: success
         """
         return PlayerTextDrawDestroy(self.id, text)
 
     def text_draw_letter_size(self, text, x, y):
         """| METHOD |
+
+        Sets the width and height of the letters in a player-textdraw.
+        ___________
+        
+        - text    \t The ID of the player-textdraw to change the letter size of
+        - Float:x \t Width of a char.
+        - Float:y \t Height of a char.
+        ___________
+
+        Returns
+        ------
+        - Does not return any value
+
+        Tips
+        -----
+        - Fonts appear to look the best with an X to Y ratio of 1 to 4 (e.g. if x is 0.5 then y should be 2).
+        - When using this function purely for the benefit of affecting the textdraw box, multiply 'Y' by 0.135 to convert to TextDrawTextSize-like measurements
+        Example
+        -----
+
+        No example available for player-textdraws, but check: https://sampwiki.blast.hk/wiki/PlayerTextDrawLetterSize
 
 
         """
@@ -3900,6 +3964,34 @@ class Player(object):
     def text_draw_text_size(self, text, x, y):
         """| METHOD |
 
+        Change the size of a player-textdraw (box if PlayerTextDrawUseBox is enabled and/or clickable area for use with PlayerTextDrawSetSelectable).
+        __________
+
+        - text    \t The ID of the player-textdraw to set the size of.
+        - Float:x \t The size on the X axis (left/right) following the same 640x480 grid as TextDrawCreate.
+        - Float:y \t The size on the Y axis (up/down) following the same 640x480 grid as TextDrawCreate.
+        __________
+
+        Returns
+        -----
+        - Does not return any value
+
+        Notes
+        -----
+        The x and y have different meanings with different player.text_draw_alignment values:
+            1 (left): they are the right-most corner of the box, absolute coordinates.
+            2 (center): they need to inverted (switch the two) and the x value is the overall width of the box.
+            3 (right): the x and y are the coordinates of the left-most corner of the box 
+        Using font type 4 (sprite) and 5 (model preview) converts X and Y of this function from corner coordinates to WIDTH and HEIGHT (offsets).
+            
+        The TextDraw box starts 10.0 units up and 5.0 to the left as the origin (TextDrawCreate coordinate).
+        
+        This function defines the clickable area for use with PlayerTextDrawSetSelectable, whether a box is shown or not. 
+
+
+        Example
+        -----
+        No example available for player-textdraws, but check: https://sampwiki.blast.hk/wiki/PlayerTextDrawTextSize
 
         """
         return PlayerTextDrawTextSize(self.id, text, x, y)
@@ -3907,48 +3999,155 @@ class Player(object):
     def text_draw_alignment(self, text, alignment):
         """| METHOD |
 
+        Set the text-alignment of a player-textdraw
+        ___________
 
+        - text   	The ID of the player-textdraw to set the alignment of.
+        - alignment	1-left, 2-centered, 3-right
+        ___________
+
+        Returns
+        ------
+        - No sepcific value is returned
+
+        Note
+        ------
+        - For alignment 2 (center) the x and y values of TextSize need to be swapped
+
+        Example
+        ----
+        No example available for player-textdraws, but read more here: https://sampwiki.blast.hk/wiki/PlayerTextDrawAlignment
         """
         return PlayerTextDrawAlignment(self.id, text, alignment)
 
     def text_draw_color(self, text, color):
         """| METHOD |
 
+        Sets the text color of a player-textdraw  
 
+        You can also use Gametext colors in textdraws.
+        
+        *NOTE* The textdraw must be re-shown to the player in order to update the color. 
+        ________
+
+        - text  \t Textdraw id to be changed color of, as an int
+        - color \t Color in Hexadecimal format
+        ________
+
+        Returns
+        -----
+        - No value is returned
+
+        Example
+        -----
+        No example available for player-textdraws, but check out: https://sampwiki.blast.hk/wiki/PlayerTextDrawColor
         """
         return PlayerTextDrawColor(self.id, text, color)
 
     def text_draw_use_box(self, text, use):
         """| METHOD |
 
+        Toggle the box on a player-textdraw.
+        ________
+        
+        - text \t Textdraw ID
+        - use  \t 1 to use a box, 0 to hide the box.
+        ________
 
+        Returns
+        -----
+        - No value is returned
+
+        Example
+        ----
+        No example available for player-textdraws, but check out: https://sampwiki.blast.hk/wiki/PlayerTextDrawUseBox
         """
         return PlayerTextDrawUseBox(self.id, text, use)
 
     def text_draw_box_color(self, text, color):
         """| METHOD |
 
+        Sets the text color of a player-textdraw box  
+        ________
 
+        - text  \t Textdraw id to be changed box color of, as an int
+        - color \t Color in Hexadecimal format. Alpha (transparency) is supported
+        ________
+
+        Returns
+        -----
+        - No value is returned
+
+        Example
+        -----
+        No example available for player-textdraws, but check out: https://sampwiki.blast.hk/wiki/PlayerTextDrawBoxColor
         """
         return PlayerTextDrawBoxColor(self.id, text, color)
 
     def text_draw_set_shadow(self, text, size):
         """| METHOD |
 
+        Adds a shadow to the bottom-right side of the text in a player-textdraw. The shadow font matches the text font.
+        _________
 
+        - text	\tThe ID of the player-textdraw to change the shadow of
+        - size	\tThe size of the shadow. 0 will hide the shadow.
+        _________
+
+        Returns
+        ----
+        1: successful
+        0: failed - maybe player textdraw doesn't exist?
+
+        Note
+        ----
+        - The shadow can be cut by the box area if the size is set too big for the area
+
+        Example
+        ----
+        No example available for player-textdraws
         """
         return PlayerTextDrawSetShadow(self.id, text, size)
 
     def text_draw_set_outline(self, text, size):
         """| METHOD |
 
+        Set the outline of a player-textdraw. The outline colour cannot be changed unless PlayerTextDrawBackgroundColor is used
+        ___________
+        
+        - text\t\tThe ID of the player-textdraw to set the outline of
+        - size\t\tThe thickness of the outline
+        ___________
 
+        Returns
+        ----
+        - No values are returned
+
+        Example
+        ----
+        No example available for player-textdraws
         """
         return PlayerTextDrawSetOutline(self.id, text, size)
 
     def text_draw_background_color(self, text, color):
         """| METHOD |
+        _________
 
+        - text	    The ID of the player-textdraw to set the background color of
+        - color	    The color that the textdraw should be set to.
+        _________
+        Notes
+        -----
+        - If PlayerTextDrawSetOutline is used with size > 0, the outline color will match the color used in text_draw_background_color. 
+        - Changing the value of color seems to alter the color used in text_draw_color
+
+        Returns
+        ------
+        - No value returned
+
+        Example
+        -------
+        No example available for player-textdraws
 
         """
         return PlayerTextDrawBackgroundColor(self.id, text, color)
@@ -3963,42 +4162,73 @@ class Player(object):
     def text_draw_set_proportional(self, text, set):
         """| METHOD |
 
-
+        
         """
         return PlayerTextDrawSetProportional(self.id, text, set)
 
     def text_draw_set_selectable(self, text, set):
         """| METHOD |
 
+        This method MUST be used BEFORE the textdraw is shown to the player!
 
+        This method makes the textdraw selectable. `player.text_draw_text_size` defines the clickable area.
+
+        _________
+
+        - text	        The ID of the player-textdraw
+        - set	        The color that the textdraw should be set to.
+        _________
+        
+        
+        Returns
+        ----
+        - No value returned
+
+        Example
+        ----
+        No example available for player-textdraws.
         """
         return PlayerTextDrawSetSelectable(self.id, text, set)
 
     def player_text_draw_show(self, text):
         """| METHOD |
+        
+        Use this method to show a player-textdraw for the player.
 
-
+        - text \t\t The textdraw id to show for the player
         """
         return PlayerTextDrawShow(self.id, text)
 
     def player_text_draw_hide(self, text):
         """| METHOD |
 
+        Use this method to hide a player-textdraw for the player.
 
+        - text \t\t The textdraw id to hide for the player
+
+        Returns
+        ----
+        - No values returned
         """
         return PlayerTextDrawHide(self.id, text)
 
     def text_draw_hide_for_player(self, text):
         """| METHOD |
 
+        This method hides a *global* textdraw for the player. To hide a player-textdraw, check `player.player_text_draw_hide`
 
+        - text \t\t The global textdraw id to hide for the player.
+
+        Returns
+        ----
+        - No values returned
         """
         return TextDrawHideForPlayer(self.id, text)
 
     def text_draw_set_string(self, text, string):
         """| METHOD |
 
-
+        
         """
         return PlayerTextDrawSetString(self.id, text, string)
 
