@@ -4204,7 +4204,7 @@ class Player(object):
 
         Use this method to hide a player-textdraw for the player.
 
-        - text \t\t The textdraw id to hide for the player
+        - text\t\t The textdraw id to hide for the player
 
         Returns
         ----
@@ -4217,7 +4217,7 @@ class Player(object):
 
         This method hides a *global* textdraw for the player. To hide a player-textdraw, check `player.player_text_draw_hide`
 
-        - text \t\t The global textdraw id to hide for the player.
+        - text\t\tThe global textdraw id to hide for the player.
 
         Returns
         ----
@@ -4228,7 +4228,7 @@ class Player(object):
     def text_draw_set_string(self, text, string):
         """| METHOD |
 
-        
+
         """
         return PlayerTextDrawSetString(self.id, text, string)
 
@@ -4968,7 +4968,7 @@ class Player(object):
 
     def gang_zone_stop_flash(self, zone):
         """| METHOD |
-
+        
 
         """
         return GangZoneStopFlashForPlayer(self.id, zone)
@@ -4976,42 +4976,122 @@ class Player(object):
     def show_dialog(self, dialogid, style, caption, info, button1, button2):
         """| METHOD |
 
+        ________________
+        
+        - dialogid    An ID to assign this dialog to, so responses can be processed. Max 32767. 
+        - style       The style of the dialog.
+        - caption     The title at the top of the dialog. Max 64 characters.
+        - info        The text to display in the main dialog. Use \\n to start a new line and \\t to tabulate.
+        - button1     The text on the left button.
+        - button2     The text on the right button. Leave it blank ( "" ) to hide it.
+        ________________
 
+        Notes
+        ------
+        - Using negative values for dialogid will close any open dialog.
+        - The length of the caption can not exceed more than 64 characters before it starts to cut off.
+
+        Returns
+        -----
+        1: The function executed successfully.
+        0: The function failed to execute. This means the player is not connected.
+
+        Example
+        --------
+        ```py
+            player.show_dialog(123, DIALOG_STYLE_PASSWORD, 
+                "Please enter your password", 
+                "Put your password below:", 
+                "Login", "Quit"
+            )
+        ```
         """
         return ShowPlayerDialog(self.id, dialogid, style, caption, info, button1, button2)
 
-    def gpci(self, size):
-        """| METHOD |
+    @property
+    def gpci(self):
+        """| PEROPERTY | Read only |
 
+        Fetch the GPCI of a user, this is linked to their SAMP/GTA on their computer. This hash is NOT Unique, and can be same across multiple players.
 
+        Example
+        ------
+        ```py 
+            print(player.gpci)
+        ```
         """
-        return gpci(self.id, size)
+        return gpci(self.id, 41)
 
     def redirect_download(self, url):
         """| METHOD |
-
-
+        0.3DL Only!!
         """
         return RedirectDownload(self.id, url)
 
     def create_3d_text_label(self, text, color, x, y, z, drawDistance, attachedplayer=INVALID_PLAYER_ID.get(), attachedvehicle=INVALID_VEHICLE_ID.get(), testLOS=False):
         """| METHOD |
 
+        Params
+        -----
+        - text 	            The text to display.
+        - color	            The text color
+        - x                 X Coordinate (or offset if attached)
+        - y                 Y Coordinate (or offset if attached)
+        - z                 Z Coordinate (or offset if attached)
+        - DrawDistance	    The distance where you are able to see the 3D Text Label
+        - attachedplayer    The player you want to attach the 3D Text Label to. (None: INVALID_PLAYER_ID)
+        - attachedvehicle   The vehicle you want to attach the 3D Text Label to. (None: INVALID_VEHICLE_ID)
+        - testLOS	    0/1 Test the line-of-sight so this text can't be seen through walls
+        
+        Returns
+        -----
+        - labelid \t\t The ID of the 3d text label. Used later to update/delete label.
 
+        Example
+        ------
+        ```py
+        label = 
+            player.create_3d_text_label("test", -1, 0.0,0.0,0.1, 50.0, player.id, INVALID_VEHICLE_ID.get(), 0)
+        ``` 
         """
         return CreatePlayer3DTextLabel(self.id, text, color, x, y, z, drawDistance, attachedplayer, attachedvehicle, testLOS)
 
     def delete_3d_text_label(self, id):
         """| METHOD |
 
+        Delete a player 3D-text-label with the given ID.
 
+        Returns
+        ----
+        1: The function executed successfully.
+        0: The function failed to execute. This means the label specified doesn't exist.
         """
         return DeletePlayer3DTextLabel(self.id, id)
 
     def update_3d_text_label_text(self, id, color, text):
         """| METHOD |
 
+        Updates a player 3D Text Label's text and color. If text is empty, the server/clients next to the text might crash!
 
+        _____________
+
+        - id	    The 3D Text Label you want to update.
+        - color	    The color the 3D Text Label should have from now on.
+        - text	    The new text which the 3D Text Label should have from now on
+        _____________
+
+        Returns
+        -----
+        - No value returned
+
+        Example
+        ------
+        ```py
+        label = 
+            player.create_3d_text_label("test", -1, 0.0,0.0,0.1, 50.0, player.id, INVALID_VEHICLE_ID.get(), 0)
+        # Change text: 
+        player.update_3d_text_label_text(label, -1, "New test text")
+        ``` 
         """
         return UpdatePlayer3DTextLabelText(self.id, id, color, text)
 
