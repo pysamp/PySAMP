@@ -2979,6 +2979,7 @@ class Player(object):
         Value can be `0-73` or `75-311`. Default is `0` (CJ)
 
         ___________
+
         WARNING: 
         ----
         Known Bugs: If a player's skin is set when they are crouching, in a vehicle, or performing certain animations, 
@@ -3009,6 +3010,7 @@ class Player(object):
 
         See all weapon ID's here: https://open.mp/docs/scripting/resources/weaponids
         ________
+
         - weaponid \t Int, the ID of the weapon to give to the player.
         - ammo \t\t Int, the amount of ammo to give to the player.
         ________
@@ -3054,6 +3056,7 @@ class Player(object):
         It will not give the player a new weapon.
 
         _________
+
         - weaponid \t The weapon id the player should hold in hands
         _________
 
@@ -3077,6 +3080,7 @@ class Player(object):
         """| METHOD | 
 
         ________
+
         - slot \t The weapon slot to get data for (0-12)
         ________
 
@@ -3309,21 +3313,87 @@ class Player(object):
     def toggle_clock(self, toggle):
         """| METHOD |
 
+        Toggle the in-game clock (top-right corner) for a specific player. When this is enabled, time will progress at 1 minute per second. 
+        Weather will also interpolate (slowly change over time) when set using SetWeather/SetPlayerWeather
 
+        - toggle \t 1 to show and 0 to hide. Hidden by default.
+
+        Example
+        ----
+        ```py
+        def on_player_connect(playerid):
+            player.toggle_clock(1) # Show the clock for the player
+        ```
         """
         return TogglePlayerClock(self.id, toggle)
 
     def set_weather(self, weather):
         """| METHOD |
 
+        Set the player's weather. If player.toggle_clock is on, then the weather will change slowly.
+        _________________
 
+        - weather \t The weather ID to set, as an int between 0 and 20.
+        _________________
+
+        Weather IDs
+        ----
+        - 0 = EXTRASUNNY_LA
+        - 1 = SUNNY_LA
+        - 2 = EXTRASUNNY_SMOG_LA
+        - 3 = SUNNY_SMOG_LA
+        - 4 = CLOUDY_LA
+        - 5 = SUNNY_SF
+        - 6 = EXTRASUNNY_SF
+        - 7 = CLOUDY_SF
+        - 8 = RAINY_SF
+        - 9 = FOGGY_SF
+        - 10 = SUNNY_VEGAS
+        - 11 = EXTRASUNNY_VEGAS (heat waves)
+        - 12 = CLOUDY_VEGAS
+        - 13 = EXTRASUNNY_COUNTRYSIDE
+        - 14 = SUNNY_COUNTRYSIDE
+        - 15 = CLOUDY_COUNTRYSIDE
+        - 16 = RAINY_COUNTRYSIDE
+        - 17 = EXTRASUNNY_DESERT
+        - 18 = SUNNY_DESERT
+        - 19 = SANDSTORM_DESERT
+        - 20 = UNDERWATER (greenish, foggy)
+        https://dev.prineside.com/en/gtasa_weather_id/
+
+        To set weather for everyone, use `set_weather(weatherid)`.
+
+        Example
+        ---------
+        ```py
+        def on_player_spawn(playerid):
+            if "storm" in player.name:
+                player.weather(RAINY_SF.get()) # ID 8
+        ```
         """
         return SetPlayerWeather(self.id, weather)
 
     def force_class_selection(self):
         """| METHOD |
 
+        Forces a player to go back to class selection
 
+        https://open.mp/docs/scripting/functions/ForceClassSelection
+
+        Returns
+        ------
+        - Nothing
+
+        Example
+        -----
+        ```py
+        if "/class" in cmdtext[0:7]:
+            player.force_class_selection()
+            player.toggle_spectating(1)
+            player.toggle_spectating(0)
+            # Spectating avoids PLAYER_STATE_WASTED.
+
+        ```
         """
         return ForceClassSelection(self.id)
 
@@ -3331,7 +3401,17 @@ class Player(object):
     def wanted_level(self):
         """| PROPERTY |
 
-        Get or set
+        Get or set the player's wanted level
+
+        Value is an integer between `0` and `6`
+
+        Example
+        ------
+        ```py
+        if "/maxwanted" in cmdtext[0:10]:
+            if player.wanted != 6: #get
+                player.wanted = 6  #set
+        ```
         """
         return GetPlayerWantedLevel(self.id)
 
@@ -3343,7 +3423,24 @@ class Player(object):
     def fighting_style(self):
         """| PROPERTY |
 
-        Get or set
+        Get or set the player's special fighting style. To use in-game, aim and press the 'secondary attack' key (ENTER by default).
+
+        Available Values
+        ----
+        - 4  - FIGHT_STYLE_NORMAL
+        - 5  - FIGHT_STYLE_BOXING
+        - 6  - FIGHT_STYLE_KUNGFU
+        - 7  - FIGHT_STYLE_KNEEHEAD
+        - 15 - FIGHT_STYLE_GRABKICK
+        - 16 - FIGHT_STYLE_ELBOW
+
+        Example
+        ------
+        ```py
+        if "/kneehead" in cmdtext[0:9]:
+            if player.fighting_style != 7: #get
+                player.fighting_style = 7  #set
+        ```
         """
         return GetPlayerFightingStyle(self.id)
 
@@ -3355,7 +3452,23 @@ class Player(object):
     def velocity(self):
         """| PROPERTY |
 
-        Get or set
+        Get or set the velocity of the player, vector presented as a tuple with 3 floats.
+
+        Values
+        -----
+        The tuple looks like this: (X, Y, Z)
+        - Float:X \t The velocity (speed) on the X axis.
+        - Float:Y \t The velocity (speed) on the Y axis.
+        - Float:Z \t The velocity (speed) on the Z axis.
+
+        Example
+        -------
+        ```py
+        if "/jump" in cmdtext[0:5]:
+            x, y, z = player.velocity
+            player.velocity = (x,y,z + 0.2) # Add 0.2 on z axis
+
+        ```
         """
         return GetPlayerVelocity(self.id)
 
@@ -3371,6 +3484,47 @@ class Player(object):
     def play_crime_report(self, suspectid, crime):
         """| METHOD |
 
+        Plays a crime report for the player. You know when the player gets wanted in single player, 
+        the dispatch on the radio reads out actions and positions.
+        You can also do this on SA-MP.
+
+        _________
+
+        - suspectid \t The suspected player to be described in crime report
+        - crimeid   \t The Crime ID, which will be reported as a 10-code.
+        _________
+
+        Available Crime IDs
+        ------------
+         ID  \t 10-Code \t Description
+
+         3 \t 10-71 \t Advise nature of fire (size, type, contents of building)
+         4 \t 10-47 \t Emergency road repairs needed
+         5 \t 10-81 \t Breatherlizer Report
+         6 \t 10-24 \t Assignment Completed
+         7 \t 10-21 \t Call () by phone
+         8 \t 10-21 \t Call () by phone
+         9 \t 10-21 \t Call () by phone
+        10 \t 10-17 \t Meet Complainant
+        11 \t 10-81 \t Breatherlizer Report
+        12 \t 10-91 \t Pick up prisoner/subject
+        13 \t 10-28 \t Vehicle registration information
+        14 \t 10-81 \t Breathalyzer
+        15 \t 10-28 \t Vehicle registration information
+        16 \t 10-91 \t Pick up prisoner/subject
+        17 \t 10-34 \t Riot
+        18 \t 10-37 \t (Investigate) suspicious vehicle
+        19 \t 10-81 \t Breathalyzer
+        21 \t 10-7 \t Out of service
+        22 \t 10-7 \t Out of service
+        ____________________
+
+        Example
+        -----
+        ```py
+            player.player_crime_report(0, 16) # Crime ID for playerid 0
+            player.send_client_message(-1, "ID 0 committed a crime! (10-16).")
+        ```
 
         """
         return PlayCrimeReportForPlayer(self.id, suspectid, crime)
@@ -3378,28 +3532,124 @@ class Player(object):
     def play_audio_stream(self, url, posX=0.0, posY=0.0, posZ=0.0, distance=50.0, usepos=False):
         """| METHOD |
 
+        Play an audio stream for a player. Normal files can also be streamed, such as MP3
 
+        _______
+
+        - url        \t The url to play. Valid formats are mp3/ogg/pls.
+        - Float:PosX \t The X position at to play the audio. No effect if usepos is set to 0.
+        - Float:PosY \t The Y position at to play the audio. No effect if usepos is set to 0.
+        - Float:PosZ \t The Z position at to play the audio. No effect if usepos is set to 0.
+        - Float:distance The distance over the audio will be heard. No effect if usepos is set to 0.
+        - usepos     \t Use the positions and distance specified. If false = global sound.
+        _______
+
+        Return
+        ------
+        - 1: The function was executed successfully.
+        - 0: The function failed to execute. The player specified does not exist.
+
+        Example
+        -------
+        ```py
+        if "/radiopos" in cmdtext[0:9]:
+            x, y, z = player.pos
+            distance = 15.0
+            player.play_audio_stream("http://somafm.com/tags.pls", x, y, z, distance)
+        ```
         """
         return PlayAudioStreamForPlayer(self.id, url, posX, posY, posZ, distance, usepos)
 
     def stop_audio_stream(self):
         """| METHOD |
 
+        Stops the player's audio stream
 
+        This method takes no values.
+
+        Returns
+        -----
+        - Does not return any specific values
+
+        Example
+        -----
+        ```py
+            # Stop any active audio streams;
+            player.stop_audio_stream()
+        ```
         """
         return StopAudioStreamForPlayer(self.id)
 
     def set_shop_name(self, shopname):
         """| METHOD |
 
+        Loads or unloads an interior script for a player (for example the ammunation menu). 
+        https://sampwiki.blast.hk/wiki/ShopNames
 
+        ________
+
+        - shopname \t The shop script to load. Leave blank to unload scripts.
+        ________
+
+        Available values
+        ----------
+        - Script name\t What is it\t\t  Position \t\t     Interior
+        -
+        - "FDPIZA" \t Pizza Stack \t 374.0000, -119.6410, 1001.4922  \t 5
+        - "FDBURG" \t Burger Shot \t 375.5660, -68.2220, 1001.5151   \t 10
+        - "FDCHICK" \t Cluckin' Bell \t 368.7890, -6.8570, 1001.8516   \t 9
+        - "AMMUN1" \t Ammunation 1 \t 296.5395, -38.2739, 1001.515   \t 1
+        - "AMMUN2" \t Ammunation 2 \t 295.7359, -80.6865, 1001.5156  \t 4
+        - "AMMUN3" \t Ammunation 3 \t 290.2011, -109.5698, 1001.5156 \t 6
+        - "AMMUN4" \t Ammunation 4 \t 308.1619, -141.2549, 999.6016  \t 7
+        - "AMMUN5" \t Ammunation 5 \t 312.7883, -166.0069, 999.6010  \t 6 
+        Return
+        -----
+        - Does not return any specific value
+
+        Example
+        -----
+        ```py
+            player.interior = 5
+            player.pos = (372.56, -131.36, 1001.5)
+            player.set_shop_name("FDPIZA")
+            player.send_client_message(-1, "Welcome to Pizza Stack!")
+        ```
         """
         return SetPlayerShopName(self.id, shopname)
 
     def set_skill_level(self, skill, level):
         """| METHOD |
 
+        Set the skill level of a certain weapon type for a player.
+        ___________
 
+        - skill \t The weapon to set skill on
+        - level \t The level, range 0-999 where 999 is max skill.
+        ___________
+
+
+        Available values for skill
+        -----
+
+        -  0 - WEAPONSKILL_PISTOL
+        -  1 - WEAPONSKILL_PISTOL_SILENCED
+        -  2 - WEAPONSKILL_DESERT_EAGLE
+        -  3 - WEAPONSKILL_SHOTGUN
+        -  4 - WEAPONSKILL_SAWNOFF_SHOTGUN
+        -  5 - WEAPONSKILL_SPAS12_SHOTGUN
+        -  6 - WEAPONSKILL_MICRO_UZI
+        -  7 - WEAPONSKILL_MP5
+        -  8 - WEAPONSKILL_AK47
+        -  9 - WEAPONSKILL_M4
+        - 10 - WEAPONSKILL_SNIPERRIFLE
+
+        Example
+        ------
+        ```py
+            player.set_skill_level(WEAPONSKILL_MP5.get(), 999)
+        ```
+        -
         """
         return SetPlayerSkillLevel(self.id, skill, level)
 
@@ -3407,7 +3657,20 @@ class Player(object):
     def surfing_vehicle_id(self):
         """| PROPERTY | Read only |
 
-        
+        Get which vehicle the player is standing on.
+
+        Return
+        ------
+        - vehicleid \t The vehicle the player is "surfing". Can return `INVALID_VEHICLE_ID` if there's no driver in the car.
+
+        Example
+        ------
+        ```py
+            if player.surfing_vehicle_id == INVALID_VEHICLE_ID.get():
+                player.send_client_message(-1, "You are not surfing!")
+        ```
+
+        https://open.mp/docs/scripting/functions/GetPlayerSurfingVehicleID
         """
         return GetPlayerSurfingVehicleID(self.id)
 
@@ -3415,14 +3678,54 @@ class Player(object):
     def surfing_object_id(self):
         """| PROPERTY | Read only |
 
+        Get which MOVING object the player is standing on.
+
+        Return
+        ------
+        - objectid: The object being surfed. If the player isn't surfing a moving object = INVALID_OBJECT_ID.
+
+        Example
+        ------
+        ```py
+            if player.surfing_object_id == INVALID_OBJECT_ID.get():
+                player.send_client_message(-1, "You are not surfing a moving object!")
+        ```
         
+        https://open.mp/docs/scripting/functions/GetPlayerSurfingObjectID
         """
         return GetPlayerSurfingObjectID(self.id)
 
     def remove_building(self, modelid, fX, fY, fZ, fRadius):
         """| METHOD |
 
+        Removes a standard San Andreas model for a single player within a specified range
 
+        _____________
+
+        - modelid      \t The model to remove.
+        - Float:fX     \t The X coordinate around which the objects will be removed. 
+        - Float:fY     \t The Y coordinate around which the objects will be removed.
+        - Float:fZ     \t The Z coordinate around which the objects will be removed.
+        - Float:fRadius\t The radius around the specified point to remove objects with the specified model.
+        _____________
+
+        Returns
+        -----
+        - No value is returned
+
+        Warnings
+        -----
+        - There appears to be a limit of around 1000 lines/objects. There is no workaround. 
+        - When removing the same object for a player, they will crash. 
+        - Commonly, players crash when *reconnecting* to the server because the server removes buildings on OnPlayerConnect.
+
+        Example
+        -----
+        ```py
+        # This will remove ALL map objects:
+        player.remove_building(-1, 0.0, 0.0, 0.0, 6000.0)
+        
+        ```
         """
         return RemoveBuildingForPlayer(self.id, modelid, fX, fY, fZ, fRadius)
 
@@ -3430,20 +3733,113 @@ class Player(object):
     def last_shot_vectors(self):
         """| PROPERTY | Read only |
 
+        ___________
         
+        This method returns a Tuple; `(fOriginX,fOriginY,fOriginZ,fHitPosX,fHitPosY,fHitPosY)`
+        - Float:fOriginX	A float variable with the X coordinate of where the bullet originated from.
+        - Float:fOriginY	A float variable with the Y coordinate of where the bullet originated from.
+        - Float:fOriginZ	A float variable with the Z coordinate of where the bullet originated from.
+        - Float:fHitPosX	A float variable with the X coordinate of where the bullet hit.
+        - Float:fHitPosY	A float variable with the Y coordinate of where the bullet hit.
+        - Float:fHitPosY	A float variable with the Z coordinate of where the bullet hit.
+        ___________
+
+        Example:
+        --------
+        ```py
+        if "/lastshot" in cmdtext[0:9]:
+            # Get the coordinates
+            fOriginX, fOriginY, fOriginZ, fHitPosX, fHitPosY, fHitPosY = player.last_shot_vectors
+            # Send them to the player
+            player.send_client_message(
+                -1, "Last shot info: Origin: {}, {}, {}. Hit pos: {}, {}, {}".format(
+                    str(fOriginX), str(fOriginY), str(fOriginZ), str(fHitPosX), str(fHitPosY), str(fHitPosY)
+                )
+            )
+        ```
         """
         return GetPlayerLastShotVectors(self.id)
 
     def set_attached_object(self, index, modelid, bone, fOffsetX=0.0, fOffsetY=0.0, fOffsetZ=0.0, fRotX=0.0, fRotY=0.0, fRotZ=0.0, fScaleX=1.0, fScaleY=1.0, fScaleZ=1.0, materialcolor1=0, materialcolor2=0):
         """| METHOD |
+        
+        Attach an object to a specific bone on a player.
+
+        ___________
+        
+        - index \t\tThe index (slot) to assign the object to (0-9).
+        - modelid  \t\tThe model to attach.
+        - bone     \t\tThe bone to attach the object to. (0-18)
+        - fOffsetX \t\t(optional) X axis offset for the object position.
+        - fOffsetY \t\t(optional) Y axis offset for the object position.
+        - fOffsetZ \t\t(optional) Z axis offset for the object position.
+        - fRotX   \t \t(optional) X axis rotation of the object.
+        - fRotY   \t \t(optional) Y axis rotation of the object.
+        - fRotZ   \t \t(optional) Z axis rotation of the object.
+        - fScaleX \t \t(optional) X axis scale of the object.
+        - fScaleY \t \t(optional) Y axis scale of the object.
+        - fScaleZ \t \t(optional) Z axis scale of the object.
+        - materialcolor1 \t(optional) The first object color to set, as an integer or hex in ARGB color format.
+        - materialcolor2 \t(optional) The second object color to set, as an integer or hex in ARGB color format
+        ___________
 
 
+        Bone values
+        -------
+         1 	Spine
+         2 	Head
+         3 	Left upper arm
+         4 	Right upper arm
+         5 	Left hand
+         6 	Right hand
+         7 	Left thigh
+         8 	Right thigh
+         9 	Left foot
+        10 	Right foot
+        11 	Right calf
+        12 	Left calf
+        13 	Left forearm
+        14 	Right forearm
+        15 	Left clavicle (shoulder)
+        16 	Right clavicle (shoulder)
+        17 	Neck
+        18 	Jaw
+
+        Returns
+        -------
+        0   on failure
+        1   on success
+
+        Example
+        --------
+        ```py
+        # Give player a white hat, and paint it green
+        player.set_attached_object(3, 19487, 2, 0.101, -0.0, 0.0, 5.50, 84.60, 83.7, 1.0, 1.0, 1.0, 0xFF00FF00)
+        ```
         """
         return SetPlayerAttachedObject(self.id, index, modelid, bone, fOffsetX, fOffsetY, fOffsetZ, fRotX, fRotY, fRotZ, fScaleX, fScaleY, fScaleZ, materialcolor1, materialcolor2)
 
     def remove_attached_object(self, index):
         """| METHOD |
 
+        Remove an attached object from a player.
+
+        - index \t The index to remove the object from (0-9)
+
+        Returns
+        ------
+        1   on success
+        0   on failure
+
+        Example
+        ------
+        ```py
+        # Remove all player-attached objects
+        if "/removeall" in cmdtext[0:10]:
+            for slot in range(MAX_PLAYER_ATTACHED_OBJECTS.get()) :
+                if player.is_attached_object_slot_used(slot):
+                    player.remove_attached_object(slot)
+        ```
 
         """
         return RemovePlayerAttachedObject(self.id, index)
@@ -3451,13 +3847,31 @@ class Player(object):
     def is_attached_object_slot_used(self, index):
         """| METHOD |
 
+        Check if a player has an object attached in the specified index (slot).
 
+        - index \t The index (slot) to check.
+
+        Returns
+        -------
+        - 1: The specified slot is used for an attached object.
+        - 0: The specified slot is not in use for an attached object
+
+        Example
+        -------
+        ```py
+        # Count amount of attached objects currently on player
+        count = 0
+        for slot in range(MAX_PLAYER_ATTACHED_OBJECTS.get()):
+            if player.is_attached_object_slot_used(slot):
+                count +=1
+        print(count) # then shows the count in the log
+        ```
         """
         return IsPlayerAttachedObjectSlotUsed(self.id, index)
 
     def edit_attached_object(self, index):
         """| METHOD |
-
+        
 
         """
         return EditAttachedObject(self.id, index)
@@ -3748,7 +4162,7 @@ class Player(object):
     @property
     def animation_index(self):
         """| PROPERTY | Read only |
-        
+
         """
         return GetPlayerAnimationIndex(self.id)
 
