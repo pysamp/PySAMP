@@ -816,7 +816,7 @@ static PyObject* pysamp_setobjectmaterial(PyObject *self, PyObject *args)
 	int arg2 = -1;
 	int arg1 = -1;
 	int arg0 = -1;
-	if (!PyArg_ParseTuple(args, "iiiss|i:SetObjectMaterial", &arg0, &arg1, &arg2, &arg3, &arg4, &arg5))
+	if (!PyArg_ParseTuple(args, "iiiyy|i:SetObjectMaterial", &arg0, &arg1, &arg2, &arg3, &arg4, &arg5))
 	{
 		PyErr_Print();
 		return NULL;
@@ -839,7 +839,7 @@ static PyObject* pysamp_setplayerobjectmaterial(PyObject *self, PyObject *args)
 	int arg2 = -1;
 	int arg1 = -1;
 	int arg0 = -1;
-	if (!PyArg_ParseTuple(args, "iiiiss|i:SetPlayerObjectMaterial", &arg0, &arg1, &arg2, &arg3, &arg4, &arg5, &arg6))
+	if (!PyArg_ParseTuple(args, "iiiiyy|i:SetPlayerObjectMaterial", &arg0, &arg1, &arg2, &arg3, &arg4, &arg5, &arg6))
 	{
 		PyErr_Print();
 		return NULL;
@@ -1776,7 +1776,7 @@ static PyObject* pysamp_playaudiostreamforplayer(PyObject *self, PyObject *args)
 	float arg2 = 0.0;
 	const char* arg1 = "";
 	int arg0 = -1;
-	if (!PyArg_ParseTuple(args, "is|ffffp:PlayAudioStreamForPlayer", &arg0, &arg1, &arg2, &arg3, &arg4, &arg5, &arg6))
+	if (!PyArg_ParseTuple(args, "iy|ffffp:PlayAudioStreamForPlayer", &arg0, &arg1, &arg2, &arg3, &arg4, &arg5, &arg6))
 	{
 		PyErr_Print();
 		return NULL;
@@ -2585,7 +2585,7 @@ static PyObject* pysamp_applyanimation(PyObject *self, PyObject *args)
 	const char* arg2 = "";
 	const char* arg1 = "";
 	int arg0 = -1;
-	if (!PyArg_ParseTuple(args, "issfppppi|p:ApplyAnimation", &arg0, &arg1, &arg2, &arg3, &arg4, &arg5, &arg6, &arg7, &arg8, &arg9))
+	if (!PyArg_ParseTuple(args, "iyyfppppi|p:ApplyAnimation", &arg0, &arg1, &arg2, &arg3, &arg4, &arg5, &arg6, &arg7, &arg8, &arg9))
 	{
 		PyErr_Print();
 		return NULL;
