@@ -125,7 +125,6 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPublicCall2(AMX *amx, const char *name,
 
 
 PLUGIN_EXPORT bool PLUGIN_CALL OnRconCommand(const char * cmd) {
-	sampgdk::logprintf("rcon command: %s", cmd);
 	if (strcmp(cmd, "pyreload") == 0)
 	{
 		PySAMP::callback("OnPyUnload", NULL);
@@ -144,7 +143,6 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnRconCommand(const char * cmd) {
 PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerCommandText(int playerid,
 	const char *cmdtext) {
 	char* cmd = fromConst(cmdtext);
-	sampgdk::logprintf(cmd);
 	bool ret = PySAMP::callback("OnPlayerCommandText", Py_BuildValue("(iy)", playerid, cmd));
 	delete[] cmd;
 	return ret;
