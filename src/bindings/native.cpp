@@ -20,10 +20,47 @@ bool findNative(const char* name, const char* param_format, const char* return_t
 	if (strlen(return_type) > 0)
 		char_return_type = return_type[0];
 
+	char* sampgdk_param_format = new char[strlen(param_format)];
+	int number_of_arguments = strlen(param_format);
+
+	for (int i = 0; i < number_of_arguments; i++)
+	{
+		char type = param_format[i];
+		switch (type)
+		{
+		case 'i':
+		case 'd':
+		case 'b':
+		case 'f':
+		case 's':
+			sampgdk_param_format[i] = type;
+			break;
+		case 'I':
+			sampgdk_param_format[i] = 'i';
+			break;
+		case 'D':
+			sampgdk_param_format[i] = 'd';
+			break;
+		case 'B':
+			sampgdk_param_format[i] = 'b';
+			break;
+		case 'F':
+			sampgdk_param_format[i] = 'f';
+			break;
+		case 'S':
+		case 'A':
+		default:
+			//TODO arrays and variadic functions
+			logger.error("Unsupported native argument type %s", type);
+			break;
+		}
+	}
+
 	natives[name] = {
 		native,
 		name,
 		param_format,
+		sampgdk_param_format,
 		char_return_type
 	};
 	return true;
@@ -85,24 +122,34 @@ void* parseArgument(PyObject* value, char out_argument_type)
 	case 'd':
 		out_argument_value = new long[1];
 		vali = PyLong_AsLong(value);
-		sampgdk::logprintf("d=%d", vali);
 		*((long*)out_argument_value) = vali;
 		break;
+	case 'I':
+	case 'D':
+		out_argument_value = new long[1];
 	case 'b':
 		out_argument_value = new bool[1];
 		valb = PyBool_Check(value);
 		*((bool*)out_argument_value) = valb;
 		break;
+	case 'B':
+		out_argument_value = new bool[1];
+		break;
 	case 'f':
 		out_argument_value = new float[1];
 		valf = (float) PyFloat_AsDouble(value);
-		sampgdk::logprintf("f=%.2f", valf);
 		*((float*)out_argument_value) = valf;
+		break;
+	case 'F':
+		out_argument_value = new float[1];
 		break;
 	case 's':
 		vals = PyBytes_AsString(value);
 		out_argument_value = new char[strlen(vals)+1];
 		out_argument_value = vals;
+		break;
+	case 'S':
+	case 'A':
 		break;
 	}
 	return out_argument_value;
@@ -124,8 +171,9 @@ void parseArguments(PyObject* call_arguments, const char* out_argument_format, v
 	}
 }
 
-PyObject* parseCellValue(PY_NATIVE_INFO& info, cell value)
+PyObject* parseCellValue(PY_NATIVE_INFO& info, void** arguments, cell value)
 {
+	// TODO: extract "return" values from argument references
 	switch (info.return_type)
 	{
 	case 'i':
@@ -167,9 +215,9 @@ PyObject* PyNative_invokeNative(PyObject* self, PyObject* args)
 		void** out_argument_array = new void* [param_len];
 		
 		parseArguments(call_arguments, info.parameters, out_argument_array);
-		cell retval = sampgdk::InvokeNativeArray(info.amx_native, info.parameters, out_argument_array);
+		cell retval = sampgdk::InvokeNativeArray(info.amx_native, info.sampgdk_param_format, out_argument_array);
 		//TODO interpret reference values
-		returnValue = parseCellValue(info, retval);
+		returnValue = parseCellValue(info, out_argument_array, retval);
 		delete[] out_argument_array;
 	}
 	else {
