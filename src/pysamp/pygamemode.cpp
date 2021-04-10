@@ -108,7 +108,7 @@ bool PyGamemode::hasCallback(const char* name)
 {
 	bool ret = false;
 	// if Module does not exists don't check if the callback exists
-	if (disabled || !pModule) {
+	if (disabled || !pModule || !PyObject_HasAttrString(pModule, name)) {
 		return ret;
 	}
 
@@ -120,7 +120,7 @@ bool PyGamemode::callback(const char * name, PyObject * pArgs, bool obtainLock)
 {
 	bool ret = false;
 	// if Module does not exists don't forward callback to python function
-	if (disabled || !pModule) {
+	if (disabled || !pModule || !PyObject_HasAttrString(pModule, name)) {
 		return ret;
 	}
 	

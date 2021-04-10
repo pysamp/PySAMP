@@ -5,10 +5,13 @@ static Logger logger = Logger("native");
 
 std::map<const char*, PY_NATIVE_INFO> natives;
 
-bool findNative(const char* name, const char* param_format, const char* return_type)
+bool findNative(const char* name, const char* param_format, const char* return_type, int number_of_arguments, int number_of_reference_arguments)
 {
 	if (natives.count(name) > 0)
 		return true;
+
+	char* parameters = (char*)malloc(strlen(param_format) + 1);
+	strcpy(parameters, param_format);
 
 	AMX_NATIVE native = sampgdk::FindNative(name);
 
@@ -20,49 +23,62 @@ bool findNative(const char* name, const char* param_format, const char* return_t
 	if (strlen(return_type) > 0)
 		char_return_type = return_type[0];
 
-	char* sampgdk_param_format = new char[strlen(param_format)];
-	int number_of_arguments = strlen(param_format);
+	logger.trace("return_type is %s, extracted char is %c", return_type, char_return_type);
 
+	char* sampgdk_param_format = new char[number_of_arguments + 1]{};
+
+	// todo: to support arrays another mechanism for iterating is needed as not all argument descriptors consist of only one char
 	for (int i = 0; i < number_of_arguments; i++)
 	{
-		char type = param_format[i];
+		char type = parameters[i];
 		switch (type)
 		{
 		case 'i':
-		case 'd':
-		case 'b':
-		case 'f':
-		case 's':
-			sampgdk_param_format[i] = type;
-			break;
-		case 'I':
 			sampgdk_param_format[i] = 'i';
 			break;
-		case 'D':
+		case 'd':
 			sampgdk_param_format[i] = 'd';
 			break;
-		case 'B':
+		case 'b':
 			sampgdk_param_format[i] = 'b';
 			break;
-		case 'F':
+		case 'f':
 			sampgdk_param_format[i] = 'f';
+			break;
+		case 's':
+			sampgdk_param_format[i] = 's';
+			break;
+		case 'I':
+		case 'D':
+		case 'B':
+		case 'F':
+			sampgdk_param_format[i] = 'R';
 			break;
 		case 'S':
 		case 'A':
 		default:
 			//TODO arrays and variadic functions
 			logger.error("Unsupported native argument type %s", type);
-			break;
+			return false;
 		}
 	}
 
-	natives[name] = {
+	logger.debug("New native registered %s with arguments %s resp. %s return_type %c", name, parameters, sampgdk_param_format, char_return_type);
+
+	PY_NATIVE_INFO info = {
 		native,
 		name,
-		param_format,
+		parameters,
 		sampgdk_param_format,
-		char_return_type
+		char_return_type,
+		number_of_arguments,
+		number_of_reference_arguments
 	};
+
+	natives.insert({name, info});
+	
+	logger.trace("Arguments: %s", natives.at(name).parameters);
+
 	return true;
 }
 
@@ -70,14 +86,16 @@ PyObject* PyNative_findNative(PyObject* self, PyObject* args) {
 	const char* name;
 	const char* param_format;
 	const char* return_type;
+	int number_of_arguments;
+	int number_of_reference_arguments;
 
-	if (!PyArg_ParseTuple(args, "yyy:find_native", &name, &param_format, &return_type))
+	if (!PyArg_ParseTuple(args, "yyyii:find_native", &name, &param_format, &return_type, &number_of_arguments, &number_of_reference_arguments))
 	{
 		PyErr_Print();
 		return NULL;
 	}
 
-	if (findNative(name, param_format, return_type))
+	if (findNative(name, param_format, return_type, number_of_arguments, number_of_reference_arguments))
 		Py_RETURN_TRUE;
 
 	Py_RETURN_FALSE;
@@ -92,18 +110,18 @@ PyObject* PyNative_registerCallback(PyObject* self, PyObject* args) {
 		PyErr_Print();
 		return NULL;
 	}
-	sampgdk::logprintf("Number of callbacks=%d", callback_format.size());
-	sampgdk::logprintf("Register new callback: name=%s, params=%s", name, param_format);
+	logger.debug("Number of callbacks=%d", callback_format.size());
+	logger.debug("Register new callback: name=%s, params=%s", name, param_format);
 	std::string name_str = name;
 	std::string param_format_str = param_format;
 
 	callback_format[name_str] = param_format_str;
 	if (callback_format.count(name) == 0)
 	{
-		sampgdk::logprintf("Could not register callback: name=%s, params=%s", name, param_format);
+		logger.error("Could not register callback: name=%s, params=%s", name, param_format);
 	}
 	else {
-		sampgdk::logprintf("New callback registered: name=%s", name);
+		logger.debug("New callback registered: name=%s", name);
 	}
 	Py_RETURN_NONE;
 }
@@ -120,28 +138,23 @@ void* parseArgument(PyObject* value, char out_argument_type)
 	{
 	case 'i':
 	case 'd':
+	case 'I':
+	case 'D':
 		out_argument_value = new long[1];
 		vali = PyLong_AsLong(value);
 		*((long*)out_argument_value) = vali;
 		break;
-	case 'I':
-	case 'D':
-		out_argument_value = new long[1];
 	case 'b':
+	case 'B':
 		out_argument_value = new bool[1];
 		valb = PyBool_Check(value);
 		*((bool*)out_argument_value) = valb;
 		break;
-	case 'B':
-		out_argument_value = new bool[1];
-		break;
 	case 'f':
+	case 'F':
 		out_argument_value = new float[1];
 		valf = (float) PyFloat_AsDouble(value);
 		*((float*)out_argument_value) = valf;
-		break;
-	case 'F':
-		out_argument_value = new float[1];
 		break;
 	case 's':
 		vals = PyBytes_AsString(value);
@@ -163,36 +176,61 @@ void parseArguments(PyObject* call_arguments, const char* out_argument_format, v
 		char type = out_argument_format[i];
 		out_argument_array[i] = parseArgument(PyTuple_GetItem(call_arguments, i), out_argument_format[i]);
 	}
-	for (int i = 0; i < number_of_arguments; i++)
-	{
-		char type = out_argument_format[i];
-		if (type == 'i' || type == 'd')
-			logger.trace("arg%d=%d", i, *((long*)out_argument_array[i]));
-	}
 }
-
-PyObject* parseCellValue(PY_NATIVE_INFO& info, void** arguments, cell value)
+PyObject* parseCellValue(const char type, cell value)
 {
-	// TODO: extract "return" values from argument references
-	switch (info.return_type)
+	PyObject* returnValue = Py_None;
+	switch (type)
 	{
 	case 'i':
 	case 'd':
-		return PyLong_FromLong(value);
+	case 'I':
+	case 'D':
+		returnValue = PyLong_FromLong(value);
 		break;
 	case 'b':
-		return PyBool_FromLong(value);
+	case 'B':
+		returnValue = PyBool_FromLong(value);
 		break;
 	case 'n':
 		// void
 		break;
 	case 'f':
-		return PyFloat_FromDouble((float)amx_ctof(value));
+	case 'F':
+		returnValue = PyFloat_FromDouble((float)amx_ctof(value));
 	default:
-		logger.warn("return type %s for function %s is unsupported. Returning none", info.return_type, info.name);
+		logger.warn("Type %c unsupported. Returning none", type);
 		break;
 	}
-	return Py_None;
+	return returnValue;
+}
+
+PyObject* parseReturnValues(PY_NATIVE_INFO& info, void** arguments, cell invocationReturnValue)
+{
+	// TODO: extract "return" values from argument references
+	PyObject* returnValue = parseCellValue(info.return_type, invocationReturnValue);
+
+	if (info.number_of_reference_arguments > 0)
+	{
+		PyObject* returnTuple = PyTuple_New((returnValue != Py_None) ? info.number_of_reference_arguments + 1 : info.number_of_reference_arguments);
+		int tupleIdx = 0;
+		if (returnValue != Py_None)
+		{
+			PyTuple_SetItem(returnTuple, tupleIdx++, returnValue);
+		}
+		for (int argIdx = 0; argIdx < info.number_of_arguments; argIdx++)
+		{
+			char type = info.parameters[argIdx];
+			if (isupper(type))
+			{
+				// todo support arrays here too?
+				PyTuple_SetItem(returnTuple, tupleIdx++, parseCellValue(type, (cell)&arguments[argIdx]));
+			}
+		}
+		returnValue = returnTuple;
+	}
+
+	return returnValue;
 }
 
 PyObject* PyNative_invokeNative(PyObject* self, PyObject* args)
@@ -206,9 +244,17 @@ PyObject* PyNative_invokeNative(PyObject* self, PyObject* args)
 	if (!PyArg_ParseTuple(args, "yO!", &name, &PyTuple_Type, &call_arguments))
 	{
 		PyErr_Print();
-		return NULL;
+		return Py_None;
 	}
-	PY_NATIVE_INFO& info = natives[name];
+
+	if (natives.count(name) == 0)
+	{
+		PyErr_Format(PyExc_RuntimeError, "Could not invoke native: native %s was not registered.", name);
+		return Py_None;
+	}
+
+	PY_NATIVE_INFO& info = natives.at(name);
+	logger.trace("PyNative_invokeNative %s with arguments %s resp. %s return_type %c", info.name, info.parameters, info.sampgdk_param_format, info.return_type);
 	int param_len = strlen(info.parameters);
 	if (param_len > 0)
 	{
@@ -217,7 +263,7 @@ PyObject* PyNative_invokeNative(PyObject* self, PyObject* args)
 		parseArguments(call_arguments, info.parameters, out_argument_array);
 		cell retval = sampgdk::InvokeNativeArray(info.amx_native, info.sampgdk_param_format, out_argument_array);
 		//TODO interpret reference values
-		returnValue = parseCellValue(info, out_argument_array, retval);
+		returnValue = parseReturnValues(info, out_argument_array, retval);
 		delete[] out_argument_array;
 	}
 	else {

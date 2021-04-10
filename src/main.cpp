@@ -19,7 +19,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL Load(void **ppData)
 	
 	initializeDefaultCallbacks();
 
-#ifdef PY_TRACE == 1
+#if PY_TRACE == 1
 	Logger::setGlobalLevel(LogLevel::TRACE);
 #endif
 #ifndef WIN32
