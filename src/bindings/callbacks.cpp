@@ -62,7 +62,7 @@ void initializeDefaultCallbacks()
     callback_format.insert({ "OnPlayerSelectObject", "iiiifff" });
     callback_format.insert({ "OnPlayerWeaponShot", "iiiifff" });
 
-    callback_return_configuration.insert({ "OnDialogResponse", 0 });
+    callback_return_configuration.insert({ "OnDialogResponse", 1 });
     callback_return_configuration.insert({ "OnGameModeExit", 0 });
     callback_return_configuration.insert({ "OnGameModeInit", 0 });
     callback_return_configuration.insert({ "OnIncomingConnection", 1 });
