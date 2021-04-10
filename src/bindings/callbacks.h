@@ -71,7 +71,7 @@ std::map<std::string, std::string> _createCallbackFormatMap()
 std::map<std::string, bool> _createCallbackReturnConfiguration()
 {
     std::map<std::string, bool> map;
-    map["OnDialogResponse"] = 0;
+    map["OnDialogResponse"] = 1;
     map["OnGameModeExit"] = 0;
     map["OnGameModeInit"] = 0;
     map["OnIncomingConnection"] = 1;
