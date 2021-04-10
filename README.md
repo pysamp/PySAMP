@@ -15,6 +15,7 @@ public OnPlayerConnect(playerid)
 
 ```python
 from samp import *
+from const import *
 
 def OnPlayerConnect(playerid):
     name = GetPlayerName(playerid, MAX_PLAYER_NAME.get())
