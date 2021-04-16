@@ -119,7 +119,11 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPublicCall2(AMX *amx, const char *name,
 		}
 	}
 
-	*retval = result;
+	if (retval != NULL)
+	{
+		*retval = result;
+	}
+
 	return result;
 }
 
