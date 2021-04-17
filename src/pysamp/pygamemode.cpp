@@ -31,6 +31,12 @@ PyGamemode::PyGamemode(const char * path)
 		sampgdk::logprintf("Setting python workspace failed.");
 
 	PyList_Append(sysPath, PyUnicode_FromString(absolute));
+
+	PyObject *module = PyImport_ImportModule("pysamp");
+	if(!module) {
+		PyErr_Print();
+		sampgdk::logprintf("Couldn't import module.");
+	}
 }
 
 PyGamemode::~PyGamemode()

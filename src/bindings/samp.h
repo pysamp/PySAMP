@@ -6142,6 +6142,37 @@ static PyObject* pysamp_getvehiclemodelinfo(PyObject *self, PyObject *args)
 	return out;
 }
 
+static PyObject* logprintf_write(PyObject *self, PyObject *args)
+{
+	const char *text;
+
+	if(!PyArg_ParseTuple(args, "es", "cp1252", &text))
+		return NULL;
+
+	if(
+		strlen(text) == 0
+		|| (
+			strlen(text) == 1
+			&& text[0] == '\n'
+		)
+	)
+	{
+		// We will not print an extra \n in the logs
+		PyMem_Free((void *)text);
+		return PyLong_FromUnsignedLong(0);
+	}
+
+	unsigned int written_count = strlen(text);
+	sampgdk::logprintf(text);
+	PyMem_Free((void *)text);
+	return PyLong_FromUnsignedLong(written_count);
+}
+
+static PyObject* logprintf_flush(PyObject *self, PyObject *args)
+{
+	Py_RETURN_NONE;
+}
+
 static PyMethodDef PySAMPMethods[] = {
 	{ "CreateActor", pysamp_createactor, METH_VARARGS, NULL },
 	{ "DestroyActor", pysamp_destroyactor, METH_VARARGS, NULL },
@@ -6541,8 +6572,23 @@ static PyModuleDef PySAMPModule = {
 	NULL, NULL, NULL, NULL
 };
 
+static PyMethodDef LogPrintfMethods[] = {
+	{ "write", logprintf_write, METH_VARARGS, "Writes to server_log.txt - assigned to sys.stdout.write at startup." },
+	{ "flush", logprintf_flush, METH_VARARGS, "Should flush server_log.txt writes - a no-op in practice (already done by default)." },
+	{ NULL, NULL, 0, NULL },
+};
+
+static PyModuleDef LogPrintfModule = {
+	PyModuleDef_HEAD_INIT,
+	"logprintf",
+	"Standard output to logprintf adapter",
+	-1,
+	LogPrintfMethods,
+};
+
 static PyObject* PyInit_samp()
 {
+	PySys_SetObject("stdout", PyModule_Create(&LogPrintfModule));
 	return PyModule_Create(&PySAMPModule);
 }
 #endif // !samp_h
