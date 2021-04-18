@@ -8,10 +8,6 @@
 #include "pysamp/pysamp.h"
 #include "bindings/callbacks.h"
 #include "test/callbackstest.h"
-#include <thread>
-
-std::thread threading;
-bool threadingInitialized = false;
 
 extern void *pAMXFunctions;
 
@@ -33,29 +29,8 @@ PLUGIN_EXPORT bool PLUGIN_CALL Load(void **ppData)
 	return sampgdk::Load(ppData);
 }
 
-void startThreading()
-{
-	threadingInitialized = true;
-	threading = std::thread([] { 
-		sampgdk::logprintf("Initializing Threading");
-		PySAMP::callback("OnThreadingInit", NULL);
-		sampgdk::logprintf("Initialized Threading");
-	});
-}
-
-void stopThreading()
-{
-	sampgdk::logprintf("Stopping PYSAMP-Threading");
-	if(threadingInitialized)
-	{
-		PySAMP::callback("OnThreadingStopSignal", NULL);
-		threading.join();
-	}
-}
-
 PLUGIN_EXPORT void PLUGIN_CALL Unload()
 {
-	stopThreading();
 	PySAMP::disable();
 	// if (PySAMP::isInitialized())
     //		sampgdk::Unload();
@@ -66,12 +41,13 @@ PLUGIN_EXPORT void PLUGIN_CALL ProcessTick()
 	if (PySAMP::isLoaded()) {
 		PySAMP::callback("OnProcessTick", NULL);
 	}
+	Py_BEGIN_ALLOW_THREADS
 	sampgdk::ProcessTick();
+	Py_END_ALLOW_THREADS
 }
 
 PLUGIN_EXPORT bool PLUGIN_CALL OnGameModeExit()
 {
-	stopThreading();
 	PySAMP::disable();
 
 	bool result = PySAMP::callback("OnGameModeExit", NULL);
@@ -89,7 +65,6 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnGameModeInit()
 	} catch (std::exception) {
 		return false;
 	}
-	startThreading();
 	bool result = PySAMP::callback("OnGameModeInit", NULL);
 	return result;
 }
@@ -132,10 +107,8 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnRconCommand(const char * cmd) {
 	if (strcmp(cmd, "pyreload") == 0)
 	{
 		PySAMP::callback("OnPyUnload", NULL);
-		stopThreading();
 		PySAMP::disable();
 		PySAMP::reload();
-		startThreading();
 		PySAMP::callback("OnPyReload", NULL);
 		return true;
 	}

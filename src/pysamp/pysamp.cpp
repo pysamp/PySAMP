@@ -7,12 +7,6 @@ void PySAMP::load()
 {
 	sampgdk::logprintf("Loading PySAMP gamemode");
 	PySAMP::gamemode = new PyGamemode(PYTHON_PATH);
-
-	if (!PyEval_ThreadsInitialized()) 
-	{
-		PyEval_InitThreads();
-	}
-
 	gamemode->load();
 }
 
