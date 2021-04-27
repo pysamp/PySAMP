@@ -142,7 +142,7 @@ PyObject * createParameterObject(AMX *amx, const char *callback_name, cell *para
                     break;
                 }
                 assert(string_value != NULL);
-                argument = PyBytes_FromString(string_value);
+                argument = PyUnicode_Decode(string_value, length, "cp1252", "strict");
                 free(string_value);
                 break;
             case 'O':
@@ -156,17 +156,9 @@ PyObject * createParameterObject(AMX *amx, const char *callback_name, cell *para
                 argument = PyFloat_FromDouble((double) amx_ctof(param));
                 break;
         }
-        PyTuple_SET_ITEM(arguments, i, argument);
+        PyTuple_SetItem(arguments, i, argument);
     }
     return arguments;
-}
-
-char* fromConst(const char * str) {
-    const size_t len = strlen(str);
-    char * cstr = new char[len + 1];
-    strncpy(cstr, str, len);
-    cstr[len] = '\0'; 
-    return cstr;
 }
 
 
