@@ -119,8 +119,9 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnRconCommand(const char * cmd) {
 
 PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerCommandText(int playerid,
 	const char *cmdtext) {
-	char* cmd = fromConst(cmdtext);
-	bool ret = PySAMP::callback("OnPlayerCommandText", Py_BuildValue("(iy)", playerid, cmd));
-	delete[] cmd;
+	bool ret = PySAMP::callback(
+		"OnPlayerCommandText",
+		Py_BuildValue("(iN)", playerid, PyUnicode_Decode(cmdtext, strlen(cmdtext), "cp1252", "strict"))
+	);
 	return ret;
 }
