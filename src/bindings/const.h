@@ -1,14 +1,14 @@
 #ifndef CONST_H
 #define CONST_H
 
-#include<string>
-#include<map>
-#include<Python.h>
+#include <string>
+#include <unordered_map>
+#include <Python.h>
 
 class SAMPConsts {
 public:
 	static void create();
-	static std::map<std::string, int> map;
+	static std::unordered_map<std::string, int> map;
 
 	static int get(const char* name)
 	{

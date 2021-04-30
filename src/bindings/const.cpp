@@ -1,6 +1,6 @@
 #include "const.h"
 
-std::map<std::string, int> SAMPConsts::map;
+std::unordered_map<std::string, int> SAMPConsts::map;
 
 void SAMPConsts::create()
 {

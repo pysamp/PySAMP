@@ -7,9 +7,9 @@
 #include <stdio.h>
 #include <stdarg.h>
 
-std::map<std::string, std::string> _createCallbackFormatMap()
+std::unordered_map<std::string, std::string> _createCallbackFormatMap()
 {
-    std::map<std::string, std::string> callback_format;
+    std::unordered_map<std::string, std::string> callback_format;
     callback_format["OnPlayerConnect"] = "i";
     callback_format["OnPlayerDisconnect"] = "ii";
     callback_format["OnPlayerSpawn"] = "i";
@@ -68,9 +68,9 @@ std::map<std::string, std::string> _createCallbackFormatMap()
 }
 
 /* creates map of all callbacks which can prohibit further callback propagation to other filterscripts / gamemodes / plugins */
-std::map<std::string, bool> _createCallbackReturnConfiguration()
+std::unordered_map<std::string, bool> _createCallbackReturnConfiguration()
 {
-    std::map<std::string, bool> map;
+    std::unordered_map<std::string, bool> map;
     map["OnDialogResponse"] = 1;
     map["OnGameModeExit"] = 0;
     map["OnGameModeInit"] = 0;
@@ -104,9 +104,9 @@ std::map<std::string, bool> _createCallbackReturnConfiguration()
     return map;
 }
 
-std::map<std::string, std::string> callback_format = _createCallbackFormatMap();
+std::unordered_map<std::string, std::string> callback_format = _createCallbackFormatMap();
 
-std::map<std::string, bool> callback_return_configuration = _createCallbackReturnConfiguration();
+std::unordered_map<std::string, bool> callback_return_configuration = _createCallbackReturnConfiguration();
 
 PyObject * createParameterObject(AMX *amx, const char *callback_name, cell *parameters)
 {
