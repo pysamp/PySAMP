@@ -29,8 +29,8 @@ public:
 	static void reload();
 	static void unload();
 	static void disable();
-	static bool callback(const char* name, PyObject * pArgs);
-	static bool callback(const char* name, PyObject * pArgs, bool obtainLock);
+	static int callback(const char* name, PyObject * pArgs);
+	static int callback(const char* name, PyObject * pArgs, bool obtainLock);
 	static bool isInitialized();
 	static bool isLoaded();
 	static bool isEnabled();

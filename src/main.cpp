@@ -83,21 +83,16 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPublicCall2(AMX *amx, const char *name,
 	}
 
 	bool doesStop = callback_return_configuration.count(name) > 0;
-	bool result = PySAMP::callback(name, createParameterObject(amx, name, params));
+	int result = PySAMP::callback(name, createParameterObject(amx, name, params));
 
-	if (doesStop)
-	{
-		bool stopOnReturnValue = callback_return_configuration.at(name);
-		if (result == stopOnReturnValue)
-		{
-			*stop = true;
-		}
-	}
+	if (
+		doesStop
+		&& result == callback_return_configuration.at(name)
+	)
+		*stop = true;
 
 	if (retval != NULL)
-	{
 		*retval = result;
-	}
 
 	return result;
 }

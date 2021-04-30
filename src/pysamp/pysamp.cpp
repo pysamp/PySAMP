@@ -30,12 +30,12 @@ void PySAMP::unload()
 	PySAMP::gamemode = nullptr;
 }
 
-bool PySAMP::callback(const char * name, PyObject * pArgs)
+int PySAMP::callback(const char * name, PyObject * pArgs)
 {
 	return PySAMP::callback(name, pArgs, true);
 }
 
-bool PySAMP::callback(const char * name, PyObject * pArgs, bool obtainLock)
+int PySAMP::callback(const char * name, PyObject * pArgs, bool obtainLock)
 {
 	if(PySAMP::gamemode && PySAMP::gamemode->isLoaded())
 		return PySAMP::gamemode->callback(name, pArgs, obtainLock);
