@@ -72,8 +72,6 @@ std::unordered_map<std::string, bool> _createCallbackReturnConfiguration()
 {
     std::unordered_map<std::string, bool> map;
     map["OnDialogResponse"] = 1;
-    map["OnGameModeExit"] = 0;
-    map["OnGameModeInit"] = 0;
     map["OnIncomingConnection"] = 1;
     map["OnPlayerClickMap"] = 1;
     map["OnPlayerClickPlayer"] = 1;
@@ -92,14 +90,15 @@ std::unordered_map<std::string, bool> _createCallbackReturnConfiguration()
     map["OnPlayerSpawn"] = 0;
     map["OnPlayerTakeDamage"] = 1;
     map["OnPlayerText"] = 0;
+    map["OnPlayerUpdate"] = 0;
     map["OnPlayerWeaponShot"] = 0;
     map["OnRconCommand"] = 1;
+    map["OnTrailerUpdate"] = 0;
     map["OnUnoccupiedVehicleUpdate"] = 0;
     map["OnVehicleDamageStatusUpdate"] = 1;
     map["OnVehicleMod"] = 0;
     map["OnVehiclePaintjob"] = 0;
     map["OnVehicleRespray"] = 0;
-    map["OnVehicleSirenStateChange"] = 1;
     map["OnVehicleSpawn"] = 0;
     return map;
 }
