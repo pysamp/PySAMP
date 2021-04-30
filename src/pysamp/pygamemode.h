@@ -33,7 +33,7 @@ private:
 public:
 	PyGamemode(const char* apath);
 	~PyGamemode();
-	bool callback(const char* name , PyObject* pArgs, bool obtainLock);
+	int callback(const char* name , PyObject* pArgs, bool obtainLock);
 	void load();
 	void reload();
 	void unload();

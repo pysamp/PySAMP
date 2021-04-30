@@ -104,61 +104,55 @@ bool PyGamemode::isEnabled()
 	return PyGamemode::isLoaded() && !PyGamemode::disabled;
 }
 
-bool PyGamemode::callback(const char * name, PyObject * pArgs, bool obtainLock)
+int PyGamemode::callback(const char * name, PyObject * pArgs, bool obtainLock)
 {
-	bool ret = false;
+	int ret = -1;
 	// if Module does not exists don't forward callback to python function
-	if (disabled || !pModule) {
+	if (disabled || !pModule)
 		return ret;
-	}
 
 	PyGILState_STATE gstate;
 
 	if (obtainLock)
-	{
 		gstate = PyGILState_Ensure();
-	}
 
 	PyObject* pFunc = PyObject_GetAttrString(pModule, name);
 
-	if(pFunc) {
+	if (pFunc)
 		Py_INCREF(pFunc);
-	}
-	
-	if (pArgs) {
-		Py_INCREF(pArgs);
-	}
-	
 
-	if (pFunc && PyCallable_Check(pFunc) == 1) 
+	if (pArgs)
+		Py_INCREF(pArgs);
+
+	if (pFunc && PyCallable_Check(pFunc))
 	{
 		PyObject* pValue = PyObject_CallObject(pFunc, pArgs);
 
-		//ignore error if pFunc not available
 		if (PyErr_Occurred())
-			PyErr_Print();
-			//PyErr_Clear();
-
-		ret = false;
-		if (pValue) 
 		{
-			int tru = PyObject_IsTrue(pValue);
-			if (tru == -1)
-				sampgdk::logprintf("An error occured at %s in python gamemode. It doesn't return boolean.", name);
-			else
-				ret = tru == 1;
+			PyErr_Print();
+			pValue = Py_None;
 		}
 
-		//Py_XDECREF(pValue);
+		if (pValue != Py_None)
+		{
+			int truthy = PyObject_IsTrue(pValue);
+			if (truthy != -1)
+				ret = truthy;
+			else
+			{
+				sampgdk::logprintf("An error occured at %s in Python gamemode.", name);
+				PyErr_Print();
+			}
+		}
+
+		Py_XDECREF(pValue);
 		Py_XDECREF(pFunc);
-		if (pArgs)
-			Py_XDECREF(pArgs);
-	}	
-	
-	if (obtainLock)
-	{
-		PyGILState_Release(gstate);
+		Py_XDECREF(pArgs);
 	}
+
+	if (obtainLock)
+		PyGILState_Release(gstate);
 
 	return ret;
 }
