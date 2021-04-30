@@ -5080,9 +5080,9 @@ static PyObject* pysamp_textdrawsetpreviewvehcol(PyObject *self, PyObject *args)
 
 static PyObject* pysamp_selecttextdraw(PyObject *self, PyObject *args)
 {
-	int arg1 = -1;
+	unsigned long arg1 = -1;
 	int arg0 = -1;
-	if (!PyArg_ParseTuple(args, "ii:SelectTextDraw", &arg0, &arg1))
+	if (!PyArg_ParseTuple(args, "ik:SelectTextDraw", &arg0, &arg1))
 	{
 		PyErr_Print();
 		return NULL;
