@@ -41,7 +41,7 @@ PyGamemode::PyGamemode(const char * path)
 	for(auto item = SAMPConsts::map.begin(); item != SAMPConsts::map.end(); ++item) {
 		if(PyObject_SetAttrString(
 			module,
-			item->first.c_str,
+			item->first.c_str(),
 			Py_BuildValue("i", item->second)
 		) == -1) {
 			sampgdk::logprintf("Couldn't set constants on module:");
