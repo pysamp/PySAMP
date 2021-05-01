@@ -6599,7 +6599,6 @@ static PyMethodDef PySAMPMethods[] = {
 
 static PyModuleDef PySAMPModule = {
 	PyModuleDef_HEAD_INIT, "pysamp", "SAMP functions", -1, PySAMPMethods,
-	NULL, NULL, NULL, NULL
 };
 
 static PyMethodDef LogPrintfMethods[] = {

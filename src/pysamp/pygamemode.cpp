@@ -34,8 +34,20 @@ PyGamemode::PyGamemode(const char * path)
 
 	PyObject *module = PyImport_ImportModule("pysamp");
 	if(!module) {
+		sampgdk::logprintf("Couldn't import module:");
 		PyErr_Print();
-		sampgdk::logprintf("Couldn't import module.");
+	}
+
+	for(auto item = SAMPConsts::map.begin(); item != SAMPConsts::map.end(); ++item) {
+		if(PyObject_SetAttrString(
+			module,
+			item->first.c_str,
+			Py_BuildValue("i", item->second)
+		) == -1) {
+			sampgdk::logprintf("Couldn't set constants on module:");
+			PyErr_Print();
+			break;
+		}
 	}
 }
 
