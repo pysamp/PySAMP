@@ -1521,17 +1521,16 @@ static PyObject* pysamp_getplayerstate(PyObject *self, PyObject *args)
 
 static PyObject* pysamp_getplayerip(PyObject *self, PyObject *args)
 {
-	int arg2 = -1;
 	int arg0 = -1;
-	if (!PyArg_ParseTuple(args, "ii:GetPlayerIp", &arg0, &arg2))
+	if (!PyArg_ParseTuple(args, "i:GetPlayerIp", &arg0))
 	{
 		PyErr_Print();
 		return NULL;
 	}
-	char* arg1 = new char[arg2];
-	bool ret = GetPlayerIp(arg0, arg1, arg2);
+	// Max IP size is 16 including final '\0'
+	char arg1[16];
+	bool ret = GetPlayerIp(arg0, arg1, 16);
 	PyObject* out = Py_BuildValue("s", arg1);
-
 	return out;
 }
 
@@ -1579,17 +1578,15 @@ static PyObject* pysamp_getplayerkeys(PyObject *self, PyObject *args)
 
 static PyObject* pysamp_getplayername(PyObject *self, PyObject *args)
 {
-	int arg2 = -1;
 	int arg0 = -1;
-	if (!PyArg_ParseTuple(args, "ii:GetPlayerName", &arg0, &arg2))
+	if (!PyArg_ParseTuple(args, "i:GetPlayerName", &arg0))
 	{
 		PyErr_Print();
 		return NULL;
 	}
-	char* arg1 = new char[arg2];
-	int ret = GetPlayerName(arg0, arg1, arg2);
+	char arg1[MAX_PLAYER_NAME + 1];
+	int ret = GetPlayerName(arg0, arg1, MAX_PLAYER_NAME);
 	PyObject* out = Py_BuildValue("s", arg1);
-
 	return out;
 }
 
@@ -2361,19 +2358,25 @@ static PyObject* pysamp_setpvarstring(PyObject *self, PyObject *args)
 
 static PyObject* pysamp_getpvarstring(PyObject *self, PyObject *args)
 {
-	int arg3 = -1;
+	int arg3 = SAMPConsts::get("MAX_CLIENT_MESSAGE");
 	const char* arg1;
 	int arg0 = -1;
-	if (!PyArg_ParseTuple(args, "iesi:GetPVarString", &arg0, "cp1252", &arg1, &arg3))
+	if (!PyArg_ParseTuple(args, "ies|i:GetPVarString", &arg0, "cp1252", &arg1, &arg3))
 	{
 		PyErr_Print();
 		return NULL;
 	}
-	char* arg2 = new char[arg3];
+	if(arg3 < 0)
+	{
+		PyErr_SetString(PyExc_TypeError, "Expected a positive length as third argument.");
+		PyErr_Print();
+		return NULL;
+	}
+	char* arg2 = new char[arg3 + 1];
 	int ret = GetPVarString(arg0, arg1, arg2, arg3);
 	PyMem_Free((void *)arg1);
 	PyObject* out = (ret > 0) ? Py_BuildValue("s", arg2) : Py_None;
-
+	delete[] arg2;
 	return out;
 }
 
@@ -2443,18 +2446,24 @@ static PyObject* pysamp_getpvarsupperindex(PyObject *self, PyObject *args)
 
 static PyObject* pysamp_getpvarnameatindex(PyObject *self, PyObject *args)
 {
-	int arg3 = -1;
+	int arg3 = SAMPConsts::get("MAX_CLIENT_MESSAGE");
 	int arg1 = -1;
 	int arg0 = -1;
-	if (!PyArg_ParseTuple(args, "iii:GetPVarNameAtIndex", &arg0, &arg1, &arg3))
+	if (!PyArg_ParseTuple(args, "ii|i:GetPVarNameAtIndex", &arg0, &arg1, &arg3))
 	{
 		PyErr_Print();
 		return NULL;
 	}
-	char* arg2 = new char[arg3];
+	if(arg3 < 0)
+	{
+		PyErr_SetString(PyExc_TypeError, "Expected a positive length as third argument.");
+		PyErr_Print();
+		return NULL;
+	}
+	char* arg2 = new char[arg3 + 1];
 	bool ret = GetPVarNameAtIndex(arg0, arg1, arg2, arg3);
 	PyObject* out = Py_BuildValue("s", arg2);
-
+	delete[] arg2;
 	return out;
 }
 
@@ -2639,20 +2648,29 @@ static PyObject* pysamp_getplayeranimationindex(PyObject *self, PyObject *args)
 
 static PyObject* pysamp_getanimationname(PyObject *self, PyObject *args)
 {
-	int arg4 = -1;
-	int arg2 = -1;
+	int arg4 = SAMPConsts::get("MAX_CLIENT_MESSAGE");
+	int arg2 = SAMPConsts::get("MAX_CLIENT_MESSAGE");
 	int arg0 = -1;
-	if (!PyArg_ParseTuple(args, "iii:GetAnimationName", &arg0, &arg2, &arg4))
+	if (!PyArg_ParseTuple(args, "i|ii:GetAnimationName", &arg0, &arg2, &arg4))
 	{
 		PyErr_Print();
 		return NULL;
 	}
-	char* arg3 = new char[arg4];
-	char* arg1 = new char[arg2];
+	if(
+		arg2 < 0
+		|| arg4 < 0
+	)
+	{
+		PyErr_SetString(PyExc_TypeError, "Expected positive lengths as second and third arguments.");
+		PyErr_Print();
+		return NULL;
+	}
+	char* arg3 = new char[arg4 + 1];
+	char* arg1 = new char[arg2 + 1];
 	bool ret = GetAnimationName(arg0, arg1, arg2, arg3, arg4);
 	PyObject* out = Py_BuildValue("ss", arg1, arg3);
-
-
+	delete[] arg3;
+	delete[] arg1;
 	return out;
 }
 
@@ -3622,18 +3640,24 @@ static PyObject* pysamp_setsvarstring(PyObject *self, PyObject *args)
 
 static PyObject* pysamp_getsvarstring(PyObject *self, PyObject *args)
 {
-	int arg2 = -1;
+	int arg2 = SAMPConsts::get("MAX_CLIENT_MESSAGE");
 	const char* arg0;
-	if (!PyArg_ParseTuple(args, "esi:GetSVarString", "cp1252", &arg0, &arg2))
+	if (!PyArg_ParseTuple(args, "es|i:GetSVarString", "cp1252", &arg0, &arg2))
 	{
 		PyErr_Print();
 		return NULL;
 	}
-	char* arg1 = new char[arg2];
+	if(arg2 < 0)
+	{
+		PyErr_SetString(PyExc_TypeError, "Expected a positive length as second argument.");
+		PyErr_Print();
+		return NULL;
+	}
+	char* arg1 = new char[arg2 + 1];
 	bool ret = GetSVarString(arg0, arg1, arg2);
 	PyObject* out = Py_BuildValue("s", arg1);
+	delete[] arg1;
 	PyMem_Free((void *)arg0);
-
 	return out;
 }
 
@@ -3699,17 +3723,23 @@ static PyObject* pysamp_getsvarsupperindex(PyObject *self, PyObject *args)
 
 static PyObject* pysamp_getsvarnameatindex(PyObject *self, PyObject *args)
 {
-	int arg2 = -1;
+	int arg2 = SAMPConsts::get("MAX_CLIENT_MESSAGE");
 	int arg0 = -1;
-	if (!PyArg_ParseTuple(args, "ii:GetSVarNameAtIndex", &arg0, &arg2))
+	if (!PyArg_ParseTuple(args, "i|i:GetSVarNameAtIndex", &arg0, &arg2))
 	{
 		PyErr_Print();
 		return NULL;
 	}
-	char* arg1 = new char[arg2];
+	if(arg2 < 0)
+	{
+		PyErr_SetString(PyExc_TypeError, "Expected a positive length as second argument.");
+		PyErr_Print();
+		return NULL;
+	}
+	char* arg1 = new char[arg2 + 1];
 	bool ret = GetSVarNameAtIndex(arg0, arg1, arg2);
 	PyObject* out = Py_BuildValue("s", arg1);
-
+	delete[] arg1;
 	return out;
 }
 
@@ -3953,17 +3983,23 @@ static PyObject* pysamp_setworldtime(PyObject *self, PyObject *args)
 
 static PyObject* pysamp_getweaponname(PyObject *self, PyObject *args)
 {
-	int arg2 = -1;
+	int arg2 = SAMPConsts::get("MAX_CLIENT_MESSAGE");
 	int arg0 = -1;
-	if (!PyArg_ParseTuple(args, "ii:GetWeaponName", &arg0, &arg2))
+	if (!PyArg_ParseTuple(args, "i|i:GetWeaponName", &arg0, &arg2))
 	{
 		PyErr_Print();
 		return NULL;
 	}
-	char* arg1 = new char[arg2];
+	if(arg2 < 0)
+	{
+		PyErr_SetString(PyExc_TypeError, "Expected a positive length as second argument.");
+		PyErr_Print();
+		return NULL;
+	}
+	char* arg1 = new char[arg2 + 1];
 	bool ret = GetWeaponName(arg0, arg1, arg2);
 	PyObject* out = Py_BuildValue("s", arg1);
-	
+	delete[] arg1;
 	return out;
 }
 
@@ -4298,48 +4334,66 @@ static PyObject* pysamp_sendrconcommand(PyObject *self, PyObject *args)
 
 static PyObject* pysamp_getplayernetworkstats(PyObject *self, PyObject *args)
 {
-	int arg2 = -1;
+	int arg2 = SAMPConsts::get("MAX_CLIENT_MESSAGE");
 	int arg0 = -1;
-	if (!PyArg_ParseTuple(args, "ii:GetPlayerNetworkStats", &arg0, &arg2))
+	if (!PyArg_ParseTuple(args, "i|i:GetPlayerNetworkStats", &arg0, &arg2))
 	{
 		PyErr_Print();
 		return NULL;
 	}
-	char* arg1 = new char[arg2];
+	if(arg2 < 0)
+	{
+		PyErr_SetString(PyExc_TypeError, "Expected a positive length as second argument.");
+		PyErr_Print();
+		return NULL;
+	}
+	char* arg1 = new char[arg2 + 1];
 	bool ret = GetPlayerNetworkStats(arg0, arg1, arg2);
 	PyObject* out = Py_BuildValue("s", arg1);
-	
+	delete[] arg1;
 	return out;
 }
 
 static PyObject* pysamp_getnetworkstats(PyObject *self, PyObject *args)
 {
-	int arg1 = -1;
-	if (!PyArg_ParseTuple(args, "i:GetNetworkStats", &arg1))
+	int arg1 = SAMPConsts::get("MAX_CLIENT_MESSAGE");
+	if (!PyArg_ParseTuple(args, "|i:GetNetworkStats", &arg1))
 	{
 		PyErr_Print();
 		return NULL;
 	}
-	char* arg0 = new char[arg1];
+	if(arg1 < 0)
+	{
+		PyErr_SetString(PyExc_TypeError, "Expected a positive length as argument.");
+		PyErr_Print();
+		return NULL;
+	}
+	char* arg0 = new char[arg1 + 1];
 	bool ret = GetNetworkStats(arg0, arg1);
 	PyObject* out = Py_BuildValue("s", arg0);
-	
+	delete[] arg0;
 	return out;
 }
 
 static PyObject* pysamp_getplayerversion(PyObject *self, PyObject *args)
 {
-	int arg2 = -1;
+	int arg2 = SAMPConsts::get("MAX_CLIENT_MESSAGE");
 	int arg0 = -1;
-	if (!PyArg_ParseTuple(args, "ii:GetPlayerVersion", &arg0, &arg2))
+	if (!PyArg_ParseTuple(args, "i|i:GetPlayerVersion", &arg0, &arg2))
 	{
 		PyErr_Print();
 		return NULL;
 	}
-	char* arg1 = new char[arg2];
+	if(arg2 < 0)
+	{
+		PyErr_SetString(PyExc_TypeError, "Expected a positive length as second argument.");
+		PyErr_Print();
+		return NULL;
+	}
+	char* arg1 = new char[arg2 + 1];
 	bool ret = GetPlayerVersion(arg0, arg1, arg2);
 	PyObject* out = Py_BuildValue("s", arg1);
-	
+	delete[] arg1;
 	return out;
 }
 
@@ -4378,18 +4432,24 @@ static PyObject* pysamp_unblockipaddress(PyObject *self, PyObject *args)
 
 static PyObject* pysamp_getservervarasstring(PyObject *self, PyObject *args)
 {
-	int arg2 = -1;
+	int arg2 = SAMPConsts::get("MAX_CLIENT_MESSAGE");
 	const char* arg0;
-	if (!PyArg_ParseTuple(args, "esi:GetServerVarAsString", "cp1252", &arg0, &arg2))
+	if (!PyArg_ParseTuple(args, "es|i:GetServerVarAsString", "cp1252", &arg0, &arg2))
 	{
 		PyErr_Print();
 		return NULL;
 	}
-	char* arg1 = new char[arg2];
+	if(arg2 < 0)
+	{
+		PyErr_SetString(PyExc_TypeError, "Expected a positive length as second argument.");
+		PyErr_Print();
+		return NULL;
+	}
+	char* arg1 = new char[arg2 + 1];
 	bool ret = GetServerVarAsString(arg0, arg1, arg2);
 	PyMem_Free((void *)arg0);
 	PyObject* out = Py_BuildValue("s", arg1);
-
+	delete[] arg1;
 	return out;
 }
 
@@ -4426,18 +4486,24 @@ static PyObject* pysamp_getservervarasbool(PyObject *self, PyObject *args)
 
 static PyObject* pysamp_getconsolevarasstring(PyObject *self, PyObject *args)
 {
-	int arg2 = -1;
+	int arg2 = SAMPConsts::get("MAX_CLIENT_MESSAGE");
 	const char* arg0;
-	if (!PyArg_ParseTuple(args, "esi:GetConsoleVarAsString", "cp1252", &arg0, &arg2))
+	if (!PyArg_ParseTuple(args, "es|i:GetConsoleVarAsString", "cp1252", &arg0, &arg2))
 	{
 		PyErr_Print();
 		return NULL;
 	}
-	char* arg1 = new char[arg2];
+	if(arg2 < 0)
+	{
+		PyErr_SetString(PyExc_TypeError, "Expected a positive length as second argument.");
+		PyErr_Print();
+		return NULL;
+	}
+	char* arg1 = new char[arg2 + 1];
 	bool ret = GetConsoleVarAsString(arg0, arg1, arg2);
 	PyMem_Free((void *)arg0);
 	PyObject* out = Py_BuildValue("s", arg1);
-
+	delete[] arg1;
 	return out;
 }
 
@@ -4590,17 +4656,16 @@ static PyObject* pysamp_netstats_connectionstatus(PyObject *self, PyObject *args
 
 static PyObject* pysamp_netstats_getipport(PyObject *self, PyObject *args)
 {
-	int arg2 = -1;
 	int arg0 = -1;
-	if (!PyArg_ParseTuple(args, "ii:NetStats_GetIpPort", &arg0, &arg2))
+	if (!PyArg_ParseTuple(args, "i:NetStats_GetIpPort", &arg0))
 	{
 		PyErr_Print();
 		return NULL;
 	}
-	char* arg1 = new char[arg2];
-	bool ret = NetStats_GetIpPort(arg0, arg1, arg2);
+	// Max IP+port size is 22 including final '\0'
+	char arg1[22];
+	bool ret = NetStats_GetIpPort(arg0, arg1, 22);
 	PyObject* out = Py_BuildValue("s", arg1);
-	
 	return out;
 }
 
@@ -5462,17 +5527,16 @@ static PyObject* pysamp_showplayerdialog(PyObject *self, PyObject *args)
 
 static PyObject* pysamp_gpci(PyObject *self, PyObject *args)
 {
-	int arg2 = -1;
 	int arg0 = -1;
-	if (!PyArg_ParseTuple(args, "ii:gpci", &arg0, &arg2))
+	if (!PyArg_ParseTuple(args, "i:gpci", &arg0))
 	{
 		PyErr_Print();
 		return NULL;
 	}
-	char* arg1 = new char[arg2];
-	bool ret = gpci(arg0, arg1, arg2);
+        // Max gpci size is 41 including final '\0'
+	char arg1[41];
+	bool ret = gpci(arg0, arg1, 41);
 	PyObject* out = Py_BuildValue("s", arg1);
-
 	return out;
 }
 
