@@ -1,6 +1,9 @@
 #ifndef samp_h
 #define samp_h
 #include <Python.h>
+#include <algorithm>
+#include <string>
+#include <sstream>
 #include <iostream>
 #include "sampgdk.h"
 #include "const.h"
@@ -6229,6 +6232,8 @@ static PyObject* pysamp_getvehiclemodelinfo(PyObject *self, PyObject *args)
 	return out;
 }
 
+extern std::string logprintf_buffer;
+
 static PyObject* logprintf_write(PyObject *self, PyObject *args)
 {
 	char *text;
@@ -6239,31 +6244,38 @@ static PyObject* logprintf_write(PyObject *self, PyObject *args)
 		return NULL;
 	}
 
-	unsigned int len_text = strlen(text);
+	std::stringstream text_stream(logprintf_buffer + text);
+	std::string line, text_stream_string = text_stream.str();
+	unsigned int num_lines = std::count(
+		text_stream_string.begin(),
+		text_stream_string.end(),
+		'\n'
+	), printed_len = 0;
 
-	if(
-		len_text == 0
-		|| (
-			len_text == 1
-			&& text[0] == '\n'
-		)
+	for(
+		unsigned int current_line = 0;
+		current_line < num_lines
+		&& std::getline(text_stream, line);
+		++current_line
 	)
 	{
-		// We will not print an empty line in the logs
-		PyMem_Free((void *)text);
-		return PyLong_FromUnsignedLong(0);
+		sampgdk::logprintf(line.c_str());
+		printed_len += line.length();
 	}
-	if(text[len_text - 1] == '\n')
-		// Truncate final newline
-		text[--len_text] = '\0';
 
-	sampgdk::logprintf(text);
+	std::getline(text_stream, logprintf_buffer);
+
 	PyMem_Free((void *)text);
-	return PyLong_FromUnsignedLong(len_text);
+	return PyLong_FromUnsignedLong(printed_len);
 }
 
 static PyObject* logprintf_flush(PyObject *self, PyObject *args)
 {
+	if(logprintf_buffer.length())
+	{
+		sampgdk::logprintf(logprintf_buffer.c_str());
+		logprintf_buffer.clear();
+	}
 	Py_RETURN_NONE;
 }
 
@@ -6667,7 +6679,7 @@ static PyModuleDef PySAMPModule = {
 
 static PyMethodDef LogPrintfMethods[] = {
 	{ "write", logprintf_write, METH_VARARGS, "Writes to server_log.txt - assigned to sys.std{out,err}.write at startup." },
-	{ "flush", logprintf_flush, METH_VARARGS, "Should flush server_log.txt writes - a no-op in practice (already done by default)." },
+	{ "flush", logprintf_flush, METH_VARARGS, "Flushes server_log.txt writes - empties internal line buffer into server_log.txt." },
 	{ NULL, NULL, 0, NULL },
 };
 
