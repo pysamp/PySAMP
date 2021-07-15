@@ -1,5 +1,6 @@
 #include "pygamemode.h"
 
+std::string logprintf_buffer;
 
 //see http://stackoverflow.com/questions/8032080/how-to-convert-char-to-wchar-t
 const wchar_t *GetWC(const char *c)
