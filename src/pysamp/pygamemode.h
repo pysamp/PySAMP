@@ -4,7 +4,6 @@
 #include <Python.h>
 #include "sampgdk.h"
 #include <stdexcept>
-#include "samp.h"
 
 #ifdef DEBUG
 #define PY_DEBUG

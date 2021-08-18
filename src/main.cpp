@@ -40,6 +40,7 @@ PLUGIN_EXPORT void PLUGIN_CALL ProcessTick()
 {
 	if (PySAMP::isLoaded()) {
 		PySAMP::callback("OnProcessTick", NULL);
+		PySAMP::processTick((unsigned int)GetTickCount());
 	}
 	Py_BEGIN_ALLOW_THREADS
 	sampgdk::ProcessTick();

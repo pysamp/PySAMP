@@ -1,4 +1,5 @@
 #include "pygamemode.h"
+#include "samp.h"
 
 std::string logprintf_buffer;
 
@@ -128,6 +129,9 @@ int PyGamemode::callback(const char * name, PyObject * pArgs, bool obtainLock)
 
 	if (obtainLock)
 		gstate = PyGILState_Ensure();
+
+	if (!PyObject_HasAttrString(pModule, name))
+		return ret;
 
 	PyObject* pFunc = PyObject_GetAttrString(pModule, name);
 

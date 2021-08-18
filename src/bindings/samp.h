@@ -7,6 +7,9 @@
 #include <iostream>
 #include "sampgdk.h"
 #include "const.h"
+#include "pysamp/pysamp.h"
+#include "timer.h"
+
 
 static PyObject* pysamp_createactor(PyObject *self, PyObject *args)
 {
@@ -6232,6 +6235,59 @@ static PyObject* pysamp_getvehiclemodelinfo(PyObject *self, PyObject *args)
 	return out;
 }
 
+static PyObject* pysamp_settimer(PyObject *self, PyObject *args)
+{
+	PyObject* function;
+	unsigned int interval;
+	bool repeating;
+	PyObject* arguments = NULL;
+
+	if(!PyArg_ParseTuple(args, "OIb|O:SetTimer", &function, &interval, &repeating, &arguments))
+	{
+		PyErr_Print();
+		return NULL;
+	}
+
+	if(!PyCallable_Check(function))
+	{
+		PyErr_SetString(PyExc_TypeError, "function must be callable");
+		return NULL;
+	}
+
+	if(
+		arguments != NULL
+		&& !PyTuple_Check(arguments)
+	)
+	{
+		PyErr_SetString(PyExc_TypeError, "arguments must be a tuple if present");
+		return NULL;
+	}
+
+	Timer* timer = new Timer(
+		function,
+		arguments,
+		interval,
+		repeating
+	);
+	PySAMP::addTimer(*timer);
+
+	return Py_BuildValue("i", timer->get_id());
+}
+
+static PyObject* pysamp_killtimer(PyObject *self, PyObject *args)
+{
+	int id;
+
+	if(!PyArg_ParseTuple(args, "i:KillTimer", &id))
+	{
+		PyErr_Print();
+		return NULL;
+	}
+
+	PySAMP::removeTimer(id);
+	Py_RETURN_NONE;
+}
+
 extern std::string logprintf_buffer;
 
 static PyObject* logprintf_write(PyObject *self, PyObject *args)
@@ -6670,6 +6726,8 @@ static PyMethodDef PySAMPMethods[] = {
 	{ "CreatePlayer3DTextLabel", pysamp_createplayer3dtextlabel, METH_VARARGS, NULL },
 	{ "DeletePlayer3DTextLabel", pysamp_deleteplayer3dtextlabel, METH_VARARGS, NULL },
 	{ "UpdatePlayer3DTextLabelText", pysamp_updateplayer3dtextlabeltext, METH_VARARGS, NULL },
+	{ "SetTimer", pysamp_settimer, METH_VARARGS, NULL },
+	{ "KillTimer", pysamp_killtimer, METH_VARARGS, NULL },
 	{ NULL, NULL, 0, NULL }
 };
 
