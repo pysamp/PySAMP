@@ -17,13 +17,16 @@
 
 
 #include "pygamemode.h"
+#include "timer.h"
 
 
+class PyGamemode;
 
 class PySAMP
 {
 private:
 	static PyGamemode* gamemode;
+	static TimerManager* timer_manager;
 public:
 	static void load();
 	static void reload();
@@ -34,6 +37,9 @@ public:
 	static bool isInitialized();
 	static bool isLoaded();
 	static bool isEnabled();
+	static void addTimer(Timer& timer);
+	static void removeTimer(int id);
+	static void processTick(unsigned int currentTick);
 };
 
 

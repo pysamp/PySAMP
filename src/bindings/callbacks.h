@@ -4,8 +4,7 @@
 #include "sampgdk.h"
 #include "pysamp/pysamp.h"
 
-#include <stdio.h>
-#include <stdarg.h>
+#include <unordered_map>
 
 std::unordered_map<std::string, std::string> _createCallbackFormatMap()
 {

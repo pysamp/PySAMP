@@ -63,6 +63,8 @@ add_samp_plugin(PySAMP
   pysamp/pysamp.h
   pysamp/pygamemode.cpp
   pysamp/pygamemode.h
+  pysamp/timer.cpp
+  pysamp/timer.h
   bindings/callbacks.h
   bindings/samp.h
   bindings/const.h
