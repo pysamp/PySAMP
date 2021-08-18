@@ -6235,14 +6235,13 @@ static PyObject* pysamp_getvehiclemodelinfo(PyObject *self, PyObject *args)
 	return out;
 }
 
-static PyObject* pysamp_settimer(PyObject *self, PyObject *args)
+Timer* timer_from_args(PyObject *args, PyObject *arguments)
 {
 	PyObject* function;
 	unsigned int interval;
 	bool repeating;
-	PyObject* arguments = NULL;
 
-	if(!PyArg_ParseTuple(args, "OIb|O:SetTimer", &function, &interval, &repeating, &arguments))
+	if(!PyArg_ParseTuple(args, "OIb:SetTimer", &function, &interval, &repeating))
 	{
 		PyErr_Print();
 		return NULL;
@@ -6263,12 +6262,36 @@ static PyObject* pysamp_settimer(PyObject *self, PyObject *args)
 		return NULL;
 	}
 
-	Timer* timer = new Timer(
+	return new Timer(
 		function,
 		arguments,
 		interval,
 		repeating
 	);
+}
+
+static PyObject* pysamp_settimer(PyObject *self, PyObject *args)
+{
+	PyObject* arguments = NULL;
+	Py_ssize_t len_args = PyTuple_Size(args);
+
+	if(len_args > 3)
+	{
+		arguments = PyTuple_GetSlice(args, 3, len_args);
+		args = PyTuple_GetSlice(args, 0, 3);
+	}
+
+	Timer* timer = timer_from_args(args, arguments);
+
+	if(len_args > 3)
+	{
+		Py_XDECREF(arguments);
+		Py_DECREF(args);
+	}
+
+	if(timer == NULL)
+		return NULL;
+
 	PySAMP::addTimer(*timer);
 
 	return Py_BuildValue("i", timer->get_id());
