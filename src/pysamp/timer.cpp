@@ -62,7 +62,7 @@ void TimerManager::remove_timer(int id)
 		if(timer->get_id() != id)
 			continue;
 
-		_remove_timer(timer);
+		timers.erase(timer);
 		break;
 	}
 }
@@ -72,36 +72,44 @@ void TimerManager::process_timers(unsigned int current_tick)
 	if(disabled)
 		return;
 
-	bool did_i_break;
-
-	do
+	for(auto timer = timers.begin(); timer != timers.end();)
 	{
-		did_i_break = false;
+		int id = timer->get_id();
+		bool repeating = timer->is_repeating();
 
-		for(auto timer = timers.begin(); timer != timers.end(); ++timer)
+		if(!timer->process(current_tick))
 		{
-			bool repeating = timer->is_repeating();
-
-			if(!timer->process(current_tick))
-				continue;
-
-			if(!repeating)
-				_remove_timer(timer);
-
-			// XXX: Both process() and _remove_timer() could invalidate iterator
-			did_i_break = true;
-			break;
+			// Current timer wasn't processed
+			++timer;
+			continue;
 		}
-	} while(did_i_break);
+
+		if(
+			!repeating
+			&& _timer_exists(id)
+		)
+		{
+			// Current timer was processed and doesn't repeat
+			timer = timers.erase(timer);
+			continue;
+		}
+
+		// Current timer was processed and repeats, process next
+		++timer;
+	}
 }
 
 void TimerManager::clear_timers()
 {
-	for(auto timer = timers.begin(); timer != timers.end(); ++timer)
-		timer = _remove_timer(timer);
+	for(auto timer = timers.begin(); timer != timers.end();)
+		timer = timers.erase(timer);
 }
 
-std::deque<Timer>::iterator TimerManager::_remove_timer(std::deque<Timer>::iterator timer)
+bool TimerManager::_timer_exists(int id)
 {
-	return timers.erase(timer);
+	for(auto timer = timers.begin(); timer != timers.end(); ++timer)
+		if(timer->get_id() == id)
+			return true;
+
+	return false;
 }

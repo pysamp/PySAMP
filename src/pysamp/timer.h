@@ -46,7 +46,7 @@ public:
 	void disable() { disabled = true; };
 
 private:
-	std::deque<Timer>::iterator _remove_timer(std::deque<Timer>::iterator timer);
+	bool _timer_exists(int id);
 
 	std::deque<Timer> timers;
 	bool disabled;
