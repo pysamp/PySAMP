@@ -77,24 +77,16 @@ void TimerManager::process_timers(unsigned int current_tick)
 		int id = timer->get_id();
 		bool repeating = timer->is_repeating();
 
-		if(!timer->process(current_tick))
-		{
-			// Current timer wasn't processed
-			++timer;
-			continue;
-		}
-
 		if(
-			!repeating
+			timer->process(current_tick)
+			&& !repeating
 			&& _timer_exists(id)
 		)
 		{
-			// Current timer was processed and doesn't repeat
 			timer = timers.erase(timer);
 			continue;
 		}
 
-		// Current timer was processed and repeats, process next
 		++timer;
 	}
 }
