@@ -6249,7 +6249,7 @@ Timer* timer_from_args(PyObject *args, PyObject *arguments)
 
 	if(!PyCallable_Check(function))
 	{
-		PyErr_SetString(PyExc_TypeError, "SetTimer() function must be callable");
+		PyErr_SetString(PyExc_TypeError, "SetTimer() 'function' argument must be callable (pos 1)");
 		return NULL;
 	}
 
