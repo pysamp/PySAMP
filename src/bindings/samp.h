@@ -6249,16 +6249,7 @@ Timer* timer_from_args(PyObject *args, PyObject *arguments)
 
 	if(!PyCallable_Check(function))
 	{
-		PyErr_SetString(PyExc_TypeError, "function must be callable");
-		return NULL;
-	}
-
-	if(
-		arguments != NULL
-		&& !PyTuple_Check(arguments)
-	)
-	{
-		PyErr_SetString(PyExc_TypeError, "arguments must be a tuple if present");
+		PyErr_SetString(PyExc_TypeError, "SetTimer() function must be callable");
 		return NULL;
 	}
 
