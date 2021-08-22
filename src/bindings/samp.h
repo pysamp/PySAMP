@@ -6302,6 +6302,100 @@ static PyObject* pysamp_killtimer(PyObject *self, PyObject *args)
 	Py_RETURN_NONE;
 }
 
+void _arguments_to_amx_params(PyObject *pyargs, cell *amxargs)
+{
+	Py_ssize_t pyargs_count = PyTuple_Size(pyargs);
+	PyObject* current_argument = NULL;
+
+	for(Py_ssize_t i = 1; i < pyargs_count; i++)
+	{
+		current_argument = PyTuple_GetItem(pyargs, i);
+
+		if(PyBool_Check(current_argument))
+		{
+			amxargs[i] = PyObject_IsTrue(current_argument);
+		}
+		else if(PyLong_Check(current_argument))
+		{
+			amxargs[i] = PyLong_AsLong(current_argument);
+		}
+		else if(PyFloat_Check(current_argument))
+		{
+			float value = PyFloat_AsDouble(current_argument);
+			amxargs[i] = amx_ftoc(value);
+		}
+		else
+		{
+			char *repr;
+			size_t size;
+			FILE *bytes_io = open_memstream(&repr, &size);
+			PyObject_Print(current_argument, bytes_io, 0);
+			fclose(bytes_io);
+			PyErr_Format(
+				PyExc_TypeError,
+				"CallNativeFunction() could not convert argument %s in position %d",
+				repr,
+				i
+			);
+			free(repr);
+			return;
+		}
+	}
+}
+
+static PyObject* pysamp_callnativefunction(PyObject *self, PyObject *args)
+{
+	PyObject* function_str = NULL;
+	const char *function_name = NULL;
+
+	function_str = PyTuple_GetItem(args, 0);
+
+	if(function_str == NULL)
+	{
+		PyErr_SetString(
+			PyExc_TypeError,
+			"CallNativeFunction() missing required argument 'func_name' (pos 1)"
+		);
+		return NULL;
+	}
+
+	function_name = PyUnicode_AsUTF8AndSize(function_str, NULL);
+
+	if(function_name == NULL)
+	{
+		PyErr_Format(
+			PyExc_TypeError,
+			"CallNativeFunction() argument 'func_name' (pos 1) must be str, not %s",
+			Py_TYPE(function_str)->tp_name
+		);
+		return NULL;
+	}
+
+	AMX_NATIVE amx_function = sampgdk::FindNative(function_name);
+
+	if(amx_function == NULL)
+	{
+		PyErr_Format(
+			PyExc_TypeError,
+			"CallNativeFunction() unknown native function %s",
+			function_name
+		);
+		return NULL;
+	}
+
+	ssize_t amx_params_size = PyTuple_Size(args);
+	cell amx_params[amx_params_size] = {};
+	amx_params[0] = (amx_params_size - 1) * sizeof(cell);
+	_arguments_to_amx_params(args, amx_params);
+
+	if(PyErr_Occurred() != NULL)
+		return NULL;
+
+	cell return_value = sampgdk::CallNative(amx_function, amx_params);
+
+	return Py_BuildValue("i", return_value);
+}
+
 extern std::string logprintf_buffer;
 
 static PyObject* logprintf_write(PyObject *self, PyObject *args)
@@ -6742,6 +6836,7 @@ static PyMethodDef PySAMPMethods[] = {
 	{ "UpdatePlayer3DTextLabelText", pysamp_updateplayer3dtextlabeltext, METH_VARARGS, NULL },
 	{ "SetTimer", pysamp_settimer, METH_VARARGS, NULL },
 	{ "KillTimer", pysamp_killtimer, METH_VARARGS, NULL },
+	{ "CallNativeFunction", pysamp_callnativefunction, METH_VARARGS, NULL },
 	{ NULL, NULL, 0, NULL }
 };
 
