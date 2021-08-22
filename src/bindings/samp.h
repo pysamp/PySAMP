@@ -6302,27 +6302,30 @@ static PyObject* pysamp_killtimer(PyObject *self, PyObject *args)
 	Py_RETURN_NONE;
 }
 
-void _arguments_to_amx_params(PyObject *pyargs, cell *amxargs)
+static cell* _tuple_to_amx_params(PyObject *tuple)
 {
-	Py_ssize_t pyargs_count = PyTuple_Size(pyargs);
+	Py_ssize_t len_tuple = PyTuple_Size(tuple);
+	cell *amx_params = new cell[len_tuple];
 	PyObject* current_argument = NULL;
 
-	for(Py_ssize_t i = 1; i < pyargs_count; i++)
+	amx_params[0] = (len_tuple - 1) * sizeof(cell);
+
+	for(Py_ssize_t i = 1; i < len_tuple; i++)
 	{
-		current_argument = PyTuple_GetItem(pyargs, i);
+		current_argument = PyTuple_GetItem(tuple, i);
 
 		if(PyBool_Check(current_argument))
 		{
-			amxargs[i] = PyObject_IsTrue(current_argument);
+			amx_params[i] = PyObject_IsTrue(current_argument);
 		}
 		else if(PyLong_Check(current_argument))
 		{
-			amxargs[i] = PyLong_AsLong(current_argument);
+			amx_params[i] = PyLong_AsLong(current_argument);
 		}
 		else if(PyFloat_Check(current_argument))
 		{
 			float value = PyFloat_AsDouble(current_argument);
-			amxargs[i] = amx_ftoc(value);
+			amx_params[i] = amx_ftoc(value);
 		}
 		else
 		{
@@ -6338,9 +6341,11 @@ void _arguments_to_amx_params(PyObject *pyargs, cell *amxargs)
 				i
 			);
 			free(repr);
-			return;
+			return NULL;
 		}
 	}
+
+	return amx_params;
 }
 
 static PyObject* pysamp_callnativefunction(PyObject *self, PyObject *args)
@@ -6383,15 +6388,13 @@ static PyObject* pysamp_callnativefunction(PyObject *self, PyObject *args)
 		return NULL;
 	}
 
-	ssize_t amx_params_size = PyTuple_Size(args);
-	cell amx_params[amx_params_size] = {};
-	amx_params[0] = (amx_params_size - 1) * sizeof(cell);
-	_arguments_to_amx_params(args, amx_params);
+	cell *amx_params = _tuple_to_amx_params(args);
 
-	if(PyErr_Occurred() != NULL)
+	if(amx_params == NULL)
 		return NULL;
 
 	cell return_value = sampgdk::CallNative(amx_function, amx_params);
+	delete[] amx_params;
 
 	return Py_BuildValue("i", return_value);
 }
