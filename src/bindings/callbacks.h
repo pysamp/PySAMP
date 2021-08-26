@@ -125,14 +125,19 @@ PyObject * createParameterObject(AMX *amx, const char *callback_name, cell *para
                 argument = PyLong_FromLong((int) param);
                 break;
             case 'y':
-                int length;
-                char *string_value;
-                cell *phys_addr;
-                if (amx_GetAddr(amx, param, &phys_addr) != AMX_ERR_NONE) { //param == 0 || 
+            {
+                int length = -1;
+                char *string_value = NULL;
+                cell *phys_addr = NULL;
+                if (amx_GetAddr(amx, param, &phys_addr) != AMX_ERR_NONE) {
                     argument = Py_None;
                     break;
                 }
                 amx_StrLen(phys_addr, &length);
+                if (length == -1) {
+                    argument = Py_None;
+                    break;
+                }
                 string_value = (char *)malloc((length + 1) * sizeof(char));
                 if (amx_GetString(string_value, phys_addr, 0, length + 1) != AMX_ERR_NONE) {
                     free(string_value);
@@ -143,6 +148,7 @@ PyObject * createParameterObject(AMX *amx, const char *callback_name, cell *para
                 argument = PyUnicode_Decode(string_value, length, "cp1252", "strict");
                 free(string_value);
                 break;
+            }
             case 'O':
                 if (!param) {
                     argument = Py_False;

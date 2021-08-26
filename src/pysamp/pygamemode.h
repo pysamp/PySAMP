@@ -4,6 +4,7 @@
 #include <Python.h>
 #include "sampgdk.h"
 #include <stdexcept>
+#include <unordered_map>
 
 #ifdef DEBUG
 #define PY_DEBUG
@@ -29,6 +30,7 @@ private:
 	bool loaded = false;
 	bool disabled = false;
 	const char* path;
+	std::unordered_map<std::string, PyObject*> config;
 public:
 	PyGamemode(const char* apath);
 	~PyGamemode();
@@ -39,6 +41,8 @@ public:
 	bool isLoaded();
 	void disable();
 	bool isEnabled();
+	PyObject* pyConfig(PyObject *self, PyObject *args, PyObject *kwargs);
+	std::unordered_map<std::string, PyObject*> getConfig() { return this->config; };
 };
 
 #endif
