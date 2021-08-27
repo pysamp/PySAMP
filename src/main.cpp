@@ -1,15 +1,5 @@
-#define VERSION "1.1.0-300"
-
-#include <stdio.h>
-#include <string.h>
-#include "config.h"
 #include "main.h"
-#include "sampgdk.h"
-#include "pysamp/pysamp.h"
-#include "bindings/callbacks.h"
-#include "test/callbackstest.h"
 
-extern void *pAMXFunctions;
 
 PLUGIN_EXPORT unsigned int PLUGIN_CALL Supports()
 {
@@ -18,106 +8,117 @@ PLUGIN_EXPORT unsigned int PLUGIN_CALL Supports()
 
 PLUGIN_EXPORT bool PLUGIN_CALL Load(void **ppData) 
 {
-	pAMXFunctions = ppData[PLUGIN_DATA_AMX_EXPORTS];
-	sampgdk::logprintf("PySAMP %s for python%s", PYSAMP_VERSION, PYTHON_VERSION);
+	bool ret = sampgdk::Load(ppData);
 
 #ifndef WIN32
-	//load libpython to support numpy and other libraries
 	dlopen(PYTHON_LIBRARY, RTLD_GLOBAL);
 #endif
-	
-	return sampgdk::Load(ppData);
+
+	sampgdk::logprintf("\n\n%s", PYSAMP_LOADING_SCREEN_1);
+	sampgdk::logprintf("%s", PYSAMP_LOADING_SCREEN_2);
+	sampgdk::logprintf("%s", PYSAMP_LOADING_SCREEN_3);
+	sampgdk::logprintf("%s\n\n", PYSAMP_LOADING_SCREEN_4);
+	sampgdk::logprintf("PySAMP %s for Python %s\n", PYSAMP_VERSION_STR, PYTHON_VERSION_STR);
+	return ret;
 }
 
 PLUGIN_EXPORT void PLUGIN_CALL Unload()
 {
-	PySAMP::disable();
-	// if (PySAMP::isInitialized())
-    //		sampgdk::Unload();
+	PySAMP::unload();
+	sampgdk::Unload();
 }
 
 PLUGIN_EXPORT void PLUGIN_CALL ProcessTick()
 {
-	if (PySAMP::isLoaded()) {
-		PySAMP::callback("OnProcessTick", NULL);
-		PySAMP::processTick((unsigned int)GetTickCount());
-	}
-	Py_BEGIN_ALLOW_THREADS
+	if(PySAMP::isLoaded())
+		PySAMP::processTick(GetTickCount());
+
 	sampgdk::ProcessTick();
-	Py_END_ALLOW_THREADS
-}
-
-PLUGIN_EXPORT bool PLUGIN_CALL OnGameModeExit()
-{
-	PySAMP::disable();
-
-	bool result = PySAMP::callback("OnGameModeExit", NULL);
-	return result;
 }
 
 PLUGIN_EXPORT bool PLUGIN_CALL OnGameModeInit()
 {
-	sampgdk::logprintf("Loading PYSAMP");
-	try {
-		if (PySAMP::isLoaded())
-			PySAMP::reload();
-		else
+	sampgdk::logprintf("Loading PYSAMP...");
+
+	try
+	{
+		if(!PySAMP::isLoaded())
 			PySAMP::load();
-	} catch (std::exception) {
-		return false;
+		else
+			PySAMP::reload();
 	}
-	bool result = PySAMP::callback("OnGameModeInit", NULL);
-	return result;
-}
-
-
-PLUGIN_EXPORT bool PLUGIN_CALL OnPublicCall2(AMX *amx, const char *name,
-    cell *params, cell *retval, bool* stop)
-{
-	if (Py_IsInitialized() == 0)
+	catch(std::exception)
 	{
 		return false;
 	}
-
-	if (strcmp(name, "OnGameModeInit") == 0 || strcmp(name, "OnGameModeExit") == 0 || strcmp(name, "OnPlayerCommandText") == 0) {
-		return false;
-	}
-
-	bool doesStop = callback_return_configuration.count(name) > 0;
-	int result = PySAMP::callback(name, createParameterObject(amx, name, params));
-
-	if (
-		doesStop
-		&& result == callback_return_configuration.at(name)
-	)
-		*stop = true;
-
-	if (retval != NULL)
-		*retval = result;
-
+	bool result = PySAMP::callback("OnGameModeInit");
 	return result;
 }
 
+PLUGIN_EXPORT bool PLUGIN_CALL OnGameModeExit()
+{
+	sampgdk::logprintf("Unloading PySAMP...");
+	PySAMP::disable();
+
+	bool result = PySAMP::callback("OnGameModeExit");
+	return result;
+}
+
+PLUGIN_EXPORT bool PLUGIN_CALL OnPublicCall2(
+	AMX *amx,
+	const char *name,
+	cell *params,
+	cell *retval,
+	bool *stop
+)
+{
+	if(!Py_IsInitialized())
+		return false;
+
+	if(
+		strcmp(name, "OnGameModeInit") == 0
+		|| strcmp(name, "OnGameModeExit") == 0
+		|| strcmp(name, "OnPlayerCommandText") == 0
+	)
+		return false;
+
+	return PySAMP::callback(
+		name,
+		PySAMP::amxParamsToTuple(amx, name, params),
+		retval,
+		stop
+	);
+}
 
 PLUGIN_EXPORT bool PLUGIN_CALL OnRconCommand(const char * cmd) {
-	if (strcmp(cmd, "pyreload") == 0)
+	if(strcmp(cmd, "pyreload") == 0)
 	{
-		PySAMP::callback("OnPyUnload", NULL);
+		PySAMP::callback("OnPyUnload");
 		PySAMP::disable();
 		PySAMP::reload();
-		PySAMP::callback("OnPyReload", NULL);
+		PySAMP::callback("OnPyReload");
 		return true;
 	}
 
 	return false;
 }
 
-
-PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerCommandText(int playerid,
-	const char *cmdtext) {
-	bool ret = PySAMP::callback(
+PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerCommandText(
+	int playerid,
+	const char *cmdtext
+)
+{
+	return PySAMP::callback(
 		"OnPlayerCommandText",
-		Py_BuildValue("(iN)", playerid, PyUnicode_Decode(cmdtext, strlen(cmdtext), "cp1252", "strict"))
+		Py_BuildValue(
+			"(iN)",
+			playerid,
+			PyUnicode_Decode(
+				cmdtext,
+				strlen(cmdtext),
+				PySAMP::getEncoding().c_str(),
+				"strict"
+			)
+		)
 	);
-	return ret;
 }

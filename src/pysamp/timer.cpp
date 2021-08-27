@@ -26,6 +26,29 @@ Timer::~Timer()
 	Py_XDECREF(arguments);
 }
 
+Timer* Timer::from_args(PyObject *args, PyObject *arguments)
+{
+	PyObject* function;
+	unsigned int interval;
+	bool repeating;
+
+	if(!PyArg_ParseTuple(args, "OIb:SetTimer", &function, &interval, &repeating))
+		return NULL;
+
+	if(!PyCallable_Check(function))
+	{
+		PyErr_SetString(PyExc_TypeError, "SetTimer() 'function' argument must be callable (pos 1)");
+		return NULL;
+	}
+
+	return new Timer(
+		function,
+		arguments,
+		interval,
+		repeating
+	);
+}
+
 bool Timer::process(unsigned int current_tick)
 {
 	if((last_call_tick + interval) > current_tick)
