@@ -17,6 +17,7 @@ public:
 		bool repeating
 	);
 	~Timer();
+	static Timer* from_args(PyObject *args, PyObject *arguments);
 	bool process(unsigned int current_tick);
 	int get_id() { return id; };
 	bool is_repeating() { return repeating; };

@@ -1,56 +1,57 @@
 #include "pysamp.h"
+#include "pygamemode.h"
 
 PyGamemode* PySAMP::gamemode = nullptr;
 TimerManager* PySAMP::timer_manager = nullptr;
+CallbacksManager* PySAMP::callbacks = nullptr;
+ParamConverter* PySAMP::param_converter = nullptr;
 
 
 void PySAMP::load()
 {
 	sampgdk::logprintf("Loading PySAMP gamemode");
-	PySAMP::gamemode = new PyGamemode(PYTHON_PATH);
+	PySAMP::callbacks = new CallbacksManager();
+	PySAMP::gamemode = new PyGamemode(PYTHON_PATH, PySAMP::callbacks);
 	gamemode->load();
 	PySAMP::timer_manager = new TimerManager();
+	PySAMP::param_converter = new ParamConverter();
 }
 
 void PySAMP::reload()
 {
+	if(!PySAMP::isLoaded())
+		return;
+
 	sampgdk::logprintf("Reloading PySAMP gamemode");
-	if (PySAMP::isLoaded())
-	{
-		PySAMP::gamemode->reload();
-		PySAMP::timer_manager->enable();
-		PySAMP::timer_manager->clear_timers();
-	}
+	PySAMP::gamemode->reload();
+	PySAMP::timer_manager->enable();
+	PySAMP::timer_manager->clear_timers();
 }
 
 void PySAMP::disable()
 {
-	if (PySAMP::isLoaded())
-	{
-		PySAMP::gamemode->disable();
-		PySAMP::timer_manager->disable();
-	}
+	if(!PySAMP::isLoaded())
+		return;
+
+	PySAMP::gamemode->disable();
+	PySAMP::timer_manager->disable();
 }
 
 void PySAMP::unload()
 {
+	if(!PySAMP::isLoaded())
+		return;
+
 	sampgdk::logprintf("Unloading PySAMP gamemode");
-	delete PySAMP::gamemode;
-	PySAMP::gamemode = nullptr;
+	PySAMP::disable();
+	delete PySAMP::param_converter;
+	PySAMP::param_converter = nullptr;
 	delete PySAMP::timer_manager;
 	PySAMP::timer_manager = nullptr;
-}
-
-int PySAMP::callback(const char * name, PyObject * pArgs)
-{
-	return PySAMP::callback(name, pArgs, true);
-}
-
-int PySAMP::callback(const char * name, PyObject * pArgs, bool obtainLock)
-{
-	if(PySAMP::gamemode && PySAMP::gamemode->isLoaded())
-		return PySAMP::gamemode->callback(name, pArgs, obtainLock);
-	return 0;
+	delete PySAMP::gamemode;
+	PySAMP::gamemode = nullptr;
+	delete PySAMP::callbacks;
+	PySAMP::callbacks = nullptr;
 }
 
 bool PySAMP::isInitialized()
@@ -60,12 +61,18 @@ bool PySAMP::isInitialized()
 
 bool PySAMP::isLoaded()
 {
-	return PySAMP::isInitialized() && PySAMP::gamemode->isLoaded();
+	return(
+		PySAMP::isInitialized()
+		&& PySAMP::gamemode->isLoaded()
+	);
 }
 
 bool PySAMP::isEnabled()
 {
-	return PySAMP::isLoaded() && PySAMP::gamemode->isEnabled();
+	return(
+		PySAMP::isLoaded()
+		&& PySAMP::gamemode->isEnabled()
+	);
 }
 
 void PySAMP::addTimer(Timer& timer)
@@ -80,5 +87,107 @@ void PySAMP::removeTimer(int id)
 
 void PySAMP::processTick(unsigned int currentTick)
 {
+	PySAMP::callback("OnProcessTick");
+
+	// XXX: Perhaps make PyGamemode handle processing timers
+	PyThreadState *_save = PySAMP::gamemode->_save;
+	Py_BLOCK_THREADS
 	PySAMP::timer_manager->process_timers(currentTick);
+	Py_UNBLOCK_THREADS
+}
+
+std::string PySAMP::getEncoding()
+{
+	if(!PySAMP::isLoaded())
+		return std::string("cp1252");
+
+	return std::string(PyUnicode_AsUTF8AndSize(
+		PySAMP::gamemode->getConfig()["encoding"],
+		NULL
+	));
+}
+
+int PySAMP::callback(const std::string name)
+{
+	return PySAMP::callback(name, NULL);
+}
+
+int PySAMP::callback(const std::string name, PyObject* pArgs)
+{
+	return PySAMP::callback(name, pArgs, NULL, NULL);
+}
+
+int PySAMP::callback(
+	const std::string name,
+	PyObject* pArgs,
+	cell* retval,
+	bool* stop
+)
+{
+	if(!PySAMP::isLoaded())
+		return 0;
+
+	return PySAMP::gamemode->callback(
+		name,
+		pArgs,
+		retval,
+		stop
+	);
+}
+
+void PySAMP::registerCallback(const std::string name, const std::string format)
+{
+	if(!PySAMP::isLoaded())
+		return;
+
+	PySAMP::callbacks->addFormat(name, format);
+}
+
+std::string* PySAMP::getCallbackFormat(const std::string callback_name)
+{
+	if(!PySAMP::isLoaded())
+		return nullptr;
+
+	return PySAMP::callbacks->getFormat(callback_name);
+}
+
+int PySAMP::getConstant(const std::string constant_name)
+{
+	if(!PySAMP::isLoaded())
+		return -1;
+
+	return PySAMP::gamemode->constants.at(constant_name);
+}
+
+PyObject* PySAMP::pyConfig(PyObject *self, PyObject *args, PyObject *kwargs)
+{
+	if(!PySAMP::isLoaded())
+		return NULL;
+
+	return PySAMP::gamemode->pyConfig(self, args, kwargs);
+}
+
+PyObject* PySAMP::amxParamsToTuple(AMX *amx, const std::string callback_name, cell *params)
+{
+	if(!PySAMP::isLoaded())
+		return NULL;
+
+	std::string *format = PySAMP::callbacks->getFormat(callback_name);
+
+	if(format == nullptr)
+		return NULL;
+
+	return PySAMP::param_converter->to_tuple(
+		params,
+		*format,
+		amx
+	);
+}
+
+cell* PySAMP::tupleToAmxParams(PyObject* tuple)
+{
+	if(!PySAMP::isLoaded())
+		return NULL;
+
+	return PySAMP::param_converter->from_tuple(tuple);
 }
