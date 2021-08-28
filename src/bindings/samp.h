@@ -10,6 +10,17 @@
 #include "pysamp/pysamp.h"
 #include "timer.h"
 
+static PyGamemode* current_gamemode = NULL;
+
+std::string _py_encoding() {
+	if(current_gamemode == NULL)
+		return std::string("cp1252");
+
+	return std::string(PyUnicode_AsUTF8AndSize(
+		current_gamemode->getConfig()["encoding"],
+		NULL
+	));
+}
 
 static PyObject* pysamp_createactor(PyObject *self, PyObject *args)
 {
@@ -19,10 +30,8 @@ static PyObject* pysamp_createactor(PyObject *self, PyObject *args)
 	float arg1 = -1.0f;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "iffff:CreateActor", &arg0, &arg1, &arg2, &arg3, &arg4))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	int ret = CreateActor(arg0, arg1, arg2, arg3, arg4);
 	PyObject* out = Py_BuildValue("i", ret);
 	return out;
@@ -32,10 +41,8 @@ static PyObject* pysamp_destroyactor(PyObject *self, PyObject *args)
 {
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:DestroyActor", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = DestroyActor(arg0);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -47,10 +54,8 @@ static PyObject* pysamp_isactorstreamedin(PyObject *self, PyObject *args)
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ii:IsActorStreamedIn", &arg0, &arg1))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = IsActorStreamedIn(arg0, arg1);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -62,10 +67,8 @@ static PyObject* pysamp_setactorvirtualworld(PyObject *self, PyObject *args)
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ii:SetActorVirtualWorld", &arg0, &arg1))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = SetActorVirtualWorld(arg0, arg1);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -76,10 +79,8 @@ static PyObject* pysamp_getactorvirtualworld(PyObject *self, PyObject *args)
 {
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:GetActorVirtualWorld", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	int ret = GetActorVirtualWorld(arg0);
 	PyObject* out = Py_BuildValue("i", ret);
 	return out;
@@ -96,11 +97,9 @@ static PyObject* pysamp_applyactoranimation(PyObject *self, PyObject *args)
 	const char* arg2;
 	const char* arg1;
 	int arg0 = -1;
-	if (!PyArg_ParseTuple(args, "iesesfppppi:ApplyActorAnimation", &arg0, "cp1252", &arg1, "cp1252", &arg2, &arg3, &arg4, &arg5, &arg6, &arg7, &arg8))
-	{
-		PyErr_Print();
+	if (!PyArg_ParseTuple(args, "iesesfppppi:ApplyActorAnimation", &arg0, _py_encoding().c_str(), &arg1, _py_encoding().c_str(), &arg2, &arg3, &arg4, &arg5, &arg6, &arg7, &arg8))
 		return NULL;
-	}
+
 	bool ret = ApplyActorAnimation(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
 
 	PyMem_Free((void *)arg2);
@@ -115,10 +114,8 @@ static PyObject* pysamp_clearactoranimations(PyObject *self, PyObject *args)
 {
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:ClearActorAnimations", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = ClearActorAnimations(arg0);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -132,10 +129,8 @@ static PyObject* pysamp_setactorpos(PyObject *self, PyObject *args)
 	float arg1 = -1.0f;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ifff:SetActorPos", &arg0, &arg1, &arg2, &arg3))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = SetActorPos(arg0, arg1, arg2, arg3);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -149,10 +144,8 @@ static PyObject* pysamp_getactorpos(PyObject *self, PyObject *args)
 	float arg1 = -1.0f;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:GetActorPos", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = GetActorPos(arg0, &arg1, &arg2, &arg3);
 	PyObject* out = Py_BuildValue("fff", arg1, arg2, arg3);
 	return out;
@@ -163,10 +156,8 @@ static PyObject* pysamp_setactorfacingangle(PyObject *self, PyObject *args)
 	float arg1 = -1.0f;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "if:SetActorFacingAngle", &arg0, &arg1))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = SetActorFacingAngle(arg0, arg1);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -178,10 +169,8 @@ static PyObject* pysamp_getactorfacingangle(PyObject *self, PyObject *args)
 	float arg1 = -1.0f;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:GetActorFacingAngle", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = GetActorFacingAngle(arg0, &arg1);
 	PyObject* out = Py_BuildValue("f", arg1);
 	return out;
@@ -192,10 +181,8 @@ static PyObject* pysamp_setactorhealth(PyObject *self, PyObject *args)
 	float arg1 = -1.0f;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "if:SetActorHealth", &arg0, &arg1))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = SetActorHealth(arg0, arg1);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -207,10 +194,8 @@ static PyObject* pysamp_getactorhealth(PyObject *self, PyObject *args)
 	float arg1 = -1.0f;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:GetActorHealth", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = GetActorHealth(arg0, &arg1);
 	PyObject* out = Py_BuildValue("f", arg1);
 	return out;
@@ -221,10 +206,8 @@ static PyObject* pysamp_setactorinvulnerable(PyObject *self, PyObject *args)
 	int arg1 = true;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i|p:SetActorInvulnerable", &arg0, &arg1))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = SetActorInvulnerable(arg0, arg1);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -235,10 +218,8 @@ static PyObject* pysamp_isactorinvulnerable(PyObject *self, PyObject *args)
 {
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:IsActorInvulnerable", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = IsActorInvulnerable(arg0);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -249,10 +230,8 @@ static PyObject* pysamp_isvalidactor(PyObject *self, PyObject *args)
 {
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:IsValidActor", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = IsValidActor(arg0);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -270,10 +249,8 @@ static PyObject* pysamp_createobject(PyObject *self, PyObject *args)
 	float arg1 = -1.0f;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "iffffff|f:CreateObject", &arg0, &arg1, &arg2, &arg3, &arg4, &arg5, &arg6, &arg7))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	int ret = CreateObject(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
 	PyObject* out = Py_BuildValue("i", ret);
 	return out;
@@ -290,10 +267,8 @@ static PyObject* pysamp_attachobjecttovehicle(PyObject *self, PyObject *args)
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "iiffffff:AttachObjectToVehicle", &arg0, &arg1, &arg2, &arg3, &arg4, &arg5, &arg6, &arg7))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = AttachObjectToVehicle(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -312,10 +287,8 @@ static PyObject* pysamp_attachobjecttoobject(PyObject *self, PyObject *args)
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "iiffffff|p:AttachObjectToObject", &arg0, &arg1, &arg2, &arg3, &arg4, &arg5, &arg6, &arg7, &arg8))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = AttachObjectToObject(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -333,10 +306,8 @@ static PyObject* pysamp_attachobjecttoplayer(PyObject *self, PyObject *args)
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "iiffffff:AttachObjectToPlayer", &arg0, &arg1, &arg2, &arg3, &arg4, &arg5, &arg6, &arg7))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = AttachObjectToPlayer(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -350,10 +321,8 @@ static PyObject* pysamp_setobjectpos(PyObject *self, PyObject *args)
 	float arg1 = -1.0f;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ifff:SetObjectPos", &arg0, &arg1, &arg2, &arg3))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = SetObjectPos(arg0, arg1, arg2, arg3);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -367,10 +336,8 @@ static PyObject* pysamp_getobjectpos(PyObject *self, PyObject *args)
 	float arg1 = -1.0f;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:GetObjectPos", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = GetObjectPos(arg0, &arg1, &arg2, &arg3);
 	PyObject* out = Py_BuildValue("fff", arg1, arg2, arg3);
 	return out;
@@ -383,10 +350,8 @@ static PyObject* pysamp_setobjectrot(PyObject *self, PyObject *args)
 	float arg1 = -1.0f;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ifff:SetObjectRot", &arg0, &arg1, &arg2, &arg3))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = SetObjectRot(arg0, arg1, arg2, arg3);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -400,10 +365,8 @@ static PyObject* pysamp_getobjectrot(PyObject *self, PyObject *args)
 	float arg1 = -1.0f;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:GetObjectRot", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = GetObjectRot(arg0, &arg1, &arg2, &arg3);
 	PyObject* out = Py_BuildValue("fff", arg1, arg2, arg3);
 	return out;
@@ -413,10 +376,8 @@ static PyObject* pysamp_getobjectmodel(PyObject *self, PyObject *args)
 {
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:GetObjectModel", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	int ret = GetObjectModel(arg0);
 	PyObject* out = Py_BuildValue("i", ret);
 	return out;
@@ -426,10 +387,8 @@ static PyObject* pysamp_setobjectnocameracol(PyObject *self, PyObject *args)
 {
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:SetObjectNoCameraCol", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = SetObjectNoCameraCol(arg0);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -440,10 +399,8 @@ static PyObject* pysamp_isvalidobject(PyObject *self, PyObject *args)
 {
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:IsValidObject", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = IsValidObject(arg0);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -454,10 +411,8 @@ static PyObject* pysamp_destroyobject(PyObject *self, PyObject *args)
 {
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:DestroyObject", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = DestroyObject(arg0);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -475,10 +430,8 @@ static PyObject* pysamp_moveobject(PyObject *self, PyObject *args)
 	float arg1 = -1.0f;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "iffff|fff:MoveObject", &arg0, &arg1, &arg2, &arg3, &arg4, &arg5, &arg6, &arg7))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	int ret = MoveObject(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
 	PyObject* out = Py_BuildValue("i", ret);
 	return out;
@@ -488,10 +441,8 @@ static PyObject* pysamp_stopobject(PyObject *self, PyObject *args)
 {
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:StopObject", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = StopObject(arg0);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -502,10 +453,8 @@ static PyObject* pysamp_isobjectmoving(PyObject *self, PyObject *args)
 {
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:IsObjectMoving", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = IsObjectMoving(arg0);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -517,10 +466,8 @@ static PyObject* pysamp_editobject(PyObject *self, PyObject *args)
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ii:EditObject", &arg0, &arg1))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = EditObject(arg0, arg1);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -532,10 +479,8 @@ static PyObject* pysamp_editplayerobject(PyObject *self, PyObject *args)
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ii:EditPlayerObject", &arg0, &arg1))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = EditPlayerObject(arg0, arg1);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -546,10 +491,8 @@ static PyObject* pysamp_selectobject(PyObject *self, PyObject *args)
 {
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:SelectObject", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = SelectObject(arg0);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -560,10 +503,8 @@ static PyObject* pysamp_canceledit(PyObject *self, PyObject *args)
 {
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:CancelEdit", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = CancelEdit(arg0);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -582,10 +523,8 @@ static PyObject* pysamp_createplayerobject(PyObject *self, PyObject *args)
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "iiffffff|f:CreatePlayerObject", &arg0, &arg1, &arg2, &arg3, &arg4, &arg5, &arg6, &arg7, &arg8))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	int ret = CreatePlayerObject(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
 	PyObject* out = Py_BuildValue("i", ret);
 	return out;
@@ -603,10 +542,8 @@ static PyObject* pysamp_attachplayerobjecttoplayer(PyObject *self, PyObject *arg
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "iiiffffff:AttachPlayerObjectToPlayer", &arg0, &arg1, &arg2, &arg3, &arg4, &arg5, &arg6, &arg7, &arg8))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = AttachPlayerObjectToPlayer(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -625,10 +562,8 @@ static PyObject* pysamp_attachplayerobjecttovehicle(PyObject *self, PyObject *ar
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "iiiffffff:AttachPlayerObjectToVehicle", &arg0, &arg1, &arg2, &arg3, &arg4, &arg5, &arg6, &arg7, &arg8))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = AttachPlayerObjectToVehicle(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -643,10 +578,8 @@ static PyObject* pysamp_setplayerobjectpos(PyObject *self, PyObject *args)
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "iifff:SetPlayerObjectPos", &arg0, &arg1, &arg2, &arg3, &arg4))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = SetPlayerObjectPos(arg0, arg1, arg2, arg3, arg4);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -661,10 +594,8 @@ static PyObject* pysamp_getplayerobjectpos(PyObject *self, PyObject *args)
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ii:GetPlayerObjectPos", &arg0, &arg1))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = GetPlayerObjectPos(arg0, arg1, &arg2, &arg3, &arg4);
 	PyObject* out = Py_BuildValue("fff", arg2, arg3, arg4);
 	return out;
@@ -678,10 +609,8 @@ static PyObject* pysamp_setplayerobjectrot(PyObject *self, PyObject *args)
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "iifff:SetPlayerObjectRot", &arg0, &arg1, &arg2, &arg3, &arg4))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = SetPlayerObjectRot(arg0, arg1, arg2, arg3, arg4);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -696,10 +625,8 @@ static PyObject* pysamp_getplayerobjectrot(PyObject *self, PyObject *args)
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ii:GetPlayerObjectRot", &arg0, &arg1))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = GetPlayerObjectRot(arg0, arg1, &arg2, &arg3, &arg4);
 	PyObject* out = Py_BuildValue("fff", arg2, arg3, arg4);
 	return out;
@@ -710,10 +637,8 @@ static PyObject* pysamp_getplayerobjectmodel(PyObject *self, PyObject *args)
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ii:GetPlayerObjectModel", &arg0, &arg1))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	int ret = GetPlayerObjectModel(arg0, arg1);
 	PyObject* out = Py_BuildValue("i", ret);
 	return out;
@@ -724,10 +649,8 @@ static PyObject* pysamp_setplayerobjectnocameracol(PyObject *self, PyObject *arg
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ii:SetPlayerObjectNoCameraCol", &arg0, &arg1))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = SetPlayerObjectNoCameraCol(arg0, arg1);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -739,10 +662,8 @@ static PyObject* pysamp_isvalidplayerobject(PyObject *self, PyObject *args)
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ii:IsValidPlayerObject", &arg0, &arg1))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = IsValidPlayerObject(arg0, arg1);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -754,10 +675,8 @@ static PyObject* pysamp_destroyplayerobject(PyObject *self, PyObject *args)
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ii:DestroyPlayerObject", &arg0, &arg1))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = DestroyPlayerObject(arg0, arg1);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -776,10 +695,8 @@ static PyObject* pysamp_moveplayerobject(PyObject *self, PyObject *args)
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "iiffff|fff:MovePlayerObject", &arg0, &arg1, &arg2, &arg3, &arg4, &arg5, &arg6, &arg7, &arg8))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	int ret = MovePlayerObject(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
 	PyObject* out = Py_BuildValue("i", ret);
 	return out;
@@ -790,10 +707,8 @@ static PyObject* pysamp_stopplayerobject(PyObject *self, PyObject *args)
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ii:StopPlayerObject", &arg0, &arg1))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = StopPlayerObject(arg0, arg1);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -805,10 +720,8 @@ static PyObject* pysamp_isplayerobjectmoving(PyObject *self, PyObject *args)
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ii:IsPlayerObjectMoving", &arg0, &arg1))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = IsPlayerObjectMoving(arg0, arg1);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -823,11 +736,9 @@ static PyObject* pysamp_setobjectmaterial(PyObject *self, PyObject *args)
 	int arg2 = -1;
 	int arg1 = -1;
 	int arg0 = -1;
-	if (!PyArg_ParseTuple(args, "iiieses|i:SetObjectMaterial", &arg0, &arg1, &arg2, "cp1252", &arg3, "cp1252", &arg4, &arg5))
-	{
-		PyErr_Print();
+	if (!PyArg_ParseTuple(args, "iiieses|i:SetObjectMaterial", &arg0, &arg1, &arg2, _py_encoding().c_str(), &arg3, _py_encoding().c_str(), &arg4, &arg5))
 		return NULL;
-	}
+
 	bool ret = SetObjectMaterial(arg0, arg1, arg2, arg3, arg4, arg5);
 
 	PyMem_Free((void *)arg4);
@@ -847,11 +758,9 @@ static PyObject* pysamp_setplayerobjectmaterial(PyObject *self, PyObject *args)
 	int arg2 = -1;
 	int arg1 = -1;
 	int arg0 = -1;
-	if (!PyArg_ParseTuple(args, "iiiieses|i:SetPlayerObjectMaterial", &arg0, &arg1, &arg2, &arg3, "cp1252", &arg4, "cp1252", &arg5, &arg6))
-	{
-		PyErr_Print();
+	if (!PyArg_ParseTuple(args, "iiiieses|i:SetPlayerObjectMaterial", &arg0, &arg1, &arg2, &arg3, _py_encoding().c_str(), &arg4, _py_encoding().c_str(), &arg5, &arg6))
 		return NULL;
-	}
+
 	bool ret = SetPlayerObjectMaterial(arg0, arg1, arg2, arg3, arg4, arg5, arg6);
 
 	PyMem_Free((void *)arg5);
@@ -874,11 +783,9 @@ static PyObject* pysamp_setobjectmaterialtext(PyObject *self, PyObject *args)
 	int arg2 = 0;
 	const char* arg1;
 	int arg0 = -1;
-	if (!PyArg_ParseTuple(args, "ies|iiesipiii:SetObjectMaterialText", &arg0, "cp1252", &arg1, &arg2, &arg3, "cp1252", &arg4, &arg5, &arg6, &arg7, &arg8, &arg9))
-	{
-		PyErr_Print();
+	if (!PyArg_ParseTuple(args, "ies|iiesipiii:SetObjectMaterialText", &arg0, _py_encoding().c_str(), &arg1, &arg2, &arg3, _py_encoding().c_str(), &arg4, &arg5, &arg6, &arg7, &arg8, &arg9))
 		return NULL;
-	}
+
 	bool ret = SetObjectMaterialText(arg0, arg1, arg2, arg3, arg4 != NULL ? arg4 : "Arial", arg5, arg6, arg7, arg8, arg9);
 
 	PyMem_Free((void *)arg4);
@@ -902,11 +809,9 @@ static PyObject* pysamp_setplayerobjectmaterialtext(PyObject *self, PyObject *ar
 	const char* arg2;
 	int arg1 = -1;
 	int arg0 = -1;
-	if (!PyArg_ParseTuple(args, "iies|iiesipiii:SetPlayerObjectMaterialText", &arg0, &arg1, "cp1252", &arg2, &arg3, &arg4, "cp1252", &arg5, &arg6, &arg7, &arg8, &arg9, &arg10))
-	{
-		PyErr_Print();
+	if (!PyArg_ParseTuple(args, "iies|iiesipiii:SetPlayerObjectMaterialText", &arg0, &arg1, _py_encoding().c_str(), &arg2, &arg3, &arg4, _py_encoding().c_str(), &arg5, &arg6, &arg7, &arg8, &arg9, &arg10))
 		return NULL;
-	}
+
 	bool ret = SetPlayerObjectMaterialText(arg0, arg1, arg2, arg3, arg4, arg5 != NULL ? arg5 : "Arial", arg6, arg7, arg8, arg9, arg10);
 
 	PyMem_Free((void *)arg5);
@@ -921,10 +826,8 @@ static PyObject* pysamp_setobjectsdefaultcameracol(PyObject *self, PyObject *arg
 {
 	int arg0 = false;
 	if (!PyArg_ParseTuple(args, "p:SetObjectsDefaultCameraCol", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = SetObjectsDefaultCameraCol(arg0);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -947,10 +850,8 @@ static PyObject* pysamp_setspawninfo(PyObject *self, PyObject *args)
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "iiiffffiiiiii:SetSpawnInfo", &arg0, &arg1, &arg2, &arg3, &arg4, &arg5, &arg6, &arg7, &arg8, &arg9, &arg10, &arg11, &arg12))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = SetSpawnInfo(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -961,10 +862,8 @@ static PyObject* pysamp_spawnplayer(PyObject *self, PyObject *args)
 {
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:SpawnPlayer", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = SpawnPlayer(arg0);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -978,10 +877,8 @@ static PyObject* pysamp_setplayerpos(PyObject *self, PyObject *args)
 	float arg1 = -1.0f;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ifff:SetPlayerPos", &arg0, &arg1, &arg2, &arg3))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = SetPlayerPos(arg0, arg1, arg2, arg3);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -995,10 +892,8 @@ static PyObject* pysamp_setplayerposfindz(PyObject *self, PyObject *args)
 	float arg1 = -1.0f;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ifff:SetPlayerPosFindZ", &arg0, &arg1, &arg2, &arg3))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = SetPlayerPosFindZ(arg0, arg1, arg2, arg3);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -1012,10 +907,8 @@ static PyObject* pysamp_getplayerpos(PyObject *self, PyObject *args)
 	float arg1 = -1.0f;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:GetPlayerPos", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = GetPlayerPos(arg0, &arg1, &arg2, &arg3);
 	PyObject* out = Py_BuildValue("fff", arg1, arg2, arg3);
 	return out;
@@ -1026,10 +919,8 @@ static PyObject* pysamp_setplayerfacingangle(PyObject *self, PyObject *args)
 	float arg1 = -1.0f;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "if:SetPlayerFacingAngle", &arg0, &arg1))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = SetPlayerFacingAngle(arg0, arg1);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -1041,10 +932,8 @@ static PyObject* pysamp_getplayerfacingangle(PyObject *self, PyObject *args)
 	float arg1 = -1.0f;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:GetPlayerFacingAngle", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = GetPlayerFacingAngle(arg0, &arg1);
 	PyObject* out = Py_BuildValue("f", arg1);
 	return out;
@@ -1058,10 +947,8 @@ static PyObject* pysamp_isplayerinrangeofpoint(PyObject *self, PyObject *args)
 	float arg1 = -1.0f;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "iffff:IsPlayerInRangeOfPoint", &arg0, &arg1, &arg2, &arg3, &arg4))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = IsPlayerInRangeOfPoint(arg0, arg1, arg2, arg3, arg4);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -1075,10 +962,8 @@ static PyObject* pysamp_getplayerdistancefrompoint(PyObject *self, PyObject *arg
 	float arg1 = -1.0f;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ifff:GetPlayerDistanceFromPoint", &arg0, &arg1, &arg2, &arg3))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	float ret = GetPlayerDistanceFromPoint(arg0, arg1, arg2, arg3);
 	PyObject* out = Py_BuildValue("f", ret);
 	return out;
@@ -1089,10 +974,8 @@ static PyObject* pysamp_isplayerstreamedin(PyObject *self, PyObject *args)
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ii:IsPlayerStreamedIn", &arg0, &arg1))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = IsPlayerStreamedIn(arg0, arg1);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -1104,10 +987,8 @@ static PyObject* pysamp_setplayerinterior(PyObject *self, PyObject *args)
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ii:SetPlayerInterior", &arg0, &arg1))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = SetPlayerInterior(arg0, arg1);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -1118,10 +999,8 @@ static PyObject* pysamp_getplayerinterior(PyObject *self, PyObject *args)
 {
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:GetPlayerInterior", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	int ret = GetPlayerInterior(arg0);
 	PyObject* out = Py_BuildValue("i", ret);
 	return out;
@@ -1132,10 +1011,8 @@ static PyObject* pysamp_setplayerhealth(PyObject *self, PyObject *args)
 	float arg1 = -1.0f;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "if:SetPlayerHealth", &arg0, &arg1))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = SetPlayerHealth(arg0, arg1);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -1147,10 +1024,8 @@ static PyObject* pysamp_getplayerhealth(PyObject *self, PyObject *args)
 	float arg1 = -1.0f;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:GetPlayerHealth", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = GetPlayerHealth(arg0, &arg1);
 	PyObject* out = Py_BuildValue("f", arg1);
 	return out;
@@ -1161,10 +1036,8 @@ static PyObject* pysamp_setplayerarmour(PyObject *self, PyObject *args)
 	float arg1 = -1.0f;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "if:SetPlayerArmour", &arg0, &arg1))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = SetPlayerArmour(arg0, arg1);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -1176,10 +1049,8 @@ static PyObject* pysamp_getplayerarmour(PyObject *self, PyObject *args)
 	float arg1 = -1.0f;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:GetPlayerArmour", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = GetPlayerArmour(arg0, &arg1);
 	PyObject* out = Py_BuildValue("f", arg1);
 	return out;
@@ -1191,10 +1062,8 @@ static PyObject* pysamp_setplayerammo(PyObject *self, PyObject *args)
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "iii:SetPlayerAmmo", &arg0, &arg1, &arg2))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = SetPlayerAmmo(arg0, arg1, arg2);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -1205,10 +1074,8 @@ static PyObject* pysamp_getplayerammo(PyObject *self, PyObject *args)
 {
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:GetPlayerAmmo", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	int ret = GetPlayerAmmo(arg0);
 	PyObject* out = Py_BuildValue("i", ret);
 	return out;
@@ -1218,10 +1085,8 @@ static PyObject* pysamp_getplayerweaponstate(PyObject *self, PyObject *args)
 {
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:GetPlayerWeaponState", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	int ret = GetPlayerWeaponState(arg0);
 	PyObject* out = Py_BuildValue("i", ret);
 	return out;
@@ -1231,10 +1096,8 @@ static PyObject* pysamp_getplayertargetplayer(PyObject *self, PyObject *args)
 {
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:GetPlayerTargetPlayer", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	int ret = GetPlayerTargetPlayer(arg0);
 	PyObject* out = Py_BuildValue("i", ret);
 	return out;
@@ -1244,10 +1107,8 @@ static PyObject* pysamp_getplayertargetactor(PyObject *self, PyObject *args)
 {
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:GetPlayerTargetActor", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	int ret = GetPlayerTargetActor(arg0);
 	PyObject* out = Py_BuildValue("i", ret);
 	return out;
@@ -1258,10 +1119,8 @@ static PyObject* pysamp_setplayerteam(PyObject *self, PyObject *args)
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ii:SetPlayerTeam", &arg0, &arg1))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = SetPlayerTeam(arg0, arg1);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -1272,10 +1131,8 @@ static PyObject* pysamp_getplayerteam(PyObject *self, PyObject *args)
 {
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:GetPlayerTeam", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	int ret = GetPlayerTeam(arg0);
 	PyObject* out = Py_BuildValue("i", ret);
 	return out;
@@ -1286,10 +1143,8 @@ static PyObject* pysamp_setplayerscore(PyObject *self, PyObject *args)
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ii:SetPlayerScore", &arg0, &arg1))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = SetPlayerScore(arg0, arg1);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -1300,10 +1155,8 @@ static PyObject* pysamp_getplayerscore(PyObject *self, PyObject *args)
 {
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:GetPlayerScore", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	int ret = GetPlayerScore(arg0);
 	PyObject* out = Py_BuildValue("i", ret);
 	return out;
@@ -1313,10 +1166,8 @@ static PyObject* pysamp_getplayerdrunklevel(PyObject *self, PyObject *args)
 {
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:GetPlayerDrunkLevel", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	int ret = GetPlayerDrunkLevel(arg0);
 	PyObject* out = Py_BuildValue("i", ret);
 	return out;
@@ -1327,10 +1178,8 @@ static PyObject* pysamp_setplayerdrunklevel(PyObject *self, PyObject *args)
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ii:SetPlayerDrunkLevel", &arg0, &arg1))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = SetPlayerDrunkLevel(arg0, arg1);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -1342,10 +1191,8 @@ static PyObject* pysamp_setplayercolor(PyObject *self, PyObject *args)
 	int arg1 = -1;
 	unsigned long arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ik:SetPlayerColor", &arg0, &arg1))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = SetPlayerColor(arg0, arg1);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -1356,10 +1203,8 @@ static PyObject* pysamp_getplayercolor(PyObject *self, PyObject *args)
 {
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:GetPlayerColor", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	int ret = GetPlayerColor(arg0);
 	PyObject* out = Py_BuildValue("i", ret);
 	return out;
@@ -1370,10 +1215,8 @@ static PyObject* pysamp_setplayerskin(PyObject *self, PyObject *args)
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ii:SetPlayerSkin", &arg0, &arg1))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = SetPlayerSkin(arg0, arg1);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -1384,10 +1227,8 @@ static PyObject* pysamp_getplayerskin(PyObject *self, PyObject *args)
 {
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:GetPlayerSkin", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	int ret = GetPlayerSkin(arg0);
 	PyObject* out = Py_BuildValue("i", ret);
 	return out;
@@ -1399,10 +1240,8 @@ static PyObject* pysamp_giveplayerweapon(PyObject *self, PyObject *args)
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "iii:GivePlayerWeapon", &arg0, &arg1, &arg2))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = GivePlayerWeapon(arg0, arg1, arg2);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -1413,10 +1252,8 @@ static PyObject* pysamp_resetplayerweapons(PyObject *self, PyObject *args)
 {
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:ResetPlayerWeapons", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = ResetPlayerWeapons(arg0);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -1428,10 +1265,8 @@ static PyObject* pysamp_setplayerarmedweapon(PyObject *self, PyObject *args)
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ii:SetPlayerArmedWeapon", &arg0, &arg1))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = SetPlayerArmedWeapon(arg0, arg1);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -1445,10 +1280,8 @@ static PyObject* pysamp_getplayerweapondata(PyObject *self, PyObject *args)
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ii:GetPlayerWeaponData", &arg0, &arg1))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = GetPlayerWeaponData(arg0, arg1, &arg2, &arg3);
 	PyObject* out = Py_BuildValue("ii", arg2, arg3);
 	return out;
@@ -1459,10 +1292,8 @@ static PyObject* pysamp_giveplayermoney(PyObject *self, PyObject *args)
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ii:GivePlayerMoney", &arg0, &arg1))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = GivePlayerMoney(arg0, arg1);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -1473,10 +1304,8 @@ static PyObject* pysamp_resetplayermoney(PyObject *self, PyObject *args)
 {
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:ResetPlayerMoney", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = ResetPlayerMoney(arg0);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -1487,11 +1316,9 @@ static PyObject* pysamp_setplayername(PyObject *self, PyObject *args)
 {
 	const char* arg1;
 	int arg0 = -1;
-	if (!PyArg_ParseTuple(args, "ies:SetPlayerName", &arg0, "cp1252", &arg1))
-	{
-		PyErr_Print();
+	if (!PyArg_ParseTuple(args, "ies:SetPlayerName", &arg0, _py_encoding().c_str(), &arg1))
 		return NULL;
-	}
+
 	int ret = SetPlayerName(arg0, arg1);
 	PyMem_Free((void *)arg1);
 
@@ -1503,10 +1330,8 @@ static PyObject* pysamp_getplayermoney(PyObject *self, PyObject *args)
 {
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:GetPlayerMoney", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	int ret = GetPlayerMoney(arg0);
 	PyObject* out = Py_BuildValue("i", ret);
 	return out;
@@ -1516,10 +1341,8 @@ static PyObject* pysamp_getplayerstate(PyObject *self, PyObject *args)
 {
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:GetPlayerState", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	int ret = GetPlayerState(arg0);
 	PyObject* out = Py_BuildValue("i", ret);
 	return out;
@@ -1529,10 +1352,8 @@ static PyObject* pysamp_getplayerip(PyObject *self, PyObject *args)
 {
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:GetPlayerIp", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	// Max IP size is 16 including final '\0'
 	char arg1[16];
 	bool ret = GetPlayerIp(arg0, arg1, 16);
@@ -1544,10 +1365,8 @@ static PyObject* pysamp_getplayerping(PyObject *self, PyObject *args)
 {
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:GetPlayerPing", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	int ret = GetPlayerPing(arg0);
 	PyObject* out = Py_BuildValue("i", ret);
 	return out;
@@ -1557,10 +1376,8 @@ static PyObject* pysamp_getplayerweapon(PyObject *self, PyObject *args)
 {
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:GetPlayerWeapon", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	int ret = GetPlayerWeapon(arg0);
 	PyObject* out = Py_BuildValue("i", ret);
 	return out;
@@ -1573,10 +1390,8 @@ static PyObject* pysamp_getplayerkeys(PyObject *self, PyObject *args)
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:GetPlayerKeys", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = GetPlayerKeys(arg0, &arg1, &arg2, &arg3);
 	PyObject* out = Py_BuildValue("iii", arg1, arg2, arg3);
 	return out;
@@ -1586,10 +1401,8 @@ static PyObject* pysamp_getplayername(PyObject *self, PyObject *args)
 {
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:GetPlayerName", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	char arg1[MAX_PLAYER_NAME + 1];
 	int ret = GetPlayerName(arg0, arg1, MAX_PLAYER_NAME);
 	PyObject* out = Py_BuildValue("s", arg1);
@@ -1602,10 +1415,8 @@ static PyObject* pysamp_setplayertime(PyObject *self, PyObject *args)
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "iii:SetPlayerTime", &arg0, &arg1, &arg2))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = SetPlayerTime(arg0, arg1, arg2);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -1618,10 +1429,8 @@ static PyObject* pysamp_getplayertime(PyObject *self, PyObject *args)
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:GetPlayerTime", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = GetPlayerTime(arg0, &arg1, &arg2);
 	PyObject* out = Py_BuildValue("ii", arg1, arg2);
 	return out;
@@ -1632,10 +1441,8 @@ static PyObject* pysamp_toggleplayerclock(PyObject *self, PyObject *args)
 	int arg1 = false;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ip:TogglePlayerClock", &arg0, &arg1))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = TogglePlayerClock(arg0, arg1);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -1647,10 +1454,8 @@ static PyObject* pysamp_setplayerweather(PyObject *self, PyObject *args)
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ii:SetPlayerWeather", &arg0, &arg1))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = SetPlayerWeather(arg0, arg1);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -1661,10 +1466,8 @@ static PyObject* pysamp_forceclassselection(PyObject *self, PyObject *args)
 {
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:ForceClassSelection", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = ForceClassSelection(arg0);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -1676,10 +1479,8 @@ static PyObject* pysamp_setplayerwantedlevel(PyObject *self, PyObject *args)
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ii:SetPlayerWantedLevel", &arg0, &arg1))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = SetPlayerWantedLevel(arg0, arg1);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -1690,10 +1491,8 @@ static PyObject* pysamp_getplayerwantedlevel(PyObject *self, PyObject *args)
 {
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:GetPlayerWantedLevel", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	int ret = GetPlayerWantedLevel(arg0);
 	PyObject* out = Py_BuildValue("i", ret);
 	return out;
@@ -1704,10 +1503,8 @@ static PyObject* pysamp_setplayerfightingstyle(PyObject *self, PyObject *args)
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ii:SetPlayerFightingStyle", &arg0, &arg1))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = SetPlayerFightingStyle(arg0, arg1);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -1718,10 +1515,8 @@ static PyObject* pysamp_getplayerfightingstyle(PyObject *self, PyObject *args)
 {
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:GetPlayerFightingStyle", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	int ret = GetPlayerFightingStyle(arg0);
 	PyObject* out = Py_BuildValue("i", ret);
 	return out;
@@ -1734,10 +1529,8 @@ static PyObject* pysamp_setplayervelocity(PyObject *self, PyObject *args)
 	float arg1 = -1.0f;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ifff:SetPlayerVelocity", &arg0, &arg1, &arg2, &arg3))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = SetPlayerVelocity(arg0, arg1, arg2, arg3);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -1751,10 +1544,8 @@ static PyObject* pysamp_getplayervelocity(PyObject *self, PyObject *args)
 	float arg1 = -1.0f;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:GetPlayerVelocity", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = GetPlayerVelocity(arg0, &arg1, &arg2, &arg3);
 	PyObject* out = Py_BuildValue("fff", arg1, arg2, arg3);
 	return out;
@@ -1766,10 +1557,8 @@ static PyObject* pysamp_playcrimereportforplayer(PyObject *self, PyObject *args)
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "iii:PlayCrimeReportForPlayer", &arg0, &arg1, &arg2))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = PlayCrimeReportForPlayer(arg0, arg1, arg2);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -1785,11 +1574,9 @@ static PyObject* pysamp_playaudiostreamforplayer(PyObject *self, PyObject *args)
 	float arg2 = 0.0;
 	const char* arg1;
 	int arg0 = -1;
-	if (!PyArg_ParseTuple(args, "ies|ffffp:PlayAudioStreamForPlayer", &arg0, "cp1252", &arg1, &arg2, &arg3, &arg4, &arg5, &arg6))
-	{
-		PyErr_Print();
+	if (!PyArg_ParseTuple(args, "ies|ffffp:PlayAudioStreamForPlayer", &arg0, _py_encoding().c_str(), &arg1, &arg2, &arg3, &arg4, &arg5, &arg6))
 		return NULL;
-	}
+
 	bool ret = PlayAudioStreamForPlayer(arg0, arg1, arg2, arg3, arg4, arg5, arg6);
 	PyMem_Free((void *)arg1);
 
@@ -1802,10 +1589,8 @@ static PyObject* pysamp_stopaudiostreamforplayer(PyObject *self, PyObject *args)
 {
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:StopAudioStreamForPlayer", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = StopAudioStreamForPlayer(arg0);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -1816,11 +1601,9 @@ static PyObject* pysamp_setplayershopname(PyObject *self, PyObject *args)
 {
 	const char* arg1;
 	int arg0 = -1;
-	if (!PyArg_ParseTuple(args, "ies:SetPlayerShopName", &arg0, "cp1252", &arg1))
-	{
-		PyErr_Print();
+	if (!PyArg_ParseTuple(args, "ies:SetPlayerShopName", &arg0, _py_encoding().c_str(), &arg1))
 		return NULL;
-	}
+
 	bool ret = SetPlayerShopName(arg0, arg1);
 	PyMem_Free((void *)arg1);
 
@@ -1835,10 +1618,8 @@ static PyObject* pysamp_setplayerskilllevel(PyObject *self, PyObject *args)
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "iii:SetPlayerSkillLevel", &arg0, &arg1, &arg2))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = SetPlayerSkillLevel(arg0, arg1, arg2);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -1849,10 +1630,8 @@ static PyObject* pysamp_getplayersurfingvehicleid(PyObject *self, PyObject *args
 {
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:GetPlayerSurfingVehicleID", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	int ret = GetPlayerSurfingVehicleID(arg0);
 	PyObject* out = Py_BuildValue("i", ret);
 	return out;
@@ -1862,10 +1641,8 @@ static PyObject* pysamp_getplayersurfingobjectid(PyObject *self, PyObject *args)
 {
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:GetPlayerSurfingObjectID", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	int ret = GetPlayerSurfingObjectID(arg0);
 	PyObject* out = Py_BuildValue("i", ret);
 	return out;
@@ -1880,10 +1657,8 @@ static PyObject* pysamp_removebuildingforplayer(PyObject *self, PyObject *args)
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "iiffff:RemoveBuildingForPlayer", &arg0, &arg1, &arg2, &arg3, &arg4, &arg5))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = RemoveBuildingForPlayer(arg0, arg1, arg2, arg3, arg4, arg5);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -1900,10 +1675,8 @@ static PyObject* pysamp_getplayerlastshotvectors(PyObject *self, PyObject *args)
 	float arg1 = -1.0f;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:GetPlayerLastShotVectors", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = GetPlayerLastShotVectors(arg0, &arg1, &arg2, &arg3, &arg4, &arg5, &arg6);
 	PyObject* out = Py_BuildValue("ffffff", arg1, arg2, arg3, arg4, arg5, arg6);
 	return out;
@@ -1927,10 +1700,8 @@ static PyObject* pysamp_setplayerattachedobject(PyObject *self, PyObject *args)
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "iiii|fffffffffii:SetPlayerAttachedObject", &arg0, &arg1, &arg2, &arg3, &arg4, &arg5, &arg6, &arg7, &arg8, &arg9, &arg10, &arg11, &arg12, &arg13, &arg14))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = SetPlayerAttachedObject(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -1942,10 +1713,8 @@ static PyObject* pysamp_removeplayerattachedobject(PyObject *self, PyObject *arg
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ii:RemovePlayerAttachedObject", &arg0, &arg1))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = RemovePlayerAttachedObject(arg0, arg1);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -1957,10 +1726,8 @@ static PyObject* pysamp_isplayerattachedobjectslotused(PyObject *self, PyObject 
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ii:IsPlayerAttachedObjectSlotUsed", &arg0, &arg1))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = IsPlayerAttachedObjectSlotUsed(arg0, arg1);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -1972,10 +1739,8 @@ static PyObject* pysamp_editattachedobject(PyObject *self, PyObject *args)
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ii:EditAttachedObject", &arg0, &arg1))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = EditAttachedObject(arg0, arg1);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -1988,11 +1753,9 @@ static PyObject* pysamp_createplayertextdraw(PyObject *self, PyObject *args)
 	float arg2 = -1.0f;
 	float arg1 = -1.0f;
 	int arg0 = -1;
-	if (!PyArg_ParseTuple(args, "iffes:CreatePlayerTextDraw", &arg0, &arg1, &arg2, "cp1252", &arg3))
-	{
-		PyErr_Print();
+	if (!PyArg_ParseTuple(args, "iffes:CreatePlayerTextDraw", &arg0, &arg1, &arg2, _py_encoding().c_str(), &arg3))
 		return NULL;
-	}
+
 	int ret = CreatePlayerTextDraw(arg0, arg1, arg2, arg3);
 	PyMem_Free((void *)arg3);
 	PyObject* out = Py_BuildValue("i", ret);
@@ -2005,10 +1768,8 @@ static PyObject* pysamp_playertextdrawdestroy(PyObject *self, PyObject *args)
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ii:PlayerTextDrawDestroy", &arg0, &arg1))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = PlayerTextDrawDestroy(arg0, arg1);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -2022,10 +1783,8 @@ static PyObject* pysamp_playertextdrawlettersize(PyObject *self, PyObject *args)
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "iiff:PlayerTextDrawLetterSize", &arg0, &arg1, &arg2, &arg3))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = PlayerTextDrawLetterSize(arg0, arg1, arg2, arg3);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -2039,10 +1798,8 @@ static PyObject* pysamp_playertextdrawtextsize(PyObject *self, PyObject *args)
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "iiff:PlayerTextDrawTextSize", &arg0, &arg1, &arg2, &arg3))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = PlayerTextDrawTextSize(arg0, arg1, arg2, arg3);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -2055,10 +1812,8 @@ static PyObject* pysamp_playertextdrawalignment(PyObject *self, PyObject *args)
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "iii:PlayerTextDrawAlignment", &arg0, &arg1, &arg2))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = PlayerTextDrawAlignment(arg0, arg1, arg2);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -2071,10 +1826,8 @@ static PyObject* pysamp_playertextdrawcolor(PyObject *self, PyObject *args)
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "iik:PlayerTextDrawColor", &arg0, &arg1, &arg2))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = PlayerTextDrawColor(arg0, arg1, arg2);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -2087,10 +1840,8 @@ static PyObject* pysamp_playertextdrawusebox(PyObject *self, PyObject *args)
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "iip:PlayerTextDrawUseBox", &arg0, &arg1, &arg2))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = PlayerTextDrawUseBox(arg0, arg1, arg2);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -2103,10 +1854,8 @@ static PyObject* pysamp_playertextdrawboxcolor(PyObject *self, PyObject *args)
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "iik:PlayerTextDrawBoxColor", &arg0, &arg1, &arg2))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = PlayerTextDrawBoxColor(arg0, arg1, arg2);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -2119,10 +1868,8 @@ static PyObject* pysamp_playertextdrawsetshadow(PyObject *self, PyObject *args)
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "iii:PlayerTextDrawSetShadow", &arg0, &arg1, &arg2))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = PlayerTextDrawSetShadow(arg0, arg1, arg2);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -2135,10 +1882,8 @@ static PyObject* pysamp_playertextdrawsetoutline(PyObject *self, PyObject *args)
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "iii:PlayerTextDrawSetOutline", &arg0, &arg1, &arg2))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = PlayerTextDrawSetOutline(arg0, arg1, arg2);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -2151,10 +1896,8 @@ static PyObject* pysamp_playertextdrawbackgroundcolor(PyObject *self, PyObject *
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "iik:PlayerTextDrawBackgroundColor", &arg0, &arg1, &arg2))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = PlayerTextDrawBackgroundColor(arg0, arg1, arg2);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -2167,10 +1910,8 @@ static PyObject* pysamp_playertextdrawfont(PyObject *self, PyObject *args)
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "iii:PlayerTextDrawFont", &arg0, &arg1, &arg2))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = PlayerTextDrawFont(arg0, arg1, arg2);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -2183,10 +1924,8 @@ static PyObject* pysamp_playertextdrawsetproportional(PyObject *self, PyObject *
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "iip:PlayerTextDrawSetProportional", &arg0, &arg1, &arg2))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = PlayerTextDrawSetProportional(arg0, arg1, arg2);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -2199,10 +1938,8 @@ static PyObject* pysamp_playertextdrawsetselectable(PyObject *self, PyObject *ar
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "iip:PlayerTextDrawSetSelectable", &arg0, &arg1, &arg2))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = PlayerTextDrawSetSelectable(arg0, arg1, arg2);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -2214,10 +1951,8 @@ static PyObject* pysamp_playertextdrawshow(PyObject *self, PyObject *args)
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ii:PlayerTextDrawShow", &arg0, &arg1))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = PlayerTextDrawShow(arg0, arg1);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -2229,10 +1964,8 @@ static PyObject* pysamp_playertextdrawhide(PyObject *self, PyObject *args)
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ii:PlayerTextDrawHide", &arg0, &arg1))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = PlayerTextDrawHide(arg0, arg1);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -2244,11 +1977,9 @@ static PyObject* pysamp_playertextdrawsetstring(PyObject *self, PyObject *args)
 	const char* arg2;
 	int arg1 = -1;
 	int arg0 = -1;
-	if (!PyArg_ParseTuple(args, "iies:PlayerTextDrawSetString", &arg0, &arg1, "cp1252", &arg2))
-	{
-		PyErr_Print();
+	if (!PyArg_ParseTuple(args, "iies:PlayerTextDrawSetString", &arg0, &arg1, _py_encoding().c_str(), &arg2))
 		return NULL;
-	}
+
 	bool ret = PlayerTextDrawSetString(arg0, arg1, arg2);
 	PyMem_Free((void *)arg2);
 
@@ -2263,10 +1994,8 @@ static PyObject* pysamp_playertextdrawsetpreviewmodel(PyObject *self, PyObject *
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "iii:PlayerTextDrawSetPreviewModel", &arg0, &arg1, &arg2))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = PlayerTextDrawSetPreviewModel(arg0, arg1, arg2);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -2282,10 +2011,8 @@ static PyObject* pysamp_playertextdrawsetpreviewrot(PyObject *self, PyObject *ar
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "iifff|f:PlayerTextDrawSetPreviewRot", &arg0, &arg1, &arg2, &arg3, &arg4, &arg5))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = PlayerTextDrawSetPreviewRot(arg0, arg1, arg2, arg3, arg4, arg5);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -2299,10 +2026,8 @@ static PyObject* pysamp_playertextdrawsetpreviewvehcol(PyObject *self, PyObject 
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "iikk:PlayerTextDrawSetPreviewVehCol", &arg0, &arg1, &arg2, &arg3))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = PlayerTextDrawSetPreviewVehCol(arg0, arg1, arg2, arg3);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -2314,11 +2039,9 @@ static PyObject* pysamp_setpvarint(PyObject *self, PyObject *args)
 	int arg2 = -1;
 	const char* arg1;
 	int arg0 = -1;
-	if (!PyArg_ParseTuple(args, "iesi:SetPVarInt", &arg0, "cp1252", &arg1, &arg2))
-	{
-		PyErr_Print();
+	if (!PyArg_ParseTuple(args, "iesi:SetPVarInt", &arg0, _py_encoding().c_str(), &arg1, &arg2))
 		return NULL;
-	}
+
 	bool ret = SetPVarInt(arg0, arg1, arg2);
 	PyMem_Free((void *)arg1);
 
@@ -2331,11 +2054,9 @@ static PyObject* pysamp_getpvarint(PyObject *self, PyObject *args)
 {
 	const char* arg1;
 	int arg0 = -1;
-	if (!PyArg_ParseTuple(args, "ies:GetPVarInt", &arg0, "cp1252", &arg1))
-	{
-		PyErr_Print();
+	if (!PyArg_ParseTuple(args, "ies:GetPVarInt", &arg0, _py_encoding().c_str(), &arg1))
 		return NULL;
-	}
+
 	int ret = GetPVarInt(arg0, arg1);
 	PyMem_Free((void *)arg1);
 	PyObject* out = Py_BuildValue("i", ret);
@@ -2348,11 +2069,9 @@ static PyObject* pysamp_setpvarstring(PyObject *self, PyObject *args)
 	const char* arg2;
 	const char* arg1;
 	int arg0 = -1;
-	if (!PyArg_ParseTuple(args, "ieses:SetPVarString", &arg0, "cp1252", &arg1, "cp1252", &arg2))
-	{
-		PyErr_Print();
+	if (!PyArg_ParseTuple(args, "ieses:SetPVarString", &arg0, _py_encoding().c_str(), &arg1, _py_encoding().c_str(), &arg2))
 		return NULL;
-	}
+
 	bool ret = SetPVarString(arg0, arg1, arg2);
 	PyMem_Free((void *)arg2);
 	PyMem_Free((void *)arg1);
@@ -2367,11 +2086,9 @@ static PyObject* pysamp_getpvarstring(PyObject *self, PyObject *args)
 	int arg3 = SAMPConsts::get("MAX_CLIENT_MESSAGE");
 	const char* arg1;
 	int arg0 = -1;
-	if (!PyArg_ParseTuple(args, "ies|i:GetPVarString", &arg0, "cp1252", &arg1, &arg3))
-	{
-		PyErr_Print();
+	if (!PyArg_ParseTuple(args, "ies|i:GetPVarString", &arg0, _py_encoding().c_str(), &arg1, &arg3))
 		return NULL;
-	}
+
 	if(arg3 < 0)
 	{
 		PyErr_SetString(PyExc_TypeError, "Expected a positive length as third argument.");
@@ -2391,11 +2108,9 @@ static PyObject* pysamp_setpvarfloat(PyObject *self, PyObject *args)
 	float arg2 = -1.0f;
 	const char* arg1;
 	int arg0 = -1;
-	if (!PyArg_ParseTuple(args, "iesf:SetPVarFloat", &arg0, "cp1252", &arg1, &arg2))
-	{
-		PyErr_Print();
+	if (!PyArg_ParseTuple(args, "iesf:SetPVarFloat", &arg0, _py_encoding().c_str(), &arg1, &arg2))
 		return NULL;
-	}
+
 	bool ret = SetPVarFloat(arg0, arg1, arg2);
 	PyMem_Free((void *)arg1);
 
@@ -2408,11 +2123,9 @@ static PyObject* pysamp_getpvarfloat(PyObject *self, PyObject *args)
 {
 	const char* arg1;
 	int arg0 = -1;
-	if (!PyArg_ParseTuple(args, "ies:GetPVarFloat", &arg0, "cp1252", &arg1))
-	{
-		PyErr_Print();
+	if (!PyArg_ParseTuple(args, "ies:GetPVarFloat", &arg0, _py_encoding().c_str(), &arg1))
 		return NULL;
-	}
+
 	float ret = GetPVarFloat(arg0, arg1);
 	PyMem_Free((void *)arg1);
 	PyObject* out = Py_BuildValue("f", ret);
@@ -2424,11 +2137,9 @@ static PyObject* pysamp_deletepvar(PyObject *self, PyObject *args)
 {
 	const char* arg1;
 	int arg0 = -1;
-	if (!PyArg_ParseTuple(args, "ies:DeletePVar", &arg0, "cp1252", &arg1))
-	{
-		PyErr_Print();
+	if (!PyArg_ParseTuple(args, "ies:DeletePVar", &arg0, _py_encoding().c_str(), &arg1))
 		return NULL;
-	}
+
 	bool ret = DeletePVar(arg0, arg1);
 	PyMem_Free((void *)arg1);
 
@@ -2441,10 +2152,8 @@ static PyObject* pysamp_getpvarsupperindex(PyObject *self, PyObject *args)
 {
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:GetPVarsUpperIndex", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	int ret = GetPVarsUpperIndex(arg0);
 	PyObject* out = Py_BuildValue("i", ret);
 	return out;
@@ -2456,10 +2165,8 @@ static PyObject* pysamp_getpvarnameatindex(PyObject *self, PyObject *args)
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ii|i:GetPVarNameAtIndex", &arg0, &arg1, &arg3))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	if(arg3 < 0)
 	{
 		PyErr_SetString(PyExc_TypeError, "Expected a positive length as third argument.");
@@ -2477,11 +2184,9 @@ static PyObject* pysamp_getpvartype(PyObject *self, PyObject *args)
 {
 	const char* arg1;
 	int arg0 = -1;
-	if (!PyArg_ParseTuple(args, "ies:GetPVarType", &arg0, "cp1252", &arg1))
-	{
-		PyErr_Print();
+	if (!PyArg_ParseTuple(args, "ies:GetPVarType", &arg0, _py_encoding().c_str(), &arg1))
 		return NULL;
-	}
+
 	int ret = GetPVarType(arg0, arg1);
 	PyMem_Free((void *)arg1);
 	PyObject* out = Py_BuildValue("i", ret);
@@ -2496,11 +2201,9 @@ static PyObject* pysamp_setplayerchatbubble(PyObject *self, PyObject *args)
 	unsigned long arg2 = -1;
 	const char* arg1;
 	int arg0 = -1;
-	if (!PyArg_ParseTuple(args, "ieskfi:SetPlayerChatBubble", &arg0, "cp1252", &arg1, &arg2, &arg3, &arg4))
-	{
-		PyErr_Print();
+	if (!PyArg_ParseTuple(args, "ieskfi:SetPlayerChatBubble", &arg0, _py_encoding().c_str(), &arg1, &arg2, &arg3, &arg4))
 		return NULL;
-	}
+
 	bool ret = SetPlayerChatBubble(arg0, arg1, arg2, arg3, arg4);
 	PyMem_Free((void *)arg1);
 
@@ -2515,10 +2218,8 @@ static PyObject* pysamp_putplayerinvehicle(PyObject *self, PyObject *args)
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "iii:PutPlayerInVehicle", &arg0, &arg1, &arg2))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = PutPlayerInVehicle(arg0, arg1, arg2);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -2529,10 +2230,8 @@ static PyObject* pysamp_getplayervehicleid(PyObject *self, PyObject *args)
 {
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:GetPlayerVehicleID", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	int ret = GetPlayerVehicleID(arg0);
 	PyObject* out = Py_BuildValue("i", ret);
 	return out;
@@ -2542,10 +2241,8 @@ static PyObject* pysamp_getplayervehicleseat(PyObject *self, PyObject *args)
 {
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:GetPlayerVehicleSeat", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	int ret = GetPlayerVehicleSeat(arg0);
 	PyObject* out = Py_BuildValue("i", ret);
 	return out;
@@ -2555,10 +2252,8 @@ static PyObject* pysamp_removeplayerfromvehicle(PyObject *self, PyObject *args)
 {
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:RemovePlayerFromVehicle", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = RemovePlayerFromVehicle(arg0);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -2570,10 +2265,8 @@ static PyObject* pysamp_toggleplayercontrollable(PyObject *self, PyObject *args)
 	int arg1 = false;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ip:TogglePlayerControllable", &arg0, &arg1))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = TogglePlayerControllable(arg0, arg1);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -2588,10 +2281,8 @@ static PyObject* pysamp_playerplaysound(PyObject *self, PyObject *args)
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "iifff:PlayerPlaySound", &arg0, &arg1, &arg2, &arg3, &arg4))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = PlayerPlaySound(arg0, arg1, arg2, arg3, arg4);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -2610,11 +2301,9 @@ static PyObject* pysamp_applyanimation(PyObject *self, PyObject *args)
 	const char* arg2;
 	const char* arg1;
 	int arg0 = -1;
-	if (!PyArg_ParseTuple(args, "iesesfppppi|p:ApplyAnimation", &arg0, "cp1252", &arg1, "cp1252", &arg2, &arg3, &arg4, &arg5, &arg6, &arg7, &arg8, &arg9))
-	{
-		PyErr_Print();
+	if (!PyArg_ParseTuple(args, "iesesfppppi|p:ApplyAnimation", &arg0, _py_encoding().c_str(), &arg1, _py_encoding().c_str(), &arg2, &arg3, &arg4, &arg5, &arg6, &arg7, &arg8, &arg9))
 		return NULL;
-	}
+
 	bool ret = ApplyAnimation(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9);
 	PyMem_Free((void *)arg2);
 	PyMem_Free((void *)arg1);
@@ -2629,10 +2318,8 @@ static PyObject* pysamp_clearanimations(PyObject *self, PyObject *args)
 	int arg1 = false;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i|p:ClearAnimations", &arg0, &arg1))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = ClearAnimations(arg0, arg1);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -2643,10 +2330,8 @@ static PyObject* pysamp_getplayeranimationindex(PyObject *self, PyObject *args)
 {
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:GetPlayerAnimationIndex", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	int ret = GetPlayerAnimationIndex(arg0);
 	PyObject* out = Py_BuildValue("i", ret);
 	return out;
@@ -2658,10 +2343,8 @@ static PyObject* pysamp_getanimationname(PyObject *self, PyObject *args)
 	int arg2 = SAMPConsts::get("MAX_CLIENT_MESSAGE");
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i|ii:GetAnimationName", &arg0, &arg2, &arg4))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	if(
 		arg2 < 0
 		|| arg4 < 0
@@ -2684,10 +2367,8 @@ static PyObject* pysamp_getplayerspecialaction(PyObject *self, PyObject *args)
 {
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:GetPlayerSpecialAction", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	int ret = GetPlayerSpecialAction(arg0);
 	PyObject* out = Py_BuildValue("i", ret);
 	return out;
@@ -2698,10 +2379,8 @@ static PyObject* pysamp_setplayerspecialaction(PyObject *self, PyObject *args)
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ii:SetPlayerSpecialAction", &arg0, &arg1))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = SetPlayerSpecialAction(arg0, arg1);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -2713,10 +2392,8 @@ static PyObject* pysamp_disableremotevehiclecollisions(PyObject *self, PyObject 
 	int arg1 = false;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ip:DisableRemoteVehicleCollisions", &arg0, &arg1))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = DisableRemoteVehicleCollisions(arg0, arg1);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -2731,10 +2408,8 @@ static PyObject* pysamp_setplayercheckpoint(PyObject *self, PyObject *args)
 	float arg1 = -1.0f;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "iffff:SetPlayerCheckpoint", &arg0, &arg1, &arg2, &arg3, &arg4))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = SetPlayerCheckpoint(arg0, arg1, arg2, arg3, arg4);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -2745,10 +2420,8 @@ static PyObject* pysamp_disableplayercheckpoint(PyObject *self, PyObject *args)
 {
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:DisablePlayerCheckpoint", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = DisablePlayerCheckpoint(arg0);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -2767,10 +2440,8 @@ static PyObject* pysamp_setplayerracecheckpoint(PyObject *self, PyObject *args)
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "iifffffff:SetPlayerRaceCheckpoint", &arg0, &arg1, &arg2, &arg3, &arg4, &arg5, &arg6, &arg7, &arg8))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = SetPlayerRaceCheckpoint(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -2781,10 +2452,8 @@ static PyObject* pysamp_disableplayerracecheckpoint(PyObject *self, PyObject *ar
 {
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:DisablePlayerRaceCheckpoint", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = DisablePlayerRaceCheckpoint(arg0);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -2799,10 +2468,8 @@ static PyObject* pysamp_setplayerworldbounds(PyObject *self, PyObject *args)
 	float arg1 = -1.0f;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "iffff:SetPlayerWorldBounds", &arg0, &arg1, &arg2, &arg3, &arg4))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = SetPlayerWorldBounds(arg0, arg1, arg2, arg3, arg4);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -2815,10 +2482,8 @@ static PyObject* pysamp_setplayermarkerforplayer(PyObject *self, PyObject *args)
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "iik:SetPlayerMarkerForPlayer", &arg0, &arg1, &arg2))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = SetPlayerMarkerForPlayer(arg0, arg1, arg2);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -2831,10 +2496,8 @@ static PyObject* pysamp_showplayernametagforplayer(PyObject *self, PyObject *arg
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "iip:ShowPlayerNameTagForPlayer", &arg0, &arg1, &arg2))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = ShowPlayerNameTagForPlayer(arg0, arg1, arg2);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -2852,10 +2515,8 @@ static PyObject* pysamp_setplayermapicon(PyObject *self, PyObject *args)
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "iifffik|i:SetPlayerMapIcon", &arg0, &arg1, &arg2, &arg3, &arg4, &arg5, &arg6, &arg7))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = SetPlayerMapIcon(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -2867,10 +2528,8 @@ static PyObject* pysamp_removeplayermapicon(PyObject *self, PyObject *args)
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ii:RemovePlayerMapIcon", &arg0, &arg1))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = RemovePlayerMapIcon(arg0, arg1);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -2882,10 +2541,8 @@ static PyObject* pysamp_allowplayerteleport(PyObject *self, PyObject *args)
 	int arg1 = false;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ip:AllowPlayerTeleport", &arg0, &arg1))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = AllowPlayerTeleport(arg0, arg1);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -2899,10 +2556,8 @@ static PyObject* pysamp_setplayercamerapos(PyObject *self, PyObject *args)
 	float arg1 = -1.0f;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ifff:SetPlayerCameraPos", &arg0, &arg1, &arg2, &arg3))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = SetPlayerCameraPos(arg0, arg1, arg2, arg3);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -2917,10 +2572,8 @@ static PyObject* pysamp_setplayercameralookat(PyObject *self, PyObject *args)
 	float arg1 = -1.0f;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ifff|i:SetPlayerCameraLookAt", &arg0, &arg1, &arg2, &arg3, &arg4))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = SetPlayerCameraLookAt(arg0, arg1, arg2, arg3, arg4);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -2931,10 +2584,8 @@ static PyObject* pysamp_setcamerabehindplayer(PyObject *self, PyObject *args)
 {
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:SetCameraBehindPlayer", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = SetCameraBehindPlayer(arg0);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -2948,10 +2599,8 @@ static PyObject* pysamp_getplayercamerapos(PyObject *self, PyObject *args)
 	float arg1 = -1.0f;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:GetPlayerCameraPos", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = GetPlayerCameraPos(arg0, &arg1, &arg2, &arg3);
 	PyObject* out = Py_BuildValue("fff", arg1, arg2, arg3);
 	return out;
@@ -2964,10 +2613,8 @@ static PyObject* pysamp_getplayercamerafrontvector(PyObject *self, PyObject *arg
 	float arg1 = -1.0f;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:GetPlayerCameraFrontVector", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = GetPlayerCameraFrontVector(arg0, &arg1, &arg2, &arg3);
 	PyObject* out = Py_BuildValue("fff", arg1, arg2, arg3);
 	return out;
@@ -2977,10 +2624,8 @@ static PyObject* pysamp_getplayercameramode(PyObject *self, PyObject *args)
 {
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:GetPlayerCameraMode", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	int ret = GetPlayerCameraMode(arg0);
 	PyObject* out = Py_BuildValue("i", ret);
 	return out;
@@ -2991,10 +2636,8 @@ static PyObject* pysamp_enableplayercameratarget(PyObject *self, PyObject *args)
 	int arg1 = false;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ip:EnablePlayerCameraTarget", &arg0, &arg1))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = EnablePlayerCameraTarget(arg0, arg1);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -3005,10 +2648,8 @@ static PyObject* pysamp_getplayercameratargetobject(PyObject *self, PyObject *ar
 {
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:GetPlayerCameraTargetObject", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	int ret = GetPlayerCameraTargetObject(arg0);
 	PyObject* out = Py_BuildValue("i", ret);
 	return out;
@@ -3018,10 +2659,8 @@ static PyObject* pysamp_getplayercameratargetvehicle(PyObject *self, PyObject *a
 {
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:GetPlayerCameraTargetVehicle", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	int ret = GetPlayerCameraTargetVehicle(arg0);
 	PyObject* out = Py_BuildValue("i", ret);
 	return out;
@@ -3031,10 +2670,8 @@ static PyObject* pysamp_getplayercameratargetplayer(PyObject *self, PyObject *ar
 {
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:GetPlayerCameraTargetPlayer", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	int ret = GetPlayerCameraTargetPlayer(arg0);
 	PyObject* out = Py_BuildValue("i", ret);
 	return out;
@@ -3044,10 +2681,8 @@ static PyObject* pysamp_getplayercameratargetactor(PyObject *self, PyObject *arg
 {
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:GetPlayerCameraTargetActor", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	int ret = GetPlayerCameraTargetActor(arg0);
 	PyObject* out = Py_BuildValue("i", ret);
 	return out;
@@ -3057,10 +2692,8 @@ static PyObject* pysamp_getplayercameraaspectratio(PyObject *self, PyObject *arg
 {
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:GetPlayerCameraAspectRatio", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	float ret = GetPlayerCameraAspectRatio(arg0);
 	PyObject* out = Py_BuildValue("f", ret);
 	return out;
@@ -3070,10 +2703,8 @@ static PyObject* pysamp_getplayercamerazoom(PyObject *self, PyObject *args)
 {
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:GetPlayerCameraZoom", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	float ret = GetPlayerCameraZoom(arg0);
 	PyObject* out = Py_BuildValue("f", ret);
 	return out;
@@ -3084,10 +2715,8 @@ static PyObject* pysamp_attachcameratoobject(PyObject *self, PyObject *args)
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ii:AttachCameraToObject", &arg0, &arg1))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = AttachCameraToObject(arg0, arg1);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -3099,10 +2728,8 @@ static PyObject* pysamp_attachcameratoplayerobject(PyObject *self, PyObject *arg
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ii:AttachCameraToPlayerObject", &arg0, &arg1))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = AttachCameraToPlayerObject(arg0, arg1);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -3121,10 +2748,8 @@ static PyObject* pysamp_interpolatecamerapos(PyObject *self, PyObject *args)
 	float arg1 = -1.0f;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "iffffffi|i:InterpolateCameraPos", &arg0, &arg1, &arg2, &arg3, &arg4, &arg5, &arg6, &arg7, &arg8))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = InterpolateCameraPos(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -3143,10 +2768,8 @@ static PyObject* pysamp_interpolatecameralookat(PyObject *self, PyObject *args)
 	float arg1 = -1.0f;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "iffffffi|i:InterpolateCameraLookAt", &arg0, &arg1, &arg2, &arg3, &arg4, &arg5, &arg6, &arg7, &arg8))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = InterpolateCameraLookAt(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -3157,10 +2780,8 @@ static PyObject* pysamp_isplayerconnected(PyObject *self, PyObject *args)
 {
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:IsPlayerConnected", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = IsPlayerConnected(arg0);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -3172,10 +2793,8 @@ static PyObject* pysamp_isplayerinvehicle(PyObject *self, PyObject *args)
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ii:IsPlayerInVehicle", &arg0, &arg1))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = IsPlayerInVehicle(arg0, arg1);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -3186,10 +2805,8 @@ static PyObject* pysamp_isplayerinanyvehicle(PyObject *self, PyObject *args)
 {
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:IsPlayerInAnyVehicle", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = IsPlayerInAnyVehicle(arg0);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -3200,10 +2817,8 @@ static PyObject* pysamp_isplayerincheckpoint(PyObject *self, PyObject *args)
 {
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:IsPlayerInCheckpoint", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = IsPlayerInCheckpoint(arg0);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -3214,10 +2829,8 @@ static PyObject* pysamp_isplayerinracecheckpoint(PyObject *self, PyObject *args)
 {
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:IsPlayerInRaceCheckpoint", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = IsPlayerInRaceCheckpoint(arg0);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -3229,10 +2842,8 @@ static PyObject* pysamp_setplayervirtualworld(PyObject *self, PyObject *args)
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ii:SetPlayerVirtualWorld", &arg0, &arg1))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = SetPlayerVirtualWorld(arg0, arg1);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -3243,10 +2854,8 @@ static PyObject* pysamp_getplayervirtualworld(PyObject *self, PyObject *args)
 {
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:GetPlayerVirtualWorld", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	int ret = GetPlayerVirtualWorld(arg0);
 	PyObject* out = Py_BuildValue("i", ret);
 	return out;
@@ -3257,10 +2866,8 @@ static PyObject* pysamp_enablestuntbonusforplayer(PyObject *self, PyObject *args
 	int arg1 = false;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ip:EnableStuntBonusForPlayer", &arg0, &arg1))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = EnableStuntBonusForPlayer(arg0, arg1);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -3271,10 +2878,8 @@ static PyObject* pysamp_enablestuntbonusforall(PyObject *self, PyObject *args)
 {
 	int arg0 = false;
 	if (!PyArg_ParseTuple(args, "p:EnableStuntBonusForAll", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = EnableStuntBonusForAll(arg0);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -3286,10 +2891,8 @@ static PyObject* pysamp_toggleplayerspectating(PyObject *self, PyObject *args)
 	int arg1 = false;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ip:TogglePlayerSpectating", &arg0, &arg1))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = TogglePlayerSpectating(arg0, arg1);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -3302,10 +2905,8 @@ static PyObject* pysamp_playerspectateplayer(PyObject *self, PyObject *args)
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ii|i:PlayerSpectatePlayer", &arg0, &arg1, &arg2))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = PlayerSpectatePlayer(arg0, arg1, arg2);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -3318,10 +2919,8 @@ static PyObject* pysamp_playerspectatevehicle(PyObject *self, PyObject *args)
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ii|i:PlayerSpectateVehicle", &arg0, &arg1, &arg2))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = PlayerSpectateVehicle(arg0, arg1, arg2);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -3333,11 +2932,9 @@ static PyObject* pysamp_startrecordingplayerdata(PyObject *self, PyObject *args)
 	const char* arg2;
 	int arg1 = -1;
 	int arg0 = -1;
-	if (!PyArg_ParseTuple(args, "iies:StartRecordingPlayerData", &arg0, &arg1, "cp1252", &arg2))
-	{
-		PyErr_Print();
+	if (!PyArg_ParseTuple(args, "iies:StartRecordingPlayerData", &arg0, &arg1, _py_encoding().c_str(), &arg2))
 		return NULL;
-	}
+
 	bool ret = StartRecordingPlayerData(arg0, arg1, arg2);
 	PyMem_Free((void *)arg2);
 
@@ -3350,10 +2947,8 @@ static PyObject* pysamp_stoprecordingplayerdata(PyObject *self, PyObject *args)
 {
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:StopRecordingPlayerData", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = StopRecordingPlayerData(arg0);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -3369,10 +2964,8 @@ static PyObject* pysamp_createexplosionforplayer(PyObject *self, PyObject *args)
 	float arg1 = -1.0f;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ifffif:CreateExplosionForPlayer", &arg0, &arg1, &arg2, &arg3, &arg4, &arg5))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = CreateExplosionForPlayer(arg0, arg1, arg2, arg3, arg4, arg5);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -3384,11 +2977,9 @@ static PyObject* pysamp_sendclientmessage(PyObject *self, PyObject *args)
 	const char* arg2;
 	unsigned long arg1 = -1;
 	int arg0 = -1;
-	if (!PyArg_ParseTuple(args, "ikes:SendClientMessage", &arg0, &arg1, "cp1252", &arg2))
-	{
-		PyErr_Print();
+	if (!PyArg_ParseTuple(args, "ikes:SendClientMessage", &arg0, &arg1, _py_encoding().c_str(), &arg2))
 		return NULL;
-	}
+
 	bool ret = SendClientMessage(arg0, arg1, arg2);
 	PyMem_Free((void *)arg2);
 
@@ -3401,11 +2992,9 @@ static PyObject* pysamp_sendclientmessagetoall(PyObject *self, PyObject *args)
 {
 	const char* arg1;
 	unsigned long arg0 = -1;
-	if (!PyArg_ParseTuple(args, "kes:SendClientMessageToAll", &arg0, "cp1252", &arg1))
-	{
-		PyErr_Print();
+	if (!PyArg_ParseTuple(args, "kes:SendClientMessageToAll", &arg0, _py_encoding().c_str(), &arg1))
 		return NULL;
-	}
+
 	bool ret = SendClientMessageToAll(arg0, arg1);
 	PyMem_Free((void *)arg1);
 
@@ -3419,11 +3008,9 @@ static PyObject* pysamp_sendplayermessagetoplayer(PyObject *self, PyObject *args
 	const char* arg2;
 	int arg1 = -1;
 	int arg0 = -1;
-	if (!PyArg_ParseTuple(args, "iies:SendPlayerMessageToPlayer", &arg0, &arg1, "cp1252", &arg2))
-	{
-		PyErr_Print();
+	if (!PyArg_ParseTuple(args, "iies:SendPlayerMessageToPlayer", &arg0, &arg1, _py_encoding().c_str(), &arg2))
 		return NULL;
-	}
+
 	bool ret = SendPlayerMessageToPlayer(arg0, arg1, arg2);
 	PyMem_Free((void *)arg2);
 
@@ -3436,11 +3023,9 @@ static PyObject* pysamp_sendplayermessagetoall(PyObject *self, PyObject *args)
 {
 	const char* arg1;
 	int arg0 = -1;
-	if (!PyArg_ParseTuple(args, "ies:SendPlayerMessageToAll", &arg0, "cp1252", &arg1))
-	{
-		PyErr_Print();
+	if (!PyArg_ParseTuple(args, "ies:SendPlayerMessageToAll", &arg0, _py_encoding().c_str(), &arg1))
 		return NULL;
-	}
+
 	bool ret = SendPlayerMessageToAll(arg0, arg1);
 	PyMem_Free((void *)arg1);
 
@@ -3455,10 +3040,8 @@ static PyObject* pysamp_senddeathmessage(PyObject *self, PyObject *args)
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "iii:SendDeathMessage", &arg0, &arg1, &arg2))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = SendDeathMessage(arg0, arg1, arg2);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -3472,10 +3055,8 @@ static PyObject* pysamp_senddeathmessagetoplayer(PyObject *self, PyObject *args)
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "iiii:SendDeathMessageToPlayer", &arg0, &arg1, &arg2, &arg3))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = SendDeathMessageToPlayer(arg0, arg1, arg2, arg3);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -3487,11 +3068,9 @@ static PyObject* pysamp_gametextforall(PyObject *self, PyObject *args)
 	int arg2 = -1;
 	int arg1 = -1;
 	const char* arg0;
-	if (!PyArg_ParseTuple(args, "esii:GameTextForAll", "cp1252", &arg0, &arg1, &arg2))
-	{
-		PyErr_Print();
+	if (!PyArg_ParseTuple(args, "esii:GameTextForAll", _py_encoding().c_str(), &arg0, &arg1, &arg2))
 		return NULL;
-	}
+
 	bool ret = GameTextForAll(arg0, arg1, arg2);
 	PyMem_Free((void *)arg0);
 
@@ -3506,11 +3085,9 @@ static PyObject* pysamp_gametextforplayer(PyObject *self, PyObject *args)
 	int arg2 = -1;
 	const char* arg1;
 	int arg0 = -1;
-	if (!PyArg_ParseTuple(args, "iesii:GameTextForPlayer", &arg0, "cp1252", &arg1, &arg2, &arg3))
-	{
-		PyErr_Print();
+	if (!PyArg_ParseTuple(args, "iesii:GameTextForPlayer", &arg0, _py_encoding().c_str(), &arg1, &arg2, &arg3))
 		return NULL;
-	}
+
 	bool ret = GameTextForPlayer(arg0, arg1, arg2, arg3);
 	PyMem_Free((void *)arg1);
 
@@ -3522,10 +3099,8 @@ static PyObject* pysamp_gametextforplayer(PyObject *self, PyObject *args)
 static PyObject* pysamp_gettickcount(PyObject *self, PyObject *args)
 {
 	if (!PyArg_ParseTuple(args, ":GetTickCount"))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	int ret = GetTickCount();
 	PyObject* out = Py_BuildValue("i", ret);
 	return out;
@@ -3534,10 +3109,8 @@ static PyObject* pysamp_gettickcount(PyObject *self, PyObject *args)
 static PyObject* pysamp_getmaxplayers(PyObject *self, PyObject *args)
 {
 	if (!PyArg_ParseTuple(args, ":GetMaxPlayers"))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	int ret = GetMaxPlayers();
 	PyObject* out = Py_BuildValue("i", ret);
 	return out;
@@ -3549,10 +3122,8 @@ static PyObject* pysamp_vectorsize(PyObject *self, PyObject *args)
 	float arg1 = -1.0f;
 	float arg0 = -1.0f;
 	if (!PyArg_ParseTuple(args, "fff:VectorSize", &arg0, &arg1, &arg2))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	float ret = VectorSize(arg0, arg1, arg2);
 	PyObject* out = Py_BuildValue("f", ret);
 	return out;
@@ -3561,10 +3132,8 @@ static PyObject* pysamp_vectorsize(PyObject *self, PyObject *args)
 static PyObject* pysamp_getplayerpoolsize(PyObject *self, PyObject *args)
 {
 	if (!PyArg_ParseTuple(args, ":GetPlayerPoolSize"))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	int ret = GetPlayerPoolSize();
 	PyObject* out = Py_BuildValue("i", ret);
 	return out;
@@ -3573,10 +3142,8 @@ static PyObject* pysamp_getplayerpoolsize(PyObject *self, PyObject *args)
 static PyObject* pysamp_getvehiclepoolsize(PyObject *self, PyObject *args)
 {
 	if (!PyArg_ParseTuple(args, ":GetVehiclePoolSize"))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	int ret = GetVehiclePoolSize();
 	PyObject* out = Py_BuildValue("i", ret);
 	return out;
@@ -3585,10 +3152,8 @@ static PyObject* pysamp_getvehiclepoolsize(PyObject *self, PyObject *args)
 static PyObject* pysamp_getactorpoolsize(PyObject *self, PyObject *args)
 {
 	if (!PyArg_ParseTuple(args, ":GetActorPoolSize"))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	int ret = GetActorPoolSize();
 	PyObject* out = Py_BuildValue("i", ret);
 	return out;
@@ -3598,11 +3163,9 @@ static PyObject* pysamp_setsvarint(PyObject *self, PyObject *args)
 {
 	int arg1 = -1;
 	const char* arg0;
-	if (!PyArg_ParseTuple(args, "esi:SetSVarInt", "cp1252", &arg0, &arg1))
-	{
-		PyErr_Print();
+	if (!PyArg_ParseTuple(args, "esi:SetSVarInt", _py_encoding().c_str(), &arg0, &arg1))
 		return NULL;
-	}
+
 	bool ret = SetSVarInt(arg0, arg1);
 	PyMem_Free((void *)arg0);
 
@@ -3614,11 +3177,9 @@ static PyObject* pysamp_setsvarint(PyObject *self, PyObject *args)
 static PyObject* pysamp_getsvarint(PyObject *self, PyObject *args)
 {
 	const char* arg0;
-	if (!PyArg_ParseTuple(args, "es:GetSVarInt", "cp1252", &arg0))
-	{
-		PyErr_Print();
+	if (!PyArg_ParseTuple(args, "es:GetSVarInt", _py_encoding().c_str(), &arg0))
 		return NULL;
-	}
+
 	int ret = GetSVarInt(arg0);
 	PyMem_Free((void *)arg0);
 	PyObject* out = Py_BuildValue("i", ret);
@@ -3630,11 +3191,9 @@ static PyObject* pysamp_setsvarstring(PyObject *self, PyObject *args)
 {
 	const char* arg1;
 	const char* arg0;
-	if (!PyArg_ParseTuple(args, "eses:SetSVarString", "cp1252", &arg0, "cp1252", &arg1))
-	{
-		PyErr_Print();
+	if (!PyArg_ParseTuple(args, "eses:SetSVarString", _py_encoding().c_str(), &arg0, _py_encoding().c_str(), &arg1))
 		return NULL;
-	}
+
 	bool ret = SetSVarString(arg0, arg1);
 	PyMem_Free((void *)arg1);
 	PyMem_Free((void *)arg0);
@@ -3648,11 +3207,9 @@ static PyObject* pysamp_getsvarstring(PyObject *self, PyObject *args)
 {
 	int arg2 = SAMPConsts::get("MAX_CLIENT_MESSAGE");
 	const char* arg0;
-	if (!PyArg_ParseTuple(args, "es|i:GetSVarString", "cp1252", &arg0, &arg2))
-	{
-		PyErr_Print();
+	if (!PyArg_ParseTuple(args, "es|i:GetSVarString", _py_encoding().c_str(), &arg0, &arg2))
 		return NULL;
-	}
+
 	if(arg2 < 0)
 	{
 		PyErr_SetString(PyExc_TypeError, "Expected a positive length as second argument.");
@@ -3671,11 +3228,9 @@ static PyObject* pysamp_setsvarfloat(PyObject *self, PyObject *args)
 {
 	float arg1 = -1.0f;
 	const char* arg0;
-	if (!PyArg_ParseTuple(args, "esf:SetSVarFloat", "cp1252", &arg0, &arg1))
-	{
-		PyErr_Print();
+	if (!PyArg_ParseTuple(args, "esf:SetSVarFloat", _py_encoding().c_str(), &arg0, &arg1))
 		return NULL;
-	}
+
 	bool ret = SetSVarFloat(arg0, arg1);
 	PyMem_Free((void *)arg0);
 
@@ -3687,11 +3242,9 @@ static PyObject* pysamp_setsvarfloat(PyObject *self, PyObject *args)
 static PyObject* pysamp_getsvarfloat(PyObject *self, PyObject *args)
 {
 	const char* arg0;
-	if (!PyArg_ParseTuple(args, "es:GetSVarFloat", "cp1252", &arg0))
-	{
-		PyErr_Print();
+	if (!PyArg_ParseTuple(args, "es:GetSVarFloat", _py_encoding().c_str(), &arg0))
 		return NULL;
-	}
+
 	float ret = GetSVarFloat(arg0);
 	PyMem_Free((void *)arg0);
 	PyObject* out = Py_BuildValue("f", ret);
@@ -3702,11 +3255,9 @@ static PyObject* pysamp_getsvarfloat(PyObject *self, PyObject *args)
 static PyObject* pysamp_deletesvar(PyObject *self, PyObject *args)
 {
 	const char* arg0;
-	if (!PyArg_ParseTuple(args, "es:DeleteSVar", "cp1252", &arg0))
-	{
-		PyErr_Print();
+	if (!PyArg_ParseTuple(args, "es:DeleteSVar", _py_encoding().c_str(), &arg0))
 		return NULL;
-	}
+
 	bool ret = DeleteSVar(arg0);
 	PyMem_Free((void *)arg0);
 
@@ -3718,10 +3269,8 @@ static PyObject* pysamp_deletesvar(PyObject *self, PyObject *args)
 static PyObject* pysamp_getsvarsupperindex(PyObject *self, PyObject *args)
 {
 	if (!PyArg_ParseTuple(args, ":GetSVarsUpperIndex"))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	int ret = GetSVarsUpperIndex();
 	PyObject* out = Py_BuildValue("i", ret);
 	return out;
@@ -3732,10 +3281,8 @@ static PyObject* pysamp_getsvarnameatindex(PyObject *self, PyObject *args)
 	int arg2 = SAMPConsts::get("MAX_CLIENT_MESSAGE");
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i|i:GetSVarNameAtIndex", &arg0, &arg2))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	if(arg2 < 0)
 	{
 		PyErr_SetString(PyExc_TypeError, "Expected a positive length as second argument.");
@@ -3752,11 +3299,9 @@ static PyObject* pysamp_getsvarnameatindex(PyObject *self, PyObject *args)
 static PyObject* pysamp_getsvartype(PyObject *self, PyObject *args)
 {
 	const char* arg0;
-	if (!PyArg_ParseTuple(args, "es:GetSVarType", "cp1252", &arg0))
-	{
-		PyErr_Print();
+	if (!PyArg_ParseTuple(args, "es:GetSVarType", _py_encoding().c_str(), &arg0))
 		return NULL;
-	}
+
 	int ret = GetSVarType(arg0);
 	PyMem_Free((void *)arg0);
 	PyObject* out = Py_BuildValue("i", ret);
@@ -3768,11 +3313,9 @@ static PyObject* pysamp_setgamemodetext(PyObject *self, PyObject *args)
 {
 	const char* arg0;
 
-	if (!PyArg_ParseTuple(args, "es:SetGameModeText", "cp1252", &arg0))
-	{
-		PyErr_Print();
+	if (!PyArg_ParseTuple(args, "es:SetGameModeText", _py_encoding().c_str(), &arg0))
 		return NULL;
-	}
+
 	bool ret = SetGameModeText(arg0);
 	PyMem_Free((void *)arg0);
 
@@ -3785,10 +3328,8 @@ static PyObject* pysamp_setteamcount(PyObject *self, PyObject *args)
 {
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:SetTeamCount", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = SetTeamCount(arg0);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -3809,10 +3350,8 @@ static PyObject* pysamp_addplayerclass(PyObject *self, PyObject *args)
 	float arg1 = -1.0f;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "iffffiiiiii:AddPlayerClass", &arg0, &arg1, &arg2, &arg3, &arg4, &arg5, &arg6, &arg7, &arg8, &arg9, &arg10))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	int ret = AddPlayerClass(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10);
 	PyObject* out = Py_BuildValue("i", ret);
 	return out;
@@ -3833,10 +3372,8 @@ static PyObject* pysamp_addplayerclassex(PyObject *self, PyObject *args)
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "iiffffiiiiii:AddPlayerClassEx", &arg0, &arg1, &arg2, &arg3, &arg4, &arg5, &arg6, &arg7, &arg8, &arg9, &arg10, &arg11))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	int ret = AddPlayerClassEx(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11);
 	PyObject* out = Py_BuildValue("i", ret);
 	return out;
@@ -3852,10 +3389,8 @@ static PyObject* pysamp_addstaticvehicle(PyObject *self, PyObject *args)
 	float arg1 = -1.0f;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "iffffii:AddStaticVehicle", &arg0, &arg1, &arg2, &arg3, &arg4, &arg5, &arg6))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	int ret = AddStaticVehicle(arg0, arg1, arg2, arg3, arg4, arg5, arg6);
 	PyObject* out = Py_BuildValue("i", ret);
 	return out;
@@ -3873,10 +3408,8 @@ static PyObject* pysamp_addstaticvehicleex(PyObject *self, PyObject *args)
 	float arg1 = -1.0f;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "iffffiii|p:AddStaticVehicleEx", &arg0, &arg1, &arg2, &arg3, &arg4, &arg5, &arg6, &arg7, &arg8))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	int ret = AddStaticVehicleEx(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
 	PyObject* out = Py_BuildValue("i", ret);
 	return out;
@@ -3891,10 +3424,8 @@ static PyObject* pysamp_addstaticpickup(PyObject *self, PyObject *args)
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "iifff|i:AddStaticPickup", &arg0, &arg1, &arg2, &arg3, &arg4, &arg5))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	int ret = AddStaticPickup(arg0, arg1, arg2, arg3, arg4, arg5);
 	PyObject* out = Py_BuildValue("i", ret);
 	return out;
@@ -3909,10 +3440,8 @@ static PyObject* pysamp_createpickup(PyObject *self, PyObject *args)
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "iifff|i:CreatePickup", &arg0, &arg1, &arg2, &arg3, &arg4, &arg5))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	int ret = CreatePickup(arg0, arg1, arg2, arg3, arg4, arg5);
 	PyObject* out = Py_BuildValue("i", ret);
 	return out;
@@ -3922,10 +3451,8 @@ static PyObject* pysamp_destroypickup(PyObject *self, PyObject *args)
 {
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:DestroyPickup", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = DestroyPickup(arg0);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -3936,10 +3463,8 @@ static PyObject* pysamp_shownametags(PyObject *self, PyObject *args)
 {
 	long arg0 = 0;
 	if (!PyArg_ParseTuple(args, "p:ShowNameTags", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = ShowNameTags(arg0);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -3950,10 +3475,8 @@ static PyObject* pysamp_showplayermarkers(PyObject *self, PyObject *args)
 {
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:ShowPlayerMarkers", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = ShowPlayerMarkers(arg0);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -3963,10 +3486,8 @@ static PyObject* pysamp_showplayermarkers(PyObject *self, PyObject *args)
 static PyObject* pysamp_gamemodeexit(PyObject *self, PyObject *args)
 {
 	if (!PyArg_ParseTuple(args, ":GameModeExit"))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = GameModeExit();
 	if (ret)
 		Py_RETURN_TRUE;
@@ -3977,10 +3498,8 @@ static PyObject* pysamp_setworldtime(PyObject *self, PyObject *args)
 {
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:SetWorldTime", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = SetWorldTime(arg0);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -3992,10 +3511,8 @@ static PyObject* pysamp_getweaponname(PyObject *self, PyObject *args)
 	int arg2 = SAMPConsts::get("MAX_CLIENT_MESSAGE");
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i|i:GetWeaponName", &arg0, &arg2))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	if(arg2 < 0)
 	{
 		PyErr_SetString(PyExc_TypeError, "Expected a positive length as second argument.");
@@ -4013,10 +3530,8 @@ static PyObject* pysamp_enabletirepopping(PyObject *self, PyObject *args)
 {
 	int arg0 = false;
 	if (!PyArg_ParseTuple(args, "p:EnableTirePopping", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = EnableTirePopping(arg0);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -4026,10 +3541,8 @@ static PyObject* pysamp_enabletirepopping(PyObject *self, PyObject *args)
 static PyObject* pysamp_enablevehiclefriendlyfire(PyObject *self, PyObject *args)
 {
 	if (!PyArg_ParseTuple(args, ":EnableVehicleFriendlyFire"))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = EnableVehicleFriendlyFire();
 	if (ret)
 		Py_RETURN_TRUE;
@@ -4040,10 +3553,8 @@ static PyObject* pysamp_allowinteriorweapons(PyObject *self, PyObject *args)
 {
 	int arg0 = false;
 	if (!PyArg_ParseTuple(args, "p:AllowInteriorWeapons", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = AllowInteriorWeapons(arg0);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -4054,10 +3565,8 @@ static PyObject* pysamp_setweather(PyObject *self, PyObject *args)
 {
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:SetWeather", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = SetWeather(arg0);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -4068,10 +3577,8 @@ static PyObject* pysamp_setgravity(PyObject *self, PyObject *args)
 {
 	float arg0 = -1.0f;
 	if (!PyArg_ParseTuple(args, "f:SetGravity", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = SetGravity(arg0);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -4081,10 +3588,8 @@ static PyObject* pysamp_setgravity(PyObject *self, PyObject *args)
 static PyObject* pysamp_getgravity(PyObject *self, PyObject *args)
 {
 	if (!PyArg_ParseTuple(args, ":GetGravity"))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	float ret = GetGravity();
 	PyObject* out = Py_BuildValue("f", ret);
 	return out;
@@ -4094,10 +3599,8 @@ static PyObject* pysamp_allowadminteleport(PyObject *self, PyObject *args)
 {
 	int arg0 = false;
 	if (!PyArg_ParseTuple(args, "p:AllowAdminTeleport", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = AllowAdminTeleport(arg0);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -4108,10 +3611,8 @@ static PyObject* pysamp_setdeathdropamount(PyObject *self, PyObject *args)
 {
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:SetDeathDropAmount", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = SetDeathDropAmount(arg0);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -4126,10 +3627,8 @@ static PyObject* pysamp_createexplosion(PyObject *self, PyObject *args)
 	float arg1 = -1.0f;
 	float arg0 = -1.0f;
 	if (!PyArg_ParseTuple(args, "fffif:CreateExplosion", &arg0, &arg1, &arg2, &arg3, &arg4))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = CreateExplosion(arg0, arg1, arg2, arg3, arg4);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -4140,10 +3639,8 @@ static PyObject* pysamp_enablezonenames(PyObject *self, PyObject *args)
 {
 	int arg0 = false;
 	if (!PyArg_ParseTuple(args, "p:EnableZoneNames", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = EnableZoneNames(arg0);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -4153,10 +3650,8 @@ static PyObject* pysamp_enablezonenames(PyObject *self, PyObject *args)
 static PyObject* pysamp_useplayerpedanims(PyObject *self, PyObject *args)
 {
 	if (!PyArg_ParseTuple(args, ":UsePlayerPedAnims"))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = UsePlayerPedAnims();
 	if (ret)
 		Py_RETURN_TRUE;
@@ -4166,10 +3661,8 @@ static PyObject* pysamp_useplayerpedanims(PyObject *self, PyObject *args)
 static PyObject* pysamp_disableinteriorenterexits(PyObject *self, PyObject *args)
 {
 	if (!PyArg_ParseTuple(args, ":DisableInteriorEnterExits"))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = DisableInteriorEnterExits();
 	if (ret)
 		Py_RETURN_TRUE;
@@ -4180,10 +3673,8 @@ static PyObject* pysamp_setnametagdrawdistance(PyObject *self, PyObject *args)
 {
 	float arg0 = -1.0f;
 	if (!PyArg_ParseTuple(args, "f:SetNameTagDrawDistance", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = SetNameTagDrawDistance(arg0);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -4193,10 +3684,8 @@ static PyObject* pysamp_setnametagdrawdistance(PyObject *self, PyObject *args)
 static PyObject* pysamp_disablenametaglos(PyObject *self, PyObject *args)
 {
 	if (!PyArg_ParseTuple(args, ":DisableNameTagLOS"))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = DisableNameTagLOS();
 	if (ret)
 		Py_RETURN_TRUE;
@@ -4207,10 +3696,8 @@ static PyObject* pysamp_limitglobalchatradius(PyObject *self, PyObject *args)
 {
 	float arg0 = -1.0f;
 	if (!PyArg_ParseTuple(args, "f:LimitGlobalChatRadius", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = LimitGlobalChatRadius(arg0);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -4221,10 +3708,8 @@ static PyObject* pysamp_limitplayermarkerradius(PyObject *self, PyObject *args)
 {
 	float arg0 = -1.0f;
 	if (!PyArg_ParseTuple(args, "f:LimitPlayerMarkerRadius", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = LimitPlayerMarkerRadius(arg0);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -4235,11 +3720,9 @@ static PyObject* pysamp_connectnpc(PyObject *self, PyObject *args)
 {
 	const char* arg1;
 	const char* arg0;
-	if (!PyArg_ParseTuple(args, "eses:ConnectNPC", "cp1252", &arg0, "cp1252", &arg1))
-	{
-		PyErr_Print();
+	if (!PyArg_ParseTuple(args, "eses:ConnectNPC", _py_encoding().c_str(), &arg0, _py_encoding().c_str(), &arg1))
 		return NULL;
-	}
+
 	bool ret = ConnectNPC(arg0, arg1);
 	PyMem_Free((void *)arg1);
 	PyMem_Free((void *)arg0);
@@ -4253,10 +3736,8 @@ static PyObject* pysamp_isplayernpc(PyObject *self, PyObject *args)
 {
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:IsPlayerNPC", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = IsPlayerNPC(arg0);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -4267,10 +3748,8 @@ static PyObject* pysamp_isplayeradmin(PyObject *self, PyObject *args)
 {
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:IsPlayerAdmin", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = IsPlayerAdmin(arg0);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -4281,10 +3760,8 @@ static PyObject* pysamp_kick(PyObject *self, PyObject *args)
 {
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:Kick", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = Kick(arg0);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -4295,10 +3772,8 @@ static PyObject* pysamp_ban(PyObject *self, PyObject *args)
 {
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:Ban", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = Ban(arg0);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -4309,11 +3784,9 @@ static PyObject* pysamp_banex(PyObject *self, PyObject *args)
 {
 	const char* arg1;
 	int arg0 = -1;
-	if (!PyArg_ParseTuple(args, "ies:BanEx", &arg0, "cp1252", &arg1))
-	{
-		PyErr_Print();
+	if (!PyArg_ParseTuple(args, "ies:BanEx", &arg0, _py_encoding().c_str(), &arg1))
 		return NULL;
-	}
+
 	bool ret = BanEx(arg0, arg1);
 	PyMem_Free((void *)arg1);
 
@@ -4325,11 +3798,9 @@ static PyObject* pysamp_banex(PyObject *self, PyObject *args)
 static PyObject* pysamp_sendrconcommand(PyObject *self, PyObject *args)
 {
 	const char* arg0;
-	if (!PyArg_ParseTuple(args, "es:SendRconCommand", "cp1252", &arg0))
-	{
-		PyErr_Print();
+	if (!PyArg_ParseTuple(args, "es:SendRconCommand", _py_encoding().c_str(), &arg0))
 		return NULL;
-	}
+
 	bool ret = SendRconCommand(arg0);
 	PyMem_Free((void *)arg0);
 
@@ -4343,10 +3814,8 @@ static PyObject* pysamp_getplayernetworkstats(PyObject *self, PyObject *args)
 	int arg2 = SAMPConsts::get("MAX_CLIENT_MESSAGE");
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i|i:GetPlayerNetworkStats", &arg0, &arg2))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	if(arg2 < 0)
 	{
 		PyErr_SetString(PyExc_TypeError, "Expected a positive length as second argument.");
@@ -4364,10 +3833,8 @@ static PyObject* pysamp_getnetworkstats(PyObject *self, PyObject *args)
 {
 	int arg1 = SAMPConsts::get("MAX_CLIENT_MESSAGE");
 	if (!PyArg_ParseTuple(args, "|i:GetNetworkStats", &arg1))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	if(arg1 < 0)
 	{
 		PyErr_SetString(PyExc_TypeError, "Expected a positive length as argument.");
@@ -4386,10 +3853,8 @@ static PyObject* pysamp_getplayerversion(PyObject *self, PyObject *args)
 	int arg2 = SAMPConsts::get("MAX_CLIENT_MESSAGE");
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i|i:GetPlayerVersion", &arg0, &arg2))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	if(arg2 < 0)
 	{
 		PyErr_SetString(PyExc_TypeError, "Expected a positive length as second argument.");
@@ -4407,11 +3872,9 @@ static PyObject* pysamp_blockipaddress(PyObject *self, PyObject *args)
 {
 	int arg1 = -1;
 	const char* arg0;
-	if (!PyArg_ParseTuple(args, "esi:BlockIpAddress", "cp1252", &arg0, &arg1))
-	{
-		PyErr_Print();
+	if (!PyArg_ParseTuple(args, "esi:BlockIpAddress", _py_encoding().c_str(), &arg0, &arg1))
 		return NULL;
-	}
+
 	bool ret = BlockIpAddress(arg0, arg1);
 	PyMem_Free((void *)arg0);
 
@@ -4423,11 +3886,9 @@ static PyObject* pysamp_blockipaddress(PyObject *self, PyObject *args)
 static PyObject* pysamp_unblockipaddress(PyObject *self, PyObject *args)
 {
 	const char* arg0;
-	if (!PyArg_ParseTuple(args, "es:UnBlockIpAddress", "cp1252", &arg0))
-	{
-		PyErr_Print();
+	if (!PyArg_ParseTuple(args, "es:UnBlockIpAddress", _py_encoding().c_str(), &arg0))
 		return NULL;
-	}
+
 	bool ret = UnBlockIpAddress(arg0);
 	PyMem_Free((void *)arg0);
 
@@ -4440,11 +3901,9 @@ static PyObject* pysamp_getservervarasstring(PyObject *self, PyObject *args)
 {
 	int arg2 = SAMPConsts::get("MAX_CLIENT_MESSAGE");
 	const char* arg0;
-	if (!PyArg_ParseTuple(args, "es|i:GetServerVarAsString", "cp1252", &arg0, &arg2))
-	{
-		PyErr_Print();
+	if (!PyArg_ParseTuple(args, "es|i:GetServerVarAsString", _py_encoding().c_str(), &arg0, &arg2))
 		return NULL;
-	}
+
 	if(arg2 < 0)
 	{
 		PyErr_SetString(PyExc_TypeError, "Expected a positive length as second argument.");
@@ -4462,11 +3921,9 @@ static PyObject* pysamp_getservervarasstring(PyObject *self, PyObject *args)
 static PyObject* pysamp_getservervarasint(PyObject *self, PyObject *args)
 {
 	const char* arg0;
-	if (!PyArg_ParseTuple(args, "es:GetServerVarAsInt", "cp1252", &arg0))
-	{
-		PyErr_Print();
+	if (!PyArg_ParseTuple(args, "es:GetServerVarAsInt", _py_encoding().c_str(), &arg0))
 		return NULL;
-	}
+
 	int ret = GetServerVarAsInt(arg0);
 	PyMem_Free((void *)arg0);
 	PyObject* out = Py_BuildValue("i", ret);
@@ -4477,11 +3934,9 @@ static PyObject* pysamp_getservervarasint(PyObject *self, PyObject *args)
 static PyObject* pysamp_getservervarasbool(PyObject *self, PyObject *args)
 {
 	const char* arg0;
-	if (!PyArg_ParseTuple(args, "es:GetServerVarAsBool", "cp1252", &arg0))
-	{
-		PyErr_Print();
+	if (!PyArg_ParseTuple(args, "es:GetServerVarAsBool", _py_encoding().c_str(), &arg0))
 		return NULL;
-	}
+
 	bool ret = GetServerVarAsBool(arg0);
 	PyMem_Free((void *)arg0);
 
@@ -4494,11 +3949,9 @@ static PyObject* pysamp_getconsolevarasstring(PyObject *self, PyObject *args)
 {
 	int arg2 = SAMPConsts::get("MAX_CLIENT_MESSAGE");
 	const char* arg0;
-	if (!PyArg_ParseTuple(args, "es|i:GetConsoleVarAsString", "cp1252", &arg0, &arg2))
-	{
-		PyErr_Print();
+	if (!PyArg_ParseTuple(args, "es|i:GetConsoleVarAsString", _py_encoding().c_str(), &arg0, &arg2))
 		return NULL;
-	}
+
 	if(arg2 < 0)
 	{
 		PyErr_SetString(PyExc_TypeError, "Expected a positive length as second argument.");
@@ -4516,11 +3969,9 @@ static PyObject* pysamp_getconsolevarasstring(PyObject *self, PyObject *args)
 static PyObject* pysamp_getconsolevarasint(PyObject *self, PyObject *args)
 {
 	const char* arg0;
-	if (!PyArg_ParseTuple(args, "es:GetConsoleVarAsInt", "cp1252", &arg0))
-	{
-		PyErr_Print();
+	if (!PyArg_ParseTuple(args, "es:GetConsoleVarAsInt", _py_encoding().c_str(), &arg0))
 		return NULL;
-	}
+
 	int ret = GetConsoleVarAsInt(arg0);
 	PyMem_Free((void *)arg0);
 	PyObject* out = Py_BuildValue("i", ret);
@@ -4531,11 +3982,9 @@ static PyObject* pysamp_getconsolevarasint(PyObject *self, PyObject *args)
 static PyObject* pysamp_getconsolevarasbool(PyObject *self, PyObject *args)
 {
 	const char* arg0;
-	if (!PyArg_ParseTuple(args, "es:GetConsoleVarAsBool", "cp1252", &arg0))
-	{
-		PyErr_Print();
+	if (!PyArg_ParseTuple(args, "es:GetConsoleVarAsBool", _py_encoding().c_str(), &arg0))
 		return NULL;
-	}
+
 	bool ret = GetConsoleVarAsBool(arg0);
 	PyMem_Free((void *)arg0);
 
@@ -4547,10 +3996,8 @@ static PyObject* pysamp_getconsolevarasbool(PyObject *self, PyObject *args)
 static PyObject* pysamp_getservertickrate(PyObject *self, PyObject *args)
 {
 	if (!PyArg_ParseTuple(args, ":GetServerTickRate"))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	int ret = GetServerTickRate();
 	PyObject* out = Py_BuildValue("i", ret);
 	return out;
@@ -4560,10 +4007,8 @@ static PyObject* pysamp_netstats_getconnectedtime(PyObject *self, PyObject *args
 {
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:NetStats_GetConnectedTime", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	int ret = NetStats_GetConnectedTime(arg0);
 	PyObject* out = Py_BuildValue("i", ret);
 	return out;
@@ -4573,10 +4018,8 @@ static PyObject* pysamp_netstats_messagesreceived(PyObject *self, PyObject *args
 {
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:NetStats_MessagesReceived", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	int ret = NetStats_MessagesReceived(arg0);
 	PyObject* out = Py_BuildValue("i", ret);
 	return out;
@@ -4586,10 +4029,8 @@ static PyObject* pysamp_netstats_bytesreceived(PyObject *self, PyObject *args)
 {
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:NetStats_BytesReceived", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	int ret = NetStats_BytesReceived(arg0);
 	PyObject* out = Py_BuildValue("i", ret);
 	return out;
@@ -4599,10 +4040,8 @@ static PyObject* pysamp_netstats_messagessent(PyObject *self, PyObject *args)
 {
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:NetStats_MessagesSent", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	int ret = NetStats_MessagesSent(arg0);
 	PyObject* out = Py_BuildValue("i", ret);
 	return out;
@@ -4612,10 +4051,8 @@ static PyObject* pysamp_netstats_bytessent(PyObject *self, PyObject *args)
 {
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:NetStats_BytesSent", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	int ret = NetStats_BytesSent(arg0);
 	PyObject* out = Py_BuildValue("i", ret);
 	return out;
@@ -4625,10 +4062,8 @@ static PyObject* pysamp_netstats_messagesrecvpersecond(PyObject *self, PyObject 
 {
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:NetStats_MessagesRecvPerSecond", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	int ret = NetStats_MessagesRecvPerSecond(arg0);
 	PyObject* out = Py_BuildValue("i", ret);
 	return out;
@@ -4638,10 +4073,8 @@ static PyObject* pysamp_netstats_packetlosspercent(PyObject *self, PyObject *arg
 {
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:NetStats_PacketLossPercent", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	float ret = NetStats_PacketLossPercent(arg0);
 	PyObject* out = Py_BuildValue("f", ret);
 	return out;
@@ -4651,10 +4084,8 @@ static PyObject* pysamp_netstats_connectionstatus(PyObject *self, PyObject *args
 {
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:NetStats_ConnectionStatus", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	int ret = NetStats_ConnectionStatus(arg0);
 	PyObject* out = Py_BuildValue("i", ret);
 	return out;
@@ -4664,10 +4095,8 @@ static PyObject* pysamp_netstats_getipport(PyObject *self, PyObject *args)
 {
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:NetStats_GetIpPort", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	// Max IP+port size is 22 including final '\0'
 	char arg1[22];
 	bool ret = NetStats_GetIpPort(arg0, arg1, 22);
@@ -4683,11 +4112,9 @@ static PyObject* pysamp_createmenu(PyObject *self, PyObject *args)
 	float arg2 = -1.0f;
 	int arg1 = -1;
 	const char* arg0;
-	if (!PyArg_ParseTuple(args, "esiffff:CreateMenu", "cp1252", &arg0, &arg1, &arg2, &arg3, &arg4, &arg5))
-	{
-		PyErr_Print();
+	if (!PyArg_ParseTuple(args, "esiffff:CreateMenu", _py_encoding().c_str(), &arg0, &arg1, &arg2, &arg3, &arg4, &arg5))
 		return NULL;
-	}
+
 	int ret = CreateMenu(arg0, arg1, arg2, arg3, arg4, arg5);
 	PyMem_Free((void *)arg0);
 	PyObject* out = Py_BuildValue("i", ret);
@@ -4699,10 +4126,8 @@ static PyObject* pysamp_destroymenu(PyObject *self, PyObject *args)
 {
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:DestroyMenu", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = DestroyMenu(arg0);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -4714,11 +4139,9 @@ static PyObject* pysamp_addmenuitem(PyObject *self, PyObject *args)
 	const char* arg2;
 	int arg1 = -1;
 	int arg0 = -1;
-	if (!PyArg_ParseTuple(args, "iies:AddMenuItem", &arg0, &arg1, "cp1252", &arg2))
-	{
-		PyErr_Print();
+	if (!PyArg_ParseTuple(args, "iies:AddMenuItem", &arg0, &arg1, _py_encoding().c_str(), &arg2))
 		return NULL;
-	}
+
 	int ret = AddMenuItem(arg0, arg1, arg2);
 	PyMem_Free((void *)arg2);
 	PyObject* out = Py_BuildValue("i", ret);
@@ -4731,11 +4154,9 @@ static PyObject* pysamp_setmenucolumnheader(PyObject *self, PyObject *args)
 	const char* arg2;
 	int arg1 = -1;
 	int arg0 = -1;
-	if (!PyArg_ParseTuple(args, "iies:SetMenuColumnHeader", &arg0, &arg1, "cp1252", &arg2))
-	{
-		PyErr_Print();
+	if (!PyArg_ParseTuple(args, "iies:SetMenuColumnHeader", &arg0, &arg1, _py_encoding().c_str(), &arg2))
 		return NULL;
-	}
+
 	bool ret = SetMenuColumnHeader(arg0, arg1, arg2);
 	PyMem_Free((void *)arg2);
 
@@ -4749,10 +4170,8 @@ static PyObject* pysamp_showmenuforplayer(PyObject *self, PyObject *args)
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ii:ShowMenuForPlayer", &arg0, &arg1))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = ShowMenuForPlayer(arg0, arg1);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -4764,10 +4183,8 @@ static PyObject* pysamp_hidemenuforplayer(PyObject *self, PyObject *args)
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ii:HideMenuForPlayer", &arg0, &arg1))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = HideMenuForPlayer(arg0, arg1);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -4778,10 +4195,8 @@ static PyObject* pysamp_isvalidmenu(PyObject *self, PyObject *args)
 {
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:IsValidMenu", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = IsValidMenu(arg0);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -4792,10 +4207,8 @@ static PyObject* pysamp_disablemenu(PyObject *self, PyObject *args)
 {
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:DisableMenu", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = DisableMenu(arg0);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -4807,10 +4220,8 @@ static PyObject* pysamp_disablemenurow(PyObject *self, PyObject *args)
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ii:DisableMenuRow", &arg0, &arg1))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = DisableMenuRow(arg0, arg1);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -4821,10 +4232,8 @@ static PyObject* pysamp_getplayermenu(PyObject *self, PyObject *args)
 {
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:GetPlayerMenu", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	int ret = GetPlayerMenu(arg0);
 	PyObject* out = Py_BuildValue("i", ret);
 	return out;
@@ -4835,11 +4244,9 @@ static PyObject* pysamp_textdrawcreate(PyObject *self, PyObject *args)
 	const char* arg2;
 	float arg1 = -1.0f;
 	float arg0 = -1.0f;
-	if (!PyArg_ParseTuple(args, "ffes:TextDrawCreate", &arg0, &arg1, "cp1252", &arg2))
-	{
-		PyErr_Print();
+	if (!PyArg_ParseTuple(args, "ffes:TextDrawCreate", &arg0, &arg1, _py_encoding().c_str(), &arg2))
 		return NULL;
-	}
+
 	int ret = TextDrawCreate(arg0, arg1, arg2);
 	PyMem_Free((void *)arg2);
 	PyObject* out = Py_BuildValue("i", ret);
@@ -4851,10 +4258,8 @@ static PyObject* pysamp_textdrawdestroy(PyObject *self, PyObject *args)
 {
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:TextDrawDestroy", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = TextDrawDestroy(arg0);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -4867,10 +4272,8 @@ static PyObject* pysamp_textdrawlettersize(PyObject *self, PyObject *args)
 	float arg1 = -1.0f;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "iff:TextDrawLetterSize", &arg0, &arg1, &arg2))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = TextDrawLetterSize(arg0, arg1, arg2);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -4883,10 +4286,8 @@ static PyObject* pysamp_textdrawtextsize(PyObject *self, PyObject *args)
 	float arg1 = -1.0f;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "iff:TextDrawTextSize", &arg0, &arg1, &arg2))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = TextDrawTextSize(arg0, arg1, arg2);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -4898,10 +4299,8 @@ static PyObject* pysamp_textdrawalignment(PyObject *self, PyObject *args)
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ii:TextDrawAlignment", &arg0, &arg1))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = TextDrawAlignment(arg0, arg1);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -4913,10 +4312,8 @@ static PyObject* pysamp_textdrawcolor(PyObject *self, PyObject *args)
 	unsigned long arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ik:TextDrawColor", &arg0, &arg1))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = TextDrawColor(arg0, arg1);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -4928,10 +4325,8 @@ static PyObject* pysamp_textdrawusebox(PyObject *self, PyObject *args)
 	int arg1 = false;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ip:TextDrawUseBox", &arg0, &arg1))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = TextDrawUseBox(arg0, arg1);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -4943,10 +4338,8 @@ static PyObject* pysamp_textdrawboxcolor(PyObject *self, PyObject *args)
 	unsigned long arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ik:TextDrawBoxColor", &arg0, &arg1))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = TextDrawBoxColor(arg0, arg1);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -4958,10 +4351,8 @@ static PyObject* pysamp_textdrawsetshadow(PyObject *self, PyObject *args)
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ii:TextDrawSetShadow", &arg0, &arg1))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = TextDrawSetShadow(arg0, arg1);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -4973,10 +4364,8 @@ static PyObject* pysamp_textdrawsetoutline(PyObject *self, PyObject *args)
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ii:TextDrawSetOutline", &arg0, &arg1))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = TextDrawSetOutline(arg0, arg1);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -4988,10 +4377,8 @@ static PyObject* pysamp_textdrawbackgroundcolor(PyObject *self, PyObject *args)
 	unsigned long arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ik:TextDrawBackgroundColor", &arg0, &arg1))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = TextDrawBackgroundColor(arg0, arg1);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -5003,10 +4390,8 @@ static PyObject* pysamp_textdrawfont(PyObject *self, PyObject *args)
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ii:TextDrawFont", &arg0, &arg1))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = TextDrawFont(arg0, arg1);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -5018,10 +4403,8 @@ static PyObject* pysamp_textdrawsetproportional(PyObject *self, PyObject *args)
 	int arg1 = false;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ip:TextDrawSetProportional", &arg0, &arg1))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = TextDrawSetProportional(arg0, arg1);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -5033,10 +4416,8 @@ static PyObject* pysamp_textdrawsetselectable(PyObject *self, PyObject *args)
 	int arg1 = false;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ip:TextDrawSetSelectable", &arg0, &arg1))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = TextDrawSetSelectable(arg0, arg1);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -5048,10 +4429,8 @@ static PyObject* pysamp_textdrawshowforplayer(PyObject *self, PyObject *args)
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ii:TextDrawShowForPlayer", &arg0, &arg1))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = TextDrawShowForPlayer(arg0, arg1);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -5063,10 +4442,8 @@ static PyObject* pysamp_textdrawhideforplayer(PyObject *self, PyObject *args)
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ii:TextDrawHideForPlayer", &arg0, &arg1))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = TextDrawHideForPlayer(arg0, arg1);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -5077,10 +4454,8 @@ static PyObject* pysamp_textdrawshowforall(PyObject *self, PyObject *args)
 {
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:TextDrawShowForAll", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = TextDrawShowForAll(arg0);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -5091,10 +4466,8 @@ static PyObject* pysamp_textdrawhideforall(PyObject *self, PyObject *args)
 {
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:TextDrawHideForAll", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = TextDrawHideForAll(arg0);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -5105,11 +4478,9 @@ static PyObject* pysamp_textdrawsetstring(PyObject *self, PyObject *args)
 {
 	const char* arg1;
 	int arg0 = -1;
-	if (!PyArg_ParseTuple(args, "ies:TextDrawSetString", &arg0, "cp1252", &arg1))
-	{
-		PyErr_Print();
+	if (!PyArg_ParseTuple(args, "ies:TextDrawSetString", &arg0, _py_encoding().c_str(), &arg1))
 		return NULL;
-	}
+
 	bool ret = TextDrawSetString(arg0, arg1);
 	PyMem_Free((void *)arg1);
 
@@ -5123,10 +4494,8 @@ static PyObject* pysamp_textdrawsetpreviewmodel(PyObject *self, PyObject *args)
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ii:TextDrawSetPreviewModel", &arg0, &arg1))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = TextDrawSetPreviewModel(arg0, arg1);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -5141,10 +4510,8 @@ static PyObject* pysamp_textdrawsetpreviewrot(PyObject *self, PyObject *args)
 	float arg1 = -1.0f;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ifff|f:TextDrawSetPreviewRot", &arg0, &arg1, &arg2, &arg3, &arg4))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = TextDrawSetPreviewRot(arg0, arg1, arg2, arg3, arg4);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -5157,10 +4524,8 @@ static PyObject* pysamp_textdrawsetpreviewvehcol(PyObject *self, PyObject *args)
 	unsigned long arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ikk:TextDrawSetPreviewVehCol", &arg0, &arg1, &arg2))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = TextDrawSetPreviewVehCol(arg0, arg1, arg2);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -5172,10 +4537,8 @@ static PyObject* pysamp_selecttextdraw(PyObject *self, PyObject *args)
 	unsigned long arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ik:SelectTextDraw", &arg0, &arg1))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = SelectTextDraw(arg0, arg1);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -5186,10 +4549,8 @@ static PyObject* pysamp_cancelselecttextdraw(PyObject *self, PyObject *args)
 {
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:CancelSelectTextDraw", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = CancelSelectTextDraw(arg0);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -5203,10 +4564,8 @@ static PyObject* pysamp_gangzonecreate(PyObject *self, PyObject *args)
 	float arg1 = -1.0f;
 	float arg0 = -1.0f;
 	if (!PyArg_ParseTuple(args, "ffff:GangZoneCreate", &arg0, &arg1, &arg2, &arg3))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	int ret = GangZoneCreate(arg0, arg1, arg2, arg3);
 	PyObject* out = Py_BuildValue("i", ret);
 	return out;
@@ -5216,10 +4575,8 @@ static PyObject* pysamp_gangzonedestroy(PyObject *self, PyObject *args)
 {
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:GangZoneDestroy", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = GangZoneDestroy(arg0);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -5232,10 +4589,8 @@ static PyObject* pysamp_gangzoneshowforplayer(PyObject *self, PyObject *args)
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "iik:GangZoneShowForPlayer", &arg0, &arg1, &arg2))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = GangZoneShowForPlayer(arg0, arg1, arg2);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -5247,10 +4602,8 @@ static PyObject* pysamp_gangzoneshowforall(PyObject *self, PyObject *args)
 	unsigned long arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ik:GangZoneShowForAll", &arg0, &arg1))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = GangZoneShowForAll(arg0, arg1);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -5262,10 +4615,8 @@ static PyObject* pysamp_gangzonehideforplayer(PyObject *self, PyObject *args)
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ii:GangZoneHideForPlayer", &arg0, &arg1))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = GangZoneHideForPlayer(arg0, arg1);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -5276,10 +4627,8 @@ static PyObject* pysamp_gangzonehideforall(PyObject *self, PyObject *args)
 {
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:GangZoneHideForAll", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = GangZoneHideForAll(arg0);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -5292,10 +4641,8 @@ static PyObject* pysamp_gangzoneflashforplayer(PyObject *self, PyObject *args)
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "iii:GangZoneFlashForPlayer", &arg0, &arg1, &arg2))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = GangZoneFlashForPlayer(arg0, arg1, arg2);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -5307,10 +4654,8 @@ static PyObject* pysamp_gangzoneflashforall(PyObject *self, PyObject *args)
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ii:GangZoneFlashForAll", &arg0, &arg1))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = GangZoneFlashForAll(arg0, arg1);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -5322,10 +4667,8 @@ static PyObject* pysamp_gangzonestopflashforplayer(PyObject *self, PyObject *arg
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ii:GangZoneStopFlashForPlayer", &arg0, &arg1))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = GangZoneStopFlashForPlayer(arg0, arg1);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -5336,10 +4679,8 @@ static PyObject* pysamp_gangzonestopflashforall(PyObject *self, PyObject *args)
 {
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:GangZoneStopFlashForAll", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = GangZoneStopFlashForAll(arg0);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -5358,11 +4699,9 @@ static PyObject* pysamp_create3dtextlabel(PyObject *self, PyObject *args)
 	int virtualworld = -1;
 	int testLOS = 0;
 
-	if (!PyArg_ParseTuple(args, "eskffffi|i:Create3DTextLabel", "cp1252", &text, &color, &x, &y, &z, &drawDistance, &virtualworld, &testLOS))
-	{
-		PyErr_Print();
+	if (!PyArg_ParseTuple(args, "eskffffi|i:Create3DTextLabel", _py_encoding().c_str(), &text, &color, &x, &y, &z, &drawDistance, &virtualworld, &testLOS))
 		return NULL;
-	}
+
 
 	int ret = Create3DTextLabel(text, color, x, y, z, drawDistance, virtualworld, testLOS);
 	PyMem_Free((void *)text);
@@ -5374,10 +4713,8 @@ static PyObject* pysamp_delete3dtextlabel(PyObject *self, PyObject *args)
 {
 	int id = -1;
 	if (!PyArg_ParseTuple(args, "i", &id))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = Delete3DTextLabel(id);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -5393,10 +4730,8 @@ static PyObject* pysamp_attach3dtextlabeltoplayer(PyObject *self, PyObject *args
 	float offsetZ;
 
 	if (!PyArg_ParseTuple(args, "iifff", &id, &playerid, &offsetX, &offsetY, &offsetZ))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 
 	bool ret = Attach3DTextLabelToPlayer(id, playerid, offsetX, offsetY, offsetZ);
 	if (ret)
@@ -5413,10 +4748,8 @@ static PyObject* pysamp_attach3dtextlabeltovehicle(PyObject *self, PyObject *arg
 	float offsetZ;
 
 	if (!PyArg_ParseTuple(args, "iifff", &id, &vehicleid, &offsetX, &offsetY, &offsetZ))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 
 	bool ret = Attach3DTextLabelToVehicle(id, vehicleid, offsetX, offsetY, offsetZ);
 	if (ret)
@@ -5430,11 +4763,9 @@ static PyObject* pysamp_update3dtextlabeltext(PyObject *self, PyObject *args)
 	unsigned long color;
 	const char* text;
 
-	if (!PyArg_ParseTuple(args, "ikes", &id, &color, "cp1252", &text))
-	{
-		PyErr_Print();
+	if (!PyArg_ParseTuple(args, "ikes", &id, &color, _py_encoding().c_str(), &text))
 		return NULL;
-	}
+
 
 	bool ret = Update3DTextLabelText(id, color, text);
 	PyMem_Free((void *)text);
@@ -5456,11 +4787,9 @@ static PyObject* pysamp_createplayer3dtextlabel(PyObject *self, PyObject *args)
 	int attachedvehicle = 0xFFFF;
 	int testLOS = 0;
 
-	if (!PyArg_ParseTuple(args, "ieskffff|iip", &playerid, "cp1252", &text, &color, &x, &y, &z, &drawDistance, &attachedplayer, &attachedvehicle, &testLOS))
-	{
-		PyErr_Print();
+	if (!PyArg_ParseTuple(args, "ieskffff|iip", &playerid, _py_encoding().c_str(), &text, &color, &x, &y, &z, &drawDistance, &attachedplayer, &attachedvehicle, &testLOS))
 		return NULL;
-	}
+
 
 	int ret = CreatePlayer3DTextLabel(playerid, text, color, x, y, z, drawDistance, attachedplayer, attachedvehicle, testLOS);
 	PyMem_Free((void *)text);
@@ -5474,10 +4803,8 @@ static PyObject* pysamp_deleteplayer3dtextlabel(PyObject *self, PyObject *args)
 	int id;
 
 	if (!PyArg_ParseTuple(args, "ii", &playerid, &id))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 
 	bool ret = DeletePlayer3DTextLabel(playerid, id);
 	if (ret)
@@ -5492,11 +4819,9 @@ static PyObject* pysamp_updateplayer3dtextlabeltext(PyObject *self, PyObject *ar
 	unsigned long color;
 	const char* text;
 
-	if (!PyArg_ParseTuple(args, "iikes", &playerid, &id, &color, "cp1252", &text))
-	{
-		PyErr_Print();
+	if (!PyArg_ParseTuple(args, "iikes", &playerid, &id, &color, _py_encoding().c_str(), &text))
 		return NULL;
-	}
+
 
 	bool ret = UpdatePlayer3DTextLabelText(playerid, id, color, text);
 	PyMem_Free((void *)text);
@@ -5515,11 +4840,9 @@ static PyObject* pysamp_showplayerdialog(PyObject *self, PyObject *args)
 	int arg2 = -1;
 	int arg1 = -1;
 	int arg0 = -1;
-	if (!PyArg_ParseTuple(args, "iiieseseses:ShowPlayerDialog", &arg0, &arg1, &arg2, "cp1252", &arg3, "cp1252", &arg4, "cp1252", &arg5, "cp1252", &arg6))
-	{
-		PyErr_Print();
+	if (!PyArg_ParseTuple(args, "iiieseseses:ShowPlayerDialog", &arg0, &arg1, &arg2, _py_encoding().c_str(), &arg3, _py_encoding().c_str(), &arg4, _py_encoding().c_str(), &arg5, _py_encoding().c_str(), &arg6))
 		return NULL;
-	}
+
 	bool ret = ShowPlayerDialog(arg0, arg1, arg2, arg3, arg4, arg5, arg6);
 	PyMem_Free((void *)arg6);
 	PyMem_Free((void *)arg5);
@@ -5535,10 +4858,8 @@ static PyObject* pysamp_gpci(PyObject *self, PyObject *args)
 {
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:gpci", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
         // Max gpci size is 41 including final '\0'
 	char arg1[41];
 	bool ret = gpci(arg0, arg1, 41);
@@ -5550,10 +4871,8 @@ static PyObject* pysamp_isvalidvehicle(PyObject *self, PyObject *args)
 {
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:IsValidVehicle", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = IsValidVehicle(arg0);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -5567,10 +4886,8 @@ static PyObject* pysamp_getvehicledistancefrompoint(PyObject *self, PyObject *ar
 	float arg1 = -1.0f;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ifff:GetVehicleDistanceFromPoint", &arg0, &arg1, &arg2, &arg3))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	float ret = GetVehicleDistanceFromPoint(arg0, arg1, arg2, arg3);
 	PyObject* out = Py_BuildValue("f", ret);
 	return out;
@@ -5588,10 +4905,8 @@ static PyObject* pysamp_createvehicle(PyObject *self, PyObject *args)
 	float arg1 = -1.0f;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "iffffiii|p:CreateVehicle", &arg0, &arg1, &arg2, &arg3, &arg4, &arg5, &arg6, &arg7, &arg8))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	int ret = CreateVehicle(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
 	PyObject* out = Py_BuildValue("i", ret);
 	return out;
@@ -5601,10 +4916,8 @@ static PyObject* pysamp_destroyvehicle(PyObject *self, PyObject *args)
 {
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:DestroyVehicle", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = DestroyVehicle(arg0);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -5616,10 +4929,8 @@ static PyObject* pysamp_isvehiclestreamedin(PyObject *self, PyObject *args)
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ii:IsVehicleStreamedIn", &arg0, &arg1))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = IsVehicleStreamedIn(arg0, arg1);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -5633,10 +4944,8 @@ static PyObject* pysamp_getvehiclepos(PyObject *self, PyObject *args)
 	float arg1 = -1.0f;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:GetVehiclePos", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = GetVehiclePos(arg0, &arg1, &arg2, &arg3);
 	PyObject* out = Py_BuildValue("fff", arg1, arg2, arg3);
 	return out;
@@ -5649,10 +4958,8 @@ static PyObject* pysamp_setvehiclepos(PyObject *self, PyObject *args)
 	float arg1 = -1.0f;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ifff:SetVehiclePos", &arg0, &arg1, &arg2, &arg3))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = SetVehiclePos(arg0, arg1, arg2, arg3);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -5664,10 +4971,8 @@ static PyObject* pysamp_getvehiclezangle(PyObject *self, PyObject *args)
 	float arg1 = -1.0f;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:GetVehicleZAngle", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = GetVehicleZAngle(arg0, &arg1);
 	PyObject* out = Py_BuildValue("f", arg1);
 	return out;
@@ -5681,10 +4986,8 @@ static PyObject* pysamp_getvehiclerotationquat(PyObject *self, PyObject *args)
 	float arg1 = -1.0f;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:GetVehicleRotationQuat", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = GetVehicleRotationQuat(arg0, &arg1, &arg2, &arg3, &arg4);
 	PyObject* out = Py_BuildValue("ffff", arg1, arg2, arg3, arg4);
 	return out;
@@ -5695,10 +4998,8 @@ static PyObject* pysamp_setvehiclezangle(PyObject *self, PyObject *args)
 	float arg1 = -1.0f;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "if:SetVehicleZAngle", &arg0, &arg1))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = SetVehicleZAngle(arg0, arg1);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -5712,10 +5013,8 @@ static PyObject* pysamp_setvehicleparamsforplayer(PyObject *self, PyObject *args
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "iiii:SetVehicleParamsForPlayer", &arg0, &arg1, &arg2, &arg3))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = SetVehicleParamsForPlayer(arg0, arg1, arg2, arg3);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -5725,10 +5024,8 @@ static PyObject* pysamp_setvehicleparamsforplayer(PyObject *self, PyObject *args
 static PyObject* pysamp_manualvehicleengineandlights(PyObject *self, PyObject *args)
 {
 	if (!PyArg_ParseTuple(args, ":ManualVehicleEngineAndLights"))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = ManualVehicleEngineAndLights();
 	if (ret)
 		Py_RETURN_TRUE;
@@ -5746,10 +5043,8 @@ static PyObject* pysamp_setvehicleparamsex(PyObject *self, PyObject *args)
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "iiiiiiii:SetVehicleParamsEx", &arg0, &arg1, &arg2, &arg3, &arg4, &arg5, &arg6, &arg7))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = SetVehicleParamsEx(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -5767,10 +5062,8 @@ static PyObject* pysamp_getvehicleparamsex(PyObject *self, PyObject *args)
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:GetVehicleParamsEx", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = GetVehicleParamsEx(arg0, &arg1, &arg2, &arg3, &arg4, &arg5, &arg6, &arg7);
 	PyObject* out = Py_BuildValue("iiiiiii", arg1, arg2, arg3, arg4, arg5, arg6, arg7);
 	return out;
@@ -5780,10 +5073,8 @@ static PyObject* pysamp_getvehicleparamssirenstate(PyObject *self, PyObject *arg
 {
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:GetVehicleParamsSirenState", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	int ret = GetVehicleParamsSirenState(arg0);
 	PyObject* out = Py_BuildValue("i", ret);
 	return out;
@@ -5797,10 +5088,8 @@ static PyObject* pysamp_setvehicleparamscardoors(PyObject *self, PyObject *args)
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "iiiii:SetVehicleParamsCarDoors", &arg0, &arg1, &arg2, &arg3, &arg4))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = SetVehicleParamsCarDoors(arg0, arg1, arg2, arg3, arg4);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -5815,10 +5104,8 @@ static PyObject* pysamp_getvehicleparamscardoors(PyObject *self, PyObject *args)
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:GetVehicleParamsCarDoors", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = GetVehicleParamsCarDoors(arg0, &arg1, &arg2, &arg3, &arg4);
 	PyObject* out = Py_BuildValue("iiii", arg1, arg2, arg3, arg4);
 	return out;
@@ -5832,10 +5119,8 @@ static PyObject* pysamp_setvehicleparamscarwindows(PyObject *self, PyObject *arg
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "iiiii:SetVehicleParamsCarWindows", &arg0, &arg1, &arg2, &arg3, &arg4))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = SetVehicleParamsCarWindows(arg0, arg1, arg2, arg3, arg4);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -5850,10 +5135,8 @@ static PyObject* pysamp_getvehicleparamscarwindows(PyObject *self, PyObject *arg
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:GetVehicleParamsCarWindows", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = GetVehicleParamsCarWindows(arg0, &arg1, &arg2, &arg3, &arg4);
 	PyObject* out = Py_BuildValue("iiii", arg1, arg2, arg3, arg4);
 	return out;
@@ -5863,10 +5146,8 @@ static PyObject* pysamp_setvehicletorespawn(PyObject *self, PyObject *args)
 {
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:SetVehicleToRespawn", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = SetVehicleToRespawn(arg0);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -5878,10 +5159,8 @@ static PyObject* pysamp_linkvehicletointerior(PyObject *self, PyObject *args)
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ii:LinkVehicleToInterior", &arg0, &arg1))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = LinkVehicleToInterior(arg0, arg1);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -5893,10 +5172,8 @@ static PyObject* pysamp_addvehiclecomponent(PyObject *self, PyObject *args)
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ii:AddVehicleComponent", &arg0, &arg1))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = AddVehicleComponent(arg0, arg1);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -5908,10 +5185,8 @@ static PyObject* pysamp_removevehiclecomponent(PyObject *self, PyObject *args)
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ii:RemoveVehicleComponent", &arg0, &arg1))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = RemoveVehicleComponent(arg0, arg1);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -5924,10 +5199,8 @@ static PyObject* pysamp_changevehiclecolor(PyObject *self, PyObject *args)
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "iii:ChangeVehicleColor", &arg0, &arg1, &arg2))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = ChangeVehicleColor(arg0, arg1, arg2);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -5939,10 +5212,8 @@ static PyObject* pysamp_changevehiclepaintjob(PyObject *self, PyObject *args)
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ii:ChangeVehiclePaintjob", &arg0, &arg1))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = ChangeVehiclePaintjob(arg0, arg1);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -5954,10 +5225,8 @@ static PyObject* pysamp_setvehiclehealth(PyObject *self, PyObject *args)
 	float arg1 = -1.0f;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "if:SetVehicleHealth", &arg0, &arg1))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = SetVehicleHealth(arg0, arg1);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -5969,10 +5238,8 @@ static PyObject* pysamp_getvehiclehealth(PyObject *self, PyObject *args)
 	float arg1 = -1.0f;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:GetVehicleHealth", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = GetVehicleHealth(arg0, &arg1);
 	PyObject* out = Py_BuildValue("f", arg1);
 	return out;
@@ -5983,10 +5250,8 @@ static PyObject* pysamp_attachtrailertovehicle(PyObject *self, PyObject *args)
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ii:AttachTrailerToVehicle", &arg0, &arg1))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = AttachTrailerToVehicle(arg0, arg1);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -5997,10 +5262,8 @@ static PyObject* pysamp_detachtrailerfromvehicle(PyObject *self, PyObject *args)
 {
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:DetachTrailerFromVehicle", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = DetachTrailerFromVehicle(arg0);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -6011,10 +5274,8 @@ static PyObject* pysamp_istrailerattachedtovehicle(PyObject *self, PyObject *arg
 {
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:IsTrailerAttachedToVehicle", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = IsTrailerAttachedToVehicle(arg0);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -6025,10 +5286,8 @@ static PyObject* pysamp_getvehicletrailer(PyObject *self, PyObject *args)
 {
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:GetVehicleTrailer", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	int ret = GetVehicleTrailer(arg0);
 	PyObject* out = Py_BuildValue("i", ret);
 	return out;
@@ -6038,11 +5297,9 @@ static PyObject* pysamp_setvehiclenumberplate(PyObject *self, PyObject *args)
 {
 	const char* arg1;
 	int arg0 = -1;
-	if (!PyArg_ParseTuple(args, "ies:SetVehicleNumberPlate", &arg0, "cp1252", &arg1))
-	{
-		PyErr_Print();
+	if (!PyArg_ParseTuple(args, "ies:SetVehicleNumberPlate", &arg0, _py_encoding().c_str(), &arg1))
 		return NULL;
-	}
+
 	bool ret = SetVehicleNumberPlate(arg0, arg1);
 	PyMem_Free((void *)arg1);
 
@@ -6055,10 +5312,8 @@ static PyObject* pysamp_getvehiclemodel(PyObject *self, PyObject *args)
 {
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:GetVehicleModel", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	int ret = GetVehicleModel(arg0);
 	PyObject* out = Py_BuildValue("i", ret);
 	return out;
@@ -6069,10 +5324,8 @@ static PyObject* pysamp_getvehiclecomponentinslot(PyObject *self, PyObject *args
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ii:GetVehicleComponentInSlot", &arg0, &arg1))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	int ret = GetVehicleComponentInSlot(arg0, arg1);
 	PyObject* out = Py_BuildValue("i", ret);
 	return out;
@@ -6082,10 +5335,8 @@ static PyObject* pysamp_getvehiclecomponenttype(PyObject *self, PyObject *args)
 {
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:GetVehicleComponentType", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	int ret = GetVehicleComponentType(arg0);
 	PyObject* out = Py_BuildValue("i", ret);
 	return out;
@@ -6095,10 +5346,8 @@ static PyObject* pysamp_repairvehicle(PyObject *self, PyObject *args)
 {
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:RepairVehicle", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = RepairVehicle(arg0);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -6112,10 +5361,8 @@ static PyObject* pysamp_getvehiclevelocity(PyObject *self, PyObject *args)
 	float arg1 = -1.0f;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:GetVehicleVelocity", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = GetVehicleVelocity(arg0, &arg1, &arg2, &arg3);
 	PyObject* out = Py_BuildValue("fff", arg1, arg2, arg3);
 	return out;
@@ -6128,10 +5375,8 @@ static PyObject* pysamp_setvehiclevelocity(PyObject *self, PyObject *args)
 	float arg1 = -1.0f;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ifff:SetVehicleVelocity", &arg0, &arg1, &arg2, &arg3))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = SetVehicleVelocity(arg0, arg1, arg2, arg3);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -6145,10 +5390,8 @@ static PyObject* pysamp_setvehicleangularvelocity(PyObject *self, PyObject *args
 	float arg1 = -1.0f;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ifff:SetVehicleAngularVelocity", &arg0, &arg1, &arg2, &arg3))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = SetVehicleAngularVelocity(arg0, arg1, arg2, arg3);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -6163,10 +5406,8 @@ static PyObject* pysamp_getvehicledamagestatus(PyObject *self, PyObject *args)
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:GetVehicleDamageStatus", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = GetVehicleDamageStatus(arg0, &arg1, &arg2, &arg3, &arg4);
 	PyObject* out = Py_BuildValue("iiii", arg1, arg2, arg3, arg4);
 	return out;
@@ -6180,10 +5421,8 @@ static PyObject* pysamp_updatevehicledamagestatus(PyObject *self, PyObject *args
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "iiiii:UpdateVehicleDamageStatus", &arg0, &arg1, &arg2, &arg3, &arg4))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = UpdateVehicleDamageStatus(arg0, arg1, arg2, arg3, arg4);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -6195,10 +5434,8 @@ static PyObject* pysamp_setvehiclevirtualworld(PyObject *self, PyObject *args)
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ii:SetVehicleVirtualWorld", &arg0, &arg1))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = SetVehicleVirtualWorld(arg0, arg1);
 	if (ret)
 		Py_RETURN_TRUE;
@@ -6209,10 +5446,8 @@ static PyObject* pysamp_getvehiclevirtualworld(PyObject *self, PyObject *args)
 {
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i:GetVehicleVirtualWorld", &arg0))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	int ret = GetVehicleVirtualWorld(arg0);
 	PyObject* out = Py_BuildValue("i", ret);
 	return out;
@@ -6226,10 +5461,8 @@ static PyObject* pysamp_getvehiclemodelinfo(PyObject *self, PyObject *args)
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ii:GetVehicleModelInfo", &arg0, &arg1))
-	{
-		PyErr_Print();
 		return NULL;
-	}
+
 	bool ret = GetVehicleModelInfo(arg0, arg1, &arg2, &arg3, &arg4);
 	PyObject* out = Py_BuildValue("fff", arg2, arg3, arg4);
 	return out;
@@ -6242,10 +5475,7 @@ Timer* timer_from_args(PyObject *args, PyObject *arguments)
 	bool repeating;
 
 	if(!PyArg_ParseTuple(args, "OIb:SetTimer", &function, &interval, &repeating))
-	{
-		PyErr_Print();
 		return NULL;
-	}
 
 	if(!PyCallable_Check(function))
 	{
@@ -6293,10 +5523,7 @@ static PyObject* pysamp_killtimer(PyObject *self, PyObject *args)
 	int id;
 
 	if(!PyArg_ParseTuple(args, "i:KillTimer", &id))
-	{
-		PyErr_Print();
 		return NULL;
-	}
 
 	PySAMP::removeTimer(id);
 	Py_RETURN_NONE;
@@ -6381,7 +5608,7 @@ static PyObject* pysamp_callnativefunction(PyObject *self, PyObject *args)
 	if(amx_function == NULL)
 	{
 		PyErr_Format(
-			PyExc_TypeError,
+			PyExc_ValueError,
 			"CallNativeFunction() unknown native function %s",
 			function_name
 		);
@@ -6399,17 +5626,22 @@ static PyObject* pysamp_callnativefunction(PyObject *self, PyObject *args)
 	return Py_BuildValue("i", return_value);
 }
 
+static PyObject* pysamp_config(PyObject *self, PyObject *args, PyObject *kwargs)
+{
+	if(current_gamemode == NULL)
+		return PyDict_New();
+
+	return current_gamemode->pyConfig(self, args, kwargs);
+}
+
 extern std::string logprintf_buffer;
 
 static PyObject* logprintf_write(PyObject *self, PyObject *args)
 {
-	char *text;
+	const char *text = NULL;
 
-	if(!PyArg_ParseTuple(args, "es", "cp1252", &text))
-	{
-		PyErr_Print();
+	if(!PyArg_ParseTuple(args, "s", &text))
 		return NULL;
-	}
 
 	std::stringstream text_stream(logprintf_buffer + text);
 	std::string line, text_stream_string = text_stream.str();
@@ -6432,7 +5664,6 @@ static PyObject* logprintf_write(PyObject *self, PyObject *args)
 
 	std::getline(text_stream, logprintf_buffer);
 
-	PyMem_Free((void *)text);
 	return PyLong_FromUnsignedLong(printed_len);
 }
 
@@ -6840,6 +6071,7 @@ static PyMethodDef PySAMPMethods[] = {
 	{ "SetTimer", pysamp_settimer, METH_VARARGS, NULL },
 	{ "KillTimer", pysamp_killtimer, METH_VARARGS, NULL },
 	{ "CallNativeFunction", pysamp_callnativefunction, METH_VARARGS, NULL },
+	{ "config", (PyCFunction)pysamp_config, METH_VARARGS | METH_KEYWORDS, "Sets the specified config keyword arguments, returns the config as dict if called without arguments" },
 	{ NULL, NULL, 0, NULL }
 };
 
@@ -6867,5 +6099,10 @@ static PyObject* PyInit_samp()
 	PySys_SetObject("stdout", logprintf_module);
 	PySys_SetObject("stderr", logprintf_module);
 	return PyModule_Create(&PySAMPModule);
+}
+
+void PyInit_setGamemode(PyGamemode* gamemode)
+{
+	current_gamemode = gamemode;
 }
 #endif // !samp_h

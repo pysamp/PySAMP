@@ -51,10 +51,20 @@ PyGamemode::PyGamemode(const char * path)
 			break;
 		}
 	}
+
+	this->config = {
+		{"encoding", Py_BuildValue("s", "cp1252")}
+	};
+	PyInit_setGamemode(this);
 }
 
 PyGamemode::~PyGamemode()
 {
+	PyInit_setGamemode(NULL);
+
+	for(const auto item : this->config)
+		Py_DECREF(item.second);
+
 	PyGamemode::unload();
 }
 
@@ -113,9 +123,58 @@ bool PyGamemode::isLoaded()
 {
 	return PyGamemode::loaded;
 }
+
 bool PyGamemode::isEnabled()
 {
 	return PyGamemode::isLoaded() && !PyGamemode::disabled;
+}
+
+PyObject* PyGamemode::pyConfig(PyObject *self, PyObject *args, PyObject *kwargs)
+{
+	if(PyTuple_Size(args) != 0)
+	{
+		PyErr_SetString(
+			PyExc_ValueError,
+			"config() does not take any positional argument"
+		);
+		return NULL;
+	}
+
+	if(kwargs == NULL)
+	{
+		PyObject* return_value = PyDict_New();
+
+		for(auto item : this->config)
+			PyDict_SetItemString(return_value, item.first.c_str(), item.second);
+
+		return return_value;
+	}
+
+	PyObject* items = PyDict_Items(kwargs);
+
+	for(int i = 0; i < PyList_Size(items); ++i)
+	{
+		PyObject* item = PyList_GetItem(items, i);
+		const char *key_name = PyUnicode_AsUTF8AndSize(
+			PyTuple_GetItem(item, 0),
+			NULL
+		);
+
+		if(this->config.count(key_name) < 1)
+		{
+			PyErr_Format(
+				PyExc_ValueError,
+				"config() key %s does not exist",
+				key_name
+			);
+			return NULL;
+		}
+
+		this->config[key_name] = PyTuple_GetItem(item, 1);
+	}
+
+	Py_DECREF(items);
+	Py_RETURN_NONE;
 }
 
 int PyGamemode::callback(const char * name, PyObject * pArgs, bool obtainLock)
