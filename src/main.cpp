@@ -64,7 +64,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPublicCall2(
 	bool *stop
 )
 {
-	if(!Py_IsInitialized())
+	if(!PySAMP::isLoaded())
 		return false;
 
 	if(
@@ -86,10 +86,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnRconCommand(const char * cmd)
 {
 	if(strcmp(cmd, "pyreload") == 0)
 	{
-		PySAMP::callback("OnPyUnload");
-		PySAMP::disable();
 		PySAMP::reload();
-		PySAMP::callback("OnPyReload");
 		return true;
 	}
 

@@ -23,9 +23,12 @@ void PySAMP::reload()
 		return;
 
 	sampgdk::logprintf("Reloading PySAMP...");
+	PySAMP::callback("OnGameModeExit");
+	PySAMP::disable();
 	PySAMP::gamemode->reload();
 	PySAMP::timer_manager->enable();
 	PySAMP::timer_manager->clear_timers();
+	PySAMP::callback("OnGameModeInit");
 }
 
 void PySAMP::disable()
