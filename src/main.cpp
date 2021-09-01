@@ -1,6 +1,8 @@
 #include "main.h"
 
 
+extern void *pAMXFunctions;
+
 PLUGIN_EXPORT unsigned int PLUGIN_CALL Supports()
 {
 	return sampgdk::Supports() | SUPPORTS_PROCESS_TICK;
@@ -8,6 +10,7 @@ PLUGIN_EXPORT unsigned int PLUGIN_CALL Supports()
 
 PLUGIN_EXPORT bool PLUGIN_CALL Load(void **ppData) 
 {
+	pAMXFunctions = ppData[PLUGIN_DATA_AMX_EXPORTS];
 	bool ret = sampgdk::Load(ppData);
 
 #ifndef WIN32
@@ -19,6 +22,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL Load(void **ppData)
 	sampgdk::logprintf("%s", PYSAMP_LOADING_SCREEN_3);
 	sampgdk::logprintf("%s\n\n", PYSAMP_LOADING_SCREEN_4);
 	sampgdk::logprintf("PySAMP %s for Python %s\n", PYSAMP_VERSION_STR, PYTHON_VERSION_STR);
+
 	return ret;
 }
 
@@ -87,7 +91,8 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPublicCall2(
 	);
 }
 
-PLUGIN_EXPORT bool PLUGIN_CALL OnRconCommand(const char * cmd) {
+PLUGIN_EXPORT bool PLUGIN_CALL OnRconCommand(const char * cmd)
+{
 	if(strcmp(cmd, "pyreload") == 0)
 	{
 		PySAMP::callback("OnPyUnload");
@@ -105,17 +110,5 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerCommandText(
 	const char *cmdtext
 )
 {
-	return PySAMP::callback(
-		"OnPlayerCommandText",
-		Py_BuildValue(
-			"(iN)",
-			playerid,
-			PyUnicode_Decode(
-				cmdtext,
-				strlen(cmdtext),
-				PySAMP::getEncoding().c_str(),
-				"strict"
-			)
-		)
-	);
+	return PySAMP::onPlayerCommandText(playerid, cmdtext);
 }
