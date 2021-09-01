@@ -42,27 +42,18 @@ PLUGIN_EXPORT void PLUGIN_CALL ProcessTick()
 
 PLUGIN_EXPORT bool PLUGIN_CALL OnGameModeInit()
 {
-	try
-	{
-		if(!PySAMP::isLoaded())
-			PySAMP::load();
-		else
-			PySAMP::reload();
-	}
-	catch(std::exception)
-	{
-		return false;
-	}
-	bool result = PySAMP::callback("OnGameModeInit");
-	return result;
+	if(!PySAMP::isLoaded())
+		PySAMP::load();
+	else
+		PySAMP::reload();
+
+	return PySAMP::callback("OnGameModeInit");
 }
 
 PLUGIN_EXPORT bool PLUGIN_CALL OnGameModeExit()
 {
 	PySAMP::disable();
-
-	bool result = PySAMP::callback("OnGameModeExit");
-	return result;
+	return PySAMP::callback("OnGameModeExit");
 }
 
 PLUGIN_EXPORT bool PLUGIN_CALL OnPublicCall2(
