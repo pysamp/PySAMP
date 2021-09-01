@@ -38,8 +38,6 @@ PLUGIN_EXPORT void PLUGIN_CALL ProcessTick()
 
 PLUGIN_EXPORT bool PLUGIN_CALL OnGameModeInit()
 {
-	sampgdk::logprintf("Loading PYSAMP...");
-
 	try
 	{
 		if(!PySAMP::isLoaded())
@@ -57,7 +55,6 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnGameModeInit()
 
 PLUGIN_EXPORT bool PLUGIN_CALL OnGameModeExit()
 {
-	sampgdk::logprintf("Unloading PySAMP...");
 	PySAMP::disable();
 
 	bool result = PySAMP::callback("OnGameModeExit");
