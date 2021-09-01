@@ -1,5 +1,6 @@
 #include "param_converter.h"
 
+
 cell* ParamConverter::from_tuple(PyObject* tuple)
 {
 	Py_ssize_t len_tuple = PyTuple_Size(tuple);
@@ -50,12 +51,23 @@ PyObject* ParamConverter::to_tuple(cell* params, const std::string format, AMX* 
 {
 	int number_of_arguments = format.length();
 
+	if(number_of_arguments != params[0] / sizeof(cell))
+	{
+		PyErr_Format(
+			PyExc_ValueError,
+			"Invalid argument count for callback: expected %d, got %d",
+			params[0] / sizeof(cell),
+			number_of_arguments
+		);
+		return NULL;
+	}
+
 	PyObject *arguments = PyTuple_New(number_of_arguments);
 
 	for(int i = 0; i < number_of_arguments; ++i)
 	{
 		const char type = format.at(i);
-		cell param = params[i+1];
+		cell param = params[i + 1];
 		PyObject *argument;
 
 		switch(type)

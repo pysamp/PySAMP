@@ -87,13 +87,14 @@ void PySAMP::removeTimer(int id)
 
 void PySAMP::processTick(unsigned int currentTick)
 {
+	if(!PySAMP::isLoaded())
+		return;
+
 	PySAMP::callback("OnProcessTick");
 
-	// XXX: Perhaps make PyGamemode handle processing timers
-	PyThreadState *_save = PySAMP::gamemode->_save;
-	Py_BLOCK_THREADS
+	PySAMP::gamemode->blockThreads();
 	PySAMP::timer_manager->process_timers(currentTick);
-	Py_UNBLOCK_THREADS
+	PySAMP::gamemode->unblockThreads();
 }
 
 std::string PySAMP::getEncoding()
@@ -132,6 +133,27 @@ int PySAMP::callback(
 		retval,
 		stop
 	);
+}
+
+bool PySAMP::onPlayerCommandText(int playerid, const char* cmdtext)
+{
+	if(!PySAMP::isLoaded())
+		return false;
+
+	PySAMP::gamemode->blockThreads();
+	PyObject* tuple = Py_BuildValue(
+		"(iN)",
+		playerid,
+		PyUnicode_Decode(
+			cmdtext,
+			strlen(cmdtext),
+			PySAMP::getEncoding().c_str(),
+			"strict"
+		)
+	);
+	PySAMP::gamemode->unblockThreads();
+
+	return PySAMP::callback("OnPlayerCommandText", tuple);
 }
 
 void PySAMP::registerCallback(const std::string name, const std::string format)
@@ -176,11 +198,15 @@ PyObject* PySAMP::amxParamsToTuple(AMX *amx, const std::string callback_name, ce
 	if(format == nullptr)
 		return NULL;
 
-	return PySAMP::param_converter->to_tuple(
+	PySAMP::gamemode->blockThreads();
+	PyObject* tuple = PySAMP::param_converter->to_tuple(
 		params,
 		*format,
 		amx
 	);
+	PySAMP::gamemode->unblockThreads();
+
+	return tuple;
 }
 
 cell* PySAMP::tupleToAmxParams(PyObject* tuple)
@@ -188,5 +214,9 @@ cell* PySAMP::tupleToAmxParams(PyObject* tuple)
 	if(!PySAMP::isLoaded())
 		return NULL;
 
-	return PySAMP::param_converter->from_tuple(tuple);
+	PySAMP::gamemode->blockThreads();
+	cell* params = PySAMP::param_converter->from_tuple(tuple);
+	PySAMP::gamemode->unblockThreads();
+
+	return params;
 }

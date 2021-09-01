@@ -41,6 +41,7 @@ public:
 	static int callback(const std::string name);
 	static int callback(const std::string name, PyObject* pArgs);
 	static int callback(const std::string name, PyObject* pArgs, cell* retval, bool* stop);
+	static bool onPlayerCommandText(int playerid, const char* cmdtext);
 	static std::string getEncoding();
 	static void registerCallback(const std::string name, const std::string format);
 	static std::string* getCallbackFormat(const std::string callback_name);

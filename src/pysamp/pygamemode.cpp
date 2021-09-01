@@ -16,7 +16,9 @@ PyGamemode::PyGamemode(
 	const char* path,
 	CallbacksManager* callbacks
 ) :
-	callbacks(callbacks)
+	callbacks(callbacks),
+	_save(nullptr),
+	threadLockDepth(0)
 {
 	sampgdk::logprintf("PyGamemode::PyGamemode(%s)", path);
 
@@ -76,12 +78,12 @@ PyGamemode::PyGamemode(
 		{"encoding", Py_BuildValue("s", "cp1252")}
 	};
 
-	Py_UNBLOCK_THREADS
+	this->unblockThreads();
 }
 
 PyGamemode::~PyGamemode()
 {
-	Py_BLOCK_THREADS
+	this->blockThreads();
 
 	for(const auto item : this->config)
 		Py_DECREF(item.second);
@@ -92,7 +94,7 @@ PyGamemode::~PyGamemode()
 
 void PyGamemode::load()
 {
-	Py_BLOCK_THREADS
+	this->blockThreads();
 
 	PyObject* name = PyUnicode_FromString("gamemode");
 	this->module = PyImport_Import(name);
@@ -108,12 +110,12 @@ void PyGamemode::load()
 	loaded = true;
 	disabled = false;
 
-	Py_UNBLOCK_THREADS
+	this->unblockThreads();
 }
 
 void PyGamemode::reload()
 {
-	Py_BLOCK_THREADS
+	this->blockThreads();
 
 	if(this->module)
 	{
@@ -133,7 +135,7 @@ void PyGamemode::reload()
 		}
 	}
 
-	Py_UNBLOCK_THREADS
+	this->unblockThreads();
 }
 
 void PyGamemode::unload()
@@ -158,9 +160,35 @@ bool PyGamemode::isEnabled()
 	return PyGamemode::isLoaded() && !PyGamemode::disabled;
 }
 
+void PyGamemode::blockThreads()
+{
+	if(this->_save == nullptr)
+	{
+		++this->threadLockDepth;
+		return;
+	}
+
+	Py_BLOCK_THREADS
+	this->_save = nullptr;
+}
+
+void PyGamemode::unblockThreads()
+{
+	if(this->threadLockDepth > 0)
+	{
+		--this->threadLockDepth;
+		return;
+	}
+
+	if(this->_save != nullptr)
+		return;
+
+	Py_UNBLOCK_THREADS
+}
+
 PyObject* PyGamemode::pyConfig(PyObject *self, PyObject *args, PyObject *kwargs)
 {
-	Py_BLOCK_THREADS
+	this->blockThreads();
 
 	if(PyTuple_Size(args) != 0)
 	{
@@ -207,7 +235,7 @@ PyObject* PyGamemode::pyConfig(PyObject *self, PyObject *args, PyObject *kwargs)
 
 	Py_DECREF(items);
 
-	Py_UNBLOCK_THREADS
+	this->unblockThreads();
 	Py_RETURN_NONE;
 }
 
@@ -226,11 +254,11 @@ int PyGamemode::callback(
 	)
 		return ret;
 
-	Py_BLOCK_THREADS
+	this->blockThreads();
 
 	if(!PyObject_HasAttrString(this->module, name.c_str()))
 	{
-		Py_UNBLOCK_THREADS
+		this->unblockThreads();
 		return ret;
 	}
 
@@ -276,7 +304,7 @@ int PyGamemode::callback(
 	)
 		*stop = true;
 
-	Py_UNBLOCK_THREADS
+	this->unblockThreads();
 	return ret;
 }
 
