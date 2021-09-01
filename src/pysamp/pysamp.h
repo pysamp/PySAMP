@@ -2,18 +2,14 @@
 #define PYSAMP_H
 
 #if PY_TEST == 0
-	#ifdef WIN32
-	#define PYTHON_PATH "\\python"
-	#else
-	#define PYTHON_PATH "/python"
-	#endif
+	#define PYTHON_PATH "python"
 #else
 	#ifdef WIN32
-	#define PYTHON_PATH "\\python\\test"
+		#define PYTHON_PATH "python\\test"
 	#else
-	#define PYTHON_PATH "/python/test"
+		#define PYTHON_PATH "python/test"
 	#endif
-#endif // DEBUG
+#endif
 
 
 #include "timer.h"

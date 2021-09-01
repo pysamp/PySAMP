@@ -9,7 +9,7 @@ ParamConverter* PySAMP::param_converter = nullptr;
 
 void PySAMP::load()
 {
-	sampgdk::logprintf("Loading PySAMP gamemode");
+	sampgdk::logprintf("Loading PySAMP...");
 	PySAMP::callbacks = new CallbacksManager();
 	PySAMP::gamemode = new PyGamemode(PYTHON_PATH, PySAMP::callbacks);
 	gamemode->load();
@@ -22,7 +22,7 @@ void PySAMP::reload()
 	if(!PySAMP::isLoaded())
 		return;
 
-	sampgdk::logprintf("Reloading PySAMP gamemode");
+	sampgdk::logprintf("Reloading PySAMP...");
 	PySAMP::gamemode->reload();
 	PySAMP::timer_manager->enable();
 	PySAMP::timer_manager->clear_timers();
@@ -42,7 +42,7 @@ void PySAMP::unload()
 	if(!PySAMP::isLoaded())
 		return;
 
-	sampgdk::logprintf("Unloading PySAMP gamemode");
+	sampgdk::logprintf("Unloading PySAMP...");
 	PySAMP::disable();
 	delete PySAMP::param_converter;
 	PySAMP::param_converter = nullptr;
@@ -101,10 +101,9 @@ std::string PySAMP::getEncoding()
 	if(!PySAMP::isLoaded())
 		return std::string("cp1252");
 
-	return std::string(PyUnicode_AsUTF8AndSize(
-		PySAMP::gamemode->getConfig()["encoding"],
-		NULL
-	));
+	return std::string(
+		PyUnicode_AsUTF8(PySAMP::gamemode->getConfig()["encoding"])
+	);
 }
 
 int PySAMP::callback(const std::string name)

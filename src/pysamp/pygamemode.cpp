@@ -30,21 +30,22 @@ PyGamemode::PyGamemode(
 
 	Py_Initialize();
 
-	std::string abspath = _getcwd() + path;
+	PyObject* syspath = PySys_GetObject("path");
 
-	PyObject* sysPath = PySys_GetObject("path");
-
-	if(!sysPath)
+	if(!syspath)
 	{
 		sampgdk::logprintf("Getting Python sys.path object failed.");
 		return;
 	}
 
-	PyList_Append(sysPath, PyUnicode_FromString(abspath.c_str()));
+	std::string abspath = _getcwd() + "/" + path;
+	PyObject* str_abspath = PyUnicode_FromString(abspath.c_str());
+	PyList_Append(syspath, str_abspath);
+	Py_DECREF(str_abspath);
 
-	PyObject *module = PyImport_ImportModule("pysamp");
+	PyObject* pysamp_module = PyImport_ImportModule("pysamp");
 
-	if(!module)
+	if(!pysamp_module)
 	{
 		sampgdk::logprintf("Couldn't import pysamp module:");
 		PyErr_Print();
@@ -59,7 +60,7 @@ PyGamemode::PyGamemode(
 	{
 		if(
 			PyObject_SetAttrString(
-				module,
+				pysamp_module,
 				item->first.c_str(),
 				Py_BuildValue("i", item->second)
 			) == -1
@@ -86,20 +87,21 @@ PyGamemode::~PyGamemode()
 		Py_DECREF(item.second);
 
 	PyGamemode::unload();
+	Py_FinalizeEx();
 }
 
 void PyGamemode::load()
 {
 	Py_BLOCK_THREADS
 
-	PyObject* name = PyUnicode_DecodeFSDefault("gamemode");
-	module = PyImport_Import(name);
+	PyObject* name = PyUnicode_FromString("gamemode");
+	this->module = PyImport_Import(name);
 	Py_DECREF(name);
 
-	if(module == NULL)
+	if(this->module == NULL)
 	{
+		sampgdk::logprintf("PyGamemode::load() failed:");
 		PyErr_Print();
-		sampgdk::logprintf("PyGamemode::PyGamemode(%s) failed!", "gamemode.py");
 		return;
 	}
 
@@ -113,23 +115,21 @@ void PyGamemode::reload()
 {
 	Py_BLOCK_THREADS
 
-	if(module)
+	if(this->module)
 	{
-		sampgdk::logprintf("PyGamemode::reload() starting");
-		PyObject* new_module = PyImport_ReloadModule(module);
+		PyObject* new_module = PyImport_ReloadModule(this->module);
 
 		if(new_module == nullptr)
 		{
+			sampgdk::logprintf("PyGamemode::reload() failed:");
 			PyErr_Print();
-			sampgdk::logprintf("PyGamemode::PyGamemode(%s) failed!", "gamemode.py");
 		}
 		else
 		{
-			Py_DECREF(module);
+			Py_DECREF(this->module);
 			Py_INCREF(new_module);
-			module = new_module;
+			this->module = new_module;
 			disabled = false;
-			sampgdk::logprintf("PyGamemode::reload() complete");
 		}
 	}
 
@@ -138,9 +138,9 @@ void PyGamemode::reload()
 
 void PyGamemode::unload()
 {
-	Py_XDECREF(module);
-	Py_FinalizeEx();
+	Py_XDECREF(this->module);
 	loaded = false;
+	disabled = true;
 }
 
 void PyGamemode::disable()
@@ -222,19 +222,19 @@ int PyGamemode::callback(
 
 	if(
 		disabled
-		|| module == nullptr
+		|| this->module == nullptr
 	)
 		return ret;
 
 	Py_BLOCK_THREADS
 
-	if(!PyObject_HasAttrString(module, name.c_str()))
+	if(!PyObject_HasAttrString(this->module, name.c_str()))
 	{
 		Py_UNBLOCK_THREADS
 		return ret;
 	}
 
-	PyObject* pFunc = PyObject_GetAttrString(module, name.c_str());
+	PyObject* pFunc = PyObject_GetAttrString(this->module, name.c_str());
 
 	Py_XINCREF(pFunc);
 	Py_XINCREF(pArgs);

@@ -5509,7 +5509,7 @@ PyObject* pysamp_callnativefunction(PyObject *self, PyObject *args)
 		return NULL;
 	}
 
-	function_name = PyUnicode_AsUTF8AndSize(function_str, NULL);
+	function_name = PyUnicode_AsUTF8(function_str);
 
 	if(function_name == NULL)
 	{
