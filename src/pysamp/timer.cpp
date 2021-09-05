@@ -110,6 +110,12 @@ void TimerManager::process_timers(unsigned int current_tick)
 			continue;
 		}
 
+		if(!_timer_exists(id))
+		{
+			timer = timers.begin();
+			continue;
+		}
+
 		++timer;
 	}
 }
