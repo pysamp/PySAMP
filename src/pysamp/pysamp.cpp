@@ -11,7 +11,7 @@ void PySAMP::load()
 {
 	sampgdk::logprintf("Loading PySAMP...");
 	PySAMP::callbacks = new CallbacksManager();
-	PySAMP::gamemode = new PyGamemode(PYTHON_PATH, PySAMP::callbacks);
+	PySAMP::gamemode = new PyGamemode(PySAMP::callbacks);
 	gamemode->load();
 	PySAMP::timer_manager = new TimerManager();
 	PySAMP::param_converter = new ParamConverter();
