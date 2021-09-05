@@ -12,20 +12,16 @@ std::string PyGamemode::_getcwd()
 	);
 }
 
-PyGamemode::PyGamemode(
-	const char* path,
-	CallbacksManager* callbacks
-) :
+PyGamemode::PyGamemode(CallbacksManager* callbacks)
+:
 	callbacks(callbacks),
 	_save(nullptr),
 	threadLockDepth(0)
 {
-	sampgdk::logprintf("PyGamemode::PyGamemode(%s)", path);
-
-	if(PyImport_AppendInittab("pysamp", &PyInit_samp) == -1)
+	if(PyImport_AppendInittab("samp", &PyInit_samp) == -1)
 	{
 		sampgdk::logprintf(
-			"Adding pysamp module to Python interpreter failed."
+			"Adding samp module to Python interpreter failed."
 		);
 		return;
 	}
@@ -40,16 +36,15 @@ PyGamemode::PyGamemode(
 		return;
 	}
 
-	std::string abspath = _getcwd() + "/" + path;
-	PyObject* str_abspath = PyUnicode_FromString(abspath.c_str());
-	PyList_Append(syspath, str_abspath);
-	Py_DECREF(str_abspath);
+	PyObject* str_cwd = PyUnicode_FromString(_getcwd().c_str());
+	PyList_Append(syspath, str_cwd);
+	Py_DECREF(str_cwd);
 
-	PyObject* pysamp_module = PyImport_ImportModule("pysamp");
+	PyObject* pysamp_module = PyImport_ImportModule("samp");
 
 	if(!pysamp_module)
 	{
-		sampgdk::logprintf("Couldn't import pysamp module:");
+		sampgdk::logprintf("Couldn't import samp module:");
 		PyErr_Print();
 		return;
 	}
@@ -68,7 +63,7 @@ PyGamemode::PyGamemode(
 			) == -1
 		)
 		{
-			sampgdk::logprintf("Couldn't set constants on pysamp module:");
+			sampgdk::logprintf("Couldn't set constants on samp module:");
 			PyErr_Print();
 			return;
 		}
@@ -96,7 +91,7 @@ void PyGamemode::load()
 {
 	this->blockThreads();
 
-	PyObject* name = PyUnicode_FromString("gamemode");
+	PyObject* name = PyUnicode_FromString("python");
 	this->module = PyImport_Import(name);
 	Py_DECREF(name);
 

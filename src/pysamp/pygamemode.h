@@ -37,7 +37,7 @@ private:
 	int threadLockDepth;
 
 public:
-	PyGamemode(const char* path, CallbacksManager* callbacks);
+	PyGamemode(CallbacksManager* callbacks);
 	~PyGamemode();
 	void load();
 	void reload();

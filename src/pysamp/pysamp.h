@@ -1,17 +1,6 @@
 #ifndef PYSAMP_H
 #define PYSAMP_H
 
-#if PY_TEST == 0
-	#define PYTHON_PATH "python"
-#else
-	#ifdef WIN32
-		#define PYTHON_PATH "python\\test"
-	#else
-		#define PYTHON_PATH "python/test"
-	#endif
-#endif
-
-
 #include "timer.h"
 #include "callbacks.h"
 #include "param_converter.h"
