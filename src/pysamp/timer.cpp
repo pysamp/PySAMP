@@ -12,7 +12,8 @@ Timer::Timer(
 	function(function),
 	arguments(arguments),
 	interval(interval),
-	repeating(repeating)
+	repeating(repeating),
+	pending_deletion(false)
 {
 	id = ++last_timer_id;
 	last_call_tick = GetTickCount();
@@ -85,7 +86,7 @@ void TimerManager::remove_timer(int id)
 		if(timer->get_id() != id)
 			continue;
 
-		timers.erase(timer);
+		timer->set_pending_deletion();
 		break;
 	}
 }
@@ -97,6 +98,12 @@ void TimerManager::process_timers(unsigned int current_tick)
 
 	for(auto timer = timers.begin(); timer != timers.end();)
 	{
+		if(timer->is_pending_deletion())
+		{
+			++timer;
+			continue;
+		}
+
 		int id = timer->get_id();
 		bool repeating = timer->is_repeating();
 
@@ -110,13 +117,15 @@ void TimerManager::process_timers(unsigned int current_tick)
 			continue;
 		}
 
-		if(!_timer_exists(id))
-		{
-			timer = timers.begin();
-			continue;
-		}
-
 		++timer;
+	}
+
+	for(auto timer = timers.begin(); timer != timers.end();)
+	{
+		if(timer->is_pending_deletion())
+			timer = timers.erase(timer);
+		else
+			++timer;
 	}
 }
 
