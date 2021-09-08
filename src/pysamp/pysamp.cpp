@@ -47,6 +47,7 @@ void PySAMP::unload()
 
 	sampgdk::logprintf("Unloading PySAMP...");
 	PySAMP::disable();
+	PySAMP::gamemode->blockThreads();
 	delete PySAMP::param_converter;
 	PySAMP::param_converter = nullptr;
 	delete PySAMP::timer_manager;
