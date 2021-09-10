@@ -50,8 +50,6 @@ public:
 	void disable() { disabled = true; };
 
 private:
-	bool _timer_exists(int id);
-
 	std::deque<Timer> timers;
 	bool disabled;
 };

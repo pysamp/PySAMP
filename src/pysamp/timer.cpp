@@ -110,7 +110,7 @@ void TimerManager::process_timers(unsigned int current_tick)
 		if(
 			timer->process(current_tick)
 			&& !repeating
-			&& _timer_exists(id)
+			&& !timer->is_pending_deletion()
 		)
 		{
 			timer = timers.erase(timer);
@@ -133,13 +133,4 @@ void TimerManager::clear_timers()
 {
 	for(auto timer = timers.begin(); timer != timers.end();)
 		timer = timers.erase(timer);
-}
-
-bool TimerManager::_timer_exists(int id)
-{
-	for(auto timer = timers.begin(); timer != timers.end(); ++timer)
-		if(timer->get_id() == id)
-			return true;
-
-	return false;
 }
