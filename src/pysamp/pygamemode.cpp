@@ -269,6 +269,7 @@ int PyGamemode::callback(
 		if(PyErr_Occurred())
 		{
 			PyErr_Print();
+			ret = !this->callbacks->getBadret(name);
 			pValue = Py_None;
 		}
 
@@ -278,8 +279,8 @@ int PyGamemode::callback(
 
 			if(ret == -1)
 			{
-				sampgdk::logprintf("An error occured at %s in Python gamemode:", name.c_str());
 				PyErr_Print();
+				ret = !this->callbacks->getBadret(name);
 			}
 		}
 
