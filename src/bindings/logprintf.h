@@ -10,9 +10,9 @@
 
 
 extern PyMethodDef LogPrintfMethods[];
-extern PyModuleDef LogPrintfModule;
+extern struct PyModuleDef LogPrintfModule;
 extern std::string logprintf_buffer;
 
-PyObject* logprintf_write(PyObject *self, PyObject *args);
-PyObject* logprintf_flush(PyObject *self, PyObject *args);
+static PyObject* logprintf_write(PyObject *self, PyObject *args);
+static PyObject* logprintf_flush(PyObject *self, PyObject *args);
 #endif

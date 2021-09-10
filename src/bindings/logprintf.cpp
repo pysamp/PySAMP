@@ -3,7 +3,7 @@
 
 std::string logprintf_buffer;
 
-PyObject* logprintf_write(PyObject *self, PyObject *args)
+static PyObject* logprintf_write(PyObject *self, PyObject *args)
 {
 	const char *text = NULL;
 
@@ -34,7 +34,7 @@ PyObject* logprintf_write(PyObject *self, PyObject *args)
 	return PyLong_FromUnsignedLong(printed_len);
 }
 
-PyObject* logprintf_flush(PyObject *self, PyObject *args)
+static PyObject* logprintf_flush(PyObject *self, PyObject *args)
 {
 	if(logprintf_buffer.length())
 	{
@@ -50,7 +50,7 @@ PyMethodDef LogPrintfMethods[] = {
 	{ NULL, NULL, 0, NULL },
 };
 
-PyModuleDef LogPrintfModule = {
+struct PyModuleDef LogPrintfModule = {
 	PyModuleDef_HEAD_INIT,
 	"logprintf",
 	"Standard output to logprintf adapter",
