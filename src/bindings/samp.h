@@ -7,6 +7,28 @@
 #include "timer.h"
 #include "logprintf.h"
 
+#define WITH_GIL_3_ARGS(name, _self, _args) \
+	static PyObject* locked_##name(_self, _args); \
+	static PyObject* name(_self, _args) \
+	{ \
+		PySAMP::GIL lock; \
+		return locked_##name(self, args); \
+	} \
+	static PyObject* locked_##name(_self, _args)
+
+#define WITH_GIL_4_ARGS(name, _self, _args, _kwargs) \
+	static PyObject* locked_##name(_self, _args, _kwargs); \
+	static PyObject* name(_self, _args, _kwargs) \
+	{ \
+		PySAMP::GIL lock; \
+		return locked_##name(self, args, kwargs); \
+	} \
+	static PyObject* locked_##name(_self, _args, _kwargs)
+
+#define ARG_COUNTER(arg1, arg2, arg3, arg4, arg5, ...) arg5
+#define WITH_GIL_CHOOSER(...) ARG_COUNTER(__VA_ARGS__, WITH_GIL_4_ARGS, WITH_GIL_3_ARGS, NULL, NULL)
+#define WITH_GIL(...) WITH_GIL_CHOOSER(__VA_ARGS__)(__VA_ARGS__)
+
 
 extern struct PyModuleDef PySAMPModule;
 
