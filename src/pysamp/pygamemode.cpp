@@ -15,8 +15,7 @@ std::string PyGamemode::_getcwd()
 PyGamemode::PyGamemode(CallbacksManager* callbacks)
 :
 	callbacks(callbacks),
-	_save(nullptr),
-	threadLockDepth(0)
+	_save(nullptr)
 {
 	if(PyImport_AppendInittab("samp", &PyInit_samp) == -1)
 	{
@@ -74,12 +73,12 @@ PyGamemode::PyGamemode(CallbacksManager* callbacks)
 		{"encoding", Py_BuildValue("s", "cp1252")}
 	};
 
-	this->unblockThreads();
+	Py_UNBLOCK_THREADS
 }
 
 PyGamemode::~PyGamemode()
 {
-	this->blockThreads();
+	Py_BLOCK_THREADS
 
 	for(const auto item : this->config)
 		Py_DECREF(item.second);
@@ -90,7 +89,7 @@ PyGamemode::~PyGamemode()
 
 void PyGamemode::load()
 {
-	this->blockThreads();
+	PySAMP::GIL gil;
 
 	PyObject* name = PyUnicode_FromString("python");
 	this->module = PyImport_Import(name);
@@ -105,13 +104,11 @@ void PyGamemode::load()
 
 	loaded = true;
 	disabled = false;
-
-	this->unblockThreads();
 }
 
 void PyGamemode::reload()
 {
-	this->blockThreads();
+	PySAMP::GIL gil;
 
 	if(this->module)
 	{
@@ -130,12 +127,11 @@ void PyGamemode::reload()
 			disabled = false;
 		}
 	}
-
-	this->unblockThreads();
 }
 
 void PyGamemode::unload()
 {
+	PySAMP::GIL gil;
 	Py_XDECREF(this->module);
 	loaded = false;
 	disabled = true;
@@ -156,35 +152,9 @@ bool PyGamemode::isEnabled()
 	return PyGamemode::isLoaded() && !PyGamemode::disabled;
 }
 
-void PyGamemode::blockThreads()
-{
-	if(this->_save == nullptr)
-	{
-		++this->threadLockDepth;
-		return;
-	}
-
-	Py_BLOCK_THREADS
-	this->_save = nullptr;
-}
-
-void PyGamemode::unblockThreads()
-{
-	if(this->threadLockDepth > 0)
-	{
-		--this->threadLockDepth;
-		return;
-	}
-
-	if(this->_save != nullptr)
-		return;
-
-	Py_UNBLOCK_THREADS
-}
-
 PyObject* PyGamemode::pyConfig(PyObject *self, PyObject *args, PyObject *kwargs)
 {
-	this->blockThreads();
+	PySAMP::GIL gil;
 
 	if(PyTuple_Size(args) != 0)
 	{
@@ -230,8 +200,6 @@ PyObject* PyGamemode::pyConfig(PyObject *self, PyObject *args, PyObject *kwargs)
 	}
 
 	Py_DECREF(items);
-
-	this->unblockThreads();
 	Py_RETURN_NONE;
 }
 
@@ -250,13 +218,10 @@ int PyGamemode::callback(
 	)
 		return ret;
 
-	this->blockThreads();
+	PySAMP::GIL gil;
 
 	if(!PyObject_HasAttrString(this->module, name.c_str()))
-	{
-		this->unblockThreads();
 		return ret;
-	}
 
 	PyObject* pFunc = PyObject_GetAttrString(this->module, name.c_str());
 
@@ -301,7 +266,6 @@ int PyGamemode::callback(
 	)
 		*stop = true;
 
-	this->unblockThreads();
 	return ret;
 }
 

@@ -38,6 +38,15 @@ public:
 	static PyObject* pyConfig(PyObject *self, PyObject *args, PyObject *kwargs);
 	static PyObject* amxParamsToTuple(AMX *amx, const std::string callback_name, cell *params);
 	static cell* tupleToAmxParams(PyObject* tuple);
+
+	class GIL
+	{
+	public:
+		GIL();
+		~GIL();
+	private:
+		PyGILState_STATE gilState;
+	};
 };
 
 

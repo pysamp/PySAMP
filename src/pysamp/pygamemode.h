@@ -33,9 +33,7 @@ private:
 	bool disabled = false;
 	std::unordered_map<std::string, PyObject*> config;
 	CallbacksManager *callbacks;
-	PyThreadState *_save;  // The GIL
-	// Thread-lock-stack - don't call Py_(UN)BLOCK_THREADS several times in a row
-	int threadLockDepth;
+	PyThreadState *_save;
 
 public:
 	PyGamemode(CallbacksManager* callbacks);
@@ -46,8 +44,6 @@ public:
 	bool isLoaded();
 	void disable();
 	bool isEnabled();
-	void blockThreads();
-	void unblockThreads();
 	int callback(const std::string name , PyObject* pArgs, cell* retval, bool* stop);
 	PyObject* pyConfig(PyObject *self, PyObject *args, PyObject *kwargs);
 	std::unordered_map<std::string, PyObject*> getConfig() { return this->config; };

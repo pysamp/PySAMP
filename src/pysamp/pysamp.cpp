@@ -47,15 +47,14 @@ void PySAMP::unload()
 
 	sampgdk::logprintf("Unloading PySAMP...");
 	PySAMP::disable();
-	PySAMP::gamemode->blockThreads();
-	delete PySAMP::param_converter;
-	PySAMP::param_converter = nullptr;
-	delete PySAMP::timer_manager;
-	PySAMP::timer_manager = nullptr;
-	delete PySAMP::gamemode;
-	PySAMP::gamemode = nullptr;
 	delete PySAMP::callbacks;
 	PySAMP::callbacks = nullptr;
+	delete PySAMP::gamemode;
+	PySAMP::gamemode = nullptr;
+	delete PySAMP::timer_manager;
+	PySAMP::timer_manager = nullptr;
+	delete PySAMP::param_converter;
+	PySAMP::param_converter = nullptr;
 }
 
 bool PySAMP::isInitialized()
@@ -96,9 +95,8 @@ void PySAMP::processTick(unsigned int currentTick)
 
 	PySAMP::callback("OnProcessTick");
 
-	PySAMP::gamemode->blockThreads();
+	PySAMP::GIL gil;
 	PySAMP::timer_manager->process_timers(currentTick);
-	PySAMP::gamemode->unblockThreads();
 }
 
 std::string PySAMP::getEncoding()
@@ -144,7 +142,7 @@ bool PySAMP::onPlayerCommandText(int playerid, const char* cmdtext)
 	if(!PySAMP::isLoaded())
 		return false;
 
-	PySAMP::gamemode->blockThreads();
+	PySAMP::GIL gil;
 	PyObject* tuple = Py_BuildValue(
 		"(iN)",
 		playerid,
@@ -155,7 +153,6 @@ bool PySAMP::onPlayerCommandText(int playerid, const char* cmdtext)
 			"strict"
 		)
 	);
-	PySAMP::gamemode->unblockThreads();
 
 	return PySAMP::callback("OnPlayerCommandText", tuple);
 }
@@ -202,13 +199,12 @@ PyObject* PySAMP::amxParamsToTuple(AMX *amx, const std::string callback_name, ce
 	if(format == nullptr)
 		return NULL;
 
-	PySAMP::gamemode->blockThreads();
+	PySAMP::GIL gil;
 	PyObject* tuple = PySAMP::param_converter->to_tuple(
 		params,
 		*format,
 		amx
 	);
-	PySAMP::gamemode->unblockThreads();
 
 	return tuple;
 }
@@ -218,9 +214,18 @@ cell* PySAMP::tupleToAmxParams(PyObject* tuple)
 	if(!PySAMP::isLoaded())
 		return NULL;
 
-	PySAMP::gamemode->blockThreads();
+	PySAMP::GIL gil;
 	cell* params = PySAMP::param_converter->from_tuple(tuple);
-	PySAMP::gamemode->unblockThreads();
 
 	return params;
+}
+
+PySAMP::GIL::GIL()
+{
+	gilState = PyGILState_Ensure();
+}
+
+PySAMP::GIL::~GIL()
+{
+	PyGILState_Release(gilState);
 }
