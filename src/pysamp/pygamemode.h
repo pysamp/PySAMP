@@ -17,6 +17,7 @@
 	#define GETCWD getcwd
 #endif
 
+#include "config.h"
 #include "sampgdk.h"
 #include "samp.h"
 #include "callbacks.h"
