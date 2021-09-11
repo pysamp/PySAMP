@@ -44,7 +44,7 @@ static PyObject* logprintf_flush(PyObject *self, PyObject *args)
 	Py_RETURN_NONE;
 }
 
-PyMethodDef LogPrintfMethods[] = {
+static PyMethodDef LogPrintfMethods[] = {
 	{ "write", logprintf_write, METH_VARARGS, "Writes to server_log.txt - assigned to sys.std{out,err}.write at startup." },
 	{ "flush", logprintf_flush, METH_VARARGS, "Flushes server_log.txt writes - empties internal line buffer into server_log.txt." },
 	{ NULL, NULL, 0, NULL },

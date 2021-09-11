@@ -9,9 +9,7 @@
 #include "sampgdk.h"
 
 
-extern PyMethodDef LogPrintfMethods[];
 extern struct PyModuleDef LogPrintfModule;
-extern std::string logprintf_buffer;
 
 static PyObject* logprintf_write(PyObject *self, PyObject *args);
 static PyObject* logprintf_flush(PyObject *self, PyObject *args);

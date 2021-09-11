@@ -8,7 +8,6 @@
 #include "logprintf.h"
 
 
-extern PyMethodDef PySAMPMethods[];
 extern struct PyModuleDef PySAMPModule;
 
 PyMODINIT_FUNC PyInit_samp();

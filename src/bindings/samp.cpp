@@ -5572,7 +5572,7 @@ static PyObject* pysamp_registercallback(PyObject *self, PyObject *args)
 	Py_RETURN_NONE;
 }
 
-PyMethodDef PySAMPMethods[] = {
+static PyMethodDef PySAMPMethods[] = {
 	{ "CreateActor", pysamp_createactor, METH_VARARGS, NULL },
 	{ "DestroyActor", pysamp_destroyactor, METH_VARARGS, NULL },
 	{ "IsActorStreamedIn", pysamp_isactorstreamedin, METH_VARARGS, NULL },
