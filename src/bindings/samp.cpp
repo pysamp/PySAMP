@@ -5,9 +5,20 @@ extern "C"
 {
 	PyMODINIT_FUNC PyInit_samp()
 	{
-		PyObject *logprintf_module = PyModule_Create(&LogPrintfModule);
-		PySys_SetObject("stdout", logprintf_module);
-		PySys_SetObject("stderr", logprintf_module);
+		PyObject *logprintf;
+
+		if(PyType_Ready(&LogPrintfType) < 0)
+			return NULL;
+
+		logprintf = PyObject_CallObject((PyObject*)&LogPrintfType, NULL);
+
+		if(logprintf == NULL)
+			return NULL;
+
+		PySys_SetObject("stdout", logprintf);
+		PySys_SetObject("stderr", logprintf);
+		Py_DECREF(logprintf);
+
 		return PyModule_Create(&PySAMPModule);
 	}
 }
@@ -5972,8 +5983,8 @@ static PyMethodDef PySAMPMethods[] = {
 
 struct PyModuleDef PySAMPModule = {
 	PyModuleDef_HEAD_INIT,
-	"samp",
-	"PySAMP native functions",
-	-1,
-	PySAMPMethods,
+	.m_name = "samp",
+	.m_doc = "PySAMP native functions",
+	.m_size = -1,
+	.m_methods = PySAMPMethods,
 };

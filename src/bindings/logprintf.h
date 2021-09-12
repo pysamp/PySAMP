@@ -8,9 +8,6 @@
 #include <Python.h>
 #include "sampgdk.h"
 
+extern PyTypeObject LogPrintfType;
 
-extern struct PyModuleDef LogPrintfModule;
-
-static PyObject* logprintf_write(PyObject *self, PyObject *args);
-static PyObject* logprintf_flush(PyObject *self, PyObject *args);
 #endif
