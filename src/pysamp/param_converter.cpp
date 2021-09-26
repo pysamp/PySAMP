@@ -17,17 +17,18 @@ cell* ParamConverter::from_tuple(PyObject* tuple, bool asReference)
 		+ (offset - 1)
 	) * sizeof(cell);
 
+	// XXX: I know this is all a bit static, but we only ever need it once...
+	// I'd rather have this bit of the code be complex than the actual native
 	if(asReference)
 	{
-		// XXX: I know this is all a bit static, but we only ever need it once...
-		// I'd rather have this bit of the code be complex than the actual native
 		PyObject *function_name = PyTuple_GetItem(tuple, 0);
 
+		// This check is mostly here to prevent future misuse
 		if(!PyUnicode_Check(function_name))
 		{
 			PyErr_Format(
 				PyExc_ValueError,
-				"from_tuple(asReference=true) function argument (pos 1) must be str, not %s",
+				"ParamConverter::from_tuple(asReference=true) argument 1 must be str, not %s",
 				Py_TYPE(function_name)->tp_name
 			);
 			return NULL;
@@ -94,7 +95,7 @@ cell* ParamConverter::from_tuple(PyObject* tuple, bool asReference)
 			fclose(bytes_io);
 			PyErr_Format(
 				PyExc_TypeError,
-				"CallNativeFunction() could not convert argument %s in position %d",
+				"Could not convert argument %s in position %d",
 				repr,
 				i + 1
 			);
