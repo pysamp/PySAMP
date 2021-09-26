@@ -47,14 +47,14 @@ void PySAMP::unload()
 
 	sampgdk::logprintf("Unloading PySAMP...");
 	PySAMP::disable();
-	delete PySAMP::callbacks;
-	PySAMP::callbacks = nullptr;
-	delete PySAMP::gamemode;
-	PySAMP::gamemode = nullptr;
-	delete PySAMP::timer_manager;
-	PySAMP::timer_manager = nullptr;
 	delete PySAMP::param_converter;
 	PySAMP::param_converter = nullptr;
+	delete PySAMP::timer_manager;
+	PySAMP::timer_manager = nullptr;
+	delete PySAMP::gamemode;
+	PySAMP::gamemode = nullptr;
+	delete PySAMP::callbacks;
+	PySAMP::callbacks = nullptr;
 }
 
 bool PySAMP::isInitialized()
