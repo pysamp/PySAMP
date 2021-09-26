@@ -5498,52 +5498,39 @@ WITH_GIL(pysamp_killtimer, PyObject *self, PyObject *args)
 
 WITH_GIL(pysamp_callnativefunction, PyObject *self, PyObject *args)
 {
-	PyObject* function_str = NULL;
-	const char *function_name = NULL;
+	const char *name = NULL;
+	PyObject* arguments = PyTuple_GetSlice(args, 0, 1);
 
-	function_str = PyTuple_GetItem(args, 0);
+	bool success = PyArg_ParseTuple(arguments, "s:CallNativeFunction", &name);
+	Py_DECREF(arguments);
 
-	if(function_str == NULL)
-	{
-		PyErr_SetString(
-			PyExc_TypeError,
-			"CallNativeFunction() missing required argument 'func_name' (pos 1)"
-		);
+	if(!success)
 		return NULL;
-	}
 
-	function_name = PyUnicode_AsUTF8(function_str);
-
-	if(function_name == NULL)
-	{
-		PyErr_Format(
-			PyExc_TypeError,
-			"CallNativeFunction() argument 'func_name' (pos 1) must be str, not %s",
-			Py_TYPE(function_str)->tp_name
-		);
-		return NULL;
-	}
-
-	AMX_NATIVE amx_function = sampgdk::FindNative(function_name);
+	AMX_NATIVE amx_function = sampgdk::FindNative(name);
 
 	if(amx_function == NULL)
 	{
 		PyErr_Format(
 			PyExc_ValueError,
-			"CallNativeFunction() unknown native function %s",
-			function_name
+			"CallNativeFunction() unknown native function '%s'",
+			name
 		);
 		return NULL;
 	}
 
-	cell *amx_params = PySAMP::tupleToAmxParams(args);
+	Py_ssize_t len_args = PyTuple_Size(args);
+	arguments = PyTuple_GetSlice(args, 1, len_args);
+
+	cell *amx_params = PySAMP::tupleToAmxParams(arguments);
+	Py_DECREF(arguments);
 
 	if(amx_params == NULL)
 		return NULL;
 
 	cell return_value = sampgdk::CallNative(amx_function, amx_params);
-	delete[] amx_params;
 
+	delete[] amx_params;
 	return Py_BuildValue("i", return_value);
 }
 
@@ -5570,6 +5557,39 @@ WITH_GIL(pysamp_registercallback, PyObject *self, PyObject *args)
 
 	PySAMP::registerCallback(name, format);
 	Py_RETURN_NONE;
+}
+
+WITH_GIL(pysamp_callremotefunction, PyObject *self, PyObject *args)
+{
+	const char *name = NULL;
+	PyObject* arguments = NULL;
+
+	arguments = PyTuple_GetSlice(args, 0, 1);
+	bool success = PyArg_ParseTuple(arguments, "s:CallRemoteFunction", &name);
+	Py_DECREF(arguments);
+
+	if(!success)
+		return NULL;
+
+	if(strlen(name) == 0)
+	{
+		PyErr_SetString(
+			PyExc_ValueError,
+			"CallRemoteFunction() argument 'function' (pos 1) cannot be empty"
+		);
+		return NULL;
+	}
+
+	cell *amx_params = PySAMP::tupleToAmxParams(args, true);
+
+	if(amx_params == NULL)
+		return NULL;
+
+	AMX_NATIVE amx_function = sampgdk::FindNative("CallRemoteFunction");
+	cell return_value = sampgdk::CallNative(amx_function, amx_params);
+
+	delete[] amx_params;
+	return Py_BuildValue("i", return_value);
 }
 
 static PyMethodDef PySAMPMethods[] = {
@@ -5967,6 +5987,7 @@ static PyMethodDef PySAMPMethods[] = {
 	{ "CallNativeFunction", pysamp_callnativefunction, METH_VARARGS, NULL },
 	{ "config", (PyCFunction)pysamp_config, METH_VARARGS | METH_KEYWORDS, "Sets the specified config keyword arguments, returns the config as dict if called without arguments" },
 	{ "RegisterCallback", pysamp_registercallback, METH_VARARGS, NULL },
+	{ "CallRemoteFunction", pysamp_callremotefunction, METH_VARARGS, NULL },
 	{ NULL, NULL, 0, NULL }
 };
 
