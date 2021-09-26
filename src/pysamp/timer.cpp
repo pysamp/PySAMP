@@ -1,4 +1,5 @@
 #include "timer.h"
+#include "pysamp.h"
 
 
 int Timer::last_timer_id;
@@ -74,6 +75,12 @@ TimerManager::TimerManager()
 	Timer::last_timer_id = -1;
 }
 
+TimerManager::~TimerManager()
+{
+	disabled = true;
+	clear_timers();
+}
+
 void TimerManager::add_timer(Timer& timer)
 {
 	timers.push_back(timer);
@@ -110,7 +117,6 @@ void TimerManager::process_timers(unsigned int current_tick)
 		if(
 			timer->process(current_tick)
 			&& !repeating
-			&& !timer->is_pending_deletion()
 		)
 		{
 			timer = timers.erase(timer);
@@ -131,6 +137,8 @@ void TimerManager::process_timers(unsigned int current_tick)
 
 void TimerManager::clear_timers()
 {
+	PySAMP::GIL gil;
+
 	for(auto timer = timers.begin(); timer != timers.end();)
 		timer = timers.erase(timer);
 }
