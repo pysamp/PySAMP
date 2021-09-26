@@ -2093,7 +2093,6 @@ WITH_GIL(pysamp_getpvarstring, PyObject *self, PyObject *args)
 	if(arg3 < 0)
 	{
 		PyErr_SetString(PyExc_TypeError, "Expected a positive length as third argument.");
-		PyErr_Print();
 		return NULL;
 	}
 	char* arg2 = new char[arg3 + 1];
@@ -2171,7 +2170,6 @@ WITH_GIL(pysamp_getpvarnameatindex, PyObject *self, PyObject *args)
 	if(arg3 < 0)
 	{
 		PyErr_SetString(PyExc_TypeError, "Expected a positive length as third argument.");
-		PyErr_Print();
 		return NULL;
 	}
 	char* arg2 = new char[arg3 + 1];
@@ -2352,7 +2350,6 @@ WITH_GIL(pysamp_getanimationname, PyObject *self, PyObject *args)
 	)
 	{
 		PyErr_SetString(PyExc_TypeError, "Expected positive lengths as second and third arguments.");
-		PyErr_Print();
 		return NULL;
 	}
 	char* arg3 = new char[arg4 + 1];
@@ -3214,7 +3211,6 @@ WITH_GIL(pysamp_getsvarstring, PyObject *self, PyObject *args)
 	if(arg2 < 0)
 	{
 		PyErr_SetString(PyExc_TypeError, "Expected a positive length as second argument.");
-		PyErr_Print();
 		return NULL;
 	}
 	char* arg1 = new char[arg2 + 1];
@@ -3287,7 +3283,6 @@ WITH_GIL(pysamp_getsvarnameatindex, PyObject *self, PyObject *args)
 	if(arg2 < 0)
 	{
 		PyErr_SetString(PyExc_TypeError, "Expected a positive length as second argument.");
-		PyErr_Print();
 		return NULL;
 	}
 	char* arg1 = new char[arg2 + 1];
@@ -3517,7 +3512,6 @@ WITH_GIL(pysamp_getweaponname, PyObject *self, PyObject *args)
 	if(arg2 < 0)
 	{
 		PyErr_SetString(PyExc_TypeError, "Expected a positive length as second argument.");
-		PyErr_Print();
 		return NULL;
 	}
 	char* arg1 = new char[arg2 + 1];
@@ -3820,7 +3814,6 @@ WITH_GIL(pysamp_getplayernetworkstats, PyObject *self, PyObject *args)
 	if(arg2 < 0)
 	{
 		PyErr_SetString(PyExc_TypeError, "Expected a positive length as second argument.");
-		PyErr_Print();
 		return NULL;
 	}
 	char* arg1 = new char[arg2 + 1];
@@ -3839,7 +3832,6 @@ WITH_GIL(pysamp_getnetworkstats, PyObject *self, PyObject *args)
 	if(arg1 < 0)
 	{
 		PyErr_SetString(PyExc_TypeError, "Expected a positive length as argument.");
-		PyErr_Print();
 		return NULL;
 	}
 	char* arg0 = new char[arg1 + 1];
@@ -3859,7 +3851,6 @@ WITH_GIL(pysamp_getplayerversion, PyObject *self, PyObject *args)
 	if(arg2 < 0)
 	{
 		PyErr_SetString(PyExc_TypeError, "Expected a positive length as second argument.");
-		PyErr_Print();
 		return NULL;
 	}
 	char* arg1 = new char[arg2 + 1];
@@ -3908,7 +3899,6 @@ WITH_GIL(pysamp_getservervarasstring, PyObject *self, PyObject *args)
 	if(arg2 < 0)
 	{
 		PyErr_SetString(PyExc_TypeError, "Expected a positive length as second argument.");
-		PyErr_Print();
 		return NULL;
 	}
 	char* arg1 = new char[arg2 + 1];
@@ -3956,7 +3946,6 @@ WITH_GIL(pysamp_getconsolevarasstring, PyObject *self, PyObject *args)
 	if(arg2 < 0)
 	{
 		PyErr_SetString(PyExc_TypeError, "Expected a positive length as second argument.");
-		PyErr_Print();
 		return NULL;
 	}
 	char* arg1 = new char[arg2 + 1];
