@@ -180,10 +180,7 @@ PyObject* PyGamemode::pyConfig(PyObject *self, PyObject *args, PyObject *kwargs)
 	for(int i = 0; i < PyList_Size(items); ++i)
 	{
 		PyObject* item = PyList_GetItem(items, i);
-		const char *key_name = PyUnicode_AsUTF8AndSize(
-			PyTuple_GetItem(item, 0),
-			NULL
-		);
+		const char *key_name = PyUnicode_AsUTF8(PyTuple_GetItem(item, 0));
 
 		if(this->config.count(key_name) < 1)
 		{

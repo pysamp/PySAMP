@@ -37,7 +37,7 @@ public:
 	static int getConstant(std::string);
 	static PyObject* pyConfig(PyObject *self, PyObject *args, PyObject *kwargs);
 	static PyObject* amxParamsToTuple(AMX *amx, const std::string callback_name, cell *params);
-	static cell* tupleToAmxParams(PyObject* tuple);
+	static cell* tupleToAmxParams(PyObject *tuple, bool asReference = false);
 
 	class GIL
 	{

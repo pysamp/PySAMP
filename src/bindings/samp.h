@@ -427,4 +427,5 @@ static PyObject* pysamp_killtimer(PyObject *self, PyObject *args);
 static PyObject* pysamp_callnativefunction(PyObject *self, PyObject *args);
 static PyObject* pysamp_config(PyObject *self, PyObject *args, PyObject *kwargs);
 static PyObject* pysamp_registercallback(PyObject *self, PyObject *args);
+static PyObject* pysamp_callremotefunction(PyObject *self, PyObject *args);
 #endif
