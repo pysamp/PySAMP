@@ -5565,7 +5565,8 @@ WITH_GIL(pysamp_callremotefunction, PyObject *self, PyObject *args)
 	PyObject* arguments = NULL;
 
 	arguments = PyTuple_GetSlice(args, 0, 1);
-	bool success = PyArg_ParseTuple(arguments, "s:CallRemoteFunction", &name);
+	// Unused "O" format for error message: "takes at least 1 argument"
+	bool success = PyArg_ParseTuple(arguments, "s|O:CallRemoteFunction", &name);
 	Py_DECREF(arguments);
 
 	if(!success)
@@ -5575,7 +5576,7 @@ WITH_GIL(pysamp_callremotefunction, PyObject *self, PyObject *args)
 	{
 		PyErr_SetString(
 			PyExc_ValueError,
-			"CallRemoteFunction() argument 'function' (pos 1) cannot be empty"
+			"CallRemoteFunction() argument 1 cannot be empty"
 		);
 		return NULL;
 	}
