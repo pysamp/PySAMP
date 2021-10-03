@@ -1,7 +1,7 @@
 #include "pygamemode.h"
 
 
-std::string PyGamemode::_getcwd()
+std::string PyGamemode::getCWD()
 {
 	// 4096!? See https://eklitzke.org/path-max-is-tricky
 	char buf[4096];
@@ -36,7 +36,7 @@ PyGamemode::PyGamemode(CallbacksManager* callbacks)
 		return;
 	}
 
-	PyObject* str_cwd = PyUnicode_FromString(_getcwd().c_str());
+	PyObject* str_cwd = PyUnicode_FromString(getCWD().c_str());
 	PyList_Append(syspath, str_cwd);
 	Py_DECREF(str_cwd);
 

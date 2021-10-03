@@ -26,7 +26,7 @@
 class PyGamemode
 {
 private:	
-	std::string _getcwd();
+	std::string getCWD();
 	PyObject *module = nullptr;
 	bool initialized = false;
 	bool loaded = false;

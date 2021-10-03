@@ -38,7 +38,12 @@ include_directories(
     ${CMAKE_BINARY_DIR}/generated/
 )
 
-get_filename_component(PYTHON_HOME "${Python3_INCLUDE_DIRS}/../.." REALPATH)
+if(WIN32)
+    get_filename_component(PYTHON_HOME "${Python3_INCLUDE_DIRS}/.." REALPATH)
+else()
+    get_filename_component(PYTHON_HOME "${Python3_INCLUDE_DIRS}/../.." REALPATH)
+endif()
+
 message(STATUS "PYTHON_HOME = ${PYTHON_HOME}")
 message(STATUS "Python3_LIBRARIES = ${Python3_LIBRARIES}")
 message(STATUS "Python3_INCLUDE_DIRS = ${Python3_INCLUDE_DIRS}")
@@ -47,6 +52,12 @@ message(STATUS "SAMPGDK_LIBRARY = ${SAMPGDK_LIBRARY}")
 add_definitions(-DSAMPGDK_AMALGAMATION)
 
 configure_file(config.h.in ${CMAKE_BINARY_DIR}/generated/config.h)
+
+if(MSVC)
+    set(CMAKE_CXX_STANDARD 20)
+else()
+    set(CMAKE_CXX_STANDARD 11)
+endif()
 
 add_samp_plugin(PySAMP
     ${SAMPGDK_DIR}/build/lib/sampgdk/sampgdk.c
@@ -74,7 +85,6 @@ add_samp_plugin(PySAMP
 
 target_link_libraries(PySAMP ${Python3_LIBRARIES})
 target_link_libraries(PySAMP ${SAMPGDK_LIBRARY})
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
 find_package(Doxygen)
 if(DOXYGEN_FOUND)
