@@ -5993,7 +5993,7 @@ static PyMethodDef PySAMPMethods[] = {
 };
 
 struct PyModuleDef PySAMPModule = {
-	PyModuleDef_HEAD_INIT,
+	.m_base = PyModuleDef_HEAD_INIT,
 	.m_name = "samp",
 	.m_doc = "PySAMP native functions",
 	.m_size = -1,

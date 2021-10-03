@@ -88,18 +88,12 @@ cell* ParamConverter::from_tuple(PyObject* tuple, bool asReference)
 		}
 		else
 		{
-			char *repr;
-			size_t size;
-			FILE *bytes_io = open_memstream(&repr, &size);
-			PyObject_Print(current_argument, bytes_io, 0);
-			fclose(bytes_io);
 			PyErr_Format(
 				PyExc_TypeError,
-				"Could not convert argument %s in position %d",
-				repr,
+				"Could not convert argument %R in position %d",
+				current_argument,
 				i + 1
 			);
-			free(repr);
 			return NULL;
 		}
 	}
