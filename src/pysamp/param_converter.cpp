@@ -59,7 +59,7 @@ cell* ParamConverter::from_tuple(PyObject* tuple, bool asReference)
 		}
 		else if(PyLong_Check(current_argument))
 		{
-			int value = PyLong_AsLong(current_argument);
+			unsigned int value = PyLong_AsUnsignedLongMask(current_argument);
 
 			if(!asReference)
 				amx_params[i + offset] = value;
