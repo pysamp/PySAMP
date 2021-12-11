@@ -17,22 +17,7 @@ public:
 		bool repeating
 	);
 	~Timer();
-
-	Timer& operator=(const Timer& timer)
-	{
-		if(&timer == this)
-			return *this;
-
-		id = timer.id;
-		last_call_tick = timer.last_call_tick;
-		function = timer.function;
-		arguments = timer.arguments;
-		interval = timer.interval;
-		repeating = timer.repeating;
-		pending_deletion = timer.pending_deletion;
-
-		return *this;
-	}
+	Timer& operator=(const Timer& timer);
 
 	static Timer* from_args(PyObject *args, PyObject *arguments);
 	bool process(unsigned int current_tick);
