@@ -28,6 +28,26 @@ Timer::~Timer()
 	Py_XDECREF(arguments);
 }
 
+Timer& Timer::operator=(const Timer& timer)
+{
+	if(&timer == this)
+		return *this;
+
+	id = timer.id;
+	last_call_tick = timer.last_call_tick;
+	Py_DECREF(function);
+	Py_XDECREF(arguments);
+	function = timer.function;
+	arguments = timer.arguments;
+	Py_INCREF(function);
+	Py_XINCREF(arguments);
+	interval = timer.interval;
+	repeating = timer.repeating;
+	pending_deletion = timer.pending_deletion;
+
+	return *this;
+}
+
 Timer* Timer::from_args(PyObject *args, PyObject *arguments)
 {
 	PyObject* function;
