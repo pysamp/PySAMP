@@ -2,7 +2,7 @@ FROM ubuntu:rolling
 
 ARG sampgdk_version=4.6.2
 ARG build_type=Release
-ARG job_count=12
+ARG job_count=4
 
 WORKDIR /root
 ENV DEBIAN_FRONTEND=noninteractive
@@ -47,7 +47,7 @@ RUN \
             -DSAMPSDK_DIR=../../samp-plugin-sdk \
             -DSAMPGDK_BUILD_AMALGAMATION=ON \
         && \
-        make -j${job_count} && \
+        make && \
         apt-get remove -y --purge python2 \
     ) && \
     mkdir PySAMP/build && \
