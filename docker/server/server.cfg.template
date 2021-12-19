@@ -1,0 +1,21 @@
+lanmode 0
+rcon_password ${generated_password}
+maxplayers 500
+port 7777
+hostname PySAMP server
+weburl github.com/habecker/PySAMP
+language Python
+mapname GitHub
+gamemodetext PySAMP
+gamemode0 empty
+plugins crashdetect.so PySAMP.so
+output 1
+announce 0
+query 1
+maxnpc 0
+onfoot_rate 40
+incar_rate 40
+weapon_rate 40
+stream_distance 300.0
+stream_rate 1000
+cookielogging 0
