@@ -9,15 +9,15 @@ then
         cd ../build
         ./build_pysamp.sh
     ) || exit 1
+    cp "$pysamp_path" ./ &&
+    docker build \
+        --no-cache \
+        -t pysamp/server \
+        . \
+    &&
+    rm $(basename "$pysamp_path")
 fi
 
-cp "$pysamp_path" ./ &&
-docker build \
-    --no-cache \
-    -t pysamp/server \
-    . \
-&&
-rm $(basename "$pysamp_path") &&
 docker run \
     --name pysamp_server \
     -v "$PWD/../data:/server" \
