@@ -1,6 +1,7 @@
 FROM ubuntu:rolling
 
 ARG sampgdk_version=4.6.2
+ARG pysamp_branch=main
 ARG build_type=Release
 ARG job_count=4
 
@@ -32,6 +33,7 @@ RUN \
     git clone \
         --depth 1 \
         --recursive \
+        --branch ${pysamp_branch} \
         https://github.com/habecker/PySAMP \
     && \
     mkdir sampgdk/build && \
