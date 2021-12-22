@@ -48,7 +48,10 @@ RUN \
             -DSAMPGDK_BUILD_AMALGAMATION=ON \
         && \
         make && \
-        apt-get remove -y --purge python2 \
+        apt-get remove -y --purge python2 && \
+        rm -rf \
+            /usr/local/bin/* \
+            /usr/local/lib/python2.7 \
     ) && \
     mkdir PySAMP/build && \
     ( \
@@ -60,8 +63,7 @@ RUN \
             -DSAMPSDK_DIR=../../samp-plugin-sdk \
             -DSAMPGDK_DIR=../../sampgdk \
             -DSAMPGDK_LIBRARY=../../sampgdk/build/libsampgdk.so \
-            -DPython3_ROOT_DIR=/usr/lib/i386-linux-gnu \
-            -DPython3_INCLUDE_DIR=$(python3 -c 'from distutils.sysconfig import get_python_inc; print(get_python_inc())') \
+            -DPython3_ROOT_DIR=$(python3-config --configdir) \
         && \
         make -j${job_count} && \
         mv PySAMP.so ../.. && \
@@ -83,7 +85,5 @@ RUN \
         PySAMP \
         /root/.cache \
         /root/.local \
-        /usr/local/bin/* \
-        /usr/local/lib/python2.7 \
         /var/lib/apt \
     ;

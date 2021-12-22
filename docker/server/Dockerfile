@@ -16,15 +16,15 @@ RUN \
     apt-get update && \
     apt-get install -y --no-install-recommends \
         python3:i386 \
-        python3-distutils:i386 \
         libpython3-dev:i386 \
+        python3-distutils:i386 \
+        python3-pip \
         libc6:i386 \
         libstdc++6:i386 \
         ca-certificates \
         wget \
         gettext-base \
     && \
-    wget https://bootstrap.pypa.io/get-pip.py -O- | python3 && \
     mkdir /default_server && \
     ( \
         cd /default_server && \
