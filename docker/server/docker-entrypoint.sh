@@ -7,6 +7,7 @@ fi
 
 if [ "$1" = "samp03svr" ]
 then
+    pip install -r /server/requirements.txt &&
     exec /server/samp03svr 2>&1
 fi
 

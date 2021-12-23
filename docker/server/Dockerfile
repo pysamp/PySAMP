@@ -15,13 +15,12 @@ RUN \
     dpkg --add-architecture i386 && \
     apt-get update && \
     apt-get install -y --no-install-recommends \
-        python3:i386 \
-        libpython3-dev:i386 \
-        python3-distutils:i386 \
+        python3-dev:i386 \
         python3-pip \
+        gcc-i686-linux-gnu \
+        g++-i686-linux-gnu \
         libc6:i386 \
         libstdc++6:i386 \
-        ca-certificates \
         wget \
         gettext-base \
     && \
@@ -45,7 +44,8 @@ RUN \
         export generated_password=$(python3 -c 'import os;print(os.urandom(24).hex())') && \
         envsubst < /root/server.cfg.template > server.cfg && \
         rm /root/server.cfg.template && \
-        mv /root/empty.py python.py \
+        mv /root/empty.py python.py && \
+        touch requirements.txt \
     )
 
 VOLUME /server
