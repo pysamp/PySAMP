@@ -24,7 +24,7 @@
 
 #define PYSAMP_LOADING_SCREEN_2 \
 "\
-  P::::P     P:::::P y:::::y         y:::::y S:::::S                    A:::::A:::::A          M:::::::::::M     M:::::::::::M  P::::P     P:::::P\n\
+             P::::P     P:::::P y:::::y         y:::::y S:::::S                    A:::::A:::::A          M:::::::::::M     M:::::::::::M  P::::P     P:::::P\n\
              P::::PPPPPP:::::P   y:::::y       y:::::y   S::::SSSS                A:::::A A:::::A         M:::::::M::::M   M::::M:::::::M  P::::PPPPPP:::::P \n\
              P:::::::::::::PP     y:::::y     y:::::y     SS::::::SSSSS          A:::::A   A:::::A        M::::::M M::::M M::::M M::::::M  P:::::::::::::PP  \n\
              P::::PPPPPPPPP        y:::::y   y:::::y        SSS::::::::SS       A:::::A     A:::::A       M::::::M  M::::M::::M  M::::::M  P::::PPPPPPPPP    \n\
@@ -33,7 +33,7 @@
 
 #define PYSAMP_LOADING_SCREEN_3 \
 "\
-  P::::P                  y:::::y:::::y                  S:::::S   A:::::::::::::::::::::A     M::::::M    M:::::M    M::::::M  P::::P            \n\
+             P::::P                  y:::::y:::::y                  S:::::S   A:::::::::::::::::::::A     M::::::M    M:::::M    M::::::M  P::::P            \n\
              P::::P                   y:::::::::y                   S:::::S  A:::::AAAAAAAAAAAAA:::::A    M::::::M     MMMMM     M::::::M  P::::P            \n\
            PP::::::PP                  y:::::::y        SSSSSSS     S:::::S A:::::A             A:::::A   M::::::M               M::::::MPP::::::PP          \n\
            P::::::::P                   y:::::y         S::::::SSSSSS:::::SA:::::A               A:::::A  M::::::M               M::::::MP::::::::P          \n\
@@ -42,7 +42,7 @@
 
 #define PYSAMP_LOADING_SCREEN_4 \
 "\
-PPPPPPPPPP                 y:::::y            SSSSSSSSSSSSSSS AAAAAAA                   AAAAAAAMMMMMMMM               MMMMMMMMPPPPPPPPPP          \n\
+           PPPPPPPPPP                 y:::::y            SSSSSSSSSSSSSSS AAAAAAA                   AAAAAAAMMMMMMMM               MMMMMMMMPPPPPPPPPP          \n\
                                      y:::::y                                                                                                                 \n\
                                     y:::::y                                                                                                                  \n\
                                    y:::::y                                                                                                                   \n\

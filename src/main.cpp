@@ -14,7 +14,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL Load(void **ppData)
 	bool ret = sampgdk::Load(ppData);
 
 #ifndef WIN32
-	dlopen(PYTHON_LIBRARY, RTLD_GLOBAL);
+	dlopen(PYTHON_LIBRARY, RTLD_GLOBAL | RTLD_LAZY);
 #endif
 
 	sampgdk::logprintf("\n\n%s", PYSAMP_LOADING_SCREEN_1);
