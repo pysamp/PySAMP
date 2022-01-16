@@ -16,11 +16,11 @@ public OnPlayerConnect(playerid)
 ```python
 from samp import GetPlayerName, SendClientMessageToAll
 
-<<<<<<< HEAD
 def on_player_connect(playerid):
     name = get_player_name(playerid, MAX_PLAYER_NAME.get())
     send_client_message_to_all(0x000000FF,  '%s has joined the server.'.format(name))
     return 1
+```
  
 As you can see, all referenced return values are removed and instead the method returns either a value or a tuple.
 The corresponding python gamemode has to be saved as `python.py` module or a `python/` package of your server directory.
