@@ -1,10 +1,10 @@
-from samp import *
+from .pysamp import *
 import random
 from typing import Dict
-from glspawns import *
-from funcs import *
-from vars import *
-from player import *
+from .glspawns import *
+from .funcs import *
+from .vars import *
+from .player import *
 
 player: Dict[int, PlayerVars] = {}
 textdraw: Dict[str, Textdraw] = {}
@@ -18,14 +18,14 @@ in python, and here is the result. We took our liberty to nick it "PyLarc".
 The intention behind converting it, was to give you all an idea of how the plugin works,
 and to give you all a good example.
 
-EDIT April 2021: Converted gamemode to use newly made classes in samp.py for Players, Vehicles, Textdraws and Actors. 
+EDIT January 2022: Converted gamemode to use newly made classes in samp.py for Players, Vehicles, Textdraws and Actors. 
 Also, converted to snake_case
 
 Everything here should function as in the original PAWN version, and if you 
 find any bugs, you can report them on our repo; https://github.com/habecker/PySAMP/issues
 
 For now, enjoy the code, and good luck!
-denNorske & Habecker
+denNorske, Cheaterman & Habecker
 """
 ################################
 
@@ -159,17 +159,17 @@ def OnPlayerSpawn(playerid):
         randspawn = random.randint(0, len(spawn_lv))
         player[playerid].pos = (spawn_lv[randspawn][0],spawn_lv[randspawn][1], spawn_lv[randspawn][2]) 
 
-    player[playerid].set_skill_level(WEAPONSKILL_PISTOL.get(),200)
-    player[playerid].set_skill_level(WEAPONSKILL_PISTOL_SILENCED.get(),200)
-    player[playerid].set_skill_level(WEAPONSKILL_DESERT_EAGLE.get(),200)
-    player[playerid].set_skill_level(WEAPONSKILL_SHOTGUN.get(),200)
-    player[playerid].set_skill_level(WEAPONSKILL_SAWNOFF_SHOTGUN.get(),200)
-    player[playerid].set_skill_level(WEAPONSKILL_SPAS12_SHOTGUN.get(),200)
-    player[playerid].set_skill_level(WEAPONSKILL_MICRO_UZI.get(),200)
-    player[playerid].set_skill_level(WEAPONSKILL_MP5.get(),200)
-    player[playerid].set_skill_level(WEAPONSKILL_AK47.get(),200)
-    player[playerid].set_skill_level(WEAPONSKILL_M4.get(),200)
-    player[playerid].set_skill_level(WEAPONSKILL_SNIPERRIFLE.get(),200)
+    player[playerid].set_skill_level(WEAPONSKILL_PISTOL,200)
+    player[playerid].set_skill_level(WEAPONSKILL_PISTOL_SILENCED,200)
+    player[playerid].set_skill_level(WEAPONSKILL_DESERT_EAGLE,200)
+    player[playerid].set_skill_level(WEAPONSKILL_SHOTGUN,200)
+    player[playerid].set_skill_level(WEAPONSKILL_SAWNOFF_SHOTGUN,200)
+    player[playerid].set_skill_level(WEAPONSKILL_SPAS12_SHOTGUN,200)
+    player[playerid].set_skill_level(WEAPONSKILL_MICRO_UZI,200)
+    player[playerid].set_skill_level(WEAPONSKILL_MP5,200)
+    player[playerid].set_skill_level(WEAPONSKILL_AK47,200)
+    player[playerid].set_skill_level(WEAPONSKILL_M4,200)
+    player[playerid].set_skill_level(WEAPONSKILL_SNIPERRIFLE,200)
     
     player[playerid].give_weapon(22,100) # Colt 45            
     return True
@@ -343,7 +343,7 @@ def OnPlayerRequestClass(playerid, classid):
         class_sel_setup_char_selection(playerid)
         return True
     else:
-        if player[playerid].state != PLAYER_STATE_SPECTATING.get():
+        if player[playerid].state != PLAYER_STATE_SPECTATING:
             player[playerid].spawn() # Why? 
             #Else player does not load in correctly and the toggle below will disconnect the player. 
             # Read the known issues on our repo wiki. 
@@ -362,7 +362,7 @@ def OnPlayerUpdate(playerid):
         return True
     
     if ( player[playerid].has_city_selected == False and
-    player[playerid].state == PLAYER_STATE_SPECTATING.get()):
+    player[playerid].state == PLAYER_STATE_SPECTATING):
         class_sel_handle_city_selection(playerid)
     
     if player[playerid].interior != 0 and player[playerid].weapon != 0:

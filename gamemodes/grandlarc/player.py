@@ -1,6 +1,9 @@
-from samp import *
+from .pysamp import *
 
 class PlayerVars(Player):
+    """
+        Player class for Grandlarc
+    """
     __doc__ += Player.__doc__ # This allows us to get documentation from parent class
     
     def __init__(

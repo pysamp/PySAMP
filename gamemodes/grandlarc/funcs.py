@@ -1,4 +1,4 @@
-from samp import *
+from pysamp import add_static_vehicle_ex
 import os
 
 def load_vehs_from_file(filename):
