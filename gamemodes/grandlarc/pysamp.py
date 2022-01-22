@@ -3,9 +3,6 @@ from samp import *
 ########################
 # SNAKE CASE WRAPPERS FOR PEP8 COMPATIBILITY
 ########################
-def const(name):
-    return Const(name)
-
 
 def set_spawn_info(
     playerid,
