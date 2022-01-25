@@ -394,14 +394,13 @@ from PySAMP import (
     use_player_ped_anims,
     vector_size,
 )
-from pysamp.Player import Player
 
 
 class Player:
     """Class to interact with players that are online"""
 
     def __init__(self, playerid):
-        self.id = playerid
+        self.id: int = playerid
 
     def set_spawn_info(
         self,
@@ -449,6 +448,10 @@ class Player:
             weapon3,
             weapon3_ammo,
         )
+
+    def get_id(self):
+        """Get the player's player id"""
+        return self.id
 
     def spawn(self):
         """| METHOD |
@@ -500,7 +503,6 @@ class Player:
         """Get the position of the player."""
         return get_player_pos(self.id)
 
-    
     def set_pos(self, pos: tuple):
         """Set the player's position"""
         try:
@@ -612,7 +614,7 @@ class Player:
 
     @property
     def target_actor(self):
-        return GetPlayerTargetActor(self.id)
+        return get_player_target_actor(self.id)
 
     @property
     def team(self):
@@ -632,7 +634,7 @@ class Player:
 
         ```
         """
-        return GetPlayerTeam(self.id)
+        return get_player_team(self.id)
 
     @team.setter
     def team(self, teamid):

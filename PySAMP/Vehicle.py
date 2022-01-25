@@ -3,6 +3,7 @@ from PySAMP import (
     add_vehicle_component,
     change_vehicle_color,
     change_vehicle_paintjob,
+    create_vehicle,
     destroy_vehicle,
     detach_trailer_from_vehicle,
     get_vehicle_component_in_slot,
@@ -43,50 +44,11 @@ from PySAMP import (
 
 
 class Vehicle:
-    """
-    Create a vehicle by using this class.
-
-    Properties:
-    --------
-    - id
-    - pos
-    - z_angle
-    - rotation_quat
-    - params_ex
-    - params_siren_state
-    - params_car_doors
-    - params_car_windows
-    - health
-    - trailer
-    - model
-    - velocity
-    - damage_status
-    - virtual_world
-    __________________
-    Methods:
-    ---------
-    - is_valid()
-    - get_distance_from_point(x, y, z)
-    - destroy()
-    - is_streamed_in(forplayerid)
-    - set_to_respawn()
-    - link_to_interior(interiorid)
-    - add_component(componentid)
-    - remove_component(componentid)
-    - change_color(color1, color2)
-    - change_paintjob(paintjobid)
-    - detach_trailer()
-    - is_trailer_attached()
-    - set_number_plate(text)
-    - get_component_in_slot(slot)
-    - repair()
-    - set_angular_velocity(x, y, z)
-
-    """
+    """Create server vehicles. Edit and work on them using this class."""
 
     def __init__(
         self,
-        vehicletype,
+        vehicle_type,
         x,
         y,
         z,
@@ -94,9 +56,9 @@ class Vehicle:
         color1,
         color2,
         respawn_delay,
-        addsiren=False,
+        add_siren: bool = False,
     ):
-        self.vehicletype = vehicletype
+        self.vehicletype = vehicle_type
         self.x = x
         self.y = y
         self.z = z
@@ -104,63 +66,84 @@ class Vehicle:
         self.color1 = color1
         self.color2 = color2
         self.respawn_delay = respawn_delay
-        self.addsiren = addsiren
+        self.addsiren = add_siren
 
         self.id = create_vehicle(
-            vehicletype, x, y, z, rotation, color1, color2, respawn_delay, addsiren
+            vehicle_type,
+            x,
+            y,
+            z,
+            rotation,
+            color1,
+            color2,
+            respawn_delay,
+            add_siren
         )
 
-    def is_valid(self):
+    def is_valid(self) -> bool:
+        """Check if the vehicle is valid"""
         return is_valid_vehicle(self.id)
 
-    def get_distance_from_point(self, x: float, y: float, z: float):
+    def get_distance_from_point(self, x: float, y: float, z: float) -> float:
+        """Check how far away the vehicle is from a given coordinate."""
         return get_vehicle_distance_from_point(self.id, x, y, z)
 
-    def destroy(self):
+    def destroy(self) -> bool:
+        """Removes the vehicle from the server."""
         return destroy_vehicle(self.id)
 
-    def is_streamed_in(self, forplayerid):
-        return is_vehicle_streamed_in(self.id, forplayerid)
+    def is_streamed_in(self, for_player: Player):
+        """Lets you know if a specific player has streamed in the vehicle."""
+        return is_vehicle_streamed_in(self.id, for_player.id)
 
-    @property
-    def pos(self):
+    def get_pos(self) -> tuple[float, float, float]:
+        """Get the vehicle's current position."""
         return get_vehicle_pos(self.id)
 
-    @pos.setter
-    def pos(self, pos: tuple):
+    def set_pos(self, position: tuple[float, float, float]) -> bool:
+        """Sets the vehicle position directly on the passed position."""
         try:
-            x, y, z = pos
-        except:
-            raise ValueError("Pass position as a tuple: xx.pos = (x,y,z)")
+            x, y, z = position
+        except ValueError:
+            raise ValueError(
+                "Method set_pos() expects the position to be a tuple = \
+                    (x: float, y: float, z: float)"
+            )
         else:
             return set_vehicle_pos(self.id, x, y, z)
 
-    @property
-    def z_angle(self):
+    def get_z_angle(self) -> float:
+        """Returns the heading the vehicle has. Can be >= 0.0 and < 360."""
         return get_vehicle_z_angle(self.id)
 
-    @z_angle.setter
-    def z_angle(self, z_angle: float):
+    def set_z_angle(self, z_angle: float):
+        """Set the vehicle's heading hangle. 0.0 => z_angle < 360.0"""
         return set_vehicle_z_angle(self.id, z_angle)
 
-    @property
-    def rotation_quat(self):
+    def get_rotation_quat(self) -> tuple[float, float, float, float]:
+        """Returns a vehicle's rotation on all axes as a quaternion"""
         return get_vehicle_rotation_quat(self.id)
 
-    def set_params_for_player(self, player: Player, objective, doorslocked):
-        return set_vehicle_params_for_player(self.id, player.id, objective, doorslocked)
+    def set_params_for_player(
+        self, player: Player, objective: int, doors_locked: int
+    ) -> bool:
+        """Set the parameters of the vehicle."""
+        return set_vehicle_params_for_player(
+            self.id, player.id, objective, doors_locked
+        )
 
-    @property
-    def params_ex(self):
+    def get_params_ex(self) -> tuple[int, int, int, int, int, int, int]:
+        """Get the vehicle's params."""
         return get_vehicle_params_ex(self.id)
 
-    @params_ex.setter
-    def params_ex(self, param: tuple):
+    def set_params_ex(self, param: tuple) -> bool:
+        """Set the parameters of the vehicle."""
         try:
             engine, lights, alarm, doors, bonnet, boot, objective = param
-        except:
+        except ValueError:
             raise ValueError(
-                "A tuple was expected: (engine, lights, alarm, doors, bonnet, boot, objective)"
+                "A tuple was expected: \
+                    (engine, lights, alarm, doors, bonnet, boot, objective)"
             )
         else:
             return set_vehicle_params_ex(
@@ -179,9 +162,10 @@ class Vehicle:
     def params_car_doors(self, param: tuple):
         try:
             driver, passenger, backleft, backright = param
-        except:
+        except ValueError:
             raise ValueError(
-                "A tuple was expected: (driver, passenger, backleft, backright)"
+                "A tuple was expected: \
+                    (driver, passenger, backleft, backright)"
             )
         else:
             return set_vehicle_params_car_doors(
@@ -196,9 +180,10 @@ class Vehicle:
     def params_car_windows(self, param: tuple):
         try:
             driver, passenger, backleft, backright = param
-        except:
+        except ValueError:
             raise ValueError(
-                "A tuple was expected: (driver, passenger, backleft, backright)"
+                "A tuple was expected: \
+                    (driver, passenger, backleft, backright)"
             )
         else:
             return set_vehicle_params_car_windows(
@@ -261,14 +246,14 @@ class Vehicle:
     @velocity.setter
     def velocity(self, vector: tuple):
         try:
-            X, Y, Z = vector
-        except:
+            x, y, z = vector
+        except ValueError:
             raise ValueError("Expected a tuple for x,y,z: (x,y,z)")
         else:
-            return set_vehicle_velocity(self.id, X, Y, Z)
+            return set_vehicle_velocity(self.id, x, y, z)
 
     def set_angular_velocity(self, x: float, y: float, z: float):
-        return set_vehicle_angular_velocity(self.id, X, Y, Z)
+        return set_vehicle_angular_velocity(self.id, x, y, z)
 
     @property
     def damage_status(self):
@@ -278,12 +263,15 @@ class Vehicle:
     def damage_status(self, param: tuple):
         try:
             panels, doors, lights, tires = param
-        except:
+        except ValueError:
             raise ValueError(
-                "Expected a tuple for damage_status: (panels, doors, lights, tires)"
+                "Expected a tuple for damage_status: \
+                    (panels, doors, lights, tires)"
             )
         else:
-            return update_vehicle_damage_status(self.id, panels, doors, lights, tires)
+            return update_vehicle_damage_status(
+                self.id, panels, doors, lights, tires
+            )
 
     @property
     def virtual_world(self):

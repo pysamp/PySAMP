@@ -1802,7 +1802,7 @@ def is_vehicle_streamed_in(vehicleid, forplayer_id: int) -> :
     return IsVehicleStreamedIn(vehicleid, forplayer_id)
 
 
-def get_vehicle_pos(vehicleid) -> :
+def get_vehicle_pos(vehicleid) -> tuple[float, float, float]:
     return GetVehiclePos(vehicleid)
 
 
