@@ -1,4 +1,4 @@
-from PySAMP import (apply_actor_animation, clear_actor_animations,
+from pysamp import (apply_actor_animation, clear_actor_animations,
                     create_actor, destroy_actor, get_actor_facing_angle,
                     get_actor_health, get_actor_pos, get_actor_virtual_world,
                     is_actor_invulnerable, is_actor_streamed_in,

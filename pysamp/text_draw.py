@@ -1,4 +1,4 @@
-from PySAMP import (
+from pysamp import (
     text_draw_alignment,
     text_draw_background_color,
     text_draw_box_color,

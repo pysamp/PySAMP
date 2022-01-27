@@ -1,4 +1,4 @@
-from PySAMP import (
+from pysamp import (
     add_char_model,
     add_menu_item,
     add_player_class,

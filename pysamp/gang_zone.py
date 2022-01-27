@@ -1,4 +1,4 @@
-from PySAMP import (
+from pysamp import (
     gang_zone_create,
     gang_zone_destroy,
     gang_zone_flash_for_all,
@@ -10,7 +10,7 @@ from PySAMP import (
     gang_zone_stop_flash_for_all,
     gang_zone_stop_flash_for_player,
 )
-from PySAMP.player import Player
+from pysamp.player import Player
 
 
 class GangZone:

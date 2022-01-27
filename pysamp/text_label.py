@@ -1,6 +1,6 @@
-from PySAMP.vehicle import Vehicle
-from PySAMP.player import Player
-from PySAMP import (
+from pysamp.vehicle import Vehicle
+from pysamp.player import Player
+from pysamp import (
     attach_3d_text_label_to_player,
     attach_3d_text_label_to_vehicle,
     create_3d_text_label,

@@ -1,5 +1,5 @@
-from PySAMP.player import Player
-from PySAMP import (
+from pysamp.player import Player
+from pysamp import (
     add_vehicle_component,
     change_vehicle_color,
     change_vehicle_paintjob,
