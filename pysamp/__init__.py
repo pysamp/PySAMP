@@ -879,52 +879,94 @@ def enable_stunt_bonus_for_all(enable: bool) -> bool:
     return EnableStuntBonusForAll(enable)
 
 
-def toggle_player_spectating(player_id: int, toggle) -> bool:
+def toggle_player_spectating(player_id: int, toggle: bool) -> bool:
     return TogglePlayerSpectating(player_id, toggle)
 
 
-def player_spectate_player(player_id: int, target_player_id: int, mode: int = SPECTATE_MODE_NORMAL) -> bool:
+def player_spectate_player(
+        player_id: int,
+        target_player_id: int,
+        mode: int = SPECTATE_MODE_NORMAL
+) -> bool:
     return PlayerSpectatePlayer(player_id, target_player_id, mode)
 
 
-def player_spectate_vehicle(player_id: int, target_vehicle_id: int, mode: int = SPECTATE_MODE_NORMAL) -> bool:
+def player_spectate_vehicle(
+        player_id: int,
+        target_vehicle_id: int,
+        mode: int = SPECTATE_MODE_NORMAL
+) -> bool:
     return PlayerSpectateVehicle(player_id, target_vehicle_id, mode)
 
 
-def start_recording_player_data(player_id: int, recordtype, recordname) -> bool:
-    return StartRecordingPlayerData(player_id, recordtype, recordname)
+def start_recording_player_data(
+        player_id: int, record_type: int, record_name: str,
+) -> bool:
+    return StartRecordingPlayerData(player_id, record_type, record_name)
 
 
 def stop_recording_player_data(player_id: int) -> bool:
     return StopRecordingPlayerData(player_id)
 
 
-def create_explosion_for_player(player_id: int, X, Y, Z, type, Radius) -> bool:
-    return CreateExplosionForPlayer(player_id, X, Y, Z, type, Radius)
+def create_explosion_for_player(
+        player_id: int,
+        x: float,
+        y: float,
+        z: float,
+        type: int,
+        radius: float
+) -> bool:
+    return CreateExplosionForPlayer(player_id, x, y, z, type, radius)
 
 
-def create_object(modelid: int, x: float, y: float, z: float, rX, rY, rZ, DrawDistance=0.0) -> bool:
-    return CreateObject(modelid, x, y, z, rX, rY, rZ, DrawDistance)
+def create_object(
+        modelid: int,
+        x: float,
+        y: float,
+        z: float,
+        rotation_x: float,
+        rotation_y: float,
+        rotation_z: float,
+        draw_distance: float = 0.0
+) -> bool:
+    return CreateObject(
+        modelid, x, y, z, rotation_x, rotation_y, rotation_z, draw_distance
+    )
 
 
 def attach_object_to_vehicle(
-    object_id: int, vehicleid: int, fOffsetX, fOffsetY, fOffsetZ, fRotX, fRotY, fRotZ
+        object_id: int,
+        vehicle_id: int,
+        offset_x: float,
+        offset_y: float,
+        offset_z: float,
+        rotation_x: float,
+        rotation_y: float,
+        rotation_z: float
 ) -> bool:
     return AttachObjectToVehicle(
-        object_id, vehicleid, fOffsetX, fOffsetY, fOffsetZ, fRotX, fRotY, fRotZ
+        object_id,
+        vehicle_id,
+        offset_x,
+        offset_y,
+        offset_z,
+        rotation_x,
+        rotation_y,
+        rotation_z
     )
 
 
 def attach_object_to_object(
-    object_id,
-    attachtoid,
-    fOffsetX,
-    fOffsetY,
-    fOffsetZ,
-    fRotX,
-    fRotY,
-    fRotZ,
-    SyncRotation=False,
+        object_id,
+        attachtoid,
+        fOffsetX,
+        fOffsetY,
+        fOffsetZ,
+        fRotX,
+        fRotY,
+        fRotZ,
+        SyncRotation=False,
 ) -> bool:
     return AttachObjectToObject(
         object_id,
@@ -940,17 +982,24 @@ def attach_object_to_object(
 
 
 def attach_object_to_player(
-    object_id: int,
-    player_id: int,
-    offset_x: float,
-    offset_y: float,
-    offset_z: float,
-    rotation_x: float,
-    rotation_y: float,
-    rotation_z: float
+        object_id: int,
+        player_id: int,
+        offset_x: float,
+        offset_y: float,
+        offset_z: float,
+        rotation_x: float,
+        rotation_y: float,
+        rotation_z: float
 ) -> bool:
     return AttachObjectToPlayer(
-        object_id, player_id, offset_x, offset_y, offset_z, rotation_x, rotation_y, rotation_z
+        object_id,
+        player_id,
+        offset_x,
+        offset_y,
+        offset_z,
+        rotation_x,
+        rotation_y,
+        rotation_z
     )
 
 
@@ -988,71 +1037,106 @@ def destroy_object(object_id: int) -> bool:
     return DestroyObject(object_id)
 
 
-def move_object(
-    object_id: int,
-    x: float,
-    y: float,
-    z: float,
-    speed: float,
-    rotation_x: float = -1000.0,
-    rotation_y: float = -1000.0,
-    rotation_z: float = -1000.0,
-) -> int:
-    return MoveObject(
+def move_object(object_id: int, x: float, y: float, z: float, speed: float,
+                rotation_x: float = -1000.0, rotation_y: float = -1000.0,
+                rotation_z: float = -1000.0) -> int:
+    """Move and rotate an object to given values.
+    
+    Rotation values should be -1000 if you don't want to modify the object
+    rotation.
+
+    Returns the time in seconds it takes to move the object.
+    """
+    return MoveObject(object_id, x, y, z, speed, rotation_x, rotation_y, 
+                      rotation_z)
+
+
+def stop_object(object_id: int) -> bool:
+    """Stop moving an object."""
+    return StopObject(object_id)
+
+
+def is_object_moving(object_id: int) -> bool:
+    """Check if an object is currently moving."""
+    return IsObjectMoving(object_id)
+
+
+def edit_object(player_id: int, object_id: int) -> bool:
+    """Let the player_id edit the object."""
+    return EditObject(player_id, object_id)
+
+
+def edit_player_object(player_id: int, object_id: int) -> bool:
+    """Let the player_id edit the given player object."""
+    return EditPlayerObject(player_id, object_id)
+
+
+def select_object(player_id: int) -> bool:
+    """Allow the player_id to select an object with their mouse pointer.
+    
+    When the player selects an object, the on_player_select_object callback
+    is called.
+    """
+    return SelectObject(player_id)
+
+
+def cancel_edit(player_id: int) -> bool:
+    """End the object selection mode for the player."""
+    return CancelEdit(player_id)
+
+
+def create_player_object(
+    player_id: int, modelid, x: float, y: float, z: float,rotation_x: float, 
+    rotation_y: float, rotation_z: float, draw_distance:float = 0.0) -> int:
+    return CreatePlayerObject(player_id, modelid, x, y, z, rotation_x,
+                              rotation_y, rotation_z, draw_distance)
+
+
+def attach_player_object_to_player(
+        objectplayer: int,
+        object_id: int,
+        attachplayer: int,
+        offset_x: float,
+        offset_y: float,
+        offset_z: float,
+        rotation_x: float,
+        rotation_y: float,
+        rotation_z: float
+) -> bool:
+    return AttachPlayerObjectToPlayer(
+        objectplayer,
         object_id,
-        x,
-        y,
-        z,
-        speed,
+        attachplayer,
+        offset_x,
+        offset_y,
+        offset_z,
         rotation_x,
         rotation_y,
         rotation_z
     )
 
 
-def stop_object(object_id: int) -> :
-    return StopObject(object_id)
-
-
-def is_object_moving(object_id: int) -> :
-    return IsObjectMoving(object_id)
-
-
-def edit_object(player_id: int, object_id: int) -> :
-    return EditObject(player_id, object_id)
-
-
-def edit_player_object(player_id: int, object_id: int) -> :
-    return EditPlayerObject(player_id, object_id)
-
-
-def select_object(player_id: int) -> :
-    return SelectObject(player_id)
-
-
-def cancel_edit(player_id: int) -> :
-    return CancelEdit(player_id)
-
-
-def create_player_object(
-    player_id: int, modelid, x: float, y: float, z: float, rX, rY, rZ, DrawDistance=0.0
-) -> :
-    return CreatePlayerObject(player_id, modelid, x, y, z, rX, rY, rZ, DrawDistance)
-
-
-def attach_player_object_to_player(
-    objectplayer, object_id, attachplayer, OffsetX, OffsetY, OffsetZ, rX, rY, rZ
-) -> :
-    return AttachPlayerObjectToPlayer(
-        objectplayer, object_id, attachplayer, OffsetX, OffsetY, OffsetZ, rX, rY, rZ
-    )
-
-
 def attach_player_object_to_vehicle(
-    player_id, object_id, vehicleid, fOffsetX, fOffsetY, fOffsetZ, fRotX, fRotY, RotZ
-) -> :
+        player_id: int,
+        object_id: int,
+        vehicle_id: int,
+        offset_x: float,
+        offset_y: float,
+        offset_z: float,
+        rotation_x: float,
+        rotation_y: float,
+        rotation_z: float
+) -> bool:
     return AttachPlayerObjectToVehicle(
-        player_id, object_id, vehicleid, fOffsetX, fOffsetY, fOffsetZ, fRotX, fRotY, RotZ
+        player_id,
+        object_id,
+        vehicle_id,
+        offset_x,
+        offset_y,
+        offset_z,
+        rotation_x,
+        rotation_y,
+        rotation_z
     )
 
 
@@ -1712,8 +1796,8 @@ def text_draw_set_preview_model(text, modelindex: int) -> :
     return TextDrawSetPreviewModel(text, modelindex)
 
 
-def text_draw_set_preview_rot(text, fRotX, fRotY, fRotZ, fZoom=1.0) -> :
-    return TextDrawSetPreviewRot(text, fRotX, fRotY, fRotZ, fZoom)
+def text_draw_set_preview_rot(text, rotation_x, rotation_y, rotation_z, fZoom=1.0) -> :
+    return TextDrawSetPreviewRot(text, rotation_x, rotation_y, rotation_z, fZoom)
 
 
 def text_draw_set_preview_veh_col(text, color1, color2) -> :
@@ -1800,12 +1884,12 @@ def redirect_download(player_id: int, url) -> :
     return RedirectDownload(player_id, url)
 
 
-def is_valid_vehicle(vehicleid) -> :
-    return IsValidVehicle(vehicleid)
+def is_valid_vehicle(vehicle_id) -> :
+    return IsValidVehicle(vehicle_id)
 
 
-def get_vehicle_distance_from_point(vehicleid, x: float, y: float, z: float) -> :
-    return GetVehicleDistanceFromPoint(vehicleid, x, y, z)
+def get_vehicle_distance_from_point(vehicle_id, x: float, y: float, z: float) -> :
+    return GetVehicleDistanceFromPoint(vehicle_id, x, y, z)
 
 
 def create_vehicle(
@@ -1824,36 +1908,36 @@ def create_vehicle(
     )
 
 
-def destroy_vehicle(vehicleid) -> :
-    return DestroyVehicle(vehicleid)
+def destroy_vehicle(vehicle_id) -> :
+    return DestroyVehicle(vehicle_id)
 
 
-def is_vehicle_streamed_in(vehicleid, forplayer_id: int) -> :
-    return IsVehicleStreamedIn(vehicleid, forplayer_id)
+def is_vehicle_streamed_in(vehicle_id, forplayer_id: int) -> :
+    return IsVehicleStreamedIn(vehicle_id, forplayer_id)
 
 
-def get_vehicle_pos(vehicleid) -> tuple[float, float, float]:
-    return GetVehiclePos(vehicleid)
+def get_vehicle_pos(vehicle_id) -> tuple[float, float, float]:
+    return GetVehiclePos(vehicle_id)
 
 
-def set_vehicle_pos(vehicleid, x: float, y: float, z: float) -> :
-    return SetVehiclePos(vehicleid, x, y, z)
+def set_vehicle_pos(vehicle_id, x: float, y: float, z: float) -> :
+    return SetVehiclePos(vehicle_id, x, y, z)
 
 
-def get_vehicle_z_angle(vehicleid) -> :
-    return GetVehicleZAngle(vehicleid)
+def get_vehicle_z_angle(vehicle_id) -> :
+    return GetVehicleZAngle(vehicle_id)
 
 
-def get_vehicle_rotation_quat(vehicleid) -> :
-    return GetVehicleRotationQuat(vehicleid)
+def get_vehicle_rotation_quat(vehicle_id) -> :
+    return GetVehicleRotationQuat(vehicle_id)
 
 
-def set_vehicle_z_angle(vehicleid, z_angle: float) -> :
-    return SetVehicleZAngle(vehicleid, z_angle)
+def set_vehicle_z_angle(vehicle_id, z_angle: float) -> :
+    return SetVehicleZAngle(vehicle_id, z_angle)
 
 
-def set_vehicle_params_for_player(vehicleid, player_id: int, objective, doorslocked) -> :
-    return SetVehicleParamsForPlayer(vehicleid, player_id, objective, doorslocked)
+def set_vehicle_params_for_player(vehicle_id, player_id: int, objective, doorslocked) -> :
+    return SetVehicleParamsForPlayer(vehicle_id, player_id, objective, doorslocked)
 
 
 def manual_vehicle_engine_and_lights() -> :
@@ -1861,7 +1945,7 @@ def manual_vehicle_engine_and_lights() -> :
 
 
 def set_vehicle_params_ex(
-    vehicleid: int,
+    vehicle_id: int,
     engine: int,
     lights: int,
     alarm: int,
@@ -1871,134 +1955,134 @@ def set_vehicle_params_ex(
     objective: int,
 ) -> :
     return SetVehicleParamsEx(
-        vehicleid, engine, lights, alarm, doors, bonnet, boot, objective
+        vehicle_id, engine, lights, alarm, doors, bonnet, boot, objective
     )
 
 
-def get_vehicle_params_ex(vehicleid: int) -> :
-    return GetVehicleParamsEx(vehicleid)
+def get_vehicle_params_ex(vehicle_id: int) -> :
+    return GetVehicleParamsEx(vehicle_id)
 
 
-def get_vehicle_params_siren_state(vehicleid: int) -> :
-    return GetVehicleParamsSirenState(vehicleid)
+def get_vehicle_params_siren_state(vehicle_id: int) -> :
+    return GetVehicleParamsSirenState(vehicle_id)
 
 
 def set_vehicle_params_car_doors(
-    vehicleid: int, driver: int, passenger: int, backleft: int, backright: int
+    vehicle_id: int, driver: int, passenger: int, backleft: int, backright: int
 ) -> :
-    return SetVehicleParamsCarDoors(vehicleid, driver, passenger, backleft, backright)
+    return SetVehicleParamsCarDoors(vehicle_id, driver, passenger, backleft, backright)
 
 
-def get_vehicle_params_car_doors(vehicleid) -> :
-    return GetVehicleParamsCarDoors(vehicleid)
+def get_vehicle_params_car_doors(vehicle_id) -> :
+    return GetVehicleParamsCarDoors(vehicle_id)
 
 
 def set_vehicle_params_car_windows(
-    vehicleid: int, driver: int, passenger: int, backleft: int, backright: int
+    vehicle_id: int, driver: int, passenger: int, backleft: int, backright: int
 ) -> :
-    return SetVehicleParamsCarWindows(vehicleid, driver, passenger, backleft, backright)
+    return SetVehicleParamsCarWindows(vehicle_id, driver, passenger, backleft, backright)
 
 
-def get_vehicle_params_car_windows(vehicleid: int) -> :
-    return GetVehicleParamsCarWindows(vehicleid)
+def get_vehicle_params_car_windows(vehicle_id: int) -> :
+    return GetVehicleParamsCarWindows(vehicle_id)
 
 
-def set_vehicle_to_respawn(vehicleid: int) -> :
-    return SetVehicleToRespawn(vehicleid)
+def set_vehicle_to_respawn(vehicle_id: int) -> :
+    return SetVehicleToRespawn(vehicle_id)
 
 
-def link_vehicle_to_interior(vehicleid: int, interiorid: int) -> :
-    return LinkVehicleToInterior(vehicleid, interiorid)
+def link_vehicle_to_interior(vehicle_id: int, interiorid: int) -> :
+    return LinkVehicleToInterior(vehicle_id, interiorid)
 
 
-def add_vehicle_component(vehicleid: int, componentid: int) -> :
-    return AddVehicleComponent(vehicleid, componentid)
+def add_vehicle_component(vehicle_id: int, componentid: int) -> :
+    return AddVehicleComponent(vehicle_id, componentid)
 
 
-def remove_vehicle_component(vehicleid: int, componentid: int) -> :
-    return RemoveVehicleComponent(vehicleid, componentid)
+def remove_vehicle_component(vehicle_id: int, componentid: int) -> :
+    return RemoveVehicleComponent(vehicle_id, componentid)
 
 
-def change_vehicle_color(vehicleid: int, color1: int, color2: int) -> :
-    return ChangeVehicleColor(vehicleid, color1, color2)
+def change_vehicle_color(vehicle_id: int, color1: int, color2: int) -> :
+    return ChangeVehicleColor(vehicle_id, color1, color2)
 
 
-def change_vehicle_paintjob(vehicleid: int, paintjobid: int) -> :
-    return ChangeVehiclePaintjob(vehicleid, paintjobid)
+def change_vehicle_paintjob(vehicle_id: int, paintjobid: int) -> :
+    return ChangeVehiclePaintjob(vehicle_id, paintjobid)
 
 
-def set_vehicle_health(vehicleid: int, health: float) -> :
-    return SetVehicleHealth(vehicleid, health)
+def set_vehicle_health(vehicle_id: int, health: float) -> :
+    return SetVehicleHealth(vehicle_id, health)
 
 
-def get_vehicle_health(vehicleid: int) -> :
-    return GetVehicleHealth(vehicleid)
+def get_vehicle_health(vehicle_id: int) -> :
+    return GetVehicleHealth(vehicle_id)
 
 
-def attach_trailer_to_vehicle(trailerid: int, vehicleid: int) -> :
-    return AttachTrailerToVehicle(trailerid, vehicleid)
+def attach_trailer_to_vehicle(trailerid: int, vehicle_id: int) -> :
+    return AttachTrailerToVehicle(trailerid, vehicle_id)
 
 
-def detach_trailer_from_vehicle(vehicleid: int) -> :
-    return DetachTrailerFromVehicle(vehicleid)
+def detach_trailer_from_vehicle(vehicle_id: int) -> :
+    return DetachTrailerFromVehicle(vehicle_id)
 
 
-def is_trailer_attached_to_vehicle(vehicleid: int) -> :
-    return IsTrailerAttachedToVehicle(vehicleid)
+def is_trailer_attached_to_vehicle(vehicle_id: int) -> :
+    return IsTrailerAttachedToVehicle(vehicle_id)
 
 
-def get_vehicle_trailer(vehicleid: int) -> :
-    return GetVehicleTrailer(vehicleid)
+def get_vehicle_trailer(vehicle_id: int) -> :
+    return GetVehicleTrailer(vehicle_id)
 
 
-def set_vehicle_number_plate(vehicleid: int, numberplate) -> :
-    return SetVehicleNumberPlate(vehicleid, numberplate)
+def set_vehicle_number_plate(vehicle_id: int, numberplate) -> :
+    return SetVehicleNumberPlate(vehicle_id, numberplate)
 
 
-def get_vehicle_model(vehicleid) -> :
-    return GetVehicleModel(vehicleid)
+def get_vehicle_model(vehicle_id) -> :
+    return GetVehicleModel(vehicle_id)
 
 
-def get_vehicle_component_in_slot(vehicleid: int, slot: int) -> :
-    return GetVehicleComponentInSlot(vehicleid, slot)
+def get_vehicle_component_in_slot(vehicle_id: int, slot: int) -> :
+    return GetVehicleComponentInSlot(vehicle_id, slot)
 
 
 def get_vehicle_component_type(component: int) -> :
     return GetVehicleComponentType(component)
 
 
-def repair_vehicle(vehicleid: int) -> :
-    return RepairVehicle(vehicleid)
+def repair_vehicle(vehicle_id: int) -> :
+    return RepairVehicle(vehicle_id)
 
 
-def get_vehicle_velocity(vehicleid: int) -> :
-    return GetVehicleVelocity(vehicleid)
+def get_vehicle_velocity(vehicle_id: int) -> :
+    return GetVehicleVelocity(vehicle_id)
 
 
-def set_vehicle_velocity(vehicleid: int, X: float, Y: float, Z: float) -> :
-    return SetVehicleVelocity(vehicleid, X, Y, Z)
+def set_vehicle_velocity(vehicle_id: int, X: float, Y: float, Z: float) -> :
+    return SetVehicleVelocity(vehicle_id, X, Y, Z)
 
 
-def set_vehicle_angular_velocity(vehicleid: int, X: float, Y: float, Z: float) -> :
-    return SetVehicleAngularVelocity(vehicleid, X, Y, Z)
+def set_vehicle_angular_velocity(vehicle_id: int, X: float, Y: float, Z: float) -> :
+    return SetVehicleAngularVelocity(vehicle_id, X, Y, Z)
 
 
-def get_vehicle_damage_status(vehicleid: int) -> :
-    return GetVehicleDamageStatus(vehicleid)
+def get_vehicle_damage_status(vehicle_id: int) -> :
+    return GetVehicleDamageStatus(vehicle_id)
 
 
 def update_vehicle_damage_status(
-    vehicleid: int, panels: int, doors: int, lights: int, tires: int
+    vehicle_id: int, panels: int, doors: int, lights: int, tires: int
 ) -> :
-    return UpdateVehicleDamageStatus(vehicleid, panels, doors, lights, tires)
+    return UpdateVehicleDamageStatus(vehicle_id, panels, doors, lights, tires)
 
 
-def set_vehicle_virtual_world(vehicleid: int, world_id: int) -> :
-    return SetVehicleVirtualWorld(vehicleid, world_id)
+def set_vehicle_virtual_world(vehicle_id: int, world_id: int) -> :
+    return SetVehicleVirtualWorld(vehicle_id, world_id)
 
 
-def get_vehicle_virtual_world(vehicleid: int) -> :
-    return GetVehicleVirtualWorld(vehicleid)
+def get_vehicle_virtual_world(vehicle_id: int) -> :
+    return GetVehicleVirtualWorld(vehicle_id)
 
 
 def get_vehicle_model_info(model: int, infotype: int) -> :
@@ -2102,12 +2186,12 @@ def delete_3d_text_label(id) -> :
     return Delete3DTextLabel(id)
 
 
-def attach_3d_text_label_to_player(id, player_id: int, offsetX, offsetY, offsetZ) -> :
-    return Attach3DTextLabelToPlayer(id, player_id, offsetX, offsetY, offsetZ)
+def attach_3d_text_label_to_player(id, player_id: int, offset_x, offset_y, offset_z) -> :
+    return Attach3DTextLabelToPlayer(id, player_id, offset_x, offset_y, offset_z)
 
 
-def attach_3d_text_label_to_vehicle(id, vehicleid, offsetX, offsetY, offsetZ) -> :
-    return Attach3DTextLabelToVehicle(id, vehicleid, offsetX, offsetY, offsetZ)
+def attach_3d_text_label_to_vehicle(id, vehicle_id, offset_x, offset_y, offset_z) -> :
+    return Attach3DTextLabelToVehicle(id, vehicle_id, offset_x, offset_y, offset_z)
 
 
 def update_3d_text_label_text(id, color, text) -> :
