@@ -10,7 +10,7 @@ from PySAMP import (
     gang_zone_stop_flash_for_all,
     gang_zone_stop_flash_for_player,
 )
-from Player import Player
+from PySAMP.player import Player
 
 
 class GangZone:

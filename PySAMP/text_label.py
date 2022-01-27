@@ -1,5 +1,5 @@
-from Vehicle import Vehicle
-from Player import Player
+from PySAMP.vehicle import Vehicle
+from PySAMP.player import Player
 from PySAMP import (
     attach_3d_text_label_to_player,
     attach_3d_text_label_to_vehicle,

@@ -1,4 +1,4 @@
-from Player import Player
+from PySAMP.player import Player
 from PySAMP import (
     add_vehicle_component,
     change_vehicle_color,
