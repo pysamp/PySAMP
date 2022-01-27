@@ -20,9 +20,9 @@ from pysamp.player import Player
 
 
 class Actor:
-    """
-    Create and interact with a static 'actor' in the world. These
-    'actors' are like NPCs, however they have limited functionality.
+    """Create and interact with a static 'actor' in the world.
+
+    These 'actors' are like NPCs, however they have limited functionality.
     They do not take up server player slots.
 
     Read more about actors here:

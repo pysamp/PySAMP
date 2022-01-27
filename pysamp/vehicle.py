@@ -151,16 +151,16 @@ class Vehicle:
             )
 
     def get_params_siren_state(self) -> int:
-        """
-        Check if the sirens are on or off.
+        """Check if the sirens are on or off.
+
         Returns -1 if the siren hasn't been set up.
         Otherwise, it will return 0 (off) or 1 (on).
         """
         return get_vehicle_params_siren_state(self.id)
 
     def get_params_car_doors(self) -> tuple[int, int, int, int]:
-        """
-        Allows you to retrieve the current state of a vehicle's doors
+        """Allows you to retrieve the current state of a vehicle's doors
+        
         Returns -1 if the door state is not set, like on a bike or a 2-door.
         Otherwise, it will return 0 (closed) or 1 (open).
 
@@ -170,8 +170,8 @@ class Vehicle:
         return get_vehicle_params_car_doors(self.id)
 
     def set_params_car_doors(self, doors: tuple[int, int, int, int]) -> bool:
-        """
-        Open and close vehicle doors.
+        """Open and close vehicle doors.
+        
         The doors tuple should be in this order:
         (driver, passenger, back_left, back_right)
 
@@ -212,17 +212,18 @@ class Vehicle:
         return set_vehicle_to_respawn(self.id)
 
     def link_to_interior(self, interior_id: int) -> bool:
-        """
-        Link the vehicle to a specific interior id.
+        """Link the vehicle to a specific interior id.
+
         Only if the players are in the same interior,
         they can interact with and see the vehicle.
         """
         return link_vehicle_to_interior(self.id, interior_id)
 
     def add_component(self, component_id: int) -> bool:
-        """
-        Adds a component (often referred to as a modification)
-        to a vehicle. Valid components can be found here:
+        """Adds a component (often referred to as a modification)
+        to a vehicle.
+        
+        Valid components can be found here:
         https://open.mp/docs/scripting/resources/carcomponentid
 
         NB: Using an invalid component ID crashes the player's game.
@@ -235,8 +236,7 @@ class Vehicle:
         return remove_vehicle_component(self.id, component_id)
 
     def change_color(self, color_1: int, color_2: int) -> bool:
-        """
-        Change a vehicle's primary and secondary colors.
+        """Change a vehicle's primary and secondary colors.
 
         Some vehicles have only a primary color and some can not have
         the color changed at all. A few (cement, squallo) have 4 colors,
@@ -245,8 +245,8 @@ class Vehicle:
         return change_vehicle_color(self.id, color_1, color_2)
 
     def change_paintjob(self, paint_job_id: int) -> bool:
-        """
-        Change a vehicle's paintjob.
+        """Change a vehicle's paintjob.
+
         If vehicle is black, it may not show.
         """
         return change_vehicle_paintjob(self.id, paint_job_id)
@@ -256,10 +256,10 @@ class Vehicle:
         return get_vehicle_health(self.id)
 
     def set_health(self, health: float) -> bool:
-        """
-        Set the vehicle's health. When the vehicle's health decreases the
-        engine will produce smoke, and finally fire when it decreases
-        to less than 250.0 (25%).
+        """Set the vehicle's health.
+
+        When the vehicle's health decreases the engine will produce
+        smoke, and finally fire when it decreases to less than 250.0 (25%).
         """
         return set_vehicle_health(self.id, health)
 
@@ -279,8 +279,7 @@ class Vehicle:
         return get_vehicle_trailer(self.id)
 
     def set_number_plate(self, number_plate: str) -> bool:
-        """
-        Set the vehicle number plate text.
+        """Set the vehicle number plate text.
 
         This function has no internal error checking.
         Do not assign custom number plates to vehicles without plates
@@ -320,9 +319,9 @@ class Vehicle:
             return set_vehicle_velocity(self.id, x, y, z)
 
     def set_angular_velocity(self, vector: tuple[float, float, float]) -> bool:
-        """
-        Set the angular velocity of a vehicle. This happens relative to world
-        space and not vehicle's local space.
+        """Set the angular velocity of a vehicle.
+
+        This is set relative to world space and not vehicle's local space.
         """
         try:
             x, y, z = vector
@@ -332,9 +331,10 @@ class Vehicle:
             return set_vehicle_angular_velocity(self.id, x, y, z)
 
     def get_damage_status(self) -> tuple[int, int, int, int]:
-        """
-        This method returns information to you about if parts of the
-        car has been damaged, or tires has been deflated. Please refer to:
+        """This method returns information to you about if parts of the
+        car has been damaged, or tires has been deflated.
+
+        Please refer to:
         https://open.mp/docs/scripting/resources/damagestatus
 
         The returned values in the tuple are 4 bits each. For example the
@@ -344,8 +344,9 @@ class Vehicle:
         return get_vehicle_damage_status(self.id)
 
     def set_damage_status(self, param: tuple) -> bool:
-        """
-        Set vehicle damage status. Please refer to:
+        """Set vehicle damage status.
+
+        Please refer to:
         https://open.mp/docs/scripting/resources/damagestatus
         """
         try:
