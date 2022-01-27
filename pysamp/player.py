@@ -416,22 +416,13 @@ class Player:
         weapon2_ammo: int,
         weapon3: int,
         weapon3_ammo: int,
-    ) -> None:
-        """
-        This method can be used to change the spawn information of a specific player.
-        It allows you to automatically set someone's spawn weapons, their team, skin and spawn position,
-        normally used in case of minigames or automatic-spawn systems.
+    ) -> bool:
+        """This method can be used to change the spawn information of a
+        specific player.
 
-
-        Examples
-        -----
-        ```py
-        def OnPlayerRequestClass(playerid, classid)
-            # This simple example demonstrates how to spawn every player automatically with
-            # CJ's skin, which is number 0. The player will spawn in Las Venturas, with
-            # 36 Sawnoff-Shotgun rounds and 150 Tec9 rounds.
-            player.set_spawn_info(0, 0, 1958.33, 1343.12, 15.36, 269.15, 26, 36, 28, 150, 0, 0 );
-        ```
+        It allows you to automatically set someone's spawn weapons,
+        their team, skin and spawn position, normally used in case of
+        minigames or automatic-spawn systems.
         """
         return set_spawn_info(
             self.id,
@@ -449,61 +440,34 @@ class Player:
             weapon3_ammo,
         )
 
-    def get_id(self):
+    def get_id(self) -> int:
         """Get the player's player id"""
         return self.id
 
-    def spawn(self):
-        """| METHOD |
-
-        (Re)Spawns a player.
-        ___________
-        no parameters
-        ___________
-
-        Returns
-        -------------
-        - 1: The function executed successfully.
-        - 0: The function failed to execute. This means the player is not connected.
-
-
-        Examples
-        -------------
-        ```py
-        if "/spawn" in cmdtext[:6]:
-            player.spawn()
-            return True
-        ```
-        """
+    def spawn(self) -> bool:
+        """(Re)Spawns a player."""
         return spawn_player(self.id)
 
-    def set_pos_find_z(self, x: float, y: float, z: float):
-        """| METHOD |
-
-        This sets the players position then adjusts the players z-coordinate to the nearest solid ground under the position
-        ________________
-        - Float:x \t The X coordinate to position the player at.
-        - Float:y \t The X coordinate to position the player at.
-        - Float:z \t The Z coordinate to position the player at.
-        ________________
-
-        Returns
-        --------
-        - 1: The function executed successfully.
-        - 0: The function failed to execute. This means the player specified does not exist.
-
-        NOTICE
-        ---------
-        - This function does not work if the new coordinates are far away from where the player currently is.
-        - The Z height will be 0, which will likely put them underground.
+    def set_pos_find_z(self, position: tuple[float, float, float]) -> bool:
+        """This sets the players position then adjusts the players
+        z-coordinate to the nearest solid ground under the position.
+        
+        This function does not work if the new coordinates are far away
+        from where the player currently is. The Z height will then be 0,
+        which will likely put them underground.
         """
-        return set_player_pos_find_z(self.id, x, y, z)
+        try:
+            x, y, z = position
+        except:
+            raise ValueError("Expected a tuple for pos. (x, y, z)")
+        else:
+            return set_player_pos_find_z(self.id, x, y, z)
 
-    def get_pos(self):
+    def get_pos(self) -> tuple[float, float, float]:
         """Get the position of the player."""
         return get_player_pos(self.id)
 
-    def set_pos(self, pos: tuple):
+    def set_pos(self, pos: tuple[float, float, float]):
         """Set the player's position"""
         try:
             x, y, z = pos
@@ -512,7 +476,7 @@ class Player:
         else:
             return set_player_pos(self.id, x, y, z)
 
-    def get_facing_angle(self):
+    def get_facing_angle(self) -> float:
         """Get the player's facing angle."""
         return get_player_facing_angle(self.id)
 
@@ -530,7 +494,7 @@ class Player:
 
     def is_streamed_in(self, player: Player):
         """Checks if the player is streamed in another player's client."""
-        return is_player_streamed_in(self.id, player)
+        return is_player_streamed_in(self.id, player.id)
 
     def get_interior(self):
         """Get the player's interior. Normal world is in interior 0.
@@ -569,7 +533,7 @@ class Player:
         """Get the amount of ammo in the player's current weapon."""
         return get_player_ammo(self.id)
 
-    def set_ammo(self, conf: tuple) -> None:
+    def set_ammo(self, conf: tuple) -> bool:
         """Set ammo for a weapon id. Value should be an int between 0 and 32766."""
         try:
             weaponid, ammo = conf

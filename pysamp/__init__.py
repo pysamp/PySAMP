@@ -154,7 +154,11 @@ from samp import (HTTP, AddCharModel, AddMenuItem, AddPlayerClass,
                   TextDrawUseBox, TogglePlayerClock, TogglePlayerControllable,
                   TogglePlayerSpectating, UnBlockIpAddress,
                   Update3DTextLabelText, UpdatePlayer3DTextLabelText,
-                  UpdateVehicleDamageStatus, UsePlayerPedAnims, VectorSize)
+                  UpdateVehicleDamageStatus, UsePlayerPedAnims, VectorSize,
+                  CAMERA_CUT, MAPICON_LOCAL, SPECTATE_MODE_NORMAL,
+                  OBJECT_MATERIAL_SIZE_256x128, INVALID_PLAYER_ID, 
+                  INVALID_VEHICLE_ID
+)
 
 ########################
 # SNAKE CASE WRAPPERS FOR PEP8 COMPATIBILITY
@@ -249,7 +253,7 @@ def get_player_health(player_id: int) -> float:
     return GetPlayerHealth(player_id)
 
 
-def set_player_armour(player_id: int, armour: int) -> bool:
+def set_player_armour(player_id: int, armour: float) -> bool:
     return SetPlayerArmour(player_id, armour)
 
 
@@ -422,7 +426,7 @@ def play_crime_report_for_player(player_id: int, suspect_id: int, crime: int) ->
 
 
 def play_audio_stream_for_player(
-    player_id, url, x=0.0, y=0.0, z=0.0, distance=50.0, use_pos=False
+    player_id, url, x = 0.0, y = 0.0, z = 0.0, distance = 50.0, use_pos = False
 ) -> bool:
     return PlayAudioStreamForPlayer(player_id, url, x, y, z, distance, use_pos)
 
@@ -680,7 +684,7 @@ def apply_animation(
     )
 
 
-def clear_animations(player_id: int, force_sync: bool=False) -> bool:
+def clear_animations(player_id: int, force_sync: bool = False) -> bool:
     return ClearAnimations(player_id, force_sync)
 
 
@@ -688,223 +692,231 @@ def get_player_animation_index(player_id: int) -> int:
     return GetPlayerAnimationIndex(player_id)
 
 
-def get_animation_name(index, animlib_size, animname_size) -> str:
-    return GetAnimationName(index, animlib_size, animname_size)
+def get_animation_name(index: int) -> str:
+    return GetAnimationName(index)
 
 
-def get_player_special_action(player_id: int) -> :
+def get_player_special_action(player_id: int) -> int:
     return GetPlayerSpecialAction(player_id)
 
 
-def set_player_special_action(player_id: int, actionid) -> :
-    return SetPlayerSpecialAction(player_id, actionid)
+def set_player_special_action(player_id: int, action_id: int) -> bool:
+    return SetPlayerSpecialAction(player_id, action_id)
 
 
-def disable_remote_vehicle_collisions(player_id: int, disable) -> :
+def disable_remote_vehicle_collisions(player_id: int, disable) -> bool:
     return DisableRemoteVehicleCollisions(player_id, disable)
 
 
-def set_player_checkpoint(player_id: int, x: float, y: float, z: float, size) -> :
+def set_player_checkpoint(player_id: int, x: float, y: float, z: float, size: int) -> bool:
     return SetPlayerCheckpoint(player_id, x, y, z, size)
 
 
-def disable_player_checkpoint(player_id: int) -> :
+def disable_player_checkpoint(player_id: int) -> bool:
     return DisablePlayerCheckpoint(player_id)
 
 
 def set_player_race_checkpoint(
-    player_id: int, type, x: float, y: float, z: float, nextx, nexty, nextz, size
-) -> :
-    return SetPlayerRaceCheckpoint(player_id, type, x, y, z, nextx, nexty, nextz, size)
+    player_id: int, type, x: float, y: float, z: float, next_x: float, next_y: float, next_z: float, size: int
+) -> bool:
+    return SetPlayerRaceCheckpoint(player_id, type, x, y, z, next_x, next_y, next_z, size)
 
 
-def disable_player_race_checkpoint(player_id: int) -> :
+def disable_player_race_checkpoint(player_id: int) -> bool:
     return DisablePlayerRaceCheckpoint(player_id)
 
 
-def set_player_world_bounds(player_id: int, x_max, x_min, y_max, y_min) -> :
+def set_player_world_bounds(player_id: int, x_max, x_min, y_max, y_min) -> bool:
     return SetPlayerWorldBounds(player_id, x_max, x_min, y_max, y_min)
 
 
-def set_player_marker_for_player(player_id: int, showplayer_id, color) -> :
+def set_player_marker_for_player(player_id: int, showplayer_id, color) -> bool:
     return SetPlayerMarkerForPlayer(player_id, showplayer_id, color)
 
 
-def show_player_name_tag_for_player(player_id: int, showplayer_id, show) -> :
+def show_player_name_tag_for_player(player_id: int, showplayer_id, show) -> bool:
     return ShowPlayerNameTagForPlayer(player_id, showplayer_id, show)
 
 
 def set_player_map_icon(
-    player_id,
-    iconid,
-    x: float,
-    y: float,
-    z: float,
-    markertype,
-    color,
-    style=MAPICON_LOCAL,
-) -> :
+        player_id: int,
+        iconid: int,
+        x: float,
+        y: float,
+        z: float,
+        markertype: int,
+        color: int,
+        style = MAPICON_LOCAL,
+) -> bool:
     return SetPlayerMapIcon(player_id, iconid, x, y, z, markertype, color, style)
 
 
-def remove_player_map_icon(player_id: int, iconid) -> :
-    return RemovePlayerMapIcon(player_id, iconid)
+def remove_player_map_icon(player_id: int, icon_id: int) -> bool:
+    return RemovePlayerMapIcon(player_id, icon_id)
 
 
-def allow_player_teleport(player_id: int, allow) -> :
+def allow_player_teleport(player_id: int, allow: bool) -> bool:
     return AllowPlayerTeleport(player_id, allow)
 
 
-def set_player_camera_pos(player_id: int, x: float, y: float, z: float) -> :
+def set_player_camera_pos(player_id: int, x: float, y: float, z: float) -> bool:
     return SetPlayerCameraPos(player_id, x, y, z)
 
 
 def set_player_camera_look_at(
-    player_id: int, x: float, y: float, z: float, cut=CAMERA_CUT
-) -> :
+    player_id: int, x: float, y: float, z: float, cut = CAMERA_CUT
+) -> bool:
     return SetPlayerCameraLookAt(player_id, x, y, z, cut)
 
 
-def set_camera_behind_player(player_id: int) -> :
+def set_camera_behind_player(player_id: int) -> bool:
     return SetCameraBehindPlayer(player_id)
 
 
-def get_player_camera_pos(player_id: int) -> :
+def get_player_camera_pos(player_id: int) -> tuple[float, float, float]:
     return GetPlayerCameraPos(player_id)
 
 
-def get_player_camera_front_vector(player_id: int) -> :
+def get_player_camera_front_vector(player_id: int) -> tuple[float, float, float]:
     return GetPlayerCameraFrontVector(player_id)
 
 
-def get_player_camera_mode(player_id: int) -> :
+def get_player_camera_mode(player_id: int) -> int:
     return GetPlayerCameraMode(player_id)
 
 
-def enable_player_camera_target(player_id: int, enable) -> :
+def enable_player_camera_target(player_id: int, enable: bool) -> bool:
     return EnablePlayerCameraTarget(player_id, enable)
 
 
-def get_player_camera_target_object(player_id: int) -> :
+def get_player_camera_target_object(player_id: int) -> int:
     return GetPlayerCameraTargetObject(player_id)
 
 
-def get_player_camera_target_vehicle(player_id: int) -> :
+def get_player_camera_target_vehicle(player_id: int) -> int:
     return GetPlayerCameraTargetVehicle(player_id)
 
 
-def get_player_camera_target_player(player_id: int) -> :
+def get_player_camera_target_player(player_id: int) -> int:
     return GetPlayerCameraTargetPlayer(player_id)
 
 
-def get_player_camera_target_actor(player_id: int) -> :
+def get_player_camera_target_actor(player_id: int) -> int:
     return GetPlayerCameraTargetActor(player_id)
 
 
-def get_player_camera_aspect_ratio(player_id: int) -> :
+def get_player_camera_aspect_ratio(player_id: int) -> float:
     return GetPlayerCameraAspectRatio(player_id)
 
 
-def get_player_camera_zoom(player_id: int) -> :
+def get_player_camera_zoom(player_id: int) -> float:
     return GetPlayerCameraZoom(player_id)
 
 
-def attach_camera_to_object(player_id: int, objectid) -> :
-    return AttachCameraToObject(player_id, objectid)
+def attach_camera_to_object(player_id: int, object_id: int) -> bool:
+    return AttachCameraToObject(player_id, object_id)
 
 
-def attach_camera_to_player_object(player_id: int, playerobjectid) -> :
-    return AttachCameraToPlayerObject(player_id, playerobjectid)
+def attach_camera_to_player_object(player_id: int, player_object_id: int) -> bool:
+    return AttachCameraToPlayerObject(player_id, player_object_id)
 
 
 def interpolate_camera_pos(
-    player_id, FromX, FromY, FromZ, ToX, ToY, ToZ, time, cut=CAMERA_CUT
-) -> :
-    return InterpolateCameraPos(player_id, FromX, FromY, FromZ, ToX, ToY, ToZ, time, cut)
+    player_id: int, from_x: float, from_y: float, from_z: float, to_x: float, to_y: float, to_z:float, time: int, cut: int = CAMERA_CUT
+) -> bool:
+    return InterpolateCameraPos(player_id, from_x, from_y, from_z, to_x, to_y, to_z, time, cut)
 
 
 def interpolate_camera_look_at(
-    player_id, FromX, FromY, FromZ, ToX, ToY, ToZ, time, cut=CAMERA_CUT
-) -> :
+        player_id: int,
+        from_x: float,
+        from_y: float,
+        from_z: float,
+        to_x: float,
+        to_y: float,
+        to_z:float,
+        time: int,
+        cut: int = CAMERA_CUT
+) -> bool:
     return InterpolateCameraLookAt(
-        player_id, FromX, FromY, FromZ, ToX, ToY, ToZ, time, cut
+        player_id, from_x, from_y, from_z, to_x, to_y, to_z, time, cut
     )
 
 
-def is_player_connected(player_id: int) -> :
+def is_player_connected(player_id: int) -> bool:
     return IsPlayerConnected(player_id)
 
 
-def is_player_in_vehicle(player_id: int, vehicleid) -> :
-    return IsPlayerInVehicle(player_id, vehicleid)
+def is_player_in_vehicle(player_id: int, vehicle_id: int) -> bool:
+    return IsPlayerInVehicle(player_id, vehicle_id)
 
 
-def is_player_in_any_vehicle(player_id: int) -> :
+def is_player_in_any_vehicle(player_id: int) -> bool:
     return IsPlayerInAnyVehicle(player_id)
 
 
-def is_player_in_checkpoint(player_id: int) -> :
+def is_player_in_checkpoint(player_id: int) -> bool:
     return IsPlayerInCheckpoint(player_id)
 
 
-def is_player_in_race_checkpoint(player_id: int) -> :
+def is_player_in_race_checkpoint(player_id: int) -> bool:
     return IsPlayerInRaceCheckpoint(player_id)
 
 
-def set_player_virtual_world(player_id: int, worldid) -> :
-    return SetPlayerVirtualWorld(player_id, worldid)
+def set_player_virtual_world(player_id: int, world_id: int) -> bool:
+    return SetPlayerVirtualWorld(player_id, world_id)
 
 
-def get_player_virtual_world(player_id: int) -> :
+def get_player_virtual_world(player_id: int) -> int:
     return GetPlayerVirtualWorld(player_id)
 
 
-def enable_stunt_bonus_for_player(player_id: int, enable) -> :
+def enable_stunt_bonus_for_player(player_id: int, enable: bool) -> bool:
     return EnableStuntBonusForPlayer(player_id, enable)
 
 
-def enable_stunt_bonus_for_all(enable) -> :
+def enable_stunt_bonus_for_all(enable: bool) -> bool:
     return EnableStuntBonusForAll(enable)
 
 
-def toggle_player_spectating(player_id: int, toggle) -> :
+def toggle_player_spectating(player_id: int, toggle) -> bool:
     return TogglePlayerSpectating(player_id, toggle)
 
 
-def player_spectate_player(player_id: int, targetplayer_id, mode=SPECTATE_MODE_NORMAL) -> :
-    return PlayerSpectatePlayer(player_id, targetplayer_id, mode)
+def player_spectate_player(player_id: int, target_player_id: int, mode: int = SPECTATE_MODE_NORMAL) -> bool:
+    return PlayerSpectatePlayer(player_id, target_player_id, mode)
 
 
-def player_spectate_vehicle(player_id: int, targetvehicleid, mode=SPECTATE_MODE_NORMAL) -> :
-    return PlayerSpectateVehicle(player_id, targetvehicleid, mode)
+def player_spectate_vehicle(player_id: int, target_vehicle_id: int, mode: int = SPECTATE_MODE_NORMAL) -> bool:
+    return PlayerSpectateVehicle(player_id, target_vehicle_id, mode)
 
 
-def start_recording_player_data(player_id: int, recordtype, recordname) -> :
+def start_recording_player_data(player_id: int, recordtype, recordname) -> bool:
     return StartRecordingPlayerData(player_id, recordtype, recordname)
 
 
-def stop_recording_player_data(player_id: int) -> :
+def stop_recording_player_data(player_id: int) -> bool:
     return StopRecordingPlayerData(player_id)
 
 
-def create_explosion_for_player(player_id: int, X, Y, Z, type, Radius) -> :
+def create_explosion_for_player(player_id: int, X, Y, Z, type, Radius) -> bool:
     return CreateExplosionForPlayer(player_id, X, Y, Z, type, Radius)
 
 
-def create_object(modelid, x: float, y: float, z: float, rX, rY, rZ, DrawDistance=0.0) -> :
+def create_object(modelid: int, x: float, y: float, z: float, rX, rY, rZ, DrawDistance=0.0) -> bool:
     return CreateObject(modelid, x, y, z, rX, rY, rZ, DrawDistance)
 
 
 def attach_object_to_vehicle(
-    objectid, vehicleid, fOffsetX, fOffsetY, fOffsetZ, fRotX, fRotY, fRotZ
-) -> :
+    object_id: int, vehicleid: int, fOffsetX, fOffsetY, fOffsetZ, fRotX, fRotY, fRotZ
+) -> bool:
     return AttachObjectToVehicle(
-        objectid, vehicleid, fOffsetX, fOffsetY, fOffsetZ, fRotX, fRotY, fRotZ
+        object_id, vehicleid, fOffsetX, fOffsetY, fOffsetZ, fRotX, fRotY, fRotZ
     )
 
 
 def attach_object_to_object(
-    objectid,
+    object_id,
     attachtoid,
     fOffsetX,
     fOffsetY,
@@ -913,9 +925,9 @@ def attach_object_to_object(
     fRotY,
     fRotZ,
     SyncRotation=False,
-) -> :
+) -> bool:
     return AttachObjectToObject(
-        objectid,
+        object_id,
         attachtoid,
         fOffsetX,
         fOffsetY,
@@ -928,72 +940,90 @@ def attach_object_to_object(
 
 
 def attach_object_to_player(
-    objectid, player_id, fOffsetX, fOffsetY, fOffsetZ, fRotX, fRotY, fRotZ
-) -> :
+    object_id: int,
+    player_id: int,
+    offset_x: float,
+    offset_y: float,
+    offset_z: float,
+    rotation_x: float,
+    rotation_y: float,
+    rotation_z: float
+) -> bool:
     return AttachObjectToPlayer(
-        objectid, player_id, fOffsetX, fOffsetY, fOffsetZ, fRotX, fRotY, fRotZ
+        object_id, player_id, offset_x, offset_y, offset_z, rotation_x, rotation_y, rotation_z
     )
 
 
-def set_object_pos(objectid, x: float, y: float, z: float) -> :
-    return SetObjectPos(objectid, x, y, z)
+def set_object_pos(object_id: int, x: float, y: float, z: float) -> bool:
+    return SetObjectPos(object_id, x, y, z)
 
 
-def get_object_pos(objectid) -> :
-    return GetObjectPos(objectid)
+def get_object_pos(object_id: int) -> tuple[float, float, float]:
+    return GetObjectPos(object_id)
 
 
-def set_object_rot(objectid, rotX, rotY, rotZ) -> :
-    return SetObjectRot(objectid, rotX, rotY, rotZ)
+def set_object_rot(
+        object_id: int, rotation_x: float, rotation_y: float, rotation_z: float
+) -> bool:
+    return SetObjectRot(object_id, rotation_x, rotation_y, rotation_z)
 
 
-def get_object_rot(objectid) -> :
-    return GetObjectRot(objectid)
+def get_object_rot(object_id: int) -> tuple[float, float, float]:
+    return GetObjectRot(object_id)
 
 
-def get_object_model(objectid) -> :
-    return GetObjectModel(objectid)
+def get_object_model(object_id: int) -> int:
+    return GetObjectModel(object_id)
 
 
-def set_object_no_camera_col(objectid) -> :
-    return SetObjectNoCameraCol(objectid)
+def set_object_no_camera_col(object_id: int) -> bool:
+    return SetObjectNoCameraCol(object_id)
 
 
-def is_valid_object(objectid) -> :
-    return IsValidObject(objectid)
+def is_valid_object(object_id: int) -> bool:
+    return IsValidObject(object_id)
 
 
-def destroy_object(objectid) -> :
-    return DestroyObject(objectid)
+def destroy_object(object_id: int) -> bool:
+    return DestroyObject(object_id)
 
 
 def move_object(
-    objectid,
+    object_id: int,
     x: float,
     y: float,
     z: float,
-    Speed,
-    RotX=-1000.0,
-    RotY=-1000.0,
-    RotZ=-1000.0,
-) -> :
-    return MoveObject(objectid, X, Y, Z, Speed, RotX, RotY, RotZ)
+    speed: float,
+    rotation_x: float = -1000.0,
+    rotation_y: float = -1000.0,
+    rotation_z: float = -1000.0,
+) -> int:
+    return MoveObject(
+        object_id,
+        x,
+        y,
+        z,
+        speed,
+        rotation_x,
+        rotation_y,
+        rotation_z
+    )
 
 
-def stop_object(objectid) -> :
-    return StopObject(objectid)
+def stop_object(object_id: int) -> :
+    return StopObject(object_id)
 
 
-def is_object_moving(objectid) -> :
-    return IsObjectMoving(objectid)
+def is_object_moving(object_id: int) -> :
+    return IsObjectMoving(object_id)
 
 
-def edit_object(player_id: int, objectid) -> :
-    return EditObject(player_id, objectid)
+def edit_object(player_id: int, object_id: int) -> :
+    return EditObject(player_id, object_id)
 
 
-def edit_player_object(player_id: int, objectid) -> :
-    return EditPlayerObject(player_id, objectid)
+def edit_player_object(player_id: int, object_id: int) -> :
+    return EditPlayerObject(player_id, object_id)
 
 
 def select_object(player_id: int) -> :
@@ -1011,56 +1041,56 @@ def create_player_object(
 
 
 def attach_player_object_to_player(
-    objectplayer, objectid, attachplayer, OffsetX, OffsetY, OffsetZ, rX, rY, rZ
+    objectplayer, object_id, attachplayer, OffsetX, OffsetY, OffsetZ, rX, rY, rZ
 ) -> :
     return AttachPlayerObjectToPlayer(
-        objectplayer, objectid, attachplayer, OffsetX, OffsetY, OffsetZ, rX, rY, rZ
+        objectplayer, object_id, attachplayer, OffsetX, OffsetY, OffsetZ, rX, rY, rZ
     )
 
 
 def attach_player_object_to_vehicle(
-    player_id, objectid, vehicleid, fOffsetX, fOffsetY, fOffsetZ, fRotX, fRotY, RotZ
+    player_id, object_id, vehicleid, fOffsetX, fOffsetY, fOffsetZ, fRotX, fRotY, RotZ
 ) -> :
     return AttachPlayerObjectToVehicle(
-        player_id, objectid, vehicleid, fOffsetX, fOffsetY, fOffsetZ, fRotX, fRotY, RotZ
+        player_id, object_id, vehicleid, fOffsetX, fOffsetY, fOffsetZ, fRotX, fRotY, RotZ
     )
 
 
-def set_player_object_pos(player_id: int, objectid, x: float, y: float, z: float) -> :
-    return SetPlayerObjectPos(player_id, objectid, x, y, z)
+def set_player_object_pos(player_id: int, object_id, x: float, y: float, z: float) -> :
+    return SetPlayerObjectPos(player_id, object_id, x, y, z)
 
 
-def get_player_object_pos(player_id: int, objectid) -> :
-    return GetPlayerObjectPos(player_id, objectid)
+def get_player_object_pos(player_id: int, object_id: int) -> :
+    return GetPlayerObjectPos(player_id, object_id)
 
 
-def set_player_object_rot(player_id: int, objectid, rotX, rotY, rotZ) -> :
-    return SetPlayerObjectRot(player_id, objectid, rotX, rotY, rotZ)
+def set_player_object_rot(player_id: int, object_id, rotX, rotY, rotZ) -> :
+    return SetPlayerObjectRot(player_id, object_id, rotX, rotY, rotZ)
 
 
-def get_player_object_rot(player_id: int, objectid) -> :
-    return GetPlayerObjectRot(player_id, objectid)
+def get_player_object_rot(player_id: int, object_id: int) -> :
+    return GetPlayerObjectRot(player_id, object_id)
 
 
-def get_player_object_model(player_id: int, objectid) -> :
-    return GetPlayerObjectModel(player_id, objectid)
+def get_player_object_model(player_id: int, object_id: int) -> :
+    return GetPlayerObjectModel(player_id, object_id)
 
 
-def set_player_object_no_camera_col(player_id: int, objectid) -> :
-    return SetPlayerObjectNoCameraCol(player_id, objectid)
+def set_player_object_no_camera_col(player_id: int, object_id: int) -> :
+    return SetPlayerObjectNoCameraCol(player_id, object_id)
 
 
-def is_valid_player_object(player_id: int, objectid) -> :
-    return IsValidPlayerObject(player_id, objectid)
+def is_valid_player_object(player_id: int, object_id: int) -> :
+    return IsValidPlayerObject(player_id, object_id)
 
 
-def destroy_player_object(player_id: int, objectid) -> :
-    return DestroyPlayerObject(player_id, objectid)
+def destroy_player_object(player_id: int, object_id: int) -> :
+    return DestroyPlayerObject(player_id, object_id)
 
 
 def move_player_object(
     player_id,
-    objectid,
+    object_id,
     x: float,
     y: float,
     z: float,
@@ -1069,35 +1099,35 @@ def move_player_object(
     RotY=-1000.0,
     RotZ=-1000.0,
 ) -> :
-    return MovePlayerObject(player_id, objectid, x, y, z, Speed, RotX, RotY, RotZ)
+    return MovePlayerObject(player_id, object_id, x, y, z, Speed, RotX, RotY, RotZ)
 
 
-def stop_player_object(player_id: int, objectid) -> :
-    return StopPlayerObject(player_id, objectid)
+def stop_player_object(player_id: int, object_id: int) -> :
+    return StopPlayerObject(player_id, object_id)
 
 
-def is_player_object_moving(player_id: int, objectid) -> :
-    return IsPlayerObjectMoving(player_id, objectid)
+def is_player_object_moving(player_id: int, object_id: int) -> :
+    return IsPlayerObjectMoving(player_id, object_id)
 
 
 def set_object_material(
-    objectid, materialindex, modelid, txdname, texturename, materialcolor=0
+    object_id, materialindex, modelid, txdname, texturename, materialcolor=0
 ) -> :
     return SetObjectMaterial(
-        objectid, materialindex, modelid, txdname, texturename, materialcolor
+        object_id, materialindex, modelid, txdname, texturename, materialcolor
     )
 
 
 def set_player_object_material(
-    player_id, objectid, materialindex, modelid, txdname, texturename, materialcolor=0
+    player_id, object_id, materialindex, modelid, txdname, texturename, materialcolor=0
 ) -> :
     return SetPlayerObjectMaterial(
-        player_id, objectid, materialindex, modelid, txdname, texturename, materialcolor
+        player_id, object_id, materialindex, modelid, txdname, texturename, materialcolor
     )
 
 
 def set_object_material_text(
-    objectid,
+    object_id,
     text,
     materialindex=0,
     materialsize=OBJECT_MATERIAL_SIZE_256x128,
@@ -1109,7 +1139,7 @@ def set_object_material_text(
     textalignment=0,
 ) -> :
     return SetObjectMaterialText(
-        objectid,
+        object_id,
         text,
         materialindex,
         materialsize,
@@ -1124,7 +1154,7 @@ def set_object_material_text(
 
 def set_player_object_material_text(
     player_id,
-    objectid,
+    object_id,
     text,
     materialindex=0,
     materialsize=OBJECT_MATERIAL_SIZE_256x128,
@@ -1137,7 +1167,7 @@ def set_player_object_material_text(
 ) -> :
     return SetPlayerObjectMaterialText(
         player_id,
-        objectid,
+        object_id,
         text,
         materialindex,
         materialsize,
@@ -1963,8 +1993,8 @@ def update_vehicle_damage_status(
     return UpdateVehicleDamageStatus(vehicleid, panels, doors, lights, tires)
 
 
-def set_vehicle_virtual_world(vehicleid: int, worldid: int) -> :
-    return SetVehicleVirtualWorld(vehicleid, worldid)
+def set_vehicle_virtual_world(vehicleid: int, world_id: int) -> :
+    return SetVehicleVirtualWorld(vehicleid, world_id)
 
 
 def get_vehicle_virtual_world(vehicleid: int) -> :

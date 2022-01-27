@@ -81,7 +81,7 @@ class Textdraw:
         self, rotation_x: float, rotation_y: float, rotation_z: float, zoom=1.0
     ):
         return text_draw_set_preview_rot(
-            self.id, rotation_x, rotation_y, rotation_z, zoom=1.0
+            self.id, rotation_x, rotation_y, rotation_z, zoom
         )
 
     def set_preview_veh_col(self, color1, color2):
