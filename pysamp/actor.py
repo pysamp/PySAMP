@@ -1,82 +1,118 @@
-from pysamp import (apply_actor_animation, clear_actor_animations,
-                    create_actor, destroy_actor, get_actor_facing_angle,
-                    get_actor_health, get_actor_pos, get_actor_virtual_world,
-                    is_actor_invulnerable, is_actor_streamed_in,
-                    is_valid_actor, set_actor_facing_angle, set_actor_health,
-                    set_actor_invulnerable, set_actor_pos,
-                    set_actor_virtual_world)
+from pysamp import (
+    apply_actor_animation,
+    clear_actor_animations,
+    create_actor,
+    destroy_actor,
+    get_actor_facing_angle,
+    get_actor_health,
+    get_actor_pos,
+    get_actor_virtual_world,
+    is_actor_invulnerable,
+    is_actor_streamed_in,
+    is_valid_actor,
+    set_actor_facing_angle,
+    set_actor_health,
+    set_actor_invulnerable,
+    set_actor_pos,
+    set_actor_virtual_world,
+)
+from pysamp.player import Player
 
 
 class Actor:
     """
-    Read more about actors here: https://open.mp/docs/scripting/functions/CreateActor
-    -----------------
+    Create and interact with a static 'actor' in the world. These
+    'actors' are like NPCs, however they have limited functionality.
+    They do not take up server player slots.
+
+    Read more about actors here:
+    https://open.mp/docs/scripting/functions/CreateActor
     """
 
-    def __init__(self, modelid, x: float, y: float, z: float, rot):
-        self.id = create_actor(modelid, x, y, z, rot)
+    def __init__(self, modelid, x: float, y: float, z: float, rot: float):
+        self.id: int = create_actor(modelid, x, y, z, rot)
 
     def destroy(self):
+        """Remove a created actor from the world."""
         return destroy_actor(self.id)
 
-    def streamed_in(self, forplayerid):
-        return is_actor_streamed_in(self.id, forplayerid)
+    def streamed_in(self, for_player: Player) -> bool:
+        """Check if a player has streamed in the actor."""
+        return is_actor_streamed_in(self.id, for_player.id)
 
-    @property
-    def virtual_world(self):
+    def get_virtual_world(self) -> int:
+        """Get which virtual world ID the actor is in."""
         return get_actor_virtual_world(self.id)
 
-    @virtual_world.setter
-    def virtual_world(self, vworld):
-        return set_actor_virtual_world(self.id, vworld)
+    def virtual_world(self, virtual_world: int) -> bool:
+        """Set the actor to a specific virtual world id."""
+        return set_actor_virtual_world(self.id, virtual_world)
 
     def apply_animation(
-        self, animlib, animname, fDelta, loop, lockx, locky, freeze, time
-    ):
+        self,
+        animation_library: str,
+        animation_name: str,
+        delta: float,
+        loop: bool,
+        lock_x: bool,
+        lock_y: bool,
+        freeze: bool,
+        time: int,
+    ) -> bool:
+        """Set an animation on the actor."""
         return apply_actor_animation(
-            self.id, animlib, animname, fDelta, loop, lockx, locky, freeze, time
+            self.id,
+            animation_library,
+            animation_name,
+            delta,
+            loop,
+            lock_x,
+            lock_y,
+            freeze,
+            time,
         )
 
-    def clear_animations(self):
+    def clear_animations(self) -> bool:
+        """Clear the animations that are in use on the actor, if any."""
         return clear_actor_animations(self.id)
 
-    @property
-    def pos(self):
+    def get_position(self) -> tuple[float, float, float]:
+        """Gets the current world coordinates of where the actor is located."""
         return get_actor_pos(self.id)
 
-    @pos.setter
-    def pos(self, pos):
+    def set_position(self, position: tuple[float, float, float]) -> bool:
+        """Set a new position for the actor."""
         try:
-            x, y, z = pos
-        except:
-            raise ValueError("Expected pos as tuple: (x, y, z)")
+            x, y, z = position
+        except ValueError:
+            raise ValueError("Expected position as tuple: (x, y, z)")
         else:
             return set_actor_pos(self.id, x, y, z)
 
-    @property
-    def facing_angle(self):
+    def get_facing_angle(self) -> float:
+        """Get the actor's facing angle."""
         return get_actor_facing_angle(self.id)
 
-    @facing_angle.setter
-    def facing_angle(self, angle: float):
+    def set_facing_angle(self, angle: float) -> bool:
+        """Set the actor's facing angle."""
         return set_actor_facing_angle(self.id, angle)
 
-    @property
-    def health(self):
+    def get_health(self) -> float:
+        """Get how much health the actor has."""
         return get_actor_health(self.id)
 
-    @health.setter
-    def health(self, health):
+    def set_health(self, health: float):
+        """Set the health of the actor."""
         return set_actor_health(self.id, health)
 
-    @property
-    def invulnerable(self):
+    def is_invulnerable(self) -> bool:
+        """See if the actor is invulnerable to damage."""
         return is_actor_invulnerable(self.id)
 
-    @invulnerable.setter
-    def invulnerable(self, invulnerable=True):
+    def set_invulnerable(self, invulnerable: bool = True) -> bool:
+        """Set the actor to be invlunerable to damage."""
         return set_actor_invulnerable(self.id, invulnerable)
 
-    @property
-    def is_valid(self):
+    def is_valid(self) -> bool:
+        """Check if the actor is valid."""
         return is_valid_actor(self.id)
