@@ -29,8 +29,11 @@ class Actor:
     https://open.mp/docs/scripting/functions/CreateActor
     """
 
-    def __init__(self, modelid, x: float, y: float, z: float, rot: float):
+    def __init__(self, modelid: int, x: float, y: float, z: float, rot: float):
         self.id: int = create_actor(modelid, x, y, z, rot)
+
+    def get_id(self):
+        return self.id
 
     def destroy(self):
         """Remove a created actor from the world."""
@@ -73,7 +76,7 @@ class Actor:
         )
 
     def clear_animations(self) -> bool:
-        """Clear the animations that are in use on the actor, if any."""
+        """Clear the animations that are in use by the actor, if any."""
         return clear_actor_animations(self.id)
 
     def get_position(self) -> tuple[float, float, float]:

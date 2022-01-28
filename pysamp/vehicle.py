@@ -44,18 +44,25 @@ from pysamp import (
 
 
 class Vehicle:
-    """Create server vehicles. Edit and work on them using this class."""
+    """Create server vehicles. Edit and work on them using this class.
+
+    The vehicle model number can be any model between 400 and 622.
+    You will need to use this class to spawn vehicle trailers too.
+
+    A car that explodes or dies, will be respawned at its original
+    coordinates where it was created.
+    """
 
     def __init__(
         self,
-        vehicle_type,
-        x,
-        y,
-        z,
-        rotation,
-        color1,
-        color2,
-        respawn_delay,
+        vehicle_type: int,
+        x: float,
+        y: float,
+        z: float,
+        rotation: float,
+        color1: int,
+        color2: int,
+        respawn_delay: int,
         add_siren: bool = False,
     ):
         self.vehicletype = vehicle_type
@@ -77,7 +84,7 @@ class Vehicle:
             color1,
             color2,
             respawn_delay,
-            add_siren
+            add_siren,
         )
 
     def is_valid(self) -> bool:
@@ -92,7 +99,7 @@ class Vehicle:
         """Removes the vehicle from the server."""
         return destroy_vehicle(self.id)
 
-    def is_streamed_in(self, for_player: Player):
+    def is_streamed_in(self, for_player: Player) -> bool:
         """Lets you know if a specific player has streamed in the vehicle."""
         return is_vehicle_streamed_in(self.id, for_player.id)
 
@@ -116,7 +123,7 @@ class Vehicle:
         """Returns the heading the vehicle has. Can be >= 0.0 and < 360."""
         return get_vehicle_z_angle(self.id)
 
-    def set_z_angle(self, z_angle: float):
+    def set_z_angle(self, z_angle: float) -> bool:
         """Set the vehicle's heading hangle. 0.0 => z_angle < 360.0"""
         return set_vehicle_z_angle(self.id, z_angle)
 
@@ -136,7 +143,7 @@ class Vehicle:
         """Get the vehicle's params."""
         return get_vehicle_params_ex(self.id)
 
-    def set_params_ex(self, param: tuple) -> bool:
+    def set_params_ex(self, param: tuple[int, int, int, int, int, int, int]) -> bool:
         """Set additional parameters on the vehicle."""
         try:
             engine, lights, alarm, doors, bonnet, boot, objective = param
@@ -160,7 +167,7 @@ class Vehicle:
 
     def get_params_car_doors(self) -> tuple[int, int, int, int]:
         """Allows you to retrieve the current state of a vehicle's doors
-        
+
         Returns -1 if the door state is not set, like on a bike or a 2-door.
         Otherwise, it will return 0 (closed) or 1 (open).
 
@@ -171,7 +178,7 @@ class Vehicle:
 
     def set_params_car_doors(self, doors: tuple[int, int, int, int]) -> bool:
         """Open and close vehicle doors.
-        
+
         The doors tuple should be in this order:
         (driver, passenger, back_left, back_right)
 
@@ -193,7 +200,7 @@ class Vehicle:
         """Check if windows are available and if they are closed / open."""
         return get_vehicle_params_car_windows(self.id)
 
-    def set_params_car_windows(self, windows: tuple) -> bool:
+    def set_params_car_windows(self, windows: tuple[int, int, int, int]) -> bool:
         """Allows you to open and close the windows of a vehicle."""
         try:
             driver, passenger, backleft, backright = windows
@@ -222,7 +229,7 @@ class Vehicle:
     def add_component(self, component_id: int) -> bool:
         """Adds a component (often referred to as a modification)
         to a vehicle.
-        
+
         Valid components can be found here:
         https://open.mp/docs/scripting/resources/carcomponentid
 
@@ -297,7 +304,7 @@ class Vehicle:
         """Get the vehicle model."""
         return get_vehicle_model(self.id)
 
-    def get_component_in_slot(self, slot) -> int:
+    def get_component_in_slot(self, slot: int) -> int:
         """Retrieves the installed component ID in the specific slot."""
         return get_vehicle_component_in_slot(self.id, slot)
 
@@ -343,7 +350,7 @@ class Vehicle:
         """  # TODO: Add a good example
         return get_vehicle_damage_status(self.id)
 
-    def set_damage_status(self, param: tuple) -> bool:
+    def set_damage_status(self, param: tuple[int, int, int, int]) -> bool:
         """Set vehicle damage status.
 
         Please refer to:
