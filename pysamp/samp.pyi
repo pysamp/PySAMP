@@ -1710,7 +1710,9 @@ def GetVehicleZAngle(vehicle_id: int) -> float:
     pass
 
 
-def GetVehicleRotationQuat(vehicle_id: int) -> tuple[float, float, float]:
+def GetVehicleRotationQuat(
+    vehicle_id: int
+) -> tuple[float, float, float, float]:
     pass
 
 

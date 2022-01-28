@@ -2353,7 +2353,9 @@ def get_vehicle_z_angle(vehicle_id: int) -> float:
     return GetVehicleZAngle(vehicle_id)
 
 
-def get_vehicle_rotation_quat(vehicle_id: int) -> tuple[float, float, float]:
+def get_vehicle_rotation_quat(
+    vehicle_id: int
+) -> tuple[float, float, float, float]:
     return GetVehicleRotationQuat(vehicle_id)
 
 
