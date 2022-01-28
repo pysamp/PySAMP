@@ -143,7 +143,9 @@ class Vehicle:
         """Get the vehicle's params."""
         return get_vehicle_params_ex(self.id)
 
-    def set_params_ex(self, param: tuple[int, int, int, int, int, int, int]) -> bool:
+    def set_params_ex(
+        self, param: tuple[int, int, int, int, int, int, int]
+    ) -> bool:
         """Set additional parameters on the vehicle."""
         try:
             engine, lights, alarm, doors, bonnet, boot, objective = param
@@ -200,7 +202,9 @@ class Vehicle:
         """Check if windows are available and if they are closed / open."""
         return get_vehicle_params_car_windows(self.id)
 
-    def set_params_car_windows(self, windows: tuple[int, int, int, int]) -> bool:
+    def set_params_car_windows(
+        self, windows: tuple[int, int, int, int]
+    ) -> bool:
         """Allows you to open and close the windows of a vehicle."""
         try:
             driver, passenger, backleft, backright = windows
