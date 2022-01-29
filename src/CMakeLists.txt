@@ -38,13 +38,6 @@ include_directories(
     ${CMAKE_BINARY_DIR}/generated/
 )
 
-if(WIN32)
-    get_filename_component(PYTHON_HOME "${Python3_INCLUDE_DIRS}/.." REALPATH)
-else()
-    get_filename_component(PYTHON_HOME "${Python3_INCLUDE_DIRS}/../.." REALPATH)
-endif()
-
-message(STATUS "PYTHON_HOME = ${PYTHON_HOME}")
 message(STATUS "Python3_LIBRARIES = ${Python3_LIBRARIES}")
 message(STATUS "Python3_INCLUDE_DIRS = ${Python3_INCLUDE_DIRS}")
 message(STATUS "SAMPGDK_LIBRARY = ${SAMPGDK_LIBRARY}")
