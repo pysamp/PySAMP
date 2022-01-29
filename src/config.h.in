@@ -8,6 +8,4 @@
 	#define PYTHON_LIBRARY "@Python3_LIBRARIES@"
 #endif
 
-#define PYTHON_HOME L"@PYTHON_HOME@"
-
 #endif
