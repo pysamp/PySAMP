@@ -1,4 +1,4 @@
-from pysamp.samp import (  # type: ignore
+from samp import (  # type: ignore
     AddMenuItem,
     AddPlayerClass,
     AddPlayerClassEx,
@@ -610,8 +610,8 @@ def get_player_keys(player_id: int) -> tuple[int, int, int]:
     return GetPlayerKeys(player_id)
 
 
-def get_player_name(player_id: int, size: int) -> str:
-    return GetPlayerName(player_id, size)
+def get_player_name(player_id: int) -> str:
+    return GetPlayerName(player_id)
 
 
 def set_player_time(player_id: int, hour: int, minute: int) -> bool:

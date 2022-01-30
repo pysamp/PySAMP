@@ -25,3 +25,5 @@ target/
 **/.DS_Store
 docker/data
 docker/build/PySAMP.so
+venv/
+docs/
