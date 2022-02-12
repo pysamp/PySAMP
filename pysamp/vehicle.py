@@ -1,4 +1,3 @@
-from pysamp.player import Player
 from pysamp import (
     add_vehicle_component,
     change_vehicle_color,
@@ -99,7 +98,7 @@ class Vehicle:
         """Removes the vehicle from the server."""
         return destroy_vehicle(self.id)
 
-    def is_streamed_in(self, for_player: Player) -> bool:
+    def is_streamed_in(self, for_player: 'Player') -> bool:
         """Lets you know if a specific player has streamed in the vehicle."""
         return is_vehicle_streamed_in(self.id, for_player.id)
 
@@ -132,7 +131,7 @@ class Vehicle:
         return get_vehicle_rotation_quat(self.id)
 
     def set_params_for_player(
-        self, player: Player, objective: int, doors_locked: int
+        self, player: 'Player', objective: int, doors_locked: int
     ) -> bool:
         """Set the parameters on the vehicle."""
         return set_vehicle_params_for_player(
@@ -379,3 +378,6 @@ class Vehicle:
     def set_virtual_world(self, world_id: int) -> bool:
         """Set the virtual world ID that the vehicle should be visible in."""
         return set_vehicle_virtual_world(self.id, world_id)
+
+
+from pysamp.player import Player  # noqa

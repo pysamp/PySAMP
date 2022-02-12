@@ -1,5 +1,8 @@
 from pysamp import (
     allow_player_teleport,
+    attach_camera_to_object,
+    attach_camera_to_player_object,
+    attach_player_object_to_vehicle,
     apply_animation,
     ban,
     ban_ex,
@@ -1831,7 +1834,7 @@ class Player:
         except:
             raise ValueError("Expected x, y, z as a tuple (x, y, z)")
         else:
-            return SetPlayerCameraPos(self.id, x, y, z)
+            return set_player_camera_pos(self.id, x, y, z)
 
     def get_camera_front_vector(self):
         return get_player_camera_front_vector(self.id)
@@ -1869,11 +1872,14 @@ class Player:
         return get_player_camera_zoom(self.id)
 
     def attach_camera_to_object(self, objectid):
-        """| METHOD |"""
+        """Attach the camera to an object.
+        
+        If the object moves, the camera will follow.        
+        """
         return attach_camera_to_object(self.id, objectid)
 
     def attach_camera_to_player_object(self, playerobjectid):
-        """| METHOD |"""
+        """Attach the camera to an object which is created for a player."""
         return attach_camera_to_player_object(self.id, playerobjectid)
 
     def interpolate_camera_pos(
@@ -1948,9 +1954,14 @@ class Player:
         """| METHOD |"""
         return create_explosion_for_player(self.id, X, Y, Z, type, Radius)
 
-    def edit_object(self, objectid):
-        """| METHOD |"""
-        return edit_object(self.id, objectid)
+    def edit_object(self, object: 'Object') -> bool:
+        """Give a specific player the ability to edit an object.
+
+        This makes the player see edit controls on the object.
+        Using the mouse, the rotation and the position can be changed.
+        When the edit is done, 
+        """
+        return edit_object(self.id, object.id)
 
     def edit_player_object(self, objectid):
         """| METHOD |"""
@@ -1979,11 +1990,11 @@ class Player:
         return create_player_object(
             self.id, modelid, x, y, z, rX, rY, rZ, DrawDistance
         )
-
+    # TODO 
     def attach_object_to_vehicle(
         self,
-        objectid,
-        vehicleid,
+        object: 'Object',
+        vehicle: 'Vehicle',
         fOffsetX,
         fOffsetY,
         fOffsetZ,
@@ -1991,11 +2002,11 @@ class Player:
         fRotY,
         RotZ,
     ):
-        """| METHOD |"""
+        """Attach an object to a specific vehicle."""
         return attach_player_object_to_vehicle(
             self.id,
-            objectid,
-            vehicleid,
+            object.id,
+            vehicle.id,
             fOffsetX,
             fOffsetY,
             fOffsetZ,
@@ -2145,8 +2156,8 @@ class Player:
         return ban_ex(self.id, reason)
 
     @property
-    def network_stats(self, size):
-        return get_player_network_stats(self.id, size)
+    def network_stats(self):
+        return get_player_network_stats(self.id)
 
     def get_version(self, len):
         """| METHOD |"""
@@ -2353,3 +2364,6 @@ class Player:
         ```
         """
         return update_player_3d_text_label_text(self.id, id, color, text)
+
+from pysamp.vehicle import Vehicle
+from pysamp.object import Object
