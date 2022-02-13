@@ -13,6 +13,7 @@ from pysamp import (
     set_object_material,
     set_object_material_text,
     set_objects_default_camera_col,
+    OBJECT_MATERIAL_SIZE_256x128
 )
 
 
@@ -33,6 +34,7 @@ class Object:
     For a list of models, you can utilize tools like here:
     https://dev.prineside.com/en/gtasa_samp_model_id/
     """
+
     def __init__(
         self,
         model,
@@ -152,3 +154,41 @@ class Object:
             texture_name,
             material_color,
         )
+
+    def set_material_text(
+        self,
+        text: str,
+        material_index: int = 0,
+        material_size: int = OBJECT_MATERIAL_SIZE_256x128,
+        font_face: str = "Arial",
+        font_size: int = 24,
+        bold: bool = True,
+        font_color: int = 0xFFFFFFFF,
+        back_color: int = 0x00000000,
+        text_alignment: int = 0
+    ) -> bool:
+        """Change the material text of the object."""
+        return set_object_material_text(
+            self.id,
+            text,
+            material_index,
+            material_size,
+            font_face,
+            font_size,
+            bold,
+            font_color,
+            back_color,
+            text_alignment
+        )
+
+    @staticmethod
+    def set_default_camera_col(self, disable: bool) -> bool:
+        """Set whether all object should by default ignore colission.
+        
+        Please note that this is a static method as it is affecting all
+        objects. You call it like this:
+        .. code-block:: python
+            # Disable camera colission by default on all objects:
+            Object.set_default_camera_col(True)
+        """
+        return set_objects_default_camera_col(self.id, disable)
