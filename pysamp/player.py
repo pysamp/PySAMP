@@ -1,85 +1,18 @@
 from pysamp import (
     allow_player_teleport,
-    attach_camera_to_object,
-    attach_camera_to_player_object,
-    attach_player_object_to_vehicle,
     apply_animation,
     ban,
     ban_ex,
-    block_ip_address,
-    cancel_edit,
-    cancel_select_text_draw,
-    change_vehicle_color,
-    change_vehicle_paintjob,
-    clear_actor_animations,
     clear_animations,
-    connect_npc,
-    create_3d_text_label,
-    create_actor,
-    create_explosion,
     create_explosion_for_player,
-    create_menu,
-    create_object,
-    create_pickup,
-    create_player_3d_text_label,
-    create_player_object,
-    create_player_text_draw,
-    create_vehicle,
-    delete_3d_text_label,
-    delete_player_3d_text_label,
     delete_pvar,
-    delete_svar,
-    destroy_actor,
-    destroy_menu,
-    destroy_object,
-    destroy_pickup,
-    destroy_player_object,
-    destroy_vehicle,
-    detach_trailer_from_vehicle,
-    disable_interior_enter_exits,
-    disable_menu,
-    disable_menu_row,
-    disable_name_tag_los,
     disable_player_checkpoint,
     disable_player_race_checkpoint,
     disable_remote_vehicle_collisions,
     edit_attached_object,
-    edit_object,
-    edit_player_object,
     enable_player_camera_target,
-    enable_stunt_bonus_for_all,
     enable_stunt_bonus_for_player,
-    enable_tire_popping,
-    enable_vehicle_friendly_fire,
-    enable_zone_names,
     force_class_selection,
-    game_mode_exit,
-    game_text_for_all,
-    game_text_for_player,
-    gang_zone_create,
-    gang_zone_destroy,
-    gang_zone_flash_for_all,
-    gang_zone_flash_for_player,
-    gang_zone_hide_for_player,
-    gang_zone_show_for_all,
-    gang_zone_show_for_player,
-    gang_zone_stop_flash_for_all,
-    gang_zone_stop_flash_for_player,
-    get_actor_facing_angle,
-    get_actor_health,
-    get_actor_pool_size,
-    get_actor_pos,
-    get_actor_virtual_world,
-    get_animation_name,
-    get_console_var_as_bool,
-    get_console_var_as_int,
-    get_console_var_as_string,
-    get_gravity,
-    get_max_players,
-    get_network_stats,
-    get_object_model,
-    get_object_pos,
-    get_object_rot,
     get_player_ammo,
     get_player_animation_index,
     get_player_armour,
@@ -105,12 +38,7 @@ from pysamp import (
     get_player_menu,
     get_player_money,
     get_player_name,
-    get_player_network_stats,
-    get_player_object_model,
-    get_player_object_pos,
-    get_player_object_rot,
     get_player_ping,
-    get_player_pool_size,
     get_player_pos,
     get_player_score,
     get_player_skin,
@@ -137,44 +65,10 @@ from pysamp import (
     get_pvar_string,
     get_pvar_type,
     get_pvars_upper_index,
-    get_server_tick_rate,
-    get_server_var_as_bool,
-    get_server_var_as_int,
-    get_server_var_as_string,
-    get_svar_float,
-    get_svar_int,
-    get_svar_name_at_index,
-    get_svar_string,
-    get_svar_type,
-    get_svars_upper_index,
-    get_tick_count,
-    get_vehicle_component_in_slot,
-    get_vehicle_component_type,
-    get_vehicle_damage_status,
-    get_vehicle_distance_from_point,
-    get_vehicle_health,
-    get_vehicle_model,
-    get_vehicle_model_info,
-    get_vehicle_params_car_doors,
-    get_vehicle_params_car_windows,
-    get_vehicle_params_ex,
-    get_vehicle_params_siren_state,
-    get_vehicle_pool_size,
-    get_vehicle_pos,
-    get_vehicle_rotation_quat,
-    get_vehicle_trailer,
-    get_vehicle_velocity,
-    get_vehicle_virtual_world,
-    get_vehicle_z_angle,
-    get_weapon_name,
     give_player_money,
     give_player_weapon,
-    hide_menu_for_player,
     interpolate_camera_look_at,
     interpolate_camera_pos,
-    is_actor_invulnerable,
-    is_actor_streamed_in,
-    is_object_moving,
     is_player_admin,
     is_player_attached_object_slot_used,
     is_player_connected,
@@ -184,31 +78,8 @@ from pysamp import (
     is_player_in_range_of_point,
     is_player_in_vehicle,
     is_player_npc,
-    is_player_object_moving,
     is_player_streamed_in,
-    is_trailer_attached_to_vehicle,
-    is_valid_actor,
-    is_valid_menu,
-    is_valid_object,
-    is_valid_player_object,
-    is_valid_vehicle,
-    is_vehicle_streamed_in,
     kick,
-    limit_global_chat_radius,
-    limit_player_marker_radius,
-    link_vehicle_to_interior,
-    manual_vehicle_engine_and_lights,
-    move_object,
-    move_player_object,
-    net_stats_bytes_received,
-    net_stats_bytes_sent,
-    net_stats_connection_status,
-    net_stats_get_connected_time,
-    net_stats_get_ip_port,
-    net_stats_messages_received,
-    net_stats_messages_recv_per_second,
-    net_stats_messages_sent,
-    net_stats_packet_loss_percent,
     play_audio_stream_for_player,
     play_crime_report_for_player,
     player_play_sound,
@@ -238,8 +109,6 @@ from pysamp import (
     remove_player_attached_object,
     remove_player_from_vehicle,
     remove_player_map_icon,
-    remove_vehicle_component,
-    repair_vehicle,
     reset_player_money,
     reset_player_weapons,
     select_object,
@@ -250,24 +119,7 @@ from pysamp import (
     send_death_message_to_player,
     send_player_message_to_all,
     send_player_message_to_player,
-    send_rcon_command,
-    set_actor_facing_angle,
-    set_actor_health,
-    set_actor_invulnerable,
-    set_actor_pos,
-    set_actor_virtual_world,
     set_camera_behind_player,
-    set_death_drop_amount,
-    set_game_mode_text,
-    set_gravity,
-    set_menu_column_header,
-    set_name_tag_draw_distance,
-    set_object_material,
-    set_object_material_text,
-    set_object_no_camera_col,
-    set_object_pos,
-    set_object_rot,
-    set_objects_default_camera_col,
     set_player_ammo,
     set_player_armed_weapon,
     set_player_armour,
@@ -285,11 +137,6 @@ from pysamp import (
     set_player_map_icon,
     set_player_marker_for_player,
     set_player_name,
-    set_player_object_material,
-    set_player_object_material_text,
-    set_player_object_no_camera_col,
-    set_player_object_pos,
-    set_player_object_rot,
     set_player_pos,
     set_player_pos_find_z,
     set_player_race_checkpoint,
@@ -309,76 +156,30 @@ from pysamp import (
     set_pvar_int,
     set_pvar_string,
     set_spawn_info,
-    set_svar_float,
-    set_svar_int,
-    set_svar_string,
-    set_team_count,
-    set_vehicle_angular_velocity,
-    set_vehicle_health,
-    set_vehicle_number_plate,
-    set_vehicle_params_car_doors,
-    set_vehicle_params_car_windows,
-    set_vehicle_params_ex,
-    set_vehicle_params_for_player,
-    set_vehicle_pos,
-    set_vehicle_to_respawn,
-    set_vehicle_velocity,
-    set_vehicle_virtual_world,
-    set_vehicle_z_angle,
-    set_weather,
-    set_world_time,
-    show_menu_for_player,
-    show_name_tags,
     show_player_dialog,
-    show_player_markers,
     show_player_name_tag_for_player,
     spawn_player,
     start_recording_player_data,
     stop_audio_stream_for_player,
-    stop_object,
-    stop_player_object,
     stop_recording_player_data,
-    text_draw_alignment,
-    text_draw_background_color,
-    text_draw_box_color,
-    text_draw_color,
-    text_draw_create,
-    text_draw_destroy,
-    text_draw_font,
-    text_draw_hide_for_all,
-    text_draw_hide_for_player,
-    text_draw_letter_size,
-    text_draw_set_outline,
-    text_draw_set_preview_model,
-    text_draw_set_preview_rot,
-    text_draw_set_preview_veh_col,
-    text_draw_set_proportional,
-    text_draw_set_selectable,
-    text_draw_set_shadow,
-    text_draw_set_string,
-    text_draw_show_for_all,
-    text_draw_show_for_player,
-    text_draw_text_size,
-    text_draw_use_box,
     toggle_player_clock,
     toggle_player_controllable,
     toggle_player_spectating,
-    un_block_ip_address,
-    update_3d_text_label_text,
-    update_player_3d_text_label_text,
-    update_vehicle_damage_status,
-    use_player_ped_anims,
-    vector_size,
     INVALID_PLAYER_ID,
     INVALID_VEHICLE_ID,
-    OBJECT_MATERIAL_SIZE_256x128,
     MAPICON_LOCAL,
     CAMERA_CUT,
     SPECTATE_MODE_NORMAL
 )
 
+
 class Player:
-    """Class to interact with players that are online"""
+    """Class to interact with players that are online.
+
+    A player is a client controlled character inside the server.
+    The characters that are not controlled by a player are called non-player
+    characters (NPCs), and are found in the ``Actor`` class.
+    """
 
     def __init__(self, playerid):
         self.id: int = playerid
@@ -401,9 +202,11 @@ class Player:
         """This method can be used to change the spawn information of a
         specific player.
 
-        It allows you to automatically set someone's spawn weapons,
-        their team, skin and spawn position, normally used in case of
+        It allows you to automatically set someone's weapons to spawn with,
+        their team, skin and spawn position, normally used for things like
         minigames or automatic-spawn systems.
+        This information is used after a player dies, to know where / how
+        to spawn them.
         """
         return set_spawn_info(
             self.id,
@@ -422,11 +225,15 @@ class Player:
         )
 
     def get_id(self) -> int:
-        """Get the player's player id"""
+        """Get the player's player id."""
         return self.id
 
     def spawn(self) -> bool:
-        """(Re)Spawns a player."""
+        """(Re)Spawns a player.
+
+        .. note:: Kills the player if they are in a vehicle and then they spawn
+            with a bottle in their hand.
+        """
         return spawn_player(self.id)
 
     def set_pos_find_z(self, position: tuple[float, float, float]) -> bool:
@@ -827,7 +634,7 @@ class Player:
     def set_weather(self, weather: int) -> bool:
         """Set the player's weather. If player.toggle_clock is on,
         then the weather will change slowly.
-        
+
         - weather - The weather ID to set between 0 and 20.
 
         Weather IDs:
@@ -882,7 +689,7 @@ class Player:
 
     def set_fighting_style(self, style: int) -> bool:
         """Set the player's fighting style.
-        
+
         To use in-game, aim and press the 'secondary attack' key
         (ENTER by default).
 
@@ -953,7 +760,7 @@ class Player:
         usepos: bool = False
     ) -> bool:
         """Play an audio stream for a player.
-        
+
         Normal files can also be streamed, such as MP3.
         """
         return play_audio_stream_for_player(
@@ -1052,7 +859,6 @@ class Player:
         """
         return remove_building_for_player(self.id, modelid, fX, fY, fZ, fRadius)
 
-    @property
     def last_shot_vectors(self):
         """___________
 
@@ -1063,21 +869,18 @@ class Player:
         - Float:fHitPosX	A float variable with the X coordinate of where the bullet hit.
         - Float:fHitPosY	A float variable with the Y coordinate of where the bullet hit.
         - Float:fHitPosY	A float variable with the Z coordinate of where the bullet hit.
-        ___________
+        .. code-block:: python
 
-        Example:
-        --------
-        ```py
-        if "/lastshot" in cmdtext[0:9]:
-            # Get the coordinates
-            fOriginX, fOriginY, fOriginZ, fHitPosX, fHitPosY, fHitPosY = player.last_shot_vectors
-            # Send them to the player
-            player.send_client_message(
-                -1, "Last shot info: Origin: {}, {}, {}. Hit pos: {}, {}, {}".format(
-                    str(fOriginX), str(fOriginY), str(fOriginZ), str(fHitPosX), str(fHitPosY), str(fHitPosY)
+            if "/lastshot" in cmdtext[0:9]:
+                # Get the coordinates
+                fOriginX, fOriginY, fOriginZ, fHitPosX, fHitPosY, fHitPosY = player.last_shot_vectors
+                # Send them to the player
+                player.send_client_message(
+                    -1, "Last shot info: Origin: {}, {}, {}. Hit pos: {}, {}, {}".format(
+                        str(fOriginX), str(fOriginY), str(fOriginZ), str(fHitPosX), str(fHitPosY), str(fHitPosY)
+                    )
                 )
-            )
-        ```
+
         """
         return get_player_last_shot_vectors(self.id)
 
@@ -1660,7 +1463,6 @@ class Player:
         """| METHOD |"""
         return delete_pvar(self.id, varname)
 
-    @property
     def pvars_upper_index(self):
         """Get or set
         """
@@ -1684,13 +1486,11 @@ class Player:
         """| METHOD |"""
         return put_player_in_vehicle(self.id, vehicleid, seatid)
 
-    @property
     def vehicle_id(self):
         """Get or set
         """
         return get_player_vehicle_id(self.id)
 
-    @property
     def vehicle_seat(self):
         """Get or set
         """
@@ -1742,11 +1542,9 @@ class Player:
         """Get the current playing animation index of the player."""
         return get_player_animation_index(self.id)
 
-    @property
     def special_action(self):
         return get_player_special_action(self.id)
 
-    @special_action.setter
     def special_action(self, actionid):
         return set_player_special_action(self.id, actionid)
 
@@ -1823,11 +1621,9 @@ class Player:
         """| METHOD |"""
         return set_camera_behind_player(self.id)
 
-    @property
     def camera_pos(self):
         return get_player_camera_pos(self.id)
 
-    @camera_pos.setter
     def camera_pos(self, pos: tuple):
         try:
             x, y, z = pos
@@ -1839,7 +1635,6 @@ class Player:
     def get_camera_front_vector(self):
         return get_player_camera_front_vector(self.id)
 
-    @property
     def camera_mode(self):
         return get_player_camera_mode(self.id)
 
@@ -1847,27 +1642,21 @@ class Player:
         """| METHOD |"""
         return enable_player_camera_target(self.id, enable)
 
-    @property
     def camera_target_object(self):
         return get_player_camera_target_object(self.id)
 
-    @property
     def camera_target_vehicle(self):
         return get_player_camera_target_vehicle(self.id)
 
-    @property
     def camera_target(self):
         return get_player_camera_target_player(self.id)
 
-    @property
     def camera_target_actor(self):
         return get_player_camera_target_actor(self.id)
 
-    @property
     def camera_aspect_ratio(self):
         return get_player_camera_aspect_ratio(self.id)
 
-    @property
     def camera_zoom(self):
         return get_player_camera_zoom(self.id)
 
@@ -1898,7 +1687,6 @@ class Player:
             self.id, FromX, FromY, FromZ, ToX, ToY, ToZ, time, cut
         )
 
-    @property
     def connected(self):
         return is_player_connected(self.id)
 
@@ -1918,11 +1706,9 @@ class Player:
         """| METHOD |"""
         return is_player_in_race_checkpoint(self.id)
 
-    @property
     def virtual_world(self):
         return get_player_virtual_world(self.id)
 
-    @virtual_world.setter
     def virtual_world(self, worldid):
         return set_player_virtual_world(self.id, worldid)
 
@@ -1954,171 +1740,6 @@ class Player:
         """| METHOD |"""
         return create_explosion_for_player(self.id, X, Y, Z, type, Radius)
 
-    def edit_object(self, object: 'Object') -> bool:
-        """Give a specific player the ability to edit an object.
-
-        This makes the player see edit controls on the object.
-        Using the mouse, the rotation and the position can be changed.
-        When the edit is done, 
-        """
-        return edit_object(self.id, object.id)
-
-    def edit_player_object(self, objectid):
-        """| METHOD |"""
-        return edit_player_object(self.id, objectid)
-
-    def select_object(self):
-        """| METHOD |"""
-        return select_object(self.id)
-
-    def cancel_edit(self):
-        """| METHOD |"""
-        return cancel_edit(self.id)
-
-    def create_object(
-        self,
-        modelid,
-        x: float,
-        y: float,
-        z: float,
-        rX,
-        rY,
-        rZ,
-        DrawDistance=0.0,
-    ):
-        """| METHOD |"""
-        return create_player_object(
-            self.id, modelid, x, y, z, rX, rY, rZ, DrawDistance
-        )
-    # TODO 
-    def attach_object_to_vehicle(
-        self,
-        object: 'Object',
-        vehicle: 'Vehicle',
-        fOffsetX,
-        fOffsetY,
-        fOffsetZ,
-        fRotX,
-        fRotY,
-        RotZ,
-    ):
-        """Attach an object to a specific vehicle."""
-        return attach_player_object_to_vehicle(
-            self.id,
-            object.id,
-            vehicle.id,
-            fOffsetX,
-            fOffsetY,
-            fOffsetZ,
-            fRotX,
-            fRotY,
-            RotZ,
-        )
-
-    def get_object_pos(self, objectid):
-        """| METHOD |"""
-        return get_player_object_pos(self.id, objectid)
-
-    def set_object_pos(self, objectid, x: float, y: float, z: float):
-        """| METHOD |"""
-        return set_player_object_pos(self.id, objectid, x, y, z)
-
-    def get_object_rot(self, objectid):
-        """| METHOD |"""
-        return get_player_object_rot(self.id, objectid)
-
-    def set_object_rot(self, objectid, rotX, rotY, rotZ):
-        """| METHOD |"""
-        return set_player_object_rot(self.id, objectid, rotX, rotY, rotZ)
-
-    def get_object_model(self, objectid):
-        """| METHOD |"""
-        return get_player_object_model(self.id, objectid)
-
-    def set_object_no_camera_col(self, objectid):
-        """| METHOD |"""
-        return set_player_object_no_camera_col(self.id, objectid)
-
-    def is_valid_object(self, objectid):
-        """| METHOD |"""
-        return is_valid_player_object(self.id, objectid)
-
-    def destroy_object(self, objectid):
-        """| METHOD |"""
-        return destroy_player_object(self.id, objectid)
-
-    def move_object(
-        self,
-        objectid,
-        x: float,
-        y: float,
-        z: float,
-        Speed,
-        RotX=-1000.0,
-        RotY=-1000.0,
-        RotZ=-1000.0,
-    ):
-        """| METHOD |"""
-        return move_player_object(
-            self.id, objectid, x, y, z, Speed, RotX, RotY, RotZ
-        )
-
-    def stop_object(self, objectid):
-        """| METHOD |"""
-        return stop_player_object(self.id, objectid)
-
-    def is_object_moving(self, objectid):
-        """| METHOD |"""
-        return is_player_object_moving(self.id, objectid)
-
-    def set_object_material(
-        self,
-        objectid,
-        materialindex,
-        modelid,
-        txdname,
-        texturename,
-        materialcolor=0,
-    ):
-        """| METHOD |"""
-        return set_player_object_material(
-            self.id,
-            objectid,
-            materialindex,
-            modelid,
-            txdname,
-            texturename,
-            materialcolor=0,
-        )
-
-    def set_object_material_text(
-        self,
-        objectid,
-        text,
-        materialindex=0,
-        materialsize=OBJECT_MATERIAL_SIZE_256x128,
-        fontface="Arial",
-        fontsize=24,
-        bold=True,
-        fontcolor=0xFFFFFFFF,
-        backcolor=0,
-        textalignment=0,
-    ):
-        """| METHOD |"""
-        return set_player_object_material_text(
-            self.id,
-            objectid,
-            text,
-            materialindex,
-            materialsize,
-            fontface,
-            fontsize,
-            bold,
-            fontcolor,
-            backcolor,
-            textalignment,
-        )
-
     def send_client_message(self, color, message):
         """| METHOD |"""
         return send_client_message(self.id, color, message)
@@ -2135,11 +1756,9 @@ class Player:
         """| METHOD |"""
         return game_text_for_player(self.id, text, time, style)
 
-    @property
     def is_npc(self):
         return is_player_npc(self.id)
 
-    @property
     def is_admin(self):
         return is_player_admin(self.id)
 
@@ -2155,114 +1774,6 @@ class Player:
         """| METHOD |"""
         return ban_ex(self.id, reason)
 
-    @property
-    def network_stats(self):
-        return get_player_network_stats(self.id)
-
-    def get_version(self, len):
-        """| METHOD |"""
-        return get_player_version(self.id, len)
-
-    def net_stats_get_connected_time(self):
-        """| METHOD |"""
-        return net_stats_get_connected_time(self.id)
-
-    def net_stats_messages_received(self):
-        """| METHOD |"""
-        return net_stats_messages_received(self.id)
-
-    def net_stats_bytes_received(self):
-        """| METHOD |"""
-        return net_stats_bytes_received(self.id)
-
-    def net_stats_messages_sent(self):
-        """| METHOD |"""
-        return net_stats_messages_sent(self.id)
-
-    def net_stats_bytes_sent(self):
-        """| METHOD |"""
-        return net_stats_bytes_sent(self.id)
-
-    def net_stats_messages_recv_per_second(self):
-        """| METHOD |"""
-        return net_stats_messages_recv_per_second(self.id)
-
-    def net_stats_packet_loss_percent(self):
-        """| METHOD |"""
-        return net_stats_packet_loss_percent(self.id)
-
-    def net_stats_connection_status(self):
-        """| METHOD |"""
-        return net_stats_connection_status(self.id)
-
-    def net_stats_get_ip_port(self, ip_port_len):
-        """| METHOD |"""
-        return net_stats_get_ip_port(self.id, ip_port_len)
-
-    @property
-    def menu(self):
-        return get_player_menu(self.id)
-
-    def text_draw_show(self, text):
-        """| METHOD |"""
-        return text_draw_show_for_player(self.id, text)
-
-    def select_text_draw(self, hovercolor):
-        """| METHOD |"""
-        return select_text_draw(self.id, hovercolor)
-
-    def cancel_select_text_draw(self):
-        """| METHOD |"""
-        return cancel_select_text_draw(self.id)
-
-    def gang_zone_show(self, zone, color):
-        """| METHOD |"""
-        return gang_zone_show_for_player(self.id, zone, color)
-
-    def gang_zone_flash(self, zone, flashcolor):
-        """| METHOD |"""
-        return gang_zone_flash_for_player(self.id, zone, flashcolor)
-
-    def gang_zone_stop_flash(self, zone):
-        """| METHOD |"""
-        return gang_zone_stop_flash_for_player(self.id, zone)
-
-    def show_dialog(self, dialogid, style, caption, info, button1, button2):
-        """________________
-
-        - dialogid    An ID to assign this dialog to, so responses can be processed. Max 32767.
-        - style       The style of the dialog.
-        - caption     The title at the top of the dialog. Max 64 characters.
-        - info        The text to display in the main dialog. Use \\n to start a new line and \\t to tabulate.
-        - button1     The text on the left button.
-        - button2     The text on the right button. Leave it blank ( "" ) to hide it.
-        ________________
-
-        Notes
-        ------
-        - Using negative values for dialogid will close any open dialog.
-        - The length of the caption can not exceed more than 64 characters before it starts to cut off.
-
-        Returns
-        -----
-        1: The function executed successfully.
-        0: The function failed to execute. This means the player is not connected.
-
-        Example
-        --------
-        ```py
-            player.show_dialog(123, DIALOG_STYLE_PASSWORD,
-                "Please enter your password",
-                "Put your password below:",
-                "Login", "Quit"
-            )
-        ```
-        """
-        return show_player_dialog(
-            self.id, dialogid, style, caption, info, button1, button2
-        )
-
-    @property
     def gpci(self):
         """| PEROPERTY | Read only |
 
@@ -2275,95 +1786,6 @@ class Player:
         ```
         """
         return gpci(self.id, 41)
-
-    def redirect_download(self, url):
-        """| METHOD |
-        0.3DL Only!!
-        """
-        return redirect_download(self.id, url)
-
-    def create_3d_text_label(
-        self,
-        text,
-        color,
-        x,
-        y,
-        z,
-        drawDistance,
-        attachedplayer=INVALID_PLAYER_ID,
-        attachedvehicle=INVALID_VEHICLE_ID,
-        testLOS=False,
-    ):
-        """Params
-        -----
-        - text 	            The text to display.
-        - color	            The text color
-        - x                 X Coordinate (or offset if attached)
-        - y                 Y Coordinate (or offset if attached)
-        - z                 Z Coordinate (or offset if attached)
-        - DrawDistance	    The distance where you are able to see the 3D Text Label
-        - attachedplayer    The player you want to attach the 3D Text Label to. (None: INVALID_PLAYER_ID)
-        - attachedvehicle   The vehicle you want to attach the 3D Text Label to. (None: INVALID_VEHICLE_ID)
-        - testLOS	    0/1 Test the line-of-sight so this text can't be seen through walls
-
-        Returns
-        -----
-        - labelid \t\t The ID of the 3d text label. Used later to update/delete label.
-
-        Example
-        ------
-        ```py
-        label =
-            player.create_3d_text_label("test", -1, 0.0,0.0,0.1, 50.0, player.id, INVALID_VEHICLE_ID, 0)
-        ```
-        """
-        return create_player_3d_text_label(
-            self.id,
-            text,
-            color,
-            x,
-            y,
-            z,
-            drawDistance,
-            attachedplayer,
-            attachedvehicle,
-            testLOS,
-        )
-
-    def delete_3d_text_label(self, id):
-        """Delete a player 3D-text-label with the given ID.
-
-        Returns
-        ----
-        1: The function executed successfully.
-        0: The function failed to execute. This means the label specified doesn't exist.
-        """
-        return delete_player_3d_text_label(self.id, id)
-
-    def update_3d_text_label_text(self, id, color, text):
-        """Updates a player 3D Text Label's text and color. If text is empty, the server/clients next to the text might crash!
-
-        _____________
-
-        - id	    The 3D Text Label you want to update.
-        - color	    The color the 3D Text Label should have from now on.
-        - text	    The new text which the 3D Text Label should have from now on
-        _____________
-
-        Returns
-        -----
-        - No value returned
-
-        Example
-        ------
-        ```py
-        label =
-            player.create_3d_text_label("test", -1, 0.0,0.0,0.1, 50.0, player.id, INVALID_VEHICLE_ID, 0)
-        # Change text:
-        player.update_3d_text_label_text(label, -1, "New test text")
-        ```
-        """
-        return update_player_3d_text_label_text(self.id, id, color, text)
 
 from pysamp.vehicle import Vehicle
 from pysamp.object import Object
