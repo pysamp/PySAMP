@@ -68,11 +68,11 @@ class Object:
         rotation_y: float,
         rotation_z: float
     ) -> bool:
-        """Set the new rotation the object should have. Values are absolute."""
+        """Set the new rotation the object should have."""
         return set_object_rot(self.id, rotation_x, rotation_y, rotation_z)
 
     def get_rotation(self) -> tuple[float, float, float]:
-        """Get the rotation the object have."""
+        """Get the rotation the object currently have."""
         return get_object_rot(self.id)
 
     def get_model(self) -> int:
@@ -84,7 +84,8 @@ class Object:
 
         Makes the camera freely pass through it.
 
-        .. note:: This only works outside the map boundaries (past -3000/3000).
+        .. note:: This only works outside the map boundaries (past -3000/3000\
+            on the X and Y axis).
         """
         return set_object_no_camera_col(self.id)
 
@@ -95,7 +96,7 @@ class Object:
     def destroy(self) -> bool:
         """Destroy the object.
 
-        This removes the object from the world, and will no longer be 
+        This removes the object from the world, and will no longer be
         available. It's occupied object id gets free'd up.
         """
         return destroy_object(self.id)
@@ -167,7 +168,32 @@ class Object:
         back_color: int = 0x00000000,
         text_alignment: int = 0
     ) -> bool:
-        """Change the material text of the object."""
+        """Change the material text of the object.
+
+        Example of usage:
+
+        .. code-block:: python
+
+            if "/text" in cmdtext:
+                object = Object(19353, 0, 0, 10, 0.0, 0.0, 90.0)
+                object.set_material_text(
+                    "Here is text!",  # desired text
+                    0,  # material index
+                    OBJECT_MATERIAL_SIZE_256x128,  # material size
+                    "Arial",  # font face
+                    28,  # font size
+                    False,  # bold?
+                    0xFFFF8200,  # font color (ARGB format)
+                    0xFF000000,  # background color (ARGB format)
+                    OBJECT_MATERIAL_TEXT_ALIGN_CENTER  # alignment
+                )
+            # write "Here is text!" on the object, with orange font color
+            # and black background
+
+        .. note:: Text does not update after 16 calls on the same object.
+
+        .. warning:: The color format is ARGB opposed to how RGBA format.
+        """
         return set_object_material_text(
             self.id,
             text,
@@ -184,7 +210,7 @@ class Object:
     @staticmethod
     def set_default_camera_col(self, disable: bool) -> bool:
         """Set whether all object should by default ignore colission.
-        
+
         Please note that this is a static method as it is affecting all
         objects. You call it like this:
         .. code-block:: python
