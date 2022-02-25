@@ -398,15 +398,16 @@ class Player:
         """Get the player's drunk level.
 
         - 0 to 2000 - No visible effect
-        - 2001 to 5000 - Visible camera swaying and control issues
-        in vehicles. HUD is visible.
+        - 2001 to 5000 - Visible camera swaying and control issues\
+            in vehicles. HUD is visible.
         - 5001 and above - Swaying continues, but HUD becomes invisible.
 
-        NOTE: Drunk level with decrease with player fps. If you have 50 fps,
-        the drunk level will decrease with 50 levels per second. This makes
-        this method very useful to determine user FPS from server side.
+        .. note:: Drunk level with decrease with player fps.
+            If you have 50 fps, the drunk level will decrease with 50 levels
+            per second. This makes this method very useful to determine user
+            FPS from server side.
 
-        More information: 
+        More information:
         https://open.mp/docs/scripting/functions/SetPlayerDrunkLevel
         """
         return get_player_drunk_level(self.id)
@@ -424,67 +425,76 @@ class Player:
     def get_color(self) -> int:
         """Get the player's color.
 
-        NB: If you try to read the value before it is set, it will return 0
-        (Black)
+        .. note:: If you try to read the value before it is set, it will 
+            return 0 (Black).
         """
         return get_player_color(self.id)
 
     def set_color(self, color: int) -> bool:
         """Set a player's color to a given `color` value.
-        
+
         You can use Hexadecimal numbers to make it easier. The value is
-        expected in the following format `0xRRGGBBAA`,
-        where RR is Red, GG is Green, BB is blue and AA is the opacity.
+        expected in the following format ``0xRRGGBBAA``,
+        where:
+            - ``RR`` is red
+            - ``GG`` is green
+            - ``BB`` is blue
+            - ``AA`` is the opacity.
         """
         return set_player_color(self.id, color)
 
     def get_skin(self) -> int:
         """Get or set the player's skin, as an int.
-        
+
         A skin is the character model.
         """
         return get_player_skin(self.id)
 
-    def set_skin(self, skinid) -> bool:
-        """
+    def set_skin(self, skinid: int) -> bool:
+        """Change the skin/character of the player.
+
         See available skins and the corresponding ID's here:
         https://open.mp/docs/scripting/resources/skins
 
-        Value can be `0-73` or `75-311`. Default is `0` (CJ)
+        ``skinid`` can be between 0 and 311*.
+
+        .. warning:: Skin ID 74 is not available.
 
         Known Bugs: If a player's skin is set when they are crouching,
         in a vehicle, or performing certain animations, they will become frozen
         or otherwise glitched. This can (in most cases) be fixed by using
-        `player.toggle_controllable(1)`.
+        ``player.toggle_controllable(1)``.
 
         Players can be detected as being crouched through
-        `player.special_action == SPECIAL_ACTION_DUCK`
-        Other players around the player may crash if he is in a vehicle or
-        if he is entering/leaving a vehicle. Setting a player's skin when the
-        player is dead may crash players around them.
-        Breaks the sitting animation on bikes.
+        ``player.get_special_action() == SPECIAL_ACTION_DUCK``
+
+        Other players around the player may crash if they are in a vehicle or
+        if he is entering/leaving a vehicle when the skin is changed.
+        Setting a player's skin when the player is dead may crash players 
+        around them. Breaks the sitting animation on bikes.
 
         Example:
-        ```py
-        # Set the player's skin to 45
-        player.set_skin(45)
-        ```
+
+        .. code-block:: python
+
+            player.set_skin(45)
+
         """
         return set_player_skin(self.id, skinid)
 
     def give_weapon(self, weapon_id: int, ammo: int) -> bool:
         """Give the player a weapon with specified amount of ammo.
 
-        See all weapon ID's here: https://open.mp/docs/scripting/resources/weaponids
+        See all weapon ID's here:
+        https://open.mp/docs/scripting/resources/weaponids
 
-        - weapon_id - the ID of the weapon to give to the player.
-        - ammo - the amount of ammo to give to the player.
+        Also, notice how you can use the constants as in pawn too, to define
+        the weapon.
 
-        ## Example:
-        ```py
-        player.give_weapon(6, 1)  # Give a shovel
-        player.give_weapon(WEAPON_COLT45, 500)  # Give a Colt45 with 500 bullets
-        ```
+        .. code-block:: python
+
+            player.give_weapon(6, 1)  # Give a shovel
+            player.give_weapon(WEAPON_COLT45, 500)  # Give a Colt45 with 500 bullets
         """
         return give_player_weapon(self.id, weapon_id, ammo)
 
@@ -494,7 +504,7 @@ class Player:
 
     def set_armed_weapon(self, weapon_id: int) -> bool:
         """Sets which weapon the player is holding. 
-        
+
         The player needs to have this weapon for it to work.
         Calling this method will not give the player a new weapon.
 
@@ -709,6 +719,7 @@ class Player:
         return get_player_velocity(self.id)
 
     def set_velocity(self, pos: tuple[float, float, float]) -> bool:
+        """Set the velocity of a player in X,Y,Z direction."""
         try:
             x, y, z = pos
         except ValueError:
@@ -718,35 +729,86 @@ class Player:
 
     def play_crime_report(self, suspect: 'Player', crime: int) -> bool:
         """Plays a crime report for the player.
+
         You know when the player gets wanted in single player,
         the dispatch on the radio reads out actions and positions.
-        You can also do this on SA-MP.
+        You can also do this on SA-MP, by calling this method.
 
-        - suspect - The suspected player to be described in crime report
-        - crime   - The Crime ID, which will be reported as a 10-code.
+        .. list-table:: Parameters
+            :widths: 30 30
+            :header-rows: 1
 
-        Available Crime IDs
+            *  - Parameter
+               - Description
+            *  - suspect
+               - The player you want to play the crime report for
+            *  - crime
+               - One of the available crime ID's in below table.
 
+        .. list-table:: Crime ID's
+            :widths: 30 30 30
+            :header-rows: 1
 
-        - 3 - 10-71 - Advise nature of fire (size, type, contents of building)
-        - 4 - 10-47 - Emergency road repairs needed
-        - 5 - 10-81 - Breatherlizer Report
-        - 6 - 10-24 - Assignment Completed
-        - 7 - 10-21 - Call () by phone
-        - 8 - 10-21 - Call () by phone
-        - 9 - 10-21 - Call () by phone
-        - 10 - 10-17 - Meet Complainant
-        - 11 - 10-81 - Breatherlizer Report
-        - 12 - 10-91 - Pick up prisoner/subject
-        - 13 - 10-28 - Vehicle registration information
-        - 14 - 10-81 - Breathalyzer
-        - 15 - 10-28 - Vehicle registration information
-        - 16 - 10-91 - Pick up prisoner/subject
-        - 17 - 10-34 - Riot
-        - 18 - 10-37 - (Investigate) suspicious vehicle
-        - 19 - 10-81 - Breathalyzer
-        - 21 - 10-7 - Out of service
-        - 22 - 10-7 - Out of service
+            * - Crime id
+              - 10-code that is used
+              - Message from dispatcher
+            * - 3
+              - 10-71
+              - Advise nature of fire (size, type, contents of building)
+            * - 4
+              - 10-47
+              - Emergency road repairs needed
+            * - 5
+              - 10-81
+              - Breatherlizer Report
+            * - 6
+              - 10-24
+              - Assignment Completed
+            * - 7
+              - 10-21
+              - Call () by phone
+            * - 8
+              - 10-21
+              - Call () by phone
+            * - 9
+              - 10-21
+              - Call () by phone
+            * - 10
+              - 10-17
+              - Meet Complainant
+            * - 11
+              - 10-81
+              - Breatherlizer Report
+            * - 12
+              - 10-91
+              - Pick up prisoner/subject
+            * - 13
+              - 10-28
+              - Vehicle registration information
+            * - 14
+              - 10-81
+              - Breathalyzer
+            * - 15
+              - 10-28
+              - Vehicle registration information
+            * - 16
+              - 10-91
+              - Pick up prisoner/subject
+            * - 17
+              - 10-34
+              - Riot
+            * - 18
+              - 10-37
+              - (Investigate) suspicious vehicle
+            * - 19
+              - 10-81
+              - Breathalyzer
+            * - 21
+              - 10-7
+              - Out of service
+            * - 22
+              - 10-7
+              - Out of service
         """
         return play_crime_report_for_player(self.id, suspect.get_id(), crime)
 
@@ -859,25 +921,69 @@ class Player:
         """
         return remove_building_for_player(self.id, modelid, fX, fY, fZ, fRadius)
 
-    def last_shot_vectors(self):
-        """___________
+    def get_last_shot_vectors(
+        self
+    ) -> tuple[
+                float,
+                float,
+                float,
+                float,
+                float,
+                float
+               ]:
+        """Find out from where a bullet was shot, and where it hit/collided.
 
-        This method returns a Tuple; `(fOriginX,fOriginY,fOriginZ,fHitPosX,fHitPosY,fHitPosY)`
-        - Float:fOriginX	A float variable with the X coordinate of where the bullet originated from.
-        - Float:fOriginY	A float variable with the Y coordinate of where the bullet originated from.
-        - Float:fOriginZ	A float variable with the Z coordinate of where the bullet originated from.
-        - Float:fHitPosX	A float variable with the X coordinate of where the bullet hit.
-        - Float:fHitPosY	A float variable with the Y coordinate of where the bullet hit.
-        - Float:fHitPosY	A float variable with the Z coordinate of where the bullet hit.
+        The values are returned as a tuple, listed in the following table:
+
+        .. note:: This function will only work when lag compensation is
+            enabled. If the player hit nothing, the hit positions will be 0.
+            This means you can't currently calculate how far a bullet travels
+            through open air.
+
+        .. list-table:: Return values (in order)
+            :widths: 30 30
+            :header-rows: 1
+
+            * - Return parameter
+              - Description
+            * - From X
+              - X coordinate of where the bullet originated from.
+            * - From Y
+              - Y coordinate of where the bullet originated from.
+            * - From Z
+              - Z coordinate of where the bullet originated from.
+            * - Hit X
+              - X coordinate of where the bullet hit.
+            * - Hit Y
+              - Y coordinate of where the bullet hit.
+            * - Hit Z
+              - Z coordinate of where the bullet hit.
+
+        Here is an example of how you can use it:
+
         .. code-block:: python
 
             if "/lastshot" in cmdtext[0:9]:
                 # Get the coordinates
-                fOriginX, fOriginY, fOriginZ, fHitPosX, fHitPosY, fHitPosY = player.last_shot_vectors
+                (
+                    x,
+                    y,
+                    z,
+                    to_x,
+                    to_y,
+                    to_y
+                ) = player.get_last_shot_vectors()
+
                 # Send them to the player
                 player.send_client_message(
-                    -1, "Last shot info: Origin: {}, {}, {}. Hit pos: {}, {}, {}".format(
-                        str(fOriginX), str(fOriginY), str(fOriginZ), str(fHitPosX), str(fHitPosY), str(fHitPosY)
+                    -1,
+                    "Last shot info: {}, {}, {}.Hit pos: {}, {}, {}".format(
+                        str(x),
+                        str(y),
+                        str(z),
+                        str(to_x),
+                        str(to_y),
+                        str(to_y)
                     )
                 )
 
@@ -1542,10 +1648,10 @@ class Player:
         """Get the current playing animation index of the player."""
         return get_player_animation_index(self.id)
 
-    def special_action(self):
+    def get_special_action(self):
         return get_player_special_action(self.id)
 
-    def special_action(self, actionid):
+    def set_special_action(self, actionid):
         return set_player_special_action(self.id, actionid)
 
     def disable_remote_vehicle_collisions(self, disable):
@@ -1561,15 +1667,91 @@ class Player:
         return disable_player_checkpoint(self.id)
 
     def set_race_checkpoint(
-        self, type, x: float, y: float, z: float, nextx, nexty, nextz, size
-    ):
-        """| METHOD |"""
+        self,
+        type,
+        x: float,
+        y: float,
+        z: float,
+        next_x: float,
+        next_y: float,
+        next_z: float,
+        size: float
+    ) -> bool:
+        """Race checkpoints are red checkpoints, as used in singleplayer races.
+
+        .. list-table:: Parameters
+            :widths: 10 30
+            :header-rows: 1
+
+            * - Parameter
+            - Description
+            * - player
+            - The player that should get the checkpoint set.
+            * - type
+            - Can be values 0-8, see table further down for reference.
+            * - x
+            - World X coordinate to place the race checkpoint.
+            * - y
+            - World Y coordinate to place the race checkpoint.
+            * - z
+            - World Z coordinate to place the race checkpoint.
+            * - next_x
+            - The X coordinate of the next race checkpoint.
+            * - next_y
+            - The Y coordinate of the next race checkpoint.
+            * - next_z
+            - The Z coordinate of the next race checkpoint.
+            * - size
+            - The radius of the checkpoint. Also acts as the trigger area.
+
+        .. list-table:: The available types
+            :widths: 10 30 30
+            :header-rows: 1
+
+            * - ID
+            - Constant name
+            - Description
+            * - 0
+            - RACE_NORMAL
+            - Normal checkpoint with arrow to the next coordinates.
+            * - 1
+            - RACE_FINISH
+            - Checkpoint with finish flag on it.
+            * - 2
+            - RACE_NOTHING
+            - An empty checkpoint with nothing on it.
+            * - 3
+            - RACE_AIR_NORMAL
+            - A normal air race checkpoint (Circle).
+            * - 4
+            - RACE_AIR_FINISH
+            - Air checkpoint with finish flag on it.
+            * - 5
+            - RACE_AIR_ONE
+            - Air race checkpoint that rotates and stops.
+            * - 6
+            - RACE_AIR_TWO
+            - Air race checkpoint that increases, decreases and disappears.
+            * - 7
+            - RACE_AIR_THREE
+            - Air race checkpoint, this type swings up and down.
+            * - 8
+            - RACE_AIR_FOUR
+            - Air race checkpoint, swings up and down.
+
+        .. note:: If you use ``RACE_FINISH`` and at the same time use coordinates
+            for the next checkpoint, it will automatically show ``RACE_NORMAL`` 
+            instead
+
+        .. warning:: Race checkpoints are asynchronous, that means only one
+            can be shown at a time.
+        """
         return set_player_race_checkpoint(
-            self.id, type, x, y, z, nextx, nexty, nextz, size
+            self.id, type, x, y, z, next_x, next_y, next_z, size
         )
 
-    def disable_race_checkpoint(self):
-        """| METHOD |"""
+    def disable_race_checkpoint(self) -> bool:
+        """Removes the active race checkpoint for the player."""
         return disable_player_race_checkpoint(self.id)
 
     def set_world_bounds(self, x_max, x_min, y_max, y_min):
@@ -1702,8 +1884,8 @@ class Player:
         """| METHOD |"""
         return is_player_in_checkpoint(self.id)
 
-    def is_in_race_checkpoint(self):
-        """| METHOD |"""
+    def is_in_race_checkpoint(self) -> bool:
+        """Check if the given player is inside the checkpoint."""
         return is_player_in_race_checkpoint(self.id)
 
     def virtual_world(self):
