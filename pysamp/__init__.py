@@ -1031,7 +1031,7 @@ def set_player_race_checkpoint(
     next_x: float,
     next_y: float,
     next_z: float,
-    size: int,
+    size: float,
 ) -> bool:
     return SetPlayerRaceCheckpoint(
         player_id, type, x, y, z, next_x, next_y, next_z, size
