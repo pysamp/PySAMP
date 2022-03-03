@@ -5,6 +5,7 @@ from pysamp import (
     ban_ex,
     clear_animations,
     create_explosion_for_player,
+    create_player_text_draw,
     delete_pvar,
     disable_player_checkpoint,
     disable_player_race_checkpoint,
@@ -503,20 +504,10 @@ class Player:
         return reset_player_weapons(self.id)
 
     def set_armed_weapon(self, weapon_id: int) -> bool:
-        """Sets which weapon the player is holding. 
+        """Sets which weapon the player is holding.
 
         The player needs to have this weapon for it to work.
         Calling this method will not give the player a new weapon.
-
-        - weapon_id - The weapon id the player should hold in hands
-
-        ## Example:I saw
-        ```py
-            # Lets make the player only have hands (put away weapons)
-            player.set_armed_weapon(0)
-
-        ```
-
         """
         return set_player_armed_weapon(self.id, weapon_id)
 
@@ -524,21 +515,28 @@ class Player:
         """Get weapon data on a given slot.
 
         The weapon slot can be 0-13.
-        The weapon data returned contains `weapon, ammo`.
+        The tuple returned contains `weapon, ammo`.
+
+        Example:
+
+        .. code-block:: python
+
+            weapon, ammo = player.get_weapon_data(3)  # Get data in slot 3
+            print(f"Weapon ID: {weapon} || Ammo: {ammo}")
+
         """
         return get_player_weapon_data(self.id, slot)
 
     def give_money(self, money: int) -> bool:
-        """Give money to or take money from a player
+        """Give money or take money from a player
 
         The amount of money you want to give can be negative to reduce money.
 
-        ## Example
-        
-        ```py
+        Example:
+
+        .. code-block:: python
             player.give_money(1000)  # Give player $1000
-        ```
-        .
+
         """
         return give_player_money(self.id, money)
 
@@ -554,20 +552,22 @@ class Player:
         """Set a new name for the player.
 
         Name needs to be less than 25 characters long, and should not contain
-        invalid characters.        
+        invalid characters.
         """
         return set_player_name(self.id, name)
 
     def get_money(self) -> int:
-        """Get the player money."""
+        """Get the player's money."""
         return get_player_money(self.id)
 
     def set_money(self, money: int) -> bool:
         """Set the money a player should have.
 
         Negative numbers will be shown as red on the HUD.
-        Behind the scenes, setting money will first `reset_money` and then
-        `give_money`."""
+
+        Behind the scenes, setting money will first do ``reset_money`` and then
+        ``give_money``.
+        """
         reset_player_money(self.id)
         return give_player_money(self.id, money)
 
@@ -601,15 +601,17 @@ class Player:
         See all keys here: https://sampwiki.blast.hk/wiki/Keys
 
         This method returns a Tuple with 3 values. It looks like this:
-        `(keys, updown, leftright)`
-        - keys - A set of bits containing the player's key states (bitmask)
-        - updown - Up/down state.
-        - leftright - Left/right state.
+        ``(keys, updown, leftright)``
 
-        Only the FUNCTION of keys can be detected; not actual keys.
+            - keys: A set of bits containing the player's key states (bitmask)
+            - updown: Up/down state.
+            - leftright: Left/right state.
+
+        Only the FUNCTION of keys can be detected; not the actual keys.
         For example, it is not possible to detect if a player presses SPACE,
         but you can detect if they press SPRINT (which can be mapped
         (assigned/binded) to ANY key (but is space by default)).
+
         As of update 0.3.7, the keys "A" and "D" are not recognized when in
         a vehicle. However, keys "W" and "S" can be detected with the "keys"
         parameter.
@@ -634,7 +636,7 @@ class Player:
 
     def toggle_clock(self, toggle: bool) -> bool:
         """Toggle the in-game clock (top-right corner) for a specific player.
-        
+
         When this is enabled, time will progress at 1 minute per second.
         Weather will also interpolate (slowly change over time) when set using
         `Player.set_weather()`
@@ -642,46 +644,98 @@ class Player:
         return toggle_player_clock(self.id, toggle)
 
     def set_weather(self, weather: int) -> bool:
-        """Set the player's weather. If player.toggle_clock is on,
-        then the weather will change slowly.
+        """Set the player's weather. 
+        
+        If player.toggle_clock is on, then the weather will change slowly too.
 
-        - weather - The weather ID to set between 0 and 20.
+            - weather: The weather ID to set between 0 and 20.
 
-        Weather IDs:
+        .. list-table:: Available weather IDs
+            :widths: 30 30 30
+            :header-rows: 1
 
-        - 0 = EXTRASUNNY_LA
-        - 1 = SUNNY_LA
-        - 2 = EXTRASUNNY_SMOG_LA
-        - 3 = SUNNY_SMOG_LA
-        - 4 = CLOUDY_LA
-        - 5 = SUNNY_SF
-        - 6 = EXTRASUNNY_SF
-        - 7 = CLOUDY_SF
-        - 8 = RAINY_SF
-        - 9 = FOGGY_SF
-        - 10 = SUNNY_VEGAS
-        - 11 = EXTRASUNNY_VEGAS (heat waves)
-        - 12 = CLOUDY_VEGAS
-        - 13 = EXTRASUNNY_COUNTRYSIDE
-        - 14 = SUNNY_COUNTRYSIDE
-        - 15 = CLOUDY_COUNTRYSIDE
-        - 16 = RAINY_COUNTRYSIDE
-        - 17 = EXTRASUNNY_DESERT
-        - 18 = SUNNY_DESERT
-        - 19 = SANDSTORM_DESERT
-        - 20 = UNDERWATER (greenish, foggy)
+            *  - ID
+               - Constant name
+               - Comments
+            *  - 0
+               - EXTRASUNNY_LA
+               -
+            *  - 1
+               - SUNNY_LA
+               -
+            *  - 2
+               - EXTRASUNNY_SMOG_LA
+               -
+            *  - 3
+               - SUNNY_SMOG_LA
+               -
+            *  - 4
+               - CLOUDY_LA
+               -
+            *  - 5
+               - SUNNY_SF
+               -
+            *  - 6
+               - EXTRASUNNY_SF
+               -
+            *  - 7
+               - CLOUDY_SF
+               -
+            *  - 8
+               - RAINY_SF
+               -
+            *  - 9
+               - FOGGY_SF
+               -
+            *  - 10
+               - SUNNY_VEGAS
+               -
+            *  - 11
+               - EXTRASUNNY_VEGAS 
+               - Has heat wave effect
+            *  - 12
+               - CLOUDY_VEGAS
+               -
+            *  - 13
+               - EXTRASUNNY_COUNTRYSIDE
+               -
+            *  - 14
+               - SUNNY_COUNTRYSIDE
+               -
+            *  - 15
+               - CLOUDY_COUNTRYSIDE
+               -
+            *  - 16
+               - RAINY_COUNTRYSIDE
+               -
+            *  - 17
+               - EXTRASUNNY_DESERT
+               -
+            *  - 18
+               - SUNNY_DESERT
+               -
+            *  - 19
+               - SANDSTORM_DESERT
+               -
+            *  - 20
+               - UNDERWATER
+               - greenish, foggy effect
 
+        More information and details:
         https://dev.prineside.com/en/gtasa_weather_id/
 
-        To set weather for everyone, use `set_weather(weatherid)`.
+        To set weather for everyone, use ``set_weather(weatherid)`` which is a
+        global function.
         """
         return set_player_weather(self.id, weather)
 
     def force_class_selection(self) -> bool:
-        """Forces a player to go back to class selection.
+        """Forces a player to go back to class selection on next spawn.
 
-        https://open.mp/docs/scripting/functions/ForceClassSelection for more
-        information.
+        .. note:: You can quickly get the player into class selection by
+            toggling spectating on and then off. Will not perform a state
+            change to ``PLAYER_STATE_WASTED`` if the spectate toggle method
+            is used.
         """
         return force_class_selection(self.id)
 
@@ -705,12 +759,12 @@ class Player:
 
         Available Values:
 
-        - 4 - FIGHT_STYLE_NORMAL
-        - 5 - FIGHT_STYLE_BOXING
-        - 6 - FIGHT_STYLE_KUNGFU
-        - 7 - FIGHT_STYLE_KNEEHEAD
-        - 15 - FIGHT_STYLE_GRABKICK
-        - 16 - FIGHT_STYLE_ELBOW
+            - 4 - FIGHT_STYLE_NORMAL
+            - 5 - FIGHT_STYLE_BOXING
+            - 6 - FIGHT_STYLE_KUNGFU
+            - 7 - FIGHT_STYLE_KNEEHEAD
+            - 15 - FIGHT_STYLE_GRABKICK
+            - 16 - FIGHT_STYLE_ELBOW
         """
         return set_player_fighting_style(self.id, style)
 
@@ -840,9 +894,12 @@ class Player:
         return stop_audio_stream_for_player(self.id)
 
     def set_shop_name(self, shop_name: str) -> bool:
-        """Loads or unloads an interior script for a player 
-        (for example the ammunation menu).
+        """Loads or unloads an interior script for a player.
 
+        This can for example be the ammunation menu, that belongs to the
+        ammunition interior.
+
+        Learn more here:
         https://sampwiki.blast.hk/wiki/ShopNames
         """
         return set_player_shop_name(self.id, shop_name)
@@ -850,22 +907,47 @@ class Player:
     def set_skill_level(self, weapon_skill: int, level: int) -> bool:
         """Set the skill level of a certain weapon type for a player.
 
-        - weapon_skill - The weapon to set skill on
-        - level - The level, range 0-999 where 999 is max skill.
+        .. list-table:: Parameters
+            :widths: 15 30
+            :header-rows: 1
 
-        Available values for skill
+            * - Parameter
+              - Description
+            * - weapon_skill
+              - The weapon to set skill on (see below table)
+            * - level
+              - The level, range 0-999 where 999 is max skill
 
-        -  0 - WEAPONSKILL_PISTOL
-        -  1 - WEAPONSKILL_PISTOL_SILENCED
-        -  2 - WEAPONSKILL_DESERT_EAGLE
-        -  3 - WEAPONSKILL_SHOTGUN
-        -  4 - WEAPONSKILL_SAWNOFF_SHOTGUN
-        -  5 - WEAPONSKILL_SPAS12_SHOTGUN
-        -  6 - WEAPONSKILL_MICRO_UZI
-        -  7 - WEAPONSKILL_MP5
-        -  8 - WEAPONSKILL_AK47
-        -  9 - WEAPONSKILL_M4
-        - 10 - WEAPONSKILL_SNIPERRIFLE
+        ``weapon_skill`` available values:
+
+        .. list-table:: Weapon skills
+            :widths: 10 30
+            :header-rows: 1
+
+            * - ID
+              - Constant
+            * - 0
+              - WEAPONSKILL_PISTOL
+            * - 1
+              - WEAPONSKILL_PISTOL_SILENCED
+            * - 2
+              - WEAPONSKILL_DESERT_EAGLE
+            * - 3
+              - WEAPONSKILL_SHOTGUN
+            * - 4
+              - WEAPONSKILL_SAWNOFF_SHOTGUN
+            * - 5
+              - WEAPONSKILL_SPAS12_SHOTGUN
+            * - 6
+              - WEAPONSKILL_MICRO_UZI
+            * - 7
+              - WEAPONSKILL_MP5
+            * - 8
+              - WEAPONSKILL_AK47
+            * - 9
+              - WEAPONSKILL_M4
+            * - 10
+              - WEAPONSKILL_SNIPERRIFLE
         """
         return set_player_skill_level(self.id, weapon_skill, level)
 
@@ -889,37 +971,51 @@ class Player:
         """
         return get_player_surfing_object_id(self.id)
 
-    def remove_building(self, modelid, fX, fY, fZ, fRadius):
-        """Removes a standard San Andreas model for a single player within a specified range
+    def remove_building(
+        self,
+        model_id: int,
+        x: float,
+        y: float,
+        z: float,
+        radius: float
+    ) -> bool:
+        """Removes a standard San Andreas model for a single player within a
+        specified range.
 
-        _____________
+        .. list-table:: Parameters
+            :widths: 30 25
+            :header-rows: 1
 
-        - modelid      \t The model to remove.
-        - Float:fX     \t The X coordinate around which the objects will be removed.
-        - Float:fY     \t The Y coordinate around which the objects will be removed.
-        - Float:fZ     \t The Z coordinate around which the objects will be removed.
-        - Float:fRadius\t The radius around the specified point to remove objects with the specified model.
-        _____________
+            * - Parameter
+              - Desccription
+            * - model_id
+              - The model to remove.
+            * - Float:fX
+              - The X coordinate around which the objects will be removed.
+            * - Float:fY
+              - The Y coordinate around which the objects will be removed.
+            * - Float:fZ
+              - The Z coordinate around which the objects will be removed.
+            * - Float:fRadius
+              - The radius around the specified point to remove objects with\
+                the specified model.
 
-        Returns
-        -----
-        - No value is returned
+        .. warning::
+            - There appears to be a limit of around 1000 lines/objects.\
+            There is no workaround.
+            - When removing the same object for a player, they will crash.
+            - Commonly, players crash when *re-connecting* to the server\
+                because the server removes buildings on ``OnPlayerConnect``.
 
-        Warnings
-        -----
-        - There appears to be a limit of around 1000 lines/objects. There is no workaround.
-        - When removing the same object for a player, they will crash.
-        - Commonly, players crash when *reconnecting* to the server because the server removes buildings on OnPlayerConnect.
+        Example usage:
 
-        Example
-        -----
-        ```py
-        # This will remove ALL map objects:
-        player.remove_building(-1, 0.0, 0.0, 0.0, 6000.0)
+        .. code-block:: python
 
-        ```
+            # This will remove ALL map objects for the player:
+            player.remove_building(-1, 0.0, 0.0, 0.0, 6000.0)
+
         """
-        return remove_building_for_player(self.id, modelid, fX, fY, fZ, fRadius)
+        return remove_building_for_player(self.id, model_id, x, y, z, radius)
 
     def get_last_shot_vectors(
         self
@@ -992,117 +1088,145 @@ class Player:
 
     def set_attached_object(
         self,
-        index,
-        modelid,
-        bone,
-        fOffsetX=0.0,
-        fOffsetY=0.0,
-        fOffsetZ=0.0,
-        fRotX=0.0,
-        fRotY=0.0,
-        fRotZ=0.0,
-        fScaleX=1.0,
-        fScaleY=1.0,
-        fScaleZ=1.0,
-        materialcolor1=0,
-        materialcolor2=0,
-    ):
+        index: int,
+        model_id: int,
+        bone: int,
+        offset_x: float = 0.0,
+        offset_y: float = 0.0,
+        offset_z: float = 0.0,
+        rotation_x: float = 0.0,
+        rotation_y: float = 0.0,
+        rotation_z: float = 0.0,
+        scale_x: float = 1.0,
+        scale_y: float = 1.0,
+        scale_z: float = 1.0,
+        material_color_1: int = 0,
+        material_color_2: int = 0,
+    ) -> bool:
         """Attach an object to a specific bone on a player.
 
-        ___________
+        .. list-table:: Parameters
+            :widths: 30 25
+            :header-rows: 1
 
-        - index \t\tThe index (slot) to assign the object to (0-9).
-        - modelid  \t\tThe model to attach.
-        - bone     \t\tThe bone to attach the object to. (0-18)
-        - fOffsetX \t\t(optional) X axis offset for the object position.
-        - fOffsetY \t\t(optional) Y axis offset for the object position.
-        - fOffsetZ \t\t(optional) Z axis offset for the object position.
-        - fRotX   \t \t(optional) X axis rotation of the object.
-        - fRotY   \t \t(optional) Y axis rotation of the object.
-        - fRotZ   \t \t(optional) Z axis rotation of the object.
-        - fScaleX \t \t(optional) X axis scale of the object.
-        - fScaleY \t \t(optional) Y axis scale of the object.
-        - fScaleZ \t \t(optional) Z axis scale of the object.
-        - materialcolor1 \t(optional) The first object color to set, as an integer or hex in ARGB color format.
-        - materialcolor2 \t(optional) The second object color to set, as an integer or hex in ARGB color format
-        ___________
+            * - Parameter
+              - Description
+            * - index
+              - The index (slot) to assign the object to (0-9).
+            * - model_id
+              - The model to attach.
+            * - bone
+              - The bone to attach the object to. (0-18)
+            * - offset_x
+              - (optional) X axis offset for the object position.
+            * - offset_y
+              - (optional) Y axis offset for the object position.
+            * - offset_z
+              - (optional) Z axis offset for the object position.
+            * - rotation_x
+              - (optional) X axis rotation of the object.
+            * - rotation_y
+              - (optional) Y axis rotation of the object.
+            * - rotation_z
+              - (optional) Z axis rotation of the object.
+            * - scale_x
+              - (optional) X axis scale of the object.
+            * - scale_y
+              - (optional) Y axis scale of the object.
+            * - scale_z
+              - (optional) Z axis scale of the object.
+            * - material_color_1
+              - (optional) The first object color to set, as an integer or hex in ARGB color format.
+            * - material_color_2
+              - (optional) The second object color to set, as an integer or hex in ARGB color format
 
 
-        Bone values
-        -------
-         1 	Spine
-         2 	Head
-         3 	Left upper arm
-         4 	Right upper arm
-         5 	Left hand
-         6 	Right hand
-         7 	Left thigh
-         8 	Right thigh
-         9 	Left foot
-        10 	Right foot
-        11 	Right calf
-        12 	Left calf
-        13 	Left forearm
-        14 	Right forearm
-        15 	Left clavicle (shoulder)
-        16 	Right clavicle (shoulder)
-        17 	Neck
-        18 	Jaw
+        Available bones:
 
-        Returns
-        -------
-        0   on failure
-        1   on success
+        .. list-table:: Parameters
+            :widths: 30 25
+            :header-rows: 1
 
-        Example
-        --------
-        ```py
-        # Give player a white hat, and paint it green
-        player.set_attached_object(3, 19487, 2, 0.101, -0.0, 0.0, 5.50, 84.60, 83.7, 1.0, 1.0, 1.0, 0xFF00FF00)
-        ```
+            * - ID
+              - Bodypart
+            * - 1
+              - Spine
+            * - 2
+              - Head
+            * - 3
+              - Left upper arm
+            * - 4
+              - Right upper arm
+            * - 5
+              - Left hand
+            * - 6
+              - Right hand
+            * - 7
+              - Left thigh
+            * - 8
+              - Right thigh
+            * - 9
+              - Left foot
+            * - 10
+              - Right foot
+            * - 11
+              - Right calf
+            * - 12
+              - Left calf
+            * - 13
+              - Left forearm
+            * - 14
+              - Right forearm
+            * - 15
+              - Left clavicle (shoulder)
+            * - 16
+              - Right clavicle (shoulder)
+            * - 17
+              - Neck
+            * - 18
+              - Jaw
+
+        Example:
+
+        .. code-block:: python
+
+            # Give player a white hat, and paint it green
+            player.set_attached_object(3, 19487, 2, 0.101, -0.0, 0.0, 5.50, 84.60, 83.7, 1.0, 1.0, 1.0, 0xFF00FF00)
         """
         return set_player_attached_object(
             self.id,
             index,
-            modelid,
+            model_id,
             bone,
-            fOffsetX,
-            fOffsetY,
-            fOffsetZ,
-            fRotX,
-            fRotY,
-            fRotZ,
-            fScaleX,
-            fScaleY,
-            fScaleZ,
-            materialcolor1,
-            materialcolor2,
+            offset_x,
+            offset_y,
+            offset_z,
+            rotation_x,
+            rotation_y,
+            rotation_z,
+            scale_x,
+            scale_y,
+            scale_z,
+            material_color_1,
+            material_color_2,
         )
 
-    def remove_attached_object(self, index):
+    def remove_attached_object(self, index: int) -> bool:
         """Remove an attached object from a player.
 
-        - index \t The index to remove the object from (0-9)
+            - ``index``: The index to remove the object from (0-9)
 
-        Returns
-        ------
-        1   on success
-        0   on failure
+        .. code-block:: python
 
-        Example
-        ------
-        ```py
-        # Remove all player-attached objects
-        if "/removeall" in cmdtext[0:10]:
-            for slot in range(MAX_PLAYER_ATTACHED_OBJECTS) :
-                if player.is_attached_object_slot_used(slot):
-                    player.remove_attached_object(slot)
-        ```
-
+            # Remove all player-attached objects
+            if "/removeall" in cmdtext[0:9]:
+                for slot in range(MAX_PLAYER_ATTACHED_OBJECTS) :
+                    if player.is_attached_object_slot_used(slot):
+                        player.remove_attached_object(slot)
         """
         return remove_player_attached_object(self.id, index)
 
-    def is_attached_object_slot_used(self, index):
+    def is_attached_object_slot_used(self, index: int) -> bool:
         """Check if a player has an object attached in the specified index (slot).
 
         - index \t The index (slot) to check.
@@ -1125,421 +1249,16 @@ class Player:
         """
         return is_player_attached_object_slot_used(self.id, index)
 
-    def edit_attached_object(self, index):
-        """Enter edition mode for an attached object.
+    def edit_attached_object(self, index: int) -> bool:
+        """Enter edit mode for an attached object.
 
-        - index \t the slot of the attached object to edit.
+            - ``index``: The slot of the attached object to edit.
 
-        Returns
-        -------
-        1: success
-        0: failure
+        Available slots indexes are 0 to 9.
 
-        https://sampwiki.blast.hk/wiki/EditAttachedObject
+        See more here: https://sampwiki.blast.hk/wiki/EditAttachedObject
         """
         return edit_attached_object(self.id, index)
-
-    def create_text_draw(self, x, y, text):
-        """Create a textdraw
-
-        - x: \t x-position as a float on the screen
-        - y: \t y-position as a float on the screen
-        - text:  the text to show.
-
-        https://sampwiki.blast.hk/wiki/CreatePlayerTextDraw
-
-        Returns
-        -----
-        - id \t The textdraw ID that references this textdraw as an integer.
-
-        Notes
-        ----
-        - You need the textdraw ID later in order to remove or edit it.
-        - The x,y coordinate is the top left coordinate for the text draw area based on a 640x448 "canvas" (irrespective of screen resolution). If you plan on using TextDrawAlignment with alignment 3 (right), the x,y coordinate is the top right coordinate for the text draw.
-        - This function merely CREATES the textdraw, you must use PlayerTextDrawShow to show it to a player.
-        - It is recommended to use WHOLE numbers instead of decimal positions when creating player textdraws to ensure resolution friendly design.
-        - Player-textdraws are automatically destroyed when a player disconnects
-        - Keyboard key mapping codes (such as ~k~~VEHICLE_ENTER_EXIT~) Doesn't work beyond 255th character.
-
-        Warnings
-        ----
-        - If you choose values for y that are less than 1, the first text row will be invisible and only the shadow is visible.
-        - `text` must NOT be empty or the server will crash! Use " " (a space) or _ (underscore) instead
-        - If the last character in the text is a space (" "), the text will all be blank.
-        - If part of the text is off-screen, the color of the text will not show, only the shadow (if enabled) will.
-
-        """
-        return create_player_text_draw(self.id, x, y, text)
-
-    def text_draw_destroy(self, text):
-        """Destroy a textdraw with a given textdraw ID.
-
-        - text \t The textdraw ID to destroy.
-
-        Returns
-        --------
-        0: failure
-        1: success
-        """
-        return player_text_draw_destroy(self.id, text)
-
-    def text_draw_letter_size(self, text, x, y):
-        """Sets the width and height of the letters in a player-textdraw.
-        ___________
-
-        - text    \t The ID of the player-textdraw to change the letter size of
-        - Float:x \t Width of a char.
-        - Float:y \t Height of a char.
-        ___________
-
-        Returns
-        ------
-        - Does not return any value
-
-        Tips
-        -----
-        - Fonts appear to look the best with an X to Y ratio of 1 to 4 (e.g. if x is 0.5 then y should be 2).
-        - When using this function purely for the benefit of affecting the textdraw box, multiply 'Y' by 0.135 to convert to TextDrawTextSize-like measurements
-        Example
-        -----
-
-        No example available for player-textdraws, but check: https://sampwiki.blast.hk/wiki/PlayerTextDrawLetterSize
-
-
-        """
-        return player_text_draw_letter_size(self.id, text, x, y)
-
-    def text_draw_text_size(self, text, x, y):
-        """Change the size of a player-textdraw (box if PlayerTextDrawUseBox is enabled and/or clickable area for use with PlayerTextDrawSetSelectable).
-        __________
-
-        - text    \t The ID of the player-textdraw to set the size of.
-        - Float:x \t The size on the X axis (left/right) following the same 640x480 grid as TextDrawCreate.
-        - Float:y \t The size on the Y axis (up/down) following the same 640x480 grid as TextDrawCreate.
-        __________
-
-        Returns
-        -----
-        - Does not return any value
-
-        Notes
-        -----
-        The x and y have different meanings with different player.text_draw_alignment values:
-            1 (left): they are the right-most corner of the box, absolute coordinates.
-            2 (center): they need to inverted (switch the two) and the x value is the overall width of the box.
-            3 (right): the x and y are the coordinates of the left-most corner of the box
-        Using font type 4 (sprite) and 5 (model preview) converts X and Y of this function from corner coordinates to WIDTH and HEIGHT (offsets).
-
-        The TextDraw box starts 10.0 units up and 5.0 to the left as the origin (TextDrawCreate coordinate).
-
-        This function defines the clickable area for use with PlayerTextDrawSetSelectable, whether a box is shown or not.
-
-
-        Example
-        -----
-        No example available for player-textdraws, but check: https://sampwiki.blast.hk/wiki/PlayerTextDrawTextSize
-
-        """
-        return player_text_draw_text_size(self.id, text, x, y)
-
-    def text_draw_alignment(self, text, alignment):
-        """Set the text-alignment of a player-textdraw
-        ___________
-
-        - text   	The ID of the player-textdraw to set the alignment of.
-        - alignment	1-left, 2-centered, 3-right
-        ___________
-
-        Returns
-        ------
-        - No sepcific value is returned
-
-        Note
-        ------
-        - For alignment 2 (center) the x and y values of TextSize need to be swapped
-
-        Example
-        ----
-        No example available for player-textdraws, but read more here: https://sampwiki.blast.hk/wiki/PlayerTextDrawAlignment
-        """
-        return player_text_draw_alignment(self.id, text, alignment)
-
-    def text_draw_color(self, text, color):
-        """Sets the text color of a player-textdraw
-
-        You can also use Gametext colors in textdraws.
-
-        *NOTE* The textdraw must be re-shown to the player in order to update the color.
-        ________
-
-        - text  \t Textdraw id to be changed color of, as an int
-        - color \t Color in Hexadecimal format
-        ________
-
-        Returns
-        -----
-        - No value is returned
-
-        Example
-        -----
-        No example available for player-textdraws, but check out: https://sampwiki.blast.hk/wiki/PlayerTextDrawColor
-        """
-        return player_text_draw_color(self.id, text, color)
-
-    def text_draw_use_box(self, text, use):
-        """Toggle the box on a player-textdraw.
-        ________
-
-        - text \t Textdraw ID
-        - use  \t 1 to use a box, 0 to hide the box.
-        ________
-
-        Returns
-        -----
-        - No value is returned
-
-        Example
-        ----
-        No example available for player-textdraws, but check out: https://sampwiki.blast.hk/wiki/PlayerTextDrawUseBox
-        """
-        return player_text_draw_use_box(self.id, text, use)
-
-    def text_draw_box_color(self, text, color):
-        """Sets the text color of a player-textdraw box
-        ________
-
-        - text  \t Textdraw id to be changed box color of, as an int
-        - color \t Color in Hexadecimal format. Alpha (transparency) is supported
-        ________
-
-        Returns
-        -----
-        - No value is returned
-
-        Example
-        -----
-        No example available for player-textdraws, but check out: https://sampwiki.blast.hk/wiki/PlayerTextDrawBoxColor
-        """
-        return player_text_draw_box_color(self.id, text, color)
-
-    def text_draw_set_shadow(self, text, size):
-        """Adds a shadow to the bottom-right side of the text in a player-textdraw. The shadow font matches the text font.
-        _________
-
-        - text	\tThe ID of the player-textdraw to change the shadow of
-        - size	\tThe size of the shadow. 0 will hide the shadow.
-        _________
-
-        Returns
-        ----
-        1: successful
-        0: failed - maybe player textdraw doesn't exist?
-
-        Note
-        ----
-        - The shadow can be cut by the box area if the size is set too big for the area
-
-        Example
-        ----
-        No example available for player-textdraws
-        """
-        return player_text_draw_set_shadow(self.id, text, size)
-
-    def text_draw_set_outline(self, text, size):
-        """Set the outline of a player-textdraw. The outline colour cannot be changed unless PlayerTextDrawBackgroundColor is used
-        ___________
-
-        - text\t\tThe ID of the player-textdraw to set the outline of
-        - size\t\tThe thickness of the outline
-        ___________
-
-        Returns
-        ----
-        - No values are returned
-
-        Example
-        ----
-        No example available for player-textdraws
-        """
-        return player_text_draw_set_outline(self.id, text, size)
-
-    def text_draw_background_color(self, text, color):
-        """| METHOD |
-        _________
-
-        - text	    The ID of the player-textdraw to set the background color of
-        - color	    The color that the textdraw should be set to.
-        _________
-        Notes
-        -----
-        - If PlayerTextDrawSetOutline is used with size > 0, the outline color will match the color used in text_draw_background_color.
-        - Changing the value of color seems to alter the color used in text_draw_color
-
-        Returns
-        ------
-        - No value returned
-
-        Example
-        -------
-        No example available for player-textdraws
-
-        """
-        return player_text_draw_background_color(self.id, text, color)
-
-    def text_draw_font(self, text, font):
-        """Change the font of a textdraw.
-
-        See all fonts here: https://sampwiki.blast.hk/wiki/PlayerTextDrawFont
-        ________
-
-        - text \t The ID of the player-textdraw to change the font of
-        - font \t There are four fonts, 0-3. Above 4 may crash the client.
-        ________
-
-        Returns
-        -----
-        - No value is returned
-
-        """
-        return player_text_draw_font(self.id, text, font)
-
-    def text_draw_set_proportional(self, text, set):
-        """Appears to scale text spacing to a proportional ratio.
-        Useful when using PlayerTextDrawLetterSize to ensure the text has even character spacing.
-        _______________
-
-        - text \t The ID of the player-textdraw to set the proportionality of
-        - set  \t 1 to enable proportionality, 0 to disable
-        _______________
-
-        Returns
-        -----
-        - No value is returned
-
-        """
-        return player_text_draw_set_proportional(self.id, text, set)
-
-    def text_draw_set_selectable(self, text, set):
-        """This method MUST be used BEFORE the textdraw is shown to the player!
-
-        This method makes the textdraw selectable. `player.text_draw_text_size` defines the clickable area.
-
-        _________
-
-        - text	        The ID of the player-textdraw
-        - set	        The color that the textdraw should be set to.
-        _________
-
-
-        Returns
-        ----
-        - No value returned
-
-        Example
-        ----
-        No example available for player-textdraws.
-        """
-        return player_text_draw_set_selectable(self.id, text, set)
-
-    def player_text_draw_show(self, text):
-        """Use this method to show a player-textdraw for the player.
-
-        - text \t\t The textdraw id to show for the player
-        """
-        return player_text_draw_show(self.id, text)
-
-    def player_text_draw_hide(self, text):
-        """Use this method to hide a player-textdraw for the player.
-
-        - text\t\t The textdraw id to hide for the player
-
-        Returns
-        ----
-        - No values returned
-        """
-        return player_text_draw_hide(self.id, text)
-
-    def text_draw_hide_for_player(self, text):
-        """This method hides a *global* textdraw for the player. To hide a player-textdraw, check `player.player_text_draw_hide`
-
-        - text\t\tThe global textdraw id to hide for the player.
-
-        Returns
-        ----
-        - No values returned
-        """
-        return text_draw_hide_for_player(self.id, text)
-
-    def text_draw_set_string(self, text, string):
-        """Update the shown text in the player-textdraw. You don't have to show the textdraw again in order to apply the changes
-
-        ____________
-
-        - text  	The ID of the textdraw to change
-        - string	The new string for the TextDraw. Max length: 1023 characters
-        ____________
-
-        Returns
-        -----
-        - No values returned
-
-        """
-        return player_text_draw_set_string(self.id, text, string)
-
-    def text_draw_set_preview_model(self, text, modelindex):
-        """Sets a player textdraw 2D preview sprite of a specified model ID.
-        ____________
-
-        - text  	The ID of the textdraw to change
-        - modelid	The modelid to show. Can be any valid object id.
-        ____________
-
-        Returns
-        ----
-        1: The function executed successfully. If an invalid model is passed 'success' is reported, but the model will appear as a yellow/black question mark.
-        0: The function failed to execute. Player and/or textdraw do not exist.
-
-
-        """
-        return player_text_draw_set_preview_model(self.id, text, modelindex)
-
-    def text_draw_set_preview_rot(self, text, fRotX, fRotY, fRotZ, fZoom=1.0):
-        """Sets the rotation and zoom of a 3D model preview player-textdraw.
-        __________________
-
-        - text	\tThe ID of the player-textdraw to change.
-        - Float:fRotX	The X rotation value.
-        - Float:fRotY	The Y rotation value.
-        - Float:fRotZ	The Z rotation value.
-        - Float:fZoom	The zoom value, default value 1.0, smaller values make the camera closer and larger values make the camera further away.
-        __________________
-
-        Returns
-        ------
-        - No values returned
-        """
-        return player_text_draw_set_preview_rot(
-            self.id, text, fRotX, fRotY, fRotZ, fZoom
-        )
-
-    def text_draw_set_preview_veh_col(self, text, color1, color2):
-        """Set the color of a vehicle in a player-textdraw model preview (if a vehicle is shown).
-
-        The textdraw MUST use the font TEXT_DRAW_FONT_MODEL_PREVIEW and be showing a vehicle, in order for this method to have an effect.
-
-        _______________
-
-        - text  	The ID of the player's player-textdraw to change.
-        - color1	The color to set the vehicle's primary color to.
-        - color2	The color to set the vehicle's secondary color to.
-        _______________
-
-        Returns
-        ------
-        - No values returned
-
-        """
-        return player_text_draw_set_preview_veh_col(self.id, text, color1, color2)
 
     def get_pvar_int(self, varname):
         """| METHOD |"""

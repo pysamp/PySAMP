@@ -26,4 +26,6 @@ target/
 docker/data
 docker/build/PySAMP.so
 venv/
-docs/
+_static/
+_templates/
+_build/
