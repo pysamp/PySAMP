@@ -7,3 +7,4 @@ pysamp
    player
    object
    vehicle
+   player_text_draw

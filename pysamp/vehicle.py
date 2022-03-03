@@ -102,11 +102,11 @@ class Vehicle:
         """Lets you know if a specific player has streamed in the vehicle."""
         return is_vehicle_streamed_in(self.id, for_player.id)
 
-    def get_position(self) -> tuple[float, float, float]:
+    def get_position(self) -> "tuple[float, float, float]":
         """Get the vehicle's current position."""
         return get_vehicle_pos(self.id)
 
-    def set_position(self, position: tuple[float, float, float]) -> bool:
+    def set_position(self, position: "tuple[float, float, float]") -> bool:
         """Sets the vehicle position directly on the passed position."""
         try:
             x, y, z = position
@@ -126,7 +126,7 @@ class Vehicle:
         """Set the vehicle's heading hangle. 0.0 => z_angle < 360.0"""
         return set_vehicle_z_angle(self.id, z_angle)
 
-    def get_rotation_quat(self) -> tuple[float, float, float, float]:
+    def get_rotation_quat(self) -> "tuple[float, float, float, float]":
         """Returns a vehicle's rotation on all axes as a quaternion"""
         return get_vehicle_rotation_quat(self.id)
 
@@ -138,12 +138,12 @@ class Vehicle:
             self.id, player.id, objective, doors_locked
         )
 
-    def get_params_ex(self) -> tuple[int, int, int, int, int, int, int]:
+    def get_params_ex(self) -> "tuple[int, int, int, int, int, int, int]":
         """Get the vehicle's params."""
         return get_vehicle_params_ex(self.id)
 
     def set_params_ex(
-        self, param: tuple[int, int, int, int, int, int, int]
+        self, param: "tuple[int, int, int, int, int, int, int]"
     ) -> bool:
         """Set additional parameters on the vehicle."""
         try:
@@ -166,7 +166,7 @@ class Vehicle:
         """
         return get_vehicle_params_siren_state(self.id)
 
-    def get_params_car_doors(self) -> tuple[int, int, int, int]:
+    def get_params_car_doors(self) -> "tuple[int, int, int, int]":
         """Allows you to retrieve the current state of a vehicle's doors
 
         Returns -1 if the door state is not set, like on a bike or a 2-door.
@@ -177,7 +177,7 @@ class Vehicle:
         """
         return get_vehicle_params_car_doors(self.id)
 
-    def set_params_car_doors(self, doors: tuple[int, int, int, int]) -> bool:
+    def set_params_car_doors(self, doors: "tuple[int, int, int, int]") -> bool:
         """Open and close vehicle doors.
 
         The doors tuple should be in this order:
@@ -197,12 +197,12 @@ class Vehicle:
                 self.id, driver, passenger, backleft, backright
             )
 
-    def get_params_car_windows(self) -> tuple[int, int, int, int]:
+    def get_params_car_windows(self) -> "tuple[int, int, int, int]":
         """Check if windows are available and if they are closed / open."""
         return get_vehicle_params_car_windows(self.id)
 
     def set_params_car_windows(
-        self, windows: tuple[int, int, int, int]
+        self, windows: "tuple[int, int, int, int]"
     ) -> bool:
         """Allows you to open and close the windows of a vehicle."""
         try:
@@ -315,11 +315,11 @@ class Vehicle:
         """Fully repairs the vehicle - including health"""
         return repair_vehicle(self.id)
 
-    def get_velocity(self) -> tuple[float, float, float]:
+    def get_velocity(self) -> "tuple[float, float, float]":
         """Get the vehicle velocity. Vector is relative to the car axis"""
         return get_vehicle_velocity(self.id)
 
-    def set_velocity(self, vector: tuple[float, float, float]) -> bool:
+    def set_velocity(self, vector: "tuple[float, float, float]") -> bool:
         """Set the car velocity. Relative to the car axis."""
         try:
             x, y, z = vector
@@ -328,7 +328,7 @@ class Vehicle:
         else:
             return set_vehicle_velocity(self.id, x, y, z)
 
-    def set_angular_velocity(self, vector: tuple[float, float, float]) -> bool:
+    def set_angular_velocity(self, vector: "tuple[float, float, float]") -> bool:
         """Set the angular velocity of a vehicle.
 
         This is set relative to world space and not vehicle's local space.
@@ -340,7 +340,7 @@ class Vehicle:
         else:
             return set_vehicle_angular_velocity(self.id, x, y, z)
 
-    def get_damage_status(self) -> tuple[int, int, int, int]:
+    def get_damage_status(self) -> "tuple[int, int, int, int]":
         """This method returns information to you about if parts of the
         car has been damaged, or tires has been deflated.
 
@@ -353,7 +353,7 @@ class Vehicle:
         """  # TODO: Add a good example
         return get_vehicle_damage_status(self.id)
 
-    def set_damage_status(self, param: tuple[int, int, int, int]) -> bool:
+    def set_damage_status(self, param: "tuple[int, int, int, int]") -> bool:
         """Set vehicle damage status.
 
         Please refer to:

@@ -237,7 +237,7 @@ class Player:
         """
         return spawn_player(self.id)
 
-    def set_pos_find_z(self, position: tuple[float, float, float]) -> bool:
+    def set_pos_find_z(self, position: "tuple[float, float, float]") -> bool:
         """This sets the players position then adjusts the players
         z-coordinate to the nearest solid ground under the position.
 
@@ -252,11 +252,11 @@ class Player:
         else:
             return set_player_pos_find_z(self.id, x, y, z)
 
-    def get_pos(self) -> tuple[float, float, float]:
+    def get_pos(self) -> "tuple[float, float, float]":
         """Get the position of the player."""
         return get_player_pos(self.id)
 
-    def set_pos(self, pos: tuple[float, float, float]) -> bool:
+    def set_pos(self, pos: "tuple[float, float, float]") -> bool:
         """Set the player's position"""
         try:
             x, y, z = pos
@@ -511,7 +511,7 @@ class Player:
         """
         return set_player_armed_weapon(self.id, weapon_id)
 
-    def get_weapon_data(self, slot: int) -> tuple[int, int]:
+    def get_weapon_data(self, slot: int) -> "tuple[int, int]":
         """Get weapon data on a given slot.
 
         The weapon slot can be 0-13.
@@ -595,7 +595,7 @@ class Player:
         """
         return get_player_weapon(self.id)
 
-    def get_keys(self) -> tuple[int, int, int]:
+    def get_keys(self) -> "tuple[int, int, int]":
         """Check which keys a player is pressing.
 
         See all keys here: https://sampwiki.blast.hk/wiki/Keys
@@ -619,7 +619,7 @@ class Player:
         """
         return get_player_keys(self.id)
 
-    def get_time(self) -> tuple[int, int]:
+    def get_time(self) -> "tuple[int, int]":
         """Get the player's game time.
 
         Value is represented as a tuple with two values: `hour, minute`
@@ -768,11 +768,11 @@ class Player:
         """
         return set_player_fighting_style(self.id, style)
 
-    def get_velocity(self) -> tuple[float, float, float]:
+    def get_velocity(self) -> "tuple[float, float, float]":
         """Get the velocity of the player."""
         return get_player_velocity(self.id)
 
-    def set_velocity(self, pos: tuple[float, float, float]) -> bool:
+    def set_velocity(self, pos: "tuple[float, float, float]") -> bool:
         """Set the velocity of a player in X,Y,Z direction."""
         try:
             x, y, z = pos
@@ -1019,14 +1019,7 @@ class Player:
 
     def get_last_shot_vectors(
         self
-    ) -> tuple[
-                float,
-                float,
-                float,
-                float,
-                float,
-                float
-               ]:
+    ) -> "tuple[float, float, float, float, float, float]":
         """Find out from where a bullet was shot, and where it hit/collided.
 
         The values are returned as a tuple, listed in the following table:

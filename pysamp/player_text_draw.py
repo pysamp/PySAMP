@@ -1,15 +1,23 @@
-from pysamp import (
-    player_text_draw,
-    player_text_draw_alignment,
-    player_text_draw_background_color,
-    player_text_draw_box_color,
-    player_text_draw_color
-)
 from player import Player
+from pysamp import (create_player_text_draw,
+                    player_text_draw_alignment,
+                    player_text_draw_background_color,
+                    player_text_draw_box_color, player_text_draw_color,
+                    player_text_draw_destroy, player_text_draw_font,
+                    player_text_draw_hide, player_text_draw_letter_size,
+                    player_text_draw_set_outline,
+                    player_text_draw_set_preview_model,
+                    player_text_draw_set_preview_rot,
+                    player_text_draw_set_preview_veh_col,
+                    player_text_draw_set_proportional,
+                    player_text_draw_set_selectable,
+                    player_text_draw_set_shadow, player_text_draw_set_string,
+                    player_text_draw_show, player_text_draw_text_size,
+                    player_text_draw_use_box, text_draw_hide_for_player)
 
 
-class TextDraw(Player):
-    def __init__(self, x: float, y: float, text: str) -> None:
+class PlayerTextDraw():
+    def __init__(player: "Player", x: float, y: float, text: str) -> None:
         """Create a textdraw for the player.
 
         :param x: the x-position as a float on the screen.
@@ -18,7 +26,6 @@ class TextDraw(Player):
         :return: The textdraw ID that references this textdraw as an integer.
 
         .. note::
-            - You need the textdraw ID later in order to remove or edit it.
             - The (0,0) coordinate is the top left coordinate for the textdraw\
                 area based on a 640x448 "canvas" (irrespective of screen\
                 resolution). If you plan on using\
@@ -45,9 +52,9 @@ class TextDraw(Player):
             - If part of the text is off-screen, the color of the text will\
                 not show, only the shadow (if enabled) will.
         """
-        return create_player_text_draw (self.id, x, y, text)
+        return create_player_text_draw(player, x, y, text)
 
-    def text_draw_destroy(self, text: str) -> bool:
+    def text_draw_destroy(self, text) -> bool:
         """Destroy a textdraw with a given textdraw ID.
 
         :param text: The textdraw ID to destroy.
@@ -55,29 +62,20 @@ class TextDraw(Player):
         """
         return player_text_draw_destroy(self.id, text)
 
-    def text_draw_letter_size(self, text, x, y):
+    def text_draw_letter_size(self, text, x, y) -> bool:
         """Sets the width and height of the letters in a player-textdraw.
-        ___________
-
-        - text    \t The ID of the player-textdraw to change the letter size of
-        - Float:x \t Width of a char.
-        - Float:y \t Height of a char.
-        ___________
-
-        Returns
-        ------
-        - Does not return any value
-
-        Tips
-        -----
-        - Fonts appear to look the best with an X to Y ratio of 1 to 4 (e.g. if x is 0.5 then y should be 2).
-        - When using this function purely for the benefit of affecting the textdraw box, multiply 'Y' by 0.135 to convert to TextDrawTextSize-like measurements
-        Example
-        -----
-
-        No example available for player-textdraws, but check: https://sampwiki.blast.hk/wiki/PlayerTextDrawLetterSize
-
-
+        
+        :param text: The ID of the player-textdraw to change the letter size of
+        :param x: Width of a character.
+        :param y: Height of a character.
+        :return: Does not return anything.
+        
+        .. note::
+            - Fonts appear to look the best with an X to Y ratio of 1 to 4.\
+                (E.g. if ``x`` is 0.5 then ``y`` should be 2).
+            - When using this function purely for the benefit of affecting the\
+                textdraw box, multiply ``Y`` by 0.135 to convert to\
+                text_size-like measurements
         """
         return player_text_draw_letter_size(self.id, text, x, y)
 

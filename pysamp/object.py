@@ -58,7 +58,7 @@ class Object:
         """
         return set_object_pos(self.id, x, y, z)
 
-    def get_position(self) -> tuple[float, float, float]:
+    def get_position(self) -> "tuple[float, float, float]":
         """Retrieve the coordinates for where the object is right now."""
         return get_object_pos(self.id)
 
@@ -71,7 +71,7 @@ class Object:
         """Set the new rotation the object should have."""
         return set_object_rot(self.id, rotation_x, rotation_y, rotation_z)
 
-    def get_rotation(self) -> tuple[float, float, float]:
+    def get_rotation(self) -> "tuple[float, float, float]":
         """Get the rotation the object currently have."""
         return get_object_rot(self.id)
 
