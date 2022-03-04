@@ -270,11 +270,22 @@ class Player:
         return get_player_facing_angle(self.id)
 
     def set_facing_angle(self, angle: float) -> bool:
-        """Set the player's facing angle (0.0-359.9)"""
+        """Set the player's facing angle.
+        
+        :param angle: A float, 0.0 < 360.0
+        :return: This method does not return anything.
+        
+        Directly north is heading 0.0.
+        """
         return set_player_facing_angle(self.id, angle)
 
     def is_in_range_of_point(self, range: float, x: float, y: float, z: float) -> bool:
-        """Checks if the player is in range of a point"""
+        """Checks if the player is in range of a point.
+        
+        :param range: The radius of the circle around the point.
+        :param x,y,z: The coordinate of the point.
+        :return: A boolean that represents if the player is in range or not. 
+        """
         return is_player_in_range_of_point(self.id, range, x, y, z)
 
     def distance_from_point(self, x: float, y: float, z: float) -> float:
@@ -288,12 +299,10 @@ class Player:
     def get_interior(self) -> int:
         """Get the player's interior. Normal world is in interior 0.
 
-        A list of currently known interiors and their positions can be found here:
-
-        https://open.mp/docs/scripting/resources/interiorids
-
-        The interior is a positive integer.
-
+        :return: A positive integer between 0-65535.
+        
+        A list of currently known interiors and their positions can be
+        found here: https://open.mp/docs/scripting/resources/interiorids
         """
         return get_player_interior(self.id)
 
@@ -445,8 +454,10 @@ class Player:
         return set_player_color(self.id, color)
 
     def get_skin(self) -> int:
-        """Get or set the player's skin, as an int.
+        """Get the player's skin.
 
+        :return: Skin ID, valid values are 0-311.
+        
         A skin is the character model.
         """
         return get_player_skin(self.id)
@@ -454,25 +465,27 @@ class Player:
     def set_skin(self, skinid: int) -> bool:
         """Change the skin/character of the player.
 
+        :param skinid: ID can be between 0 and 311, except for skin ID 74.
+        :return: Nothing is returned by this method.
+
         See available skins and the corresponding ID's here:
         https://open.mp/docs/scripting/resources/skins
 
-        ``skinid`` can be between 0 and 311*.
+        .. warning:: 
+            Known Issues:
+            If a player's skin is set when they are crouching,
+            in a vehicle, or performing certain animations, they will become 
+            frozen or otherwise glitched. This can (in most cases) be fixed
+            by using ``player.toggle_controllable(True)``.
 
-        .. warning:: Skin ID 74 is not available.
+            Players can be detected as being crouched through
+            ``player.get_special_action() == SPECIAL_ACTION_DUCK``
 
-        Known Bugs: If a player's skin is set when they are crouching,
-        in a vehicle, or performing certain animations, they will become frozen
-        or otherwise glitched. This can (in most cases) be fixed by using
-        ``player.toggle_controllable(1)``.
-
-        Players can be detected as being crouched through
-        ``player.get_special_action() == SPECIAL_ACTION_DUCK``
-
-        Other players around the player may crash if they are in a vehicle or
-        if he is entering/leaving a vehicle when the skin is changed.
-        Setting a player's skin when the player is dead may crash players 
-        around them. Breaks the sitting animation on bikes.
+        .. warning::
+            Other players around the player may crash if they are in a vehicle 
+            or if they are interacting a vehicle when the skin is changed.
+            Setting a player's skin when the player is dead may crash players 
+            around them. Breaks the sitting animation on bikes.
 
         Example:
 
@@ -486,11 +499,15 @@ class Player:
     def give_weapon(self, weapon_id: int, ammo: int) -> bool:
         """Give the player a weapon with specified amount of ammo.
 
+        :param weapon_id: The weapon ID to give the player.
+        :param ammo: The amount of ammo the weapon should have.
+        :return: This function does not return anything.
+        
         See all weapon ID's here:
         https://open.mp/docs/scripting/resources/weaponids
 
         Also, notice how you can use the constants as in pawn too, to define
-        the weapon.
+        the weapon. For example, ``WEAPON_KATANA``.
 
         .. code-block:: python
 
@@ -551,8 +568,17 @@ class Player:
     def set_name(self, name: str) -> int:
         """Set a new name for the player.
 
-        Name needs to be less than 25 characters long, and should not contain
-        invalid characters.
+        :param name: The name to set. Must be 2-24 characters long and only
+            contain valid characters (0-9, a-z, A-Z, [], (), \$ @ . _ and =).
+        :return: This method does not return anything.
+        
+        
+        .. warning:: Player names can be up to 24 characters when using this
+            function, but when joining the server from the SA-MP server
+            browser, players' names must be no more than 20 and less than 3
+            characters (the server will deny entry).
+            This allows for 4 characters extra when using SetPlayerName.
+            Beware that an empty name will cause the server to crash.
         """
         return set_player_name(self.id, name)
 
@@ -563,10 +589,15 @@ class Player:
     def set_money(self, money: int) -> bool:
         """Set the money a player should have.
 
-        Negative numbers will be shown as red on the HUD.
+        :param money: Set the new amount of money the player should have.
+        :return: This method does not return anything.
+        
+        .. note:: If the player has negative amount of cash,
+            numbers will be shown as red on the HUD.
 
-        Behind the scenes, setting money will first do ``reset_money`` and then
-        ``give_money``.
+        .. note:: Behind the scenes, setting money will first do 
+            ``reset_money`` and then
+            ``give_money``.
         """
         reset_player_money(self.id)
         return give_player_money(self.id, money)
