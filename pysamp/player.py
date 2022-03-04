@@ -170,7 +170,7 @@ from pysamp import (
     INVALID_VEHICLE_ID,
     MAPICON_LOCAL,
     CAMERA_CUT,
-    SPECTATE_MODE_NORMAL
+    SPECTATE_MODE_NORMAL,
 )
 
 
@@ -271,20 +271,22 @@ class Player:
 
     def set_facing_angle(self, angle: float) -> bool:
         """Set the player's facing angle.
-        
+
         :param angle: A float, 0.0 < 360.0
         :return: This method does not return anything.
-        
+
         Directly north is heading 0.0.
         """
         return set_player_facing_angle(self.id, angle)
 
-    def is_in_range_of_point(self, range: float, x: float, y: float, z: float) -> bool:
+    def is_in_range_of_point(
+        self, range: float, x: float, y: float, z: float
+    ) -> bool:
         """Checks if the player is in range of a point.
-        
+
         :param range: The radius of the circle around the point.
         :param x,y,z: The coordinate of the point.
-        :return: A boolean that represents if the player is in range or not. 
+        :return: A boolean that represents if the player is in range or not.
         """
         return is_player_in_range_of_point(self.id, range, x, y, z)
 
@@ -300,7 +302,7 @@ class Player:
         """Get the player's interior. Normal world is in interior 0.
 
         :return: A positive integer between 0-65535.
-        
+
         A list of currently known interiors and their positions can be
         found here: https://open.mp/docs/scripting/resources/interiorids
         """
@@ -390,7 +392,7 @@ class Player:
 
     def set_team(self, teamid: int) -> bool:
         """Set the team the player should belong to.
-        
+
         0-254 are valid teams. 255 is defined as NO_TEAM.
         That means you need to set team to 255 to remove from a team.
         """
@@ -435,7 +437,7 @@ class Player:
     def get_color(self) -> int:
         """Get the player's color.
 
-        .. note:: If you try to read the value before it is set, it will 
+        .. note:: If you try to read the value before it is set, it will
             return 0 (Black).
         """
         return get_player_color(self.id)
@@ -457,7 +459,7 @@ class Player:
         """Get the player's skin.
 
         :return: Skin ID, valid values are 0-311.
-        
+
         A skin is the character model.
         """
         return get_player_skin(self.id)
@@ -471,10 +473,10 @@ class Player:
         See available skins and the corresponding ID's here:
         https://open.mp/docs/scripting/resources/skins
 
-        .. warning:: 
+        .. warning::
             Known Issues:
             If a player's skin is set when they are crouching,
-            in a vehicle, or performing certain animations, they will become 
+            in a vehicle, or performing certain animations, they will become
             frozen or otherwise glitched. This can (in most cases) be fixed
             by using ``player.toggle_controllable(True)``.
 
@@ -482,9 +484,9 @@ class Player:
             ``player.get_special_action() == SPECIAL_ACTION_DUCK``
 
         .. warning::
-            Other players around the player may crash if they are in a vehicle 
+            Other players around the player may crash if they are in a vehicle
             or if they are interacting a vehicle when the skin is changed.
-            Setting a player's skin when the player is dead may crash players 
+            Setting a player's skin when the player is dead may crash players
             around them. Breaks the sitting animation on bikes.
 
         Example:
@@ -502,7 +504,7 @@ class Player:
         :param weapon_id: The weapon ID to give the player.
         :param ammo: The amount of ammo the weapon should have.
         :return: This function does not return anything.
-        
+
         See all weapon ID's here:
         https://open.mp/docs/scripting/resources/weaponids
 
@@ -571,8 +573,8 @@ class Player:
         :param name: The name to set. Must be 2-24 characters long and only
             contain valid characters (0-9, a-z, A-Z, [], (), \$ @ . _ and =).
         :return: This method does not return anything.
-        
-        
+
+
         .. warning:: Player names can be up to 24 characters when using this
             function, but when joining the server from the SA-MP server
             browser, players' names must be no more than 20 and less than 3
@@ -591,11 +593,11 @@ class Player:
 
         :param money: Set the new amount of money the player should have.
         :return: This method does not return anything.
-        
+
         .. note:: If the player has negative amount of cash,
             numbers will be shown as red on the HUD.
 
-        .. note:: Behind the scenes, setting money will first do 
+        .. note:: Behind the scenes, setting money will first do
             ``reset_money`` and then
             ``give_money``.
         """
@@ -620,33 +622,33 @@ class Player:
     def weapon(self) -> int:
         """Get the weapon id of the currently held weapon.
 
-        When the player state is PLAYER_STATE_DRIVER or PLAYER_STATE_PASSENGER,
-        this function returns the weapon held by the player before they entered
-        the vehicle.
+        .. note:: When the player state is ``PLAYER_STATE_DRIVER`` or ``PLAYER_STATE_PASSENGER``,
+            this function returns the weapon held by the player before they entered
+            the vehicle.
         """
         return get_player_weapon(self.id)
 
     def get_keys(self) -> "tuple[int, int, int]":
         """Check which keys a player is pressing.
 
+        :return: A tuple with 3 integers in the following order:
+
+            :keys: A set of bits containing the player's key states
+                represented as a bitmask.
+            :up_down: Up/Down state
+            :left_right: left/right state
+
         See all keys here: https://sampwiki.blast.hk/wiki/Keys
 
-        This method returns a Tuple with 3 values. It looks like this:
-        ``(keys, updown, leftright)``
+        .. note:: Only the FUNCTION of keys can be detected; not the actual
+            keys.
+            For example, it is not possible to detect if a player presses
+            SPACE, but you can detect if they press SPRINT (which can be mapped
+            (assigned/binded) to ANY key (but is space by default)).
 
-            - keys: A set of bits containing the player's key states (bitmask)
-            - updown: Up/down state.
-            - leftright: Left/right state.
-
-        Only the FUNCTION of keys can be detected; not the actual keys.
-        For example, it is not possible to detect if a player presses SPACE,
-        but you can detect if they press SPRINT (which can be mapped
-        (assigned/binded) to ANY key (but is space by default)).
-
-        As of update 0.3.7, the keys "A" and "D" are not recognized when in
-        a vehicle. However, keys "W" and "S" can be detected with the "keys"
-        parameter.
-
+        .. note:: As of update 0.3.7, the keys "A" and "D" are not
+            recognized when in a vehicle.
+            However, keys "W" and "S" can be detected with the "keys" return value.
         """
         return get_player_keys(self.id)
 
@@ -675,11 +677,13 @@ class Player:
         return toggle_player_clock(self.id, toggle)
 
     def set_weather(self, weather: int) -> bool:
-        """Set the player's weather. 
-        
-        If player.toggle_clock is on, then the weather will change slowly too.
+        """Set the player's weather.
 
-            - weather: The weather ID to set between 0 and 20.
+            :param weather: The weather ID to set between 0 and 20.
+            :return: This method does not return anything.
+
+        If ``player.toggle_clock`` is on,
+        then the weather will change slowly too.
 
         .. list-table:: Available weather IDs
             :widths: 30 30 30
@@ -722,7 +726,7 @@ class Player:
                - SUNNY_VEGAS
                -
             *  - 11
-               - EXTRASUNNY_VEGAS 
+               - EXTRASUNNY_VEGAS
                - Has heat wave effect
             *  - 12
                - CLOUDY_VEGAS
@@ -785,22 +789,48 @@ class Player:
     def set_fighting_style(self, style: int) -> bool:
         """Set the player's fighting style.
 
+        :param style: A fight style ID, shown in below table.
+        :return: This method does not return anything.
+
         To use in-game, aim and press the 'secondary attack' key
         (ENTER by default).
 
-        Available Values:
+        .. list-table:: Available fight styles
+            :widths: 10 15
+            :header-rows: 1
 
-            - 4 - FIGHT_STYLE_NORMAL
-            - 5 - FIGHT_STYLE_BOXING
-            - 6 - FIGHT_STYLE_KUNGFU
-            - 7 - FIGHT_STYLE_KNEEHEAD
-            - 15 - FIGHT_STYLE_GRABKICK
-            - 16 - FIGHT_STYLE_ELBOW
+            * - ID
+              - Constant
+            * - 4
+              - FIGHT_STYLE_NORMAL
+            * - 5
+              - FIGHT_STYLE_BOXING
+            * - 6
+              - FIGHT_STYLE_KUNGFU
+            * - 7
+              - FIGHT_STYLE_KNEEHEAD
+            * - 15
+              - FIGHT_STYLE_GRABKICK
+            * - 16
+              - FIGHT_STYLE_ELBOW
         """
         return set_player_fighting_style(self.id, style)
 
     def get_velocity(self) -> "tuple[float, float, float]":
-        """Get the velocity of the player."""
+        """Get the velocity of the player.
+
+        :return: A tuple with 3 floats, representing the velocity in x, y & z
+            direction.
+
+        Example:
+
+        .. code-block:: python
+
+            x, y, z = player.get_velocity()
+            print(f"Current velocity: {x}, {y}, {z}")
+            # prints: 'Current velocity: 0.0, 0.0, 0.0'
+            # given that the player is not moving.
+        """
         return get_player_velocity(self.id)
 
     def set_velocity(self, pos: "tuple[float, float, float]") -> bool:
@@ -812,23 +842,16 @@ class Player:
         else:
             return set_player_velocity(self.id, x, y, z)
 
-    def play_crime_report(self, suspect: 'Player', crime: int) -> bool:
+    def play_crime_report(self, suspect: "Player", crime: int) -> bool:
         """Plays a crime report for the player.
 
         You know when the player gets wanted in single player,
         the dispatch on the radio reads out actions and positions.
         You can also do this on SA-MP, by calling this method.
 
-        .. list-table:: Parameters
-            :widths: 30 30
-            :header-rows: 1
 
-            *  - Parameter
-               - Description
-            *  - suspect
-               - The player you want to play the crime report for
-            *  - crime
-               - One of the available crime ID's in below table.
+        :param suspect: The player you want to play the crime report about.
+        :param crime: One of the available crime ID's in below table.
 
         .. list-table:: Crime ID's
             :widths: 30 30 30
@@ -895,7 +918,7 @@ class Player:
               - 10-7
               - Out of service
         """
-        return play_crime_report_for_player(self.id, suspect.get_id(), crime)
+        return play_crime_report_for_player(self.id, suspect.id, crime)
 
     def play_audio_stream(
         self,
@@ -904,20 +927,14 @@ class Player:
         position_y: float = 0.0,
         position_z: float = 0.0,
         distance: float = 50.0,
-        usepos: bool = False
+        usepos: bool = False,
     ) -> bool:
         """Play an audio stream for a player.
 
         Normal files can also be streamed, such as MP3.
         """
         return play_audio_stream_for_player(
-            self.id,
-            url,
-            position_x,
-            position_y,
-            position_z,
-            distance,
-            usepos
+            self.id, url, position_x, position_y, position_z, distance, usepos
         )
 
     def stop_audio_stream(self) -> bool:
@@ -938,18 +955,9 @@ class Player:
     def set_skill_level(self, weapon_skill: int, level: int) -> bool:
         """Set the skill level of a certain weapon type for a player.
 
-        .. list-table:: Parameters
-            :widths: 15 30
-            :header-rows: 1
-
-            * - Parameter
-              - Description
-            * - weapon_skill
-              - The weapon to set skill on (see below table)
-            * - level
-              - The level, range 0-999 where 999 is max skill
-
-        ``weapon_skill`` available values:
+        :param weapon_skill: The weaponskill type (see below table).
+        :param level: The level, range 0-999 where 999 is the maximum skill.
+        :returns: This method does not return anything.
 
         .. list-table:: Weapon skills
             :widths: 10 30
@@ -995,7 +1003,7 @@ class Player:
 
     def get_surfing_object_id(self) -> int:
         # TODO: Return an object instance
-        """Get which MOVING object the player is standing on.
+        """Get which *moving* object the player is standing on.
 
         https://open.mp/docs/scripting/functions/GetPlayerSurfingObjectID for
         more information.
@@ -1003,12 +1011,7 @@ class Player:
         return get_player_surfing_object_id(self.id)
 
     def remove_building(
-        self,
-        model_id: int,
-        x: float,
-        y: float,
-        z: float,
-        radius: float
+        self, model_id: int, x: float, y: float, z: float, radius: float
     ) -> bool:
         """Removes a standard San Andreas model for a single player within a
         specified range.
@@ -1049,7 +1052,7 @@ class Player:
         return remove_building_for_player(self.id, model_id, x, y, z, radius)
 
     def get_last_shot_vectors(
-        self
+        self,
     ) -> "tuple[float, float, float, float, float, float]":
         """Find out from where a bullet was shot, and where it hit/collided.
 
@@ -1060,24 +1063,20 @@ class Player:
             This means you can't currently calculate how far a bullet travels
             through open air.
 
-        .. list-table:: Return values (in order)
-            :widths: 30 30
-            :header-rows: 1
+        The values in the tuple are in the following order:
 
-            * - Return parameter
-              - Description
-            * - From X
-              - X coordinate of where the bullet originated from.
-            * - From Y
-              - Y coordinate of where the bullet originated from.
-            * - From Z
-              - Z coordinate of where the bullet originated from.
-            * - Hit X
-              - X coordinate of where the bullet hit.
-            * - Hit Y
-              - Y coordinate of where the bullet hit.
-            * - Hit Z
-              - Z coordinate of where the bullet hit.
+        :From X:
+            X coordinate of where the bullet originated from.
+        :From Y:
+            Y coordinate of where the bullet originated from.
+        :From Z:
+            Z coordinate of where the bullet originated from.
+        :Hit X:
+            X coordinate of where the bullet hit.
+        :Hit Y:
+            Y coordinate of where the bullet hit.
+        :Hit Z:
+            Z coordinate of where the bullet hit.
 
         Here is an example of how you can use it:
 
@@ -1097,7 +1096,7 @@ class Player:
                 # Send them to the player
                 player.send_client_message(
                     -1,
-                    "Last shot info: {}, {}, {}.Hit pos: {}, {}, {}".format(
+                    "Last shot info: {}, {}, {}. Hit pos: {}, {}, {}".format(
                         str(x),
                         str(y),
                         str(z),
@@ -1129,46 +1128,28 @@ class Player:
     ) -> bool:
         """Attach an object to a specific bone on a player.
 
-        .. list-table:: Parameters
-            :widths: 30 25
-            :header-rows: 1
+        :param int index: The index (slot) to assign the object to (0-9).
+        :param int model_id: The model to attach.
+        :param int bone: The bone to attach the object to. (0-18)
+        :param optional, float offset_x: X axis offset for the object position.
+        :param optional, float offset_y: Y axis offset for the object position.
+        :param optional, float offset_z: Z axis offset for the object position.
+        :param optional, float rotation_x: X axis rotation of the object.
+        :param optional, float rotation_y: Y axis rotation of the object.
+        :param optional, float rotation_z: Z axis rotation of the object.
+        :param optional, float scale_x: X axis scale of the object.
+        :param optional, float scale_y: Y axis scale of the object.
+        :param optional, float scale_z: Z axis scale of the object.
+        :param optional, int material_color_1: The first object color.
+        :param optional, int material_color_2: The second object color.
+        :returns: This method does not return anything.
 
-            * - Parameter
-              - Description
-            * - index
-              - The index (slot) to assign the object to (0-9).
-            * - model_id
-              - The model to attach.
-            * - bone
-              - The bone to attach the object to. (0-18)
-            * - offset_x
-              - (optional) X axis offset for the object position.
-            * - offset_y
-              - (optional) Y axis offset for the object position.
-            * - offset_z
-              - (optional) Z axis offset for the object position.
-            * - rotation_x
-              - (optional) X axis rotation of the object.
-            * - rotation_y
-              - (optional) Y axis rotation of the object.
-            * - rotation_z
-              - (optional) Z axis rotation of the object.
-            * - scale_x
-              - (optional) X axis scale of the object.
-            * - scale_y
-              - (optional) Y axis scale of the object.
-            * - scale_z
-              - (optional) Z axis scale of the object.
-            * - material_color_1
-              - (optional) The first object color to set, as an integer or hex in ARGB color format.
-            * - material_color_2
-              - (optional) The second object color to set, as an integer or hex in ARGB color format
-
+        .. note:: Colors can be set as an integer or hex in ARGB color format.
 
         Available bones:
 
-        .. list-table:: Parameters
-            :widths: 30 25
+        .. list-table::
+            :widths: 10 25
             :header-rows: 1
 
             * - ID
@@ -1238,13 +1219,14 @@ class Player:
     def remove_attached_object(self, index: int) -> bool:
         """Remove an attached object from a player.
 
-            - ``index``: The index to remove the object from (0-9)
+        :param index: The index to remove the object from (0-9)
+        :return: Returns ``True`` on success, otherwise ``False``.
 
         .. code-block:: python
 
             # Remove all player-attached objects
             if "/removeall" in cmdtext[0:9]:
-                for slot in range(MAX_PLAYER_ATTACHED_OBJECTS) :
+                for slot in range(MAX_PLAYER_ATTACHED_OBJECTS):
                     if player.is_attached_object_slot_used(slot):
                         player.remove_attached_object(slot)
         """
@@ -1253,108 +1235,278 @@ class Player:
     def is_attached_object_slot_used(self, index: int) -> bool:
         """Check if a player has an object attached in the specified index (slot).
 
-        - index \t The index (slot) to check.
+         :param index: The index (slot) to check.
+         :return: Will return ``True`` if the slot is used, otherwise ``False``.
 
-        Returns
-        -------
-        - 1: The specified slot is used for an attached object.
-        - 0: The specified slot is not in use for an attached object
+        .. code-block:: python
 
-        Example
-        -------
-        ```py
-        # Count amount of attached objects currently on player
-        count = 0
-        for slot in range(MAX_PLAYER_ATTACHED_OBJECTS):
-            if player.is_attached_object_slot_used(slot):
-                count +=1
-        print(count) # then shows the count in the log
-        ```
+             # Count amount of attached objects currently on player
+             count = 0
+             for slot in range(MAX_PLAYER_ATTACHED_OBJECTS):
+                 if player.is_attached_object_slot_used(slot):
+                     count +=1
+             print(count) # then shows the count in the log
         """
         return is_player_attached_object_slot_used(self.id, index)
 
     def edit_attached_object(self, index: int) -> bool:
         """Enter edit mode for an attached object.
 
-            - ``index``: The slot of the attached object to edit.
+        :param index: The slot of the attached object to edit.
+        :returns: This method does not return anything.
 
-        Available slots indexes are 0 to 9.
+        Available slots indexes are 0 through 9.
 
-        See more here: https://sampwiki.blast.hk/wiki/EditAttachedObject
+
+        Clicking save will call ``on_player_edit_attached_object``.
+
+        .. note:: You can move the camera while editing by pressing and
+            holding the spacebar (or W in vehicle) and moving your mouse
+
+        .. warning:: Players will be able to scale objects up to a very large
+            or negative value size. Limits should be put in place using
+            ``on_player_edit_attached_object`` to abort the edit.
         """
         return edit_attached_object(self.id, index)
 
-    def get_pvar_int(self, varname):
-        """| METHOD |"""
-        return get_pvar_int(self.id, varname)
+    def get_pvar_int(self, var_name: str) -> int:
+        """Get a player variable containing an integer.
 
-    def set_pvar_int(self, varname, value):
-        """| METHOD |"""
-        return set_pvar_int(self.id, varname, value)
+        :param var_name: The variable name you want to get the value for.
+            Case-insensitive, and is set with ``set_pvar_int``.
+        :returns: The value the variable holds. Is 0 if not set.
 
-    def get_pvar_string(self, varname, size):
-        """| METHOD |"""
-        return get_pvar_string(self.id, varname, size)
+        Player variables are reset when the player disconnects.
+        """
+        return get_pvar_int(self.id, var_name)
 
-    def set_pvar_string(self, varname, value):
-        """| METHOD |"""
-        return set_pvar_string(self.id, varname, value)
+    def set_pvar_int(self, var_name: str, value: int) -> bool:
+        """Set a player variable containing an integer.
 
-    def get_pvar_float(self, varname):
-        """| METHOD |"""
-        return get_pvar_float(self.id, varname)
+        :param var_name: Case insensitive name of the player variable.
+        :param value: The value you want to set for it.
+        :return: Will return ``False`` if the ``var_name``
+            is empty or too long, otherwise it returns ``True``.
 
-    def set_pvar_float(self, varname, value):
-        """| METHOD |"""
-        return set_pvar_float(self.id, varname, value)
+        You can read this value across all scripts using
+        ``player.get_pvar_int()``.
+        """
+        return set_pvar_int(self.id, var_name, value)
 
-    def delete_pvar(self, varname):
-        """| METHOD |"""
-        return delete_pvar(self.id, varname)
+    def get_pvar_string(self, var_name: str) -> str:
+        """Get a player variable containing a string.
 
-    def pvars_upper_index(self):
-        """Get or set
+        :param var_name: The variable name you want to get the value for.
+            Case-insensitive, and is set with ``player.set_pvar_string()``.
+        :returns: The value the variable holds. Is empty if not set.
+
+        Player variables are reset when the player disconnects.
+        """
+        return get_pvar_string(self.id, var_name)
+
+    def set_pvar_string(self, var_name: str, value: str) -> bool:
+        """Set a player variable containing a string.
+
+        :param var_name: Case insensitive name of the player variable.
+        :param value: The string you want to set for it.
+        :return: Will return ``False`` if the ``var_name``
+            is empty or too long, otherwise it returns ``True``.
+
+        You can read this value across all scripts using
+        ``player.get_pvar_string()``.
+        """
+        return set_pvar_string(self.id, var_name, value)
+
+    def get_pvar_float(self, var_name: str) -> float:
+        """Get a player variable containing a float.
+
+        :param var_name: The variable name you want to get the value for.
+            Case-insensitive, and is set with ``player.set_pvar_float()``.
+        :returns: The value the variable holds. Is 0.0 if not set.
+
+        Player variables are reset when the player disconnects.
+        """
+        return get_pvar_float(self.id, var_name)
+
+    def set_pvar_float(self, var_name: str, value: float) -> bool:
+        """Set a player variable containing a float.
+
+        :param var_name: Case insensitive name of the player variable.
+        :param value: The string you want to set for it.
+        :return: Will return ``False`` if the ``var_name``
+            is empty or too long, otherwise it returns ``True``.
+
+        You can read this value across all scripts using
+        ``player.get_pvar_float()``.
+        """
+        return set_pvar_float(self.id, var_name, value)
+
+    def delete_pvar(self, var_name: str) -> bool:
+        """Deletes a player variable.
+
+        :param var_name: The variable name to delete.
+        :returns: This method does not return anything.
+        """
+        return delete_pvar(self.id, var_name)
+
+    def get_pvars_upper_index(self) -> int:
+        """Each PVar (player-variable) has its own unique identification number
+        for lookup, this function returns the highest ID set for a player.
+        
+        :returns: An integer representing the highest index at which there was
+            found a player variable set.
+        
+        :Example:
+        
+        .. code-block:: python
+        
+            pvar_upper_index = player.get_pvars_upper_index() + 1
+            pvar_count: int = 0
+
+            for i in range(pvar_upper_index):
+                var_name = player.get_pvar_name_at_index(i)
+                # If the var is set (type not 0), increment p_var_count.
+                if player.get_pvar_type(var_name) is not 0: 
+                    pvar_count = pvar_count + 1
+            
+            print(f"You have {pvar_count} player-variables set. \\
+                Upper index (highest ID):\\
+                {pvar_upper_index - 1}.")
         """
         return get_pvars_upper_index(self.id)
 
-    def get_pvar_name_at_index(self, index, size):
-        """| METHOD |"""
-        return get_pvar_name_at_index(self.id, index, size)
+    def get_pvar_name_at_index(self, index: int) -> str:
+        """Find a player variable name at a certain index.
 
-    def get_pvar_type(self, varname):
-        """| METHOD |"""
-        return get_pvar_type(self.id, varname)
+        :param index: Which index should be retrieved.
+        :returns: The name of the variable, if set.
+        """
+        return get_pvar_name_at_index(self.id, index)
 
-    def set_chat_bubble(self, text, color, drawdistance, expiretime):
-        """| METHOD |"""
+    def get_pvar_type(self, var_name: str) -> int:
+        """Gets the type (integer, float or string) of a player variable.
+
+        :param var_name: The name of the variable you want to get the type of.
+        :returns: An ID that represent either of the types. See table below.
+
+        Possible values that can be returned:
+
+        .. list-table:: Type values
+            :widths: 10 25
+            :header-rows: 1
+
+            * - ID
+              - Type
+            * - 0
+              - PLAYER_VARTYPE_NONE
+            * - 1
+              - PLAYER_VARTYPE_INT
+            * - 2
+              - PLAYER_VARTYPE_STRING
+            * - 3
+              - PLAYER_VARTYPE_FLOAT
+
+        ``PLAYER_VARTYPE_NONE`` is returned when the variable
+        with the given name does not exist.
+        """
+        return get_pvar_type(self.id, var_name)
+
+    def set_chat_bubble(
+        self, text: str, color: int, draw_distance: float, expiretime: int
+    ) -> bool:
+        """Make text appear above the nametag of a player, that other
+        players can see.
+
+        :param text: The text you would like to show.
+        :param color: Which color you would like to give the font.
+        :param draw_distance: How far you want the text to be visible from.
+        :param expiretime: How long in miliseconds the bubble should stay.
+        :return: This method does not return anything.
+
+        .. note:: You can not see your own chat bubbles, same applies
+            for 3D textlabels.
+        """
         return set_player_chat_bubble(
-            self.id, text, color, drawdistance, expiretime
+            self.id, text, color, draw_distance, expiretime
         )
 
-    def put_in_vehicle(self, vehicleid, seatid):
-        """| METHOD |"""
-        return put_player_in_vehicle(self.id, vehicleid, seatid)
+    def put_in_vehicle(self, vehicle_id: int, seat_id: int) -> bool:
+        """Put the player inside a vehicle.
 
-    def vehicle_id(self):
-        """Get or set
+        :param vehicle_id: The vehicle you want to put the player in.
+        :param seat_id: Which seat. (0->)
+
+        :Available seats:
+            - 0 - Driver
+            - 1 - Front passenger
+            - 2 - Back-left passenger
+            - 3 - Back-right passenger
+            - 4+ - Passenger seats (coach etc.)
+
+        .. warning:: If this function is used on a player that is already in
+            a vehicle, other players will still see them in their previous
+            vehicle. To fix this, first remove the player from the vehicle.
+
+        .. warning:: If the seat is invalid or is taken, will cause a crash
+            when the player *exit* the vehicle. For example bikes may only have
+            two seats.
+        """
+        return put_player_in_vehicle(self.id, vehicle_id, seat_id)
+
+    def get_vehicle_id(self) -> int:
+        """This method gets the ID of the vehicle the player is currently in.
+        
+        :returns: Vehicle ID of the vehicle.
+        
+        .. note:: NOT the model id of the vehicle. See 
+            ``get_vehicle_model(vehicleid)`` for that.
         """
         return get_player_vehicle_id(self.id)
 
-    def vehicle_seat(self):
-        """Get or set
+    def get_vehicle_seat(self) -> int:
+        """Find out which seat a player is in.
+        
+        :returns: The seat ID. -1 means they are not in a vehicle. 0-4 is
+            normal
         """
         return get_player_vehicle_seat(self.id)
 
-    def remove_from_vehicle(self):
-        """| METHOD |"""
+    def remove_from_vehicle(self) -> bool:
+        """Remove a player from the current vehicle.
+        
+        :returns: This method does not return anything.
+        
+        .. note:: 
+            - The exiting animation is not synced for other players.
+            - The player is not removed if they are in a RC Vehicle.
+        
+        """
         return remove_player_from_vehicle(self.id)
 
-    def toggle_controllable(self, toggle):
-        """| METHOD |"""
+    def toggle_controllable(self, toggle: bool) -> bool:
+        """Freeze or unfreeze a player.
+        
+        :param toggle: Set to ``False`` to freeze, ``True`` to unfreeze.
+        :returns: This method does not return antyhing.
+        
+        .. warning:: The player will also be unable to move their camera.
+        """
         return toggle_player_controllable(self.id, toggle)
 
-    def play_sound(self, soundid, x: float, y: float, z: float):
-        """| METHOD |"""
+    def play_sound(self, soundid, x: float, y: float, z: float) -> bool:
+        """Play a game sound for the player.
+        
+        :param soundid: The sound id you would like to play for the player.
+        :param x: x coordinate to play the sound at.
+        :param y: y coordinate.
+        :param z: z coordinate.
+
+        .. note:: Set the position to 0.0 if you want to ignore the position,
+            and to play it no matter where the player is at.
+        
+        A list with available sound id's can be found here:
+        https://sampwiki.blast.hk/wiki/SoundID
+        """
         return player_play_sound(self.id, soundid, x, y, z)
 
     def apply_animation(
@@ -1383,30 +1535,85 @@ class Player:
             force_sync,
         )
 
-    def clear_animations(self, forcesync=False):
-        """| METHOD |"""
+    def clear_animations(self, forcesync: bool = False) -> bool:
+        """Stop any ongoing animations the player has running.
+        
+        :param optional, bool forcesync: Set to ``True`` to force the player to sync the 
+            animation with other players in streaming radius.
+        :return: This method does not have any return values.
+        
+        Clears all animations for the player (it also cancels all
+        current tasks such as jetpacking, parachuting, entering vehicles,
+        driving, swimming, etc..).
+        
+        """
         return clear_animations(self.id, forcesync)
 
     def animation_index(self) -> int:
-        """Get the current playing animation index of the player."""
+        """Get the current playing animation index of the player.
+        
+        :returns: The animation index.
+        """
         return get_player_animation_index(self.id)
 
-    def get_special_action(self):
+    def get_special_action(self) -> int:
+        """Get the special action the player is performing.
+        
+        :returns: An ID representing the special action that is being
+            performed.
+
+        Check the list with special actions here:
+        https://www.open.mp/docs/scripting/resources/specialactions
+        """
         return get_player_special_action(self.id)
 
-    def set_special_action(self, actionid):
-        return set_player_special_action(self.id, actionid)
+    def set_special_action(self, action_id: int) -> bool:
+        """Set a special action on a player.
+        
+        :param action_id: The special action the player should perform.
+        :return: No return value for this method.
+        
+        Check the list of special actions here:
+        https://www.open.mp/docs/scripting/resources/specialactions
+        """
+        return set_player_special_action(self.id, action_id)
 
     def disable_remote_vehicle_collisions(self, disable):
-        """| METHOD |"""
+        """Disables collisions between occupied vehicles for a player.
+        
+        :param disable: Bool that disables colissions if set to ``True``.
+        :return: No return value for this method.
+        
+        """
         return disable_remote_vehicle_collisions(self.id, disable)
 
-    def set_checkpoint(self, x: float, y: float, z: float, size):
-        """| METHOD |"""
+    def set_checkpoint(
+        self,
+        x: float,
+        y: float,
+        z: float,
+        size: float
+    ) -> bool:
+        """Create a checkpoint for the player. Shows a red blip on the radar.
+        
+        :param x: The x position for the checkpoint.
+        :param y: The y position for the checkpoint.
+        :param z: The z position for the checkpoint.
+        :param size: The size of the checkpoint.
+        
+        .. note::
+            Checkpoints are asynchronous, meaning only one can be
+            shown at a time.
+        
+        Checkpoints don't need to be disabled before setting another one.
+        """
         return set_player_checkpoint(self.id, x, y, z, size)
 
     def disable_checkpoint(self):
-        """| METHOD |"""
+        """Remove the active checkpoint for a player.
+        
+        :return: No value is returned by this method.
+        """
         return disable_player_checkpoint(self.id)
 
     def set_race_checkpoint(
@@ -1418,83 +1625,74 @@ class Player:
         next_x: float,
         next_y: float,
         next_z: float,
-        size: float
+        size: float,
     ) -> bool:
         """Race checkpoints are red checkpoints, as used in singleplayer races.
 
-        .. list-table:: Parameters
-            :widths: 10 30
-            :header-rows: 1
-
-            * - Parameter
-            - Description
-            * - player
-            - The player that should get the checkpoint set.
-            * - type
-            - Can be values 0-8, see table further down for reference.
-            * - x
-            - World X coordinate to place the race checkpoint.
-            * - y
-            - World Y coordinate to place the race checkpoint.
-            * - z
-            - World Z coordinate to place the race checkpoint.
-            * - next_x
-            - The X coordinate of the next race checkpoint.
-            * - next_y
-            - The Y coordinate of the next race checkpoint.
-            * - next_z
-            - The Z coordinate of the next race checkpoint.
-            * - size
-            - The radius of the checkpoint. Also acts as the trigger area.
-
+        :param type: Can be values 0-8, see table further down for reference.
+        :param x: World X coordinate to place the race checkpoint.
+        :param y: World Y coordinate to place the race checkpoint.
+        :param z: World Z coordinate to place the race checkpoint.
+        :param next_x: The X coordinate of the next race checkpoint.
+        :param next_y: The Y coordinate of the next race checkpoint.
+        :param next_z: The Z coordinate of the next race checkpoint.
+        :param size: The radius of the checkpoint. Also acts as the trigger
+            area.
+        :return: No value returned.
+        
         .. list-table:: The available types
             :widths: 10 30 30
             :header-rows: 1
 
             * - ID
-            - Constant name
-            - Description
+              - Constant name
+              - Description
             * - 0
-            - RACE_NORMAL
-            - Normal checkpoint with arrow to the next coordinates.
+              - RACE_NORMAL
+              - Normal checkpoint with arrow to the next coordinates.
             * - 1
-            - RACE_FINISH
-            - Checkpoint with finish flag on it.
+              - RACE_FINISH
+              - Checkpoint with finish flag on it.
             * - 2
-            - RACE_NOTHING
-            - An empty checkpoint with nothing on it.
+              - RACE_NOTHING
+              - An empty checkpoint with nothing on it.
             * - 3
-            - RACE_AIR_NORMAL
-            - A normal air race checkpoint (Circle).
+              - RACE_AIR_NORMAL
+              - A normal air race checkpoint (Circle).
             * - 4
-            - RACE_AIR_FINISH
-            - Air checkpoint with finish flag on it.
+              - RACE_AIR_FINISH
+              - Air checkpoint with finish flag on it.
             * - 5
-            - RACE_AIR_ONE
-            - Air race checkpoint that rotates and stops.
+              - RACE_AIR_ONE
+              - Air race checkpoint that rotates and stops.
             * - 6
-            - RACE_AIR_TWO
-            - Air race checkpoint that increases, decreases and disappears.
+              - RACE_AIR_TWO
+              - Air race checkpoint that increases, decreases and disappears.
             * - 7
-            - RACE_AIR_THREE
-            - Air race checkpoint, this type swings up and down.
+              - RACE_AIR_THREE
+              - Air race checkpoint, this type swings up and down.
             * - 8
-            - RACE_AIR_FOUR
-            - Air race checkpoint, swings up and down.
+              - RACE_AIR_FOUR
+              - Air race checkpoint, swings up and down.
 
         .. note:: If you use ``RACE_FINISH`` and at the same time use coordinates
-            for the next checkpoint, it will automatically show ``RACE_NORMAL`` 
+            for the next checkpoint, it will automatically show ``RACE_NORMAL``
             instead
 
         .. warning:: Race checkpoints are asynchronous, that means only one
             can be shown at a time.
+        
+        You do not need to disable a checkpoint in order to show a new one.
         """
         return set_player_race_checkpoint(
             self.id, type, x, y, z, next_x, next_y, next_z, size
         )
 
     def disable_race_checkpoint(self) -> bool:
-        """Removes the active race checkpoint for the player."""
+        """Removes the active race checkpoint for the player.
+        
+        :returns: This method does not return anything.
+        """
         return disable_player_race_checkpoint(self.id)
 
     def set_world_bounds(self, x_max, x_min, y_max, y_min):
@@ -1517,7 +1715,7 @@ class Player:
         z: float,
         markertype,
         color,
-        style = MAPICON_LOCAL,
+        style=MAPICON_LOCAL,
     ):
         """| METHOD |"""
         return set_player_map_icon(
@@ -1531,7 +1729,7 @@ class Player:
     def allow_teleport(self, allow):
         """Enable or disable teleporting when marking the map with the map-
         marker.
-        
+
         .. note:: Deprecated since 0.3d
         This method is deprecated.
         Please use :obj:`Player.on_click_map()` instead.
@@ -1587,8 +1785,8 @@ class Player:
 
     def attach_camera_to_object(self, objectid):
         """Attach the camera to an object.
-        
-        If the object moves, the camera will follow.        
+
+        If the object moves, the camera will follow.
         """
         return attach_camera_to_object(self.id, objectid)
 
@@ -1711,6 +1909,7 @@ class Player:
         ```
         """
         return gpci(self.id, 41)
+
 
 from pysamp.vehicle import Vehicle
 from pysamp.object import Object

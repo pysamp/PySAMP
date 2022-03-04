@@ -898,8 +898,8 @@ def set_pvar_string(player_id: int, var_name: str, value: str) -> bool:
     return SetPVarString(player_id, var_name, value)
 
 
-def get_pvar_string(player_id: int, var_name: str, size: int) -> str:
-    return GetPVarString(player_id, var_name, size)
+def get_pvar_string(player_id: int, var_name: str) -> str:
+    return GetPVarString(player_id, var_name)
 
 
 def set_pvar_float(player_id: int, var_name: str, value: float) -> bool:
@@ -918,8 +918,8 @@ def get_pvars_upper_index(player_id: int) -> int:
     return GetPVarsUpperIndex(player_id)
 
 
-def get_pvar_name_at_index(player_id: int, index: int, size: int) -> str:
-    return GetPVarNameAtIndex(player_id, index, size)
+def get_pvar_name_at_index(player_id: int, index: int) -> str:
+    return GetPVarNameAtIndex(player_id, index)
 
 
 def get_pvar_type(player_id: int, var_name: str) -> int:
