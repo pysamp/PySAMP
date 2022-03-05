@@ -2022,7 +2022,7 @@ class Player:
             return
         return Player(player_id)
 
-    def camera_target_actor(self) -> Optional[Actor]:
+    def camera_target_actor(self) -> Optional["Actor"]:
         """Get the :class:`~actor.Actor` the current player is looking at.
         
         :return: A :class:`actor.Actor` instance representing the actor. If no
@@ -2034,10 +2034,26 @@ class Player:
             return
         return Actor(actor_id)
 
-    def camera_aspect_ratio(self):
+    def get_camera_aspect_ratio(self) -> float:
+        """Get the player's aspect ratio on the camera.
+        
+        :return: 4/3, 5/4 or 16/9. For example, 4/3 = 1.3333333333333.
+        
+        .. note:: The return value of this function represents the value
+            of the "widescreen" option in the game's display settings,
+            not the actual aspect ratio of the player's display.
+        """
         return get_player_camera_aspect_ratio(self.id)
 
-    def camera_zoom(self):
+    def get_camera_zoom(self) -> float:
+        """Retrieves the game camera zoom level for a given player.
+        
+        :return: The zoom level as a float. Useful to check zoom level when
+            using a sniper, etc.
+        
+        .. note:: This retrieves the zoom level of the GAME Camera
+            (including Sniper scope), not the camera weapon.
+        """
         return get_player_camera_zoom(self.id)
 
     def attach_camera_to_object(self, objectid):
