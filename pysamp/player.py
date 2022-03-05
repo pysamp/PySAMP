@@ -14,6 +14,7 @@ from pysamp import (
     enable_player_camera_target,
     enable_stunt_bonus_for_player,
     force_class_selection,
+    game_text_for_player,
     get_player_ammo,
     get_player_animation_index,
     get_player_armour,
@@ -172,6 +173,8 @@ from pysamp import (
     CAMERA_CUT,
     SPECTATE_MODE_NORMAL,
 )
+from pysamp.samp import INVALID_ACTOR_ID, gpci
+from typing import Optional
 
 
 class Player:
@@ -367,13 +370,14 @@ class Player:
         Example:
 
         .. code-block:: python
+
             if player.weapon_state = WEAPONSTATE_LAST_BULLET:
                 player.send_client_message(-1, "You only have 1 bullet left!")
         """
         return get_player_weapon_state(self.id)
 
     def get_target_player(self) -> int:
-        """Check who the player is aiming at. Returns the playerid"""
+        """Check who the player is aiming at. Returns the player"""
         return get_player_target_player(self.id)
 
     def get_target_actor(self) -> int:
@@ -427,10 +431,12 @@ class Player:
     def set_drunk_level(self, level: int) -> bool:
         """Set the player's drunk level.
 
-        - 0 to 2000 - No visible effect
-        - 2001 to 5000 - Visible camera swaying and control issues
-        in vehicles. HUD is visible.
-        - 5001 and above - Swaying continues, but HUD becomes invisible.
+        :param level:
+            - 0 to 2000: No visible effect
+            - 2001 to 5000: Visible camera swaying and control issues\
+            in vehicles. HUD is visible.
+            - 5001 and above: Swaying continues, but HUD becomes invisible.
+        :return: Does not return anything.
         """
         return set_player_drunk_level(self.id, level)
 
@@ -448,6 +454,7 @@ class Player:
         You can use Hexadecimal numbers to make it easier. The value is
         expected in the following format ``0xRRGGBBAA``,
         where:
+        
             - ``RR`` is red
             - ``GG`` is green
             - ``BB`` is blue
@@ -547,13 +554,14 @@ class Player:
         return get_player_weapon_data(self.id, slot)
 
     def give_money(self, money: int) -> bool:
-        """Give money or take money from a player
+        """Give money or take money from a player.
 
         The amount of money you want to give can be negative to reduce money.
 
-        Example:
+        :Example:
 
         .. code-block:: python
+
             player.give_money(1000)  # Give player $1000
 
         """
@@ -1798,32 +1806,71 @@ class Player:
             self.id, icon_id, x, y, z, marker_type, color, style
         )
 
-    def remove_map_icon(self, icon_id):
-        """| METHOD |"""
+    def remove_map_icon(self, icon_id: int) -> bool:
+        """This removes a map icon that was set with ``player.set_map_icon``.
+        
+        :param icon_id: The icon slot to remove the icon from (0-99).
+        :return: No return value.
+        """
         return remove_player_map_icon(self.id, icon_id)
 
-    def allow_teleport(self, allow):
+    def allow_teleport(self, allow: bool) -> bool:
         """Enable or disable teleporting when marking the map with the map-
         marker.
 
-        .. note:: Deprecated since 0.3d
-        This method is deprecated.
-        Please use :obj:`Player.on_click_map()` instead.
+        :param allow: A bool to allow or disallow teleport.
+        :return: Nothing.
+        
+        .. warning:: Deprecated since 0.3d.
+            Please use the callback ``player.on_click_map`` instead.
         """
         return allow_player_teleport(self.id, allow)
 
-    def set_camera_look_at(self, x: float, y: float, z: float, cut=CAMERA_CUT):
-        """| METHOD |"""
+    def set_camera_look_at(
+        self,
+        x: float,
+        y: float,
+        z: float,
+        cut:int = CAMERA_CUT
+    ) -> bool:
+        """Make the camera look towards a set corrdinate.
+        
+        :param float x: The x coordinate to look at.
+        :param float y: The y coordinate to look at.
+        :param float z: The z coordinate to look at.
+        :param optional int cut: The
+            `style
+            <https://www.open.mp/docs/scripting/resources/cameracutstyles>`_
+            of the change. Can be used to interpolate (change slowly)
+            from old pos to new pos using ``CAMERA_MOVE``.
+        """
         return set_player_camera_look_at(self.id, x, y, z, cut)
 
-    def set_camera_behind(self):
-        """| METHOD |"""
+    def set_camera_behind(self) -> bool:
+        """Restore the camera to a place behind the player, after using ex.
+        :py:meth:`Player.set_camera_pos`.
+        
+        :returns: This method does not return anything.
+        """
         return set_camera_behind_player(self.id)
 
-    def camera_pos(self):
+    def get_camera_pos(self) -> "tuple[float, float, float]":
+        """Get the current camera position for the player.
+
+        :returns: A tuple with 3 floats, representing x, y and z position.
+        
+        .. note:: Player's camera positions are only updated once a second,
+            unless aiming.
+        """
         return get_player_camera_pos(self.id)
 
-    def camera_pos(self, pos: tuple):
+    def set_camera_pos(self, pos: tuple):
+        """Set the camera position to a given coordinate.
+        
+        :param pos: A tuple with 3 values, representing the x, y and z
+            coordinate.
+        :return: This method does not return anything.
+        """
         try:
             x, y, z = pos
         except:
@@ -1832,26 +1879,160 @@ class Player:
             return set_player_camera_pos(self.id, x, y, z)
 
     def get_camera_front_vector(self):
+        """This function will return the current direction of player's aiming
+        in 3-D space, the coords are relative to the camera position,
+        see :meth:`Player.get_camera_pos`.
+        
+        :return: This function returns a tuple with 3 floats, that represents
+            the forward facing vector in x, y and z direction. 
+        """
         return get_player_camera_front_vector(self.id)
 
     def camera_mode(self):
+        """Returns the current GTA camera mode for the requested player.
+        
+        :return: A number that represents the camera mode the player currently
+            is in.
+        
+        The camera modes are useful in determining whether a player is aiming, doing a passenger driveby etc.
+
+        :Available camera modes:
+        
+        .. list-table::
+            :header-rows: 1
+        
+            * - ID
+              - Constant
+              - Description
+            * - 3
+              - MODE_BEHINDCAR
+              - Train/tram camera
+            * - 4
+              - MODE_FOLLOWPED
+              - Follow ped (normal behind player camera), several variable distances
+            * - 7
+              - MODE_SNIPER
+              - Sniper aiming (sniper scope)
+            * - 8
+              - MODE_ROCKETLAUNCHER
+              - Rocket Launcher aiming (rocket launcher scope)
+            * - 15
+              - MODE_FIXED
+              - Fixed camera (non-moving) - used for garages, chase camera, entering buildings, buying food etc
+            * - 16
+              - MODE_1STPERSON
+              - Vehicle front camera, bike side camera
+            * - 18
+              - MODE_CAM_ON_A_STRING
+              - Normal car (+ skimmer + helicopter + airplane), several variable distances
+            * - 22
+              - MODE_BEHINDBOAT
+              - Normal boat camera
+            * - 46
+              - MODE_CAMERA
+              - Weapon aiming (weapon scope)
+            * - 51
+              - MODE_ROCKETLAUNCHER_HS
+              - Heat-seeking Rocket Launcher aiming
+            * - 53
+              - MODE_AIMWEAPON
+              - Aiming any other weapon
+            * - 55
+              - MODE_AIMWEAPON_FROMCAR
+              - Vehicle passenger aiming camera (drive by as a player)
+            * - 56
+              - MODE_DW_HELI_CHASE
+              - Chase camera: helicopter/bird view
+            * - 57
+              - MODE_DW_CAM_MAN
+              - Chase camera: ground camera, zooms in quite quickly and pan to the vehicle
+            * - 58
+              - MODE_DW_BIRDY
+              - Chase camera: horizontal flyby past vehicle
+            * - 59
+              - MODE_DW_PLANE_SPOTTER
+              - Chase camera (for air vehicles only): ground camera, looking up to the air vehicle
+            * - 62
+              - MODE_DW_PLANECAM1
+              - Chase camera (for air vehicles only): vertical flyby past air vehicle
+            * - 63
+              - MODE_DW_PLANECAM2
+              - Chase camera (for air vehicles only): horizontal flyby past air vehicle (similar to 58 and 62)
+            * - 64
+              - MODE_DW_PLANECAM3
+              - Chase camera (for air vehicles only): camera focused on pilot, similar to pressing LOOK_BEHIND key on foot, but in air vehicle
+
+        """
         return get_player_camera_mode(self.id)
 
     def enable_camera_target(self, enable):
-        """| METHOD |"""
+        """Toggle camera targeting functions for a player. Disabled by default
+        to save bandwidth.
+        
+        :param bool enable: ``False`` to disable, ``True`` to enable.
+        :return: This method does not return anything.
+        """
         return enable_player_camera_target(self.id, enable)
 
-    def camera_target_object(self):
+    def get_camera_target_object(self):
+        """Allows you to retrieve the ID of the object the player is looking
+        at.
+        
+        :return: The ID of the object the player is looking at.
+            If ``INVALID_OBJECT_ID`` (65535) is returned, player isn't
+            looking at any object.
+        
+        .. note:: This function is disabled by default to save bandwidth.
+            Use :meth:`Player.enable_camera_target` to enable it for each
+            player.
+        """
         return get_player_camera_target_object(self.id)
 
-    def camera_target_vehicle(self):
-        return get_player_camera_target_vehicle(self.id)
+    def get_camera_target_vehicle(self) -> Optional["Vehicle"]:
+        """Allows you to retrieve the ID of the vehicle the player is looking
+        at.
+        
+        :return: The :class:`~vehicle.Vehicle` the player is looking at.
+            If ``None`` is returned, player isn't
+            looking at any vehicle.
+        
+        .. note:: This function is disabled by default to save bandwidth.
+            Use :meth:`Player.enable_camera_target` to enable it for each
+            player.
+        
+        .. note:: While a player may look at multiple vehicles, this method
+            only returns one ID at a time. By experience, this usually returns
+            the closest vehicle in sight.
+        """
+        vehicle_id = get_player_camera_target_vehicle(self.id)
+        if vehicle_id == INVALID_VEHICLE_ID:
+            return 
+        return Vehicle(vehicle_id)
 
-    def camera_target(self):
-        return get_player_camera_target_player(self.id)
+    def get_camera_target_player(self) -> Optional["Player"]:
+        """Get the player the current player is looking at.
+        
+        :return: A :class:`Player` instance representing the player. If no
+            player is being targeted by the camera, it will return ``None``.
 
-    def camera_target_actor(self):
-        return get_player_camera_target_actor(self.id)
+        """
+        player_id = get_player_camera_target_player(self.id)
+        
+        if player_id == INVALID_PLAYER_ID:
+            return
+        return Player(player_id)
+
+    def camera_target_actor(self) -> Optional[Actor]:
+        """Get the :class:`~actor.Actor` the current player is looking at.
+        
+        :return: A :class:`actor.Actor` instance representing the actor. If no
+            actor is being targeted by the camera, it will return ``None``.
+        """
+        actor_id = get_player_camera_target_actor(self.id)
+
+        if actor_id == INVALID_ACTOR_ID:
+            return
+        return Actor(actor_id)
 
     def camera_aspect_ratio(self):
         return get_player_camera_aspect_ratio(self.id)
@@ -1974,18 +2155,21 @@ class Player:
         return ban_ex(self.id, reason)
 
     def gpci(self):
-        """| PEROPERTY | Read only |
+        """Get a hash that represents the installation directory of SA-MP for
+        the client.
 
-        Fetch the GPCI of a user, this is linked to their SAMP/GTA on their computer. This hash is NOT Unique, and can be same across multiple players.
+        This is linked to their SAMP/GTA path on their computer.
+        
+        .. warning:: This hash is NOT Unique, and can be same across multiple
+            players.
 
-        Example
-        ------
-        ```py
-            print(player.gpci)
-        ```
+        .. code-block:: python
+
+            print(player.gpci())
         """
         return gpci(self.id, 41)
 
 
 from pysamp.vehicle import Vehicle
 from pysamp.object import Object
+from pysamp.actor import Actor

@@ -17,12 +17,27 @@ from pysamp import (create_player_text_draw,
 
 
 class PlayerTextDraw():
-    def __init__(player: "Player", x: float, y: float, text: str) -> None:
-        """Create a textdraw for the player.
+    """Textdraws that are per-player. For global textdraws that are shown for
+    all players, check out :class:`TextDraw`.
+    
+    :param id: The ID that represents a textdraw.
+    
+    Players can have up to 256 textdraws shown of this type at once.
+    Exceeding this will cause issues with other textdraws.
 
-        :param x: the x-position as a float on the screen.
-        :param y: the y-position as a float on the screen.
-        :param text: The text to show.
+    To create a new textdraw, use :meth:`PlayerTextDraw.create`.
+    """
+    def __init__(self, id: int) -> None:
+        self.id = id
+
+    @classmethod
+    def create(cls, player: "Player", x: float, y: float, text: str):
+        """Create a textdraw for the player.
+        
+        :param Player player: The :class:`Player` to create the Textdraw for.
+        :param float x: the x-position on the screen.
+        :param float y: the y-position on the screen.
+        :param str text: The text to show.
         :return: The textdraw ID that references this textdraw as an integer.
 
         .. note::
@@ -52,8 +67,8 @@ class PlayerTextDraw():
             - If part of the text is off-screen, the color of the text will\
                 not show, only the shadow (if enabled) will.
         """
-        return create_player_text_draw(player, x, y, text)
-
+        return cls(create_player_text_draw(player, x, y, text))
+    
     def text_draw_destroy(self, text) -> bool:
         """Destroy a textdraw with a given textdraw ID.
 
@@ -79,7 +94,7 @@ class PlayerTextDraw():
         """
         return player_text_draw_letter_size(self.id, text, x, y)
 
-    def text_draw_text_size(self, text, x, y):
+    def text_draw_text_size(self, player: Player, x, y):
         """Change the size of a player-textdraw (box if PlayerTextDrawUseBox is enabled and/or clickable area for use with PlayerTextDrawSetSelectable).
         __________
 
@@ -110,7 +125,7 @@ class PlayerTextDraw():
         No example available for player-textdraws, but check: https://sampwiki.blast.hk/wiki/PlayerTextDrawTextSize
 
         """
-        return player_text_draw_text_size(self.id, text, x, y)
+        return player_text_draw_text_size(player.id, self.id, x, y)
 
     def text_draw_alignment(self, text, alignment):
         """Set the text-alignment of a player-textdraw

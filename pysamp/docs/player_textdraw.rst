@@ -1,7 +1,7 @@
 Player Textdraw
 =============
 
-.. automodule:: player_text_draw
+.. automodule:: player_textdraw
    :members:
    :undoc-members:
    :show-inheritance:

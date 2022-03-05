@@ -43,10 +43,14 @@ from pysamp import (
 
 
 class Vehicle:
-    """Create server vehicles. Edit and work on them using this class.
-
-    The vehicle model number can be any model between 400 and 622.
-    You will need to use this class to spawn vehicle trailers too.
+    """A class that represents server vehicles.
+    
+    :param id: The ID of the vehicle.
+    
+    Edit and work on them using this class. This class represents all drivable
+    vehicles (Planes, boats, bikes, trains, trailers ++)
+    
+    To create a new vehicle, please use :meth:`Vehicle.create`.
 
     A car that explodes or dies, will be respawned at its original
     coordinates where it was created.
@@ -54,7 +58,14 @@ class Vehicle:
 
     def __init__(
         self,
-        vehicle_type: int,
+        id: int
+    ):
+        self.id = id
+        
+    @classmethod
+    def create(
+        cls,
+        model: int,
         x: float,
         y: float,
         z: float,
@@ -63,19 +74,26 @@ class Vehicle:
         color2: int,
         respawn_delay: int,
         add_siren: bool = False,
-    ):
-        self.vehicletype = vehicle_type
-        self.x = x
-        self.y = y
-        self.z = z
-        self.rotation = rotation
-        self.color1 = color1
-        self.color2 = color2
-        self.respawn_delay = respawn_delay
-        self.addsiren = add_siren
+    ) -> "Vehicle":
+        """Create a new vehicle with the given model, position, colors and
+        settings.
 
-        self.id = create_vehicle(
-            vehicle_type,
+    
+        :param model: The model of the car (400-622).
+        :param float x: The x coordinate to spawn the vehicle.
+        :param float y: The y coordinate to spawn the vehicle.
+        :param float z: The z coordinate to spawn the vehicle.
+        :param float rotation: Set the vehicle heading.
+        :param int color1: Primary color (0-255).
+        :param int color2: Secondary color (if available) (0-255).
+        :param int respawn_delay: How long it should take for it to
+            automatically respawn.
+        :param optional bool add_siren: Set if the car should have
+            a siren. Defaults to False.
+        :Returns: An instance of :class:`Vehicle`.
+        """
+        return cls(create_vehicle(
+            model,
             x,
             y,
             z,
@@ -84,7 +102,7 @@ class Vehicle:
             color2,
             respawn_delay,
             add_siren,
-        )
+        ))
 
     def is_valid(self) -> bool:
         """Check if the vehicle is valid"""

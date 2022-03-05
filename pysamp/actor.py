@@ -17,11 +17,11 @@ from pysamp import (
     set_actor_virtual_world,
 )
 from pysamp.player import Player
-
+from typing import Optional
 
 class Actor:
-    """Create and interact with a static 'actor' in the world.
-
+    """A class that represents actors, also known as NPC's.
+    
     These 'actors' are like NPCs, however they have limited functionality.
     They do not take up server player slots.
 
@@ -29,9 +29,31 @@ class Actor:
     https://open.mp/docs/scripting/functions/CreateActor
     """
 
-    def __init__(self, modelid: int, x: float, y: float, z: float, rot: float):
-        self.id: int = create_actor(modelid, x, y, z, rot)
+    def __init__(self, id):
+        self.id: int = id
 
+    def create(
+        cls,
+        modelid: int,
+        x: float,
+        y: float,
+        z: float,
+        rotation: float
+    ) -> Optional["Actor"]:
+        """Create a new actor. 
+        
+        :param int modelid: The model of the actor.
+        :param float x: The model of the actor.
+        :param float y: The model of the actor.
+        :param float z: The model of the actor.
+        :param float rotation: The model of the actor.
+        :return: An :class:`Actor` object. Will return ``None`` if the actor
+            limit is reached of 1000 actors.
+        """
+        return cls(
+            create_actor(modelid, x, y, z, rotation)
+        )
+    
     def get_id(self):
         return self.id
 
@@ -79,11 +101,11 @@ class Actor:
         """Clear the animations that are in use by the actor, if any."""
         return clear_actor_animations(self.id)
 
-    def get_position(self) -> tuple[float, float, float]:
+    def get_position(self) -> "tuple[float, float, float]":
         """Gets the current world coordinates of where the actor is located."""
         return get_actor_pos(self.id)
 
-    def set_position(self, position: tuple[float, float, float]) -> bool:
+    def set_position(self, position: "tuple[float, float, float]") -> bool:
         """Set a new position for the actor."""
         try:
             x, y, z = position

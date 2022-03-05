@@ -5,6 +5,7 @@ pysamp
    :maxdepth: 4
 
    player
+   actor
    object
    vehicle
-   player_text_draw
+   player_textdraw
