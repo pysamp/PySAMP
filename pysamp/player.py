@@ -1695,36 +1695,112 @@ class Player:
         """
         return disable_player_race_checkpoint(self.id)
 
-    def set_world_bounds(self, x_max, x_min, y_max, y_min):
-        """| METHOD |"""
+    def set_world_bounds(
+        self,
+        x_max: float,
+        x_min: float,
+        y_max: float,
+        y_min: float
+    ) -> bool:
+        """Set the world boundaries for a player.
+        Players can not go out of the boundaries, they will be pushed back in.
+        
+        :param x_max: The max x coordinate of the bounds.
+        :param x_min: The min x coordinate of the bounds.
+        :param y_max: The max y coordinate of the bounds.
+        :param y_min: The min y coordinate of the bounds.
+        :return: This method does not return anything.
+        
+        :Illustration:
+        
+        .. code-block::
+        
+                  MinY
+                    v
+            MinX > *-------------
+                    |            |
+                    |   Bound    |
+                    |   center   |
+                    |            |
+                    -------------* < MaxX
+                                ^
+                               MaxY
+        
+        
+        """
         return set_player_world_bounds(self.id, x_max, x_min, y_max, y_min)
 
-    def set_marker(self, showplayerid, color):
-        """| METHOD |"""
-        return set_player_marker_for_player(self.id, showplayerid, color)
+    def set_marker(self, showplayer: "Player", color: int) -> bool:
+        """Change the colour of the player's nametag and radar blip for
+        another player on the server.
+        
+        :param showplayer: The player that should see the change.
+        :param color: The desired color in RGBA format.
+        :return: Returns nothing.
+        
+        .. code-block:: python
 
-    def show_name_tag(self, showplayerid, show):
-        """| METHOD |"""
-        return show_player_name_tag_for_player(self.id, showplayerid, show)
+            # "target" is a player object.
+            player.set_marker(target, 0xAA3333FF)
+            # Now, "target" will see the "player" with the given
+            # color on their map.
+        """
+        return set_player_marker_for_player(self.id, showplayer.id, color)
+
+    def show_name_tag(self, showplayer: "Player", show: bool) -> bool:
+        """This method allows you to toggle the drawing of player nametags,
+        healthbars and armor bars which display above their head.
+        
+        :param showplayer: Player whose name tag will be shown or hidden.
+        :param show: ``False`` to hide, ``True`` to show.
+        :return: Returns nothing.
+        
+        For use of a similar function like this on a global level,
+        check out ``show_name_tags()`` function.
+        """
+        return show_player_name_tag_for_player(self.id, showplayer.id, show)
 
     def set_map_icon(
         self,
-        iconid,
+        icon_id: int,
         x: float,
         y: float,
         z: float,
-        markertype,
-        color,
-        style=MAPICON_LOCAL,
+        marker_type: int,
+        color: int,
+        style: int = MAPICON_LOCAL,
     ):
-        """| METHOD |"""
+        """Place an icon/marker on a player's map. Can be used to mark
+        locations.
+
+        :param icon_id: The icon slot you want to use.
+            Maximum 100 icons can be shown (0-99).
+        :param x: The world x-coordinate.
+        :param y: The world y-coordinate.
+        :param z: The world z-coordinate.
+        :param marker_type: Which type of icon or marker you want to show.
+            More here: https://www.open.mp/docs/scripting/resources/mapicons
+        :param color: The color you want to give the marker, in RGBA format.
+        :param style: The icon style: 
+            https://www.open.mp/docs/scripting/resources/mapiconstyles
+        
+        .. note::
+            If you use an invalid marker type, it will create ID 1
+            (White Square). If you use an icon ID that is already in use,
+            it will replace the current map icon using that ID.
+        
+        .. warning::
+            You can only have 100 icons.
+            Marker type 1, 2, 4 and 56 can make the client crash.
+
+        """
         return set_player_map_icon(
-            self.id, iconid, x, y, z, markertype, color, style
+            self.id, icon_id, x, y, z, marker_type, color, style
         )
 
-    def remove_map_icon(self, iconid):
+    def remove_map_icon(self, icon_id):
         """| METHOD |"""
-        return remove_player_map_icon(self.id, iconid)
+        return remove_player_map_icon(self.id, icon_id)
 
     def allow_teleport(self, allow):
         """Enable or disable teleporting when marking the map with the map-
