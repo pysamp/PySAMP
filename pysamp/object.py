@@ -1,5 +1,6 @@
 from pysamp import (
     create_object,
+    get_object_model,
     get_object_pos,
     set_object_pos,
     set_object_rot,
@@ -16,16 +17,19 @@ from pysamp import (
     OBJECT_MATERIAL_SIZE_256x128
 )
 
+from typing import Tuple
+
 
 class Object:
     """Class that creates and handles global objects.
 
-    For player objects, check out ``pysamp.PlayerObject``.
+    To create a new object, check :meth:`Object.create`.
+
+    For player objects, check out :class:`pysamp.PlayerObject`.
 
     Objects are world objects represented by what object they are (model), and
     where they are created. They can be moved, rotated and customized with
-    non-default textures. The parameter ``draw_distance`` controls the
-    behaviour of how far away the object appears for a player.
+    non-default textures.
 
     It is recommended to use a streamer if you need more than 1000 objects.
     SA-MP has a limit if approximately 1000 objects. Bypassing this limit will
@@ -37,6 +41,13 @@ class Object:
 
     def __init__(
         self,
+        id,
+    ):
+        self.id = id
+    
+    @classmethod
+    def create(
+        cls,
         model,
         x: float,
         y: float,
@@ -44,13 +55,16 @@ class Object:
         rotation_x: float,
         rotation_y: float,
         rotation_z: float,
-        draw_distance: float,
-    ):
-        self.model = model
-        self.id = create_object(
-            model, x, y, z, rotation_x, rotation_y, rotation_z, draw_distance
-        )
+        draw_distance: float
+    ) -> "Object":
+        """Create a new object.
 
+        :return: An instance of an :class:`Object`.
+        """
+        return cls(create_object(
+            model, x, y, z, rotation_x, rotation_y, rotation_z, draw_distance
+        ))
+    
     def set_postition(self, x: float, y: float, z: float) -> bool:
         """Set a new position for the object using world coordinates.
 
@@ -58,7 +72,7 @@ class Object:
         """
         return set_object_pos(self.id, x, y, z)
 
-    def get_position(self) -> "tuple[float, float, float]":
+    def get_position(self) -> Tuple[float, float, float]:
         """Retrieve the coordinates for where the object is right now."""
         return get_object_pos(self.id)
 
@@ -71,13 +85,13 @@ class Object:
         """Set the new rotation the object should have."""
         return set_object_rot(self.id, rotation_x, rotation_y, rotation_z)
 
-    def get_rotation(self) -> "tuple[float, float, float]":
+    def get_rotation(self) -> Tuple[float, float, float]:
         """Get the rotation the object currently have."""
         return get_object_rot(self.id)
 
     def get_model(self) -> int:
         """Get the model of the object."""
-        return self.model
+        return get_object_model(self.id)
 
     def set_no_camera_collision(self) -> bool:
         """Disable camera collision on the object.
@@ -213,8 +227,10 @@ class Object:
 
         Please note that this is a static method as it is affecting all
         objects. You call it like this:
+
         .. code-block:: python
+
             # Disable camera colission by default on all objects:
             Object.set_default_camera_col(True)
         """
-        return set_objects_default_camera_col(self.id, disable)
+        return set_objects_default_camera_col(disable)

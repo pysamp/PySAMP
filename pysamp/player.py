@@ -5,7 +5,6 @@ from pysamp import (
     ban_ex,
     clear_animations,
     create_explosion_for_player,
-    create_player_text_draw,
     delete_pvar,
     disable_player_checkpoint,
     disable_player_race_checkpoint,
@@ -37,7 +36,6 @@ from pysamp import (
     get_player_ip,
     get_player_keys,
     get_player_last_shot_vectors,
-    get_player_menu,
     get_player_money,
     get_player_name,
     get_player_ping,
@@ -55,7 +53,6 @@ from pysamp import (
     get_player_vehicle_id,
     get_player_vehicle_seat,
     get_player_velocity,
-    get_player_version,
     get_player_virtual_world,
     get_player_wanted_level,
     get_player_weapon,
@@ -87,25 +84,6 @@ from pysamp import (
     player_play_sound,
     player_spectate_player,
     player_spectate_vehicle,
-    player_text_draw_alignment,
-    player_text_draw_background_color,
-    player_text_draw_box_color,
-    player_text_draw_color,
-    player_text_draw_destroy,
-    player_text_draw_font,
-    player_text_draw_hide,
-    player_text_draw_letter_size,
-    player_text_draw_set_outline,
-    player_text_draw_set_preview_model,
-    player_text_draw_set_preview_rot,
-    player_text_draw_set_preview_veh_col,
-    player_text_draw_set_proportional,
-    player_text_draw_set_selectable,
-    player_text_draw_set_shadow,
-    player_text_draw_set_string,
-    player_text_draw_show,
-    player_text_draw_text_size,
-    player_text_draw_use_box,
     put_player_in_vehicle,
     remove_building_for_player,
     remove_player_attached_object,
@@ -113,13 +91,8 @@ from pysamp import (
     remove_player_map_icon,
     reset_player_money,
     reset_player_weapons,
-    select_object,
-    select_text_draw,
     send_client_message,
-    send_client_message_to_all,
-    send_death_message,
     send_death_message_to_player,
-    send_player_message_to_all,
     send_player_message_to_player,
     set_camera_behind_player,
     set_player_ammo,
@@ -158,7 +131,6 @@ from pysamp import (
     set_pvar_int,
     set_pvar_string,
     set_spawn_info,
-    show_player_dialog,
     show_player_name_tag_for_player,
     spawn_player,
     start_recording_player_data,
@@ -173,8 +145,8 @@ from pysamp import (
     CAMERA_CUT,
     SPECTATE_MODE_NORMAL,
 )
-from pysamp.samp import INVALID_ACTOR_ID, gpci
-from typing import Optional
+from pysamp.samp import INVALID_ACTOR_ID, INVALID_OBJECT_ID, gpci
+from typing import Optional, Tuple
 
 
 class Player:
@@ -240,7 +212,7 @@ class Player:
         """
         return spawn_player(self.id)
 
-    def set_pos_find_z(self, position: "tuple[float, float, float]") -> bool:
+    def set_pos_find_z(self, position: Tuple[float, float, float]) -> bool:
         """This sets the players position then adjusts the players
         z-coordinate to the nearest solid ground under the position.
 
@@ -250,20 +222,20 @@ class Player:
         """
         try:
             x, y, z = position
-        except:
+        except ValueError:
             raise ValueError("Expected a tuple for pos. (x, y, z)")
         else:
             return set_player_pos_find_z(self.id, x, y, z)
 
-    def get_pos(self) -> "tuple[float, float, float]":
+    def get_pos(self) -> Tuple[float, float, float]:
         """Get the position of the player."""
         return get_player_pos(self.id)
 
-    def set_pos(self, pos: "tuple[float, float, float]") -> bool:
+    def set_pos(self, pos: Tuple[float, float, float]) -> bool:
         """Set the player's position"""
         try:
             x, y, z = pos
-        except:
+        except ValueError:
             raise ValueError("Expected a tuple for pos. (x, y, z)")
         else:
             return set_player_pos(self.id, x, y, z)
@@ -312,7 +284,9 @@ class Player:
         return get_player_interior(self.id)
 
     def set_interior(self, interior_id: int) -> bool:
-        """Set the interior the player to be in. Syncs for all players even when the player is desynced"""
+        """Set the interior the player to be in. Syncs for all players even
+        when the player is desynced
+        """
         return set_player_interior(self.id, interior_id)
 
     def get_health(self) -> float:
@@ -337,10 +311,14 @@ class Player:
         return get_player_ammo(self.id)
 
     def set_ammo(self, conf: tuple) -> bool:
-        """Set ammo for a weapon id. Value should be an int between 0 and 32766."""
+        """Set ammo for a weapon id. Value should be an int between 0-32766.
+
+        :param tuple conf: A tuple containing the weapon id and ammo.
+        :return: No return value.
+        """
         try:
             weaponid, ammo = conf
-        except:
+        except ValueError:
             raise ValueError("Expected a tuple for ammo: (weaponid, ammo)")
         else:
             return set_player_ammo(self.id, weaponid, ammo)
@@ -418,7 +396,7 @@ class Player:
             in vehicles. HUD is visible.
         - 5001 and above - Swaying continues, but HUD becomes invisible.
 
-        .. note:: Drunk level with decrease with player fps.
+        .. note:: Drunk level will decrease with player fps.
             If you have 50 fps, the drunk level will decrease with 50 levels
             per second. This makes this method very useful to determine user
             FPS from server side.
@@ -454,7 +432,7 @@ class Player:
         You can use Hexadecimal numbers to make it easier. The value is
         expected in the following format ``0xRRGGBBAA``,
         where:
-        
+
             - ``RR`` is red
             - ``GG`` is green
             - ``BB`` is blue
@@ -521,7 +499,7 @@ class Player:
         .. code-block:: python
 
             player.give_weapon(6, 1)  # Give a shovel
-            player.give_weapon(WEAPON_COLT45, 500)  # Give a Colt45 with 500 bullets
+            player.give_weapon(WEAPON_COLT45, 500)  # Colt45, 500 bullets
         """
         return give_player_weapon(self.id, weapon_id, ammo)
 
@@ -537,7 +515,7 @@ class Player:
         """
         return set_player_armed_weapon(self.id, weapon_id)
 
-    def get_weapon_data(self, slot: int) -> "tuple[int, int]":
+    def get_weapon_data(self, slot: int) -> Tuple[int, int]:
         """Get weapon data on a given slot.
 
         The weapon slot can be 0-13.
@@ -579,7 +557,7 @@ class Player:
         """Set a new name for the player.
 
         :param name: The name to set. Must be 2-24 characters long and only
-            contain valid characters (0-9, a-z, A-Z, [], (), \$ @ . _ and =).
+            contain valid characters (0-9, a-z, A-Z, [], (), \\$ @ . _ and =).
         :return: This method does not return anything.
 
 
@@ -630,13 +608,15 @@ class Player:
     def weapon(self) -> int:
         """Get the weapon id of the currently held weapon.
 
-        .. note:: When the player state is ``PLAYER_STATE_DRIVER`` or ``PLAYER_STATE_PASSENGER``,
-            this function returns the weapon held by the player before they entered
-            the vehicle.
+        :return: The weapon ID of the weapon they are holding.
+
+        .. note:: When the player state is ``PLAYER_STATE_DRIVER`` or
+            ``PLAYER_STATE_PASSENGER``, this function returns the weapon
+            held by the player before they entered the vehicle.
         """
         return get_player_weapon(self.id)
 
-    def get_keys(self) -> "tuple[int, int, int]":
+    def get_keys(self) -> Tuple[int, int, int]:
         """Check which keys a player is pressing.
 
         :return: A tuple with 3 integers in the following order:
@@ -656,11 +636,12 @@ class Player:
 
         .. note:: As of update 0.3.7, the keys "A" and "D" are not
             recognized when in a vehicle.
-            However, keys "W" and "S" can be detected with the "keys" return value.
+            However, keys "W" and "S" can be detected with the "keys" return
+            value.
         """
         return get_player_keys(self.id)
 
-    def get_time(self) -> "tuple[int, int]":
+    def get_time(self) -> Tuple[int, int]:
         """Get the player's game time.
 
         Value is represented as a tuple with two values: `hour, minute`
@@ -678,9 +659,12 @@ class Player:
     def toggle_clock(self, toggle: bool) -> bool:
         """Toggle the in-game clock (top-right corner) for a specific player.
 
+        :param bool toggle: ``True`` to toggle clock on, else use ``False``.
+        :return: No return value.
+
         When this is enabled, time will progress at 1 minute per second.
         Weather will also interpolate (slowly change over time) when set using
-        `Player.set_weather()`
+        :meth:`set_weather()`
         """
         return toggle_player_clock(self.id, toggle)
 
@@ -824,7 +808,7 @@ class Player:
         """
         return set_player_fighting_style(self.id, style)
 
-    def get_velocity(self) -> "tuple[float, float, float]":
+    def get_velocity(self) -> Tuple[float, float, float]:
         """Get the velocity of the player.
 
         :return: A tuple with 3 floats, representing the velocity in x, y & z
@@ -841,7 +825,7 @@ class Player:
         """
         return get_player_velocity(self.id)
 
-    def set_velocity(self, pos: "tuple[float, float, float]") -> bool:
+    def set_velocity(self, pos: Tuple[float, float, float]) -> bool:
         """Set the velocity of a player in X,Y,Z direction."""
         try:
             x, y, z = pos
@@ -1061,7 +1045,7 @@ class Player:
 
     def get_last_shot_vectors(
         self,
-    ) -> "tuple[float, float, float, float, float, float]":
+    ) -> Tuple[float, float, float, float, float, float]:
         """Find out from where a bullet was shot, and where it hit/collided.
 
         The values are returned as a tuple, listed in the following table:
@@ -1204,7 +1188,21 @@ class Player:
         .. code-block:: python
 
             # Give player a white hat, and paint it green
-            player.set_attached_object(3, 19487, 2, 0.101, -0.0, 0.0, 5.50, 84.60, 83.7, 1.0, 1.0, 1.0, 0xFF00FF00)
+            player.set_attached_object(
+                3,
+                19487,
+                2,
+                0.101,
+                -0.0,
+                0.0,
+                5.50,
+                84.60,
+                83.7,
+                1.0,
+                1.0,
+                1.0,
+                0xFF00FF00
+            )
         """
         return set_player_attached_object(
             self.id,
@@ -1241,10 +1239,12 @@ class Player:
         return remove_player_attached_object(self.id, index)
 
     def is_attached_object_slot_used(self, index: int) -> bool:
-        """Check if a player has an object attached in the specified index (slot).
+        """Check if a player has an object attached in the specified index
+        (slot).
 
-         :param index: The index (slot) to check.
-         :return: Will return ``True`` if the slot is used, otherwise ``False``.
+         :param int index: The index (slot) to check.
+         :return: Will return ``True`` if the slot is used, otherwise
+            ``False``.
 
         .. code-block:: python
 
@@ -1360,23 +1360,23 @@ class Player:
     def get_pvars_upper_index(self) -> int:
         """Each PVar (player-variable) has its own unique identification number
         for lookup, this function returns the highest ID set for a player.
-        
+
         :returns: An integer representing the highest index at which there was
             found a player variable set.
-        
+
         :Example:
-        
+
         .. code-block:: python
-        
+
             pvar_upper_index = player.get_pvars_upper_index() + 1
             pvar_count: int = 0
 
             for i in range(pvar_upper_index):
                 var_name = player.get_pvar_name_at_index(i)
                 # If the var is set (type not 0), increment p_var_count.
-                if player.get_pvar_type(var_name) is not 0: 
+                if player.get_pvar_type(var_name) is not 0:
                     pvar_count = pvar_count + 1
-            
+
             print(f"You have {pvar_count} player-variables set. \\
                 Upper index (highest ID):\\
                 {pvar_upper_index - 1}.")
@@ -1463,17 +1463,17 @@ class Player:
 
     def get_vehicle_id(self) -> int:
         """This method gets the ID of the vehicle the player is currently in.
-        
+
         :returns: Vehicle ID of the vehicle.
-        
-        .. note:: NOT the model id of the vehicle. See 
+
+        .. note:: NOT the model id of the vehicle. See
             ``get_vehicle_model(vehicleid)`` for that.
         """
         return get_player_vehicle_id(self.id)
 
     def get_vehicle_seat(self) -> int:
         """Find out which seat a player is in.
-        
+
         :returns: The seat ID. -1 means they are not in a vehicle. 0-4 is
             normal
         """
@@ -1481,29 +1481,29 @@ class Player:
 
     def remove_from_vehicle(self) -> bool:
         """Remove a player from the current vehicle.
-        
+
         :returns: This method does not return anything.
-        
-        .. note:: 
+
+        .. note::
             - The exiting animation is not synced for other players.
             - The player is not removed if they are in a RC Vehicle.
-        
+
         """
         return remove_player_from_vehicle(self.id)
 
     def toggle_controllable(self, toggle: bool) -> bool:
         """Freeze or unfreeze a player.
-        
+
         :param toggle: Set to ``False`` to freeze, ``True`` to unfreeze.
         :returns: This method does not return antyhing.
-        
+
         .. warning:: The player will also be unable to move their camera.
         """
         return toggle_player_controllable(self.id, toggle)
 
     def play_sound(self, soundid, x: float, y: float, z: float) -> bool:
         """Play a game sound for the player.
-        
+
         :param soundid: The sound id you would like to play for the player.
         :param x: x coordinate to play the sound at.
         :param y: y coordinate.
@@ -1511,7 +1511,7 @@ class Player:
 
         .. note:: Set the position to 0.0 if you want to ignore the position,
             and to play it no matter where the player is at.
-        
+
         A list with available sound id's can be found here:
         https://sampwiki.blast.hk/wiki/SoundID
         """
@@ -1545,28 +1545,28 @@ class Player:
 
     def clear_animations(self, forcesync: bool = False) -> bool:
         """Stop any ongoing animations the player has running.
-        
-        :param optional, bool forcesync: Set to ``True`` to force the player to sync the 
-            animation with other players in streaming radius.
+
+        :param optional bool forcesync: Set to ``True`` to force the player
+            to sync the animation with other players in streaming radius.
         :return: This method does not have any return values.
-        
+
         Clears all animations for the player (it also cancels all
         current tasks such as jetpacking, parachuting, entering vehicles,
         driving, swimming, etc..).
-        
+
         """
         return clear_animations(self.id, forcesync)
 
     def animation_index(self) -> int:
         """Get the current playing animation index of the player.
-        
+
         :returns: The animation index.
         """
         return get_player_animation_index(self.id)
 
     def get_special_action(self) -> int:
         """Get the special action the player is performing.
-        
+
         :returns: An ID representing the special action that is being
             performed.
 
@@ -1577,49 +1577,45 @@ class Player:
 
     def set_special_action(self, action_id: int) -> bool:
         """Set a special action on a player.
-        
+
         :param action_id: The special action the player should perform.
         :return: No return value for this method.
-        
+
         Check the list of special actions here:
         https://www.open.mp/docs/scripting/resources/specialactions
         """
         return set_player_special_action(self.id, action_id)
 
-    def disable_remote_vehicle_collisions(self, disable):
+    def disable_remote_vehicle_collisions(self, disable: bool) -> bool:
         """Disables collisions between occupied vehicles for a player.
-        
+
         :param disable: Bool that disables colissions if set to ``True``.
         :return: No return value for this method.
-        
+
         """
         return disable_remote_vehicle_collisions(self.id, disable)
 
     def set_checkpoint(
-        self,
-        x: float,
-        y: float,
-        z: float,
-        size: float
+        self, x: float, y: float, z: float, size: float
     ) -> bool:
         """Create a checkpoint for the player. Shows a red blip on the radar.
-        
+
         :param x: The x position for the checkpoint.
         :param y: The y position for the checkpoint.
         :param z: The z position for the checkpoint.
         :param size: The size of the checkpoint.
-        
+
         .. note::
             Checkpoints are asynchronous, meaning only one can be
             shown at a time.
-        
+
         Checkpoints don't need to be disabled before setting another one.
         """
         return set_player_checkpoint(self.id, x, y, z, size)
 
-    def disable_checkpoint(self):
+    def disable_checkpoint(self) -> bool:
         """Remove the active checkpoint for a player.
-        
+
         :return: No value is returned by this method.
         """
         return disable_player_checkpoint(self.id)
@@ -1647,7 +1643,7 @@ class Player:
         :param size: The radius of the checkpoint. Also acts as the trigger
             area.
         :return: No value returned.
-        
+
         .. list-table:: The available types
             :widths: 10 30 30
             :header-rows: 1
@@ -1683,13 +1679,13 @@ class Player:
               - RACE_AIR_FOUR
               - Air race checkpoint, swings up and down.
 
-        .. note:: If you use ``RACE_FINISH`` and at the same time use coordinates
-            for the next checkpoint, it will automatically show ``RACE_NORMAL``
-            instead
+        .. note:: If you use ``RACE_FINISH`` and at the same time use
+            coordinates for the next checkpoint, it will automatically show
+            ``RACE_NORMAL`` instead.
 
         .. warning:: Race checkpoints are asynchronous, that means only one
             can be shown at a time.
-        
+
         You do not need to disable a checkpoint in order to show a new one.
         """
         return set_player_race_checkpoint(
@@ -1698,34 +1694,30 @@ class Player:
 
     def disable_race_checkpoint(self) -> bool:
         """Removes the active race checkpoint for the player.
-        
+
         :returns: This method does not return anything.
         """
         return disable_player_race_checkpoint(self.id)
 
     def set_world_bounds(
-        self,
-        x_max: float,
-        x_min: float,
-        y_max: float,
-        y_min: float
+        self, x_max: float, x_min: float, y_max: float, y_min: float
     ) -> bool:
         """Set the world boundaries for a player.
         Players can not go out of the boundaries, they will be pushed back in.
-        
+
         :param x_max: The max x coordinate of the bounds.
         :param x_min: The min x coordinate of the bounds.
         :param y_max: The max y coordinate of the bounds.
         :param y_min: The min y coordinate of the bounds.
         :return: This method does not return anything.
-        
+
         :Illustration:
-        
-        .. code-block::
-        
+
+        .. code-block:: python
+
                   MinY
                     v
-            MinX > *-------------
+             MinX > *-------------
                     |            |
                     |   Bound    |
                     |   center   |
@@ -1733,19 +1725,19 @@ class Player:
                     -------------* < MaxX
                                 ^
                                MaxY
-        
-        
+
+
         """
         return set_player_world_bounds(self.id, x_max, x_min, y_max, y_min)
 
     def set_marker(self, showplayer: "Player", color: int) -> bool:
         """Change the colour of the player's nametag and radar blip for
         another player on the server.
-        
+
         :param showplayer: The player that should see the change.
         :param color: The desired color in RGBA format.
         :return: Returns nothing.
-        
+
         .. code-block:: python
 
             # "target" is a player object.
@@ -1758,11 +1750,11 @@ class Player:
     def show_name_tag(self, showplayer: "Player", show: bool) -> bool:
         """This method allows you to toggle the drawing of player nametags,
         healthbars and armor bars which display above their head.
-        
+
         :param showplayer: Player whose name tag will be shown or hidden.
         :param show: ``False`` to hide, ``True`` to show.
         :return: Returns nothing.
-        
+
         For use of a similar function like this on a global level,
         check out ``show_name_tags()`` function.
         """
@@ -1777,7 +1769,7 @@ class Player:
         marker_type: int,
         color: int,
         style: int = MAPICON_LOCAL,
-    ):
+    ) -> bool:
         """Place an icon/marker on a player's map. Can be used to mark
         locations.
 
@@ -1789,14 +1781,15 @@ class Player:
         :param marker_type: Which type of icon or marker you want to show.
             More here: https://www.open.mp/docs/scripting/resources/mapicons
         :param color: The color you want to give the marker, in RGBA format.
-        :param style: The icon style: 
+        :param style: The icon style:
             https://www.open.mp/docs/scripting/resources/mapiconstyles
-        
+        :return: This method does not return anything.
+
         .. note::
             If you use an invalid marker type, it will create ID 1
             (White Square). If you use an icon ID that is already in use,
             it will replace the current map icon using that ID.
-        
+
         .. warning::
             You can only have 100 icons.
             Marker type 1, 2, 4 and 56 can make the client crash.
@@ -1808,7 +1801,7 @@ class Player:
 
     def remove_map_icon(self, icon_id: int) -> bool:
         """This removes a map icon that was set with ``player.set_map_icon``.
-        
+
         :param icon_id: The icon slot to remove the icon from (0-99).
         :return: No return value.
         """
@@ -1820,21 +1813,17 @@ class Player:
 
         :param allow: A bool to allow or disallow teleport.
         :return: Nothing.
-        
+
         .. warning:: Deprecated since 0.3d.
             Please use the callback ``player.on_click_map`` instead.
         """
         return allow_player_teleport(self.id, allow)
 
     def set_camera_look_at(
-        self,
-        x: float,
-        y: float,
-        z: float,
-        cut:int = CAMERA_CUT
+        self, x: float, y: float, z: float, cut: int = CAMERA_CUT
     ) -> bool:
         """Make the camera look towards a set corrdinate.
-        
+
         :param float x: The x coordinate to look at.
         :param float y: The y coordinate to look at.
         :param float z: The z coordinate to look at.
@@ -1849,59 +1838,61 @@ class Player:
     def set_camera_behind(self) -> bool:
         """Restore the camera to a place behind the player, after using ex.
         :py:meth:`Player.set_camera_pos`.
-        
+
         :returns: This method does not return anything.
         """
         return set_camera_behind_player(self.id)
 
-    def get_camera_pos(self) -> "tuple[float, float, float]":
+    def get_camera_position(self) -> Tuple[float, float, float]:
         """Get the current camera position for the player.
 
         :returns: A tuple with 3 floats, representing x, y and z position.
-        
+
         .. note:: Player's camera positions are only updated once a second,
             unless aiming.
         """
         return get_player_camera_pos(self.id)
 
-    def set_camera_pos(self, pos: tuple):
+    def set_camera_position(self, pos: tuple) -> bool:
         """Set the camera position to a given coordinate.
-        
+
         :param pos: A tuple with 3 values, representing the x, y and z
             coordinate.
         :return: This method does not return anything.
         """
         try:
             x, y, z = pos
-        except:
+        except ValueError:
             raise ValueError("Expected x, y, z as a tuple (x, y, z)")
         else:
             return set_player_camera_pos(self.id, x, y, z)
 
-    def get_camera_front_vector(self):
+    def get_camera_front_vector(self) -> Tuple[float, float, float]:
         """This function will return the current direction of player's aiming
         in 3-D space, the coords are relative to the camera position,
         see :meth:`Player.get_camera_pos`.
-        
+
         :return: This function returns a tuple with 3 floats, that represents
-            the forward facing vector in x, y and z direction. 
+            the forward facing vector in x, y and z direction.
         """
         return get_player_camera_front_vector(self.id)
 
-    def camera_mode(self):
+    def get_camera_mode(self) -> int:
         """Returns the current GTA camera mode for the requested player.
-        
+
         :return: A number that represents the camera mode the player currently
             is in.
-        
-        The camera modes are useful in determining whether a player is aiming, doing a passenger driveby etc.
 
-        :Available camera modes:
-        
+        The camera modes are useful in determining whether a player is
+        aiming, doing a passenger driveby etc.
+
+        Please look at the below table for an overview of the available camera
+        modes.
+
         .. list-table::
             :header-rows: 1
-        
-            * - ID
+
+            * - Value
               - Constant
               - Description
             * - 3
@@ -1909,7 +1900,8 @@ class Player:
               - Train/tram camera
             * - 4
               - MODE_FOLLOWPED
-              - Follow ped (normal behind player camera), several variable distances
+              - Follow ped (normal behind player camera), several variable\
+                distances
             * - 7
               - MODE_SNIPER
               - Sniper aiming (sniper scope)
@@ -1918,13 +1910,15 @@ class Player:
               - Rocket Launcher aiming (rocket launcher scope)
             * - 15
               - MODE_FIXED
-              - Fixed camera (non-moving) - used for garages, chase camera, entering buildings, buying food etc
+              - Fixed camera (non-moving) - used for garages, chase camera,\
+                entering buildings, buying food etc
             * - 16
               - MODE_1STPERSON
               - Vehicle front camera, bike side camera
             * - 18
               - MODE_CAM_ON_A_STRING
-              - Normal car (+ skimmer + helicopter + airplane), several variable distances
+              - Normal car (+ skimmer + helicopter + airplane), several\
+                variable distances
             * - 22
               - MODE_BEHINDBOAT
               - Normal boat camera
@@ -1945,100 +1939,112 @@ class Player:
               - Chase camera: helicopter/bird view
             * - 57
               - MODE_DW_CAM_MAN
-              - Chase camera: ground camera, zooms in quite quickly and pan to the vehicle
+              - Chase camera: ground camera, zooms in quite quickly\
+                and pan to the vehicle
             * - 58
               - MODE_DW_BIRDY
               - Chase camera: horizontal flyby past vehicle
             * - 59
               - MODE_DW_PLANE_SPOTTER
-              - Chase camera (for air vehicles only): ground camera, looking up to the air vehicle
+              - Chase camera (for air vehicles only): ground camera,\
+                looking up to the air vehicle
             * - 62
               - MODE_DW_PLANECAM1
-              - Chase camera (for air vehicles only): vertical flyby past air vehicle
+              - Chase camera (for air vehicles only): vertical flyby past air\
+                vehicle
             * - 63
               - MODE_DW_PLANECAM2
-              - Chase camera (for air vehicles only): horizontal flyby past air vehicle (similar to 58 and 62)
+              - Chase camera (for air vehicles only): horizontal flyby\
+                past air vehicle (similar to 58 and 62)
             * - 64
               - MODE_DW_PLANECAM3
-              - Chase camera (for air vehicles only): camera focused on pilot, similar to pressing LOOK_BEHIND key on foot, but in air vehicle
+              - Chase camera (for air vehicles only): camera focused on\
+                pilot, similar to pressing LOOK_BEHIND key on foot, but in\
+                air vehicle
 
         """
         return get_player_camera_mode(self.id)
 
-    def enable_camera_target(self, enable):
+    def enable_camera_target(self, enable: bool) -> bool:
         """Toggle camera targeting functions for a player. Disabled by default
         to save bandwidth.
-        
+
         :param bool enable: ``False`` to disable, ``True`` to enable.
         :return: This method does not return anything.
         """
         return enable_player_camera_target(self.id, enable)
 
-    def get_camera_target_object(self):
-        """Allows you to retrieve the ID of the object the player is looking
+    def get_camera_target_object(self) -> Optional["Object"]:
+        """Allows you to retrieve the map object the player is looking
         at.
-        
-        :return: The ID of the object the player is looking at.
-            If ``INVALID_OBJECT_ID`` (65535) is returned, player isn't
+
+        :return: The :class:`~object.Object` the player is looking at.
+            If ``None`` is returned, player isn't
             looking at any object.
-        
+
         .. note:: This function is disabled by default to save bandwidth.
             Use :meth:`Player.enable_camera_target` to enable it for each
             player.
         """
-        return get_player_camera_target_object(self.id)
+        object_id = get_player_camera_target_object(self.id)
+        if object_id == INVALID_OBJECT_ID:
+            return None
+        return Object(object_id)
 
     def get_camera_target_vehicle(self) -> Optional["Vehicle"]:
         """Allows you to retrieve the ID of the vehicle the player is looking
         at.
-        
+
         :return: The :class:`~vehicle.Vehicle` the player is looking at.
             If ``None`` is returned, player isn't
             looking at any vehicle.
-        
+
         .. note:: This function is disabled by default to save bandwidth.
             Use :meth:`Player.enable_camera_target` to enable it for each
             player.
-        
+
         .. note:: While a player may look at multiple vehicles, this method
             only returns one ID at a time. By experience, this usually returns
             the closest vehicle in sight.
         """
         vehicle_id = get_player_camera_target_vehicle(self.id)
         if vehicle_id == INVALID_VEHICLE_ID:
-            return 
+            return None
         return Vehicle(vehicle_id)
 
     def get_camera_target_player(self) -> Optional["Player"]:
         """Get the player the current player is looking at.
-        
+
         :return: A :class:`Player` instance representing the player. If no
             player is being targeted by the camera, it will return ``None``.
 
+        .. note:: This function is disabled by default to save bandwidth.
+            Use :meth:`Player.enable_camera_target` to enable it for each
+            player.
         """
         player_id = get_player_camera_target_player(self.id)
-        
+
         if player_id == INVALID_PLAYER_ID:
-            return
+            return None
         return Player(player_id)
 
     def camera_target_actor(self) -> Optional["Actor"]:
         """Get the :class:`~actor.Actor` the current player is looking at.
-        
+
         :return: A :class:`actor.Actor` instance representing the actor. If no
             actor is being targeted by the camera, it will return ``None``.
         """
         actor_id = get_player_camera_target_actor(self.id)
 
         if actor_id == INVALID_ACTOR_ID:
-            return
+            return None
         return Actor(actor_id)
 
     def get_camera_aspect_ratio(self) -> float:
         """Get the player's aspect ratio on the camera.
-        
+
         :return: 4/3, 5/4 or 16/9. For example, 4/3 = 1.3333333333333.
-        
+
         .. note:: The return value of this function represents the value
             of the "widescreen" option in the game's display settings,
             not the actual aspect ratio of the player's display.
@@ -2047,127 +2053,353 @@ class Player:
 
     def get_camera_zoom(self) -> float:
         """Retrieves the game camera zoom level for a given player.
-        
+
         :return: The zoom level as a float. Useful to check zoom level when
             using a sniper, etc.
-        
+
         .. note:: This retrieves the zoom level of the GAME Camera
             (including Sniper scope), not the camera weapon.
         """
         return get_player_camera_zoom(self.id)
 
-    def attach_camera_to_object(self, objectid):
-        """Attach the camera to an object.
+    def interpolate_camera_position(
+        self,
+        from_x: float,
+        from_y: float,
+        from_z: float,
+        to_x: float,
+        to_y: float,
+        to_z: float,
+        time: int,
+        cut: int = CAMERA_CUT
+    ) -> bool:
 
-        If the object moves, the camera will follow.
+        """Smoothly move the camera position from one coordinate to another,
+        using a given time on the transition.
+
+        :param from_x: X coordinate to start from.
+        :param from_y: Y coordinate to start from.
+        :param from_z: Z coordinate to start from.
+        :param to_x: X coordinate to end at.
+        :param to_y: Y coordinate to end at.
+        :param to_z: Z coordinate to end at.
+        :param time: The time in milliseconds for the transition to last.
+        :param cut: The camera style you want to use. Check `style
+            <https://www.open.mp/docs/scripting/resources/cameracutstyles>`_
+            for the available styles.
+        :return: This method does not return anything.
+
+        This method only moves the physical position of the camera.
+        If you want to make it rotate or look at something specific, you
+        need to use this method in conjunction with
+        :meth:`interpolate_camera_look_at`.
+
+        A tip to make objects load while the camera is moving, is to
+        put the player into spectate mode. This also removes the hud.
+        Reset the player camera back to normal by using
+        :meth:`set_camera_behind`.
         """
-        return attach_camera_to_object(self.id, objectid)
-
-    def attach_camera_to_player_object(self, playerobjectid):
-        """Attach the camera to an object which is created for a player."""
-        return attach_camera_to_player_object(self.id, playerobjectid)
-
-    def interpolate_camera_pos(
-        self, FromX, FromY, FromZ, ToX, ToY, ToZ, time, cut=CAMERA_CUT
-    ):
-        """| METHOD |"""
         return interpolate_camera_pos(
-            self.id, FromX, FromY, FromZ, ToX, ToY, ToZ, time, cut
+            self.id, from_x, from_y, from_z, to_x, to_y, to_z, time, cut
         )
 
     def interpolate_camera_look_at(
-        self, FromX, FromY, FromZ, ToX, ToY, ToZ, time, cut=CAMERA_CUT
+        self,
+        from_x: float,
+        from_y: float,
+        from_z: float,
+        to_x: float,
+        to_y: float,
+        to_z: float,
+        time: int,
+        cut: int = CAMERA_CUT
     ):
-        """| METHOD |"""
+        """Make the camera change the "focus" from one coordinate to another.
+
+        :param from_x: Initial x coordinate to start looking at.
+        :param from_y: Initial y coordinate to start looking at.
+        :param from_z: Initial z coordinate to start looking at.
+        :param to_x: X coordinate to end looking at.
+        :param to_y: Y coordinate to end looking at.
+        :param to_z: Z coordinate to end looking at.
+        :param time: The time in milliseconds for the transition to last.
+        :param cut: The camera style you want to use. Check `style
+            <https://www.open.mp/docs/scripting/resources/cameracutstyles>`_
+            for the available styles.
+        :return: This method does not return anything.
+
+        This method is often used in conjunction with
+        :meth:`interpolate_camera_position` in order to create smooth camera
+        transitions and cutscenes.
+        """
         return interpolate_camera_look_at(
-            self.id, FromX, FromY, FromZ, ToX, ToY, ToZ, time, cut
+            self.id, from_x, from_y, from_z, to_x, to_y, to_z, time, cut
         )
 
-    def connected(self):
+    def is_connected(self) -> bool:
+        """Check if the player is connected.
+
+        :return: ``True`` if connected, otherwise ``False``
+        """
         return is_player_connected(self.id)
 
-    def is_in_vehicle(self, vehicleid):
-        """| METHOD |"""
-        return is_player_in_vehicle(self.id, vehicleid)
+    def is_in_vehicle(self, vehicle_id: int) -> bool:
+        """Check if the player is in a specific vehicle ID.
 
-    def is_in_any_vehicle(self):
-        """| METHOD |"""
+        :param int vehicle_id: The vehicle ID to check they are in
+        :return: ``True`` if they are, otherwise ``False``.
+
+        In order to check if they are in any vehicle, use
+        :meth:`is_in_any_vehicle`.
+        """
+        return is_player_in_vehicle(self.id, vehicle_id)
+
+    def is_in_any_vehicle(self) -> bool:
+        """Check if the player is currently in any vehicle.
+
+        :return: ``True`` if they are, otherwise ``False``.
+        """
         return is_player_in_any_vehicle(self.id)
 
     def is_in_checkpoint(self):
-        """| METHOD |"""
+        """Check if the player is currently inside a checkpoint.
+
+        :return: ``True`` if they are, ``False`` if not.
+
+        .. note:: Race checkpoints are not compatible with this method. Please
+            use :meth:`is_in_race_checkpoint` to check that.
+        """
         return is_player_in_checkpoint(self.id)
 
     def is_in_race_checkpoint(self) -> bool:
-        """Check if the given player is inside the checkpoint."""
+        """Check if the given player is inside a race checkpoint.
+
+        :return: ``True`` if they are, otherwise ``False``.
+
+        .. note:: non-race checkpoints are not compatible with this method.
+            Please use :meth:`is_in_checkpoint` to check that.
+        """
         return is_player_in_race_checkpoint(self.id)
 
-    def virtual_world(self):
+    def get_virtual_world(self) -> int:
+        """Get the player's current virtual world.
+
+        :return: The current virtual world.
+        """
         return get_player_virtual_world(self.id)
 
-    def virtual_world(self, worldid):
-        return set_player_virtual_world(self.id, worldid)
+    def set_virtual_world(self, world_id) -> bool:
+        """Set the player to be part of a different virtual world.
+
+        :param int world_id: The world ID (0-65535).
+        :return: This method does not return anything.
+        """
+        return set_player_virtual_world(self.id, world_id)
 
     def enable_stunt_bonus(self, enable):
-        """| METHOD |"""
+        """Toggle stunt bonus when doing jumps and flips for the given player.
+
+        :param bool enable: Boolean to toggle it on or off. ``True`` = enabled.
+        :return: This method does not return anything.
+        """
         return enable_stunt_bonus_for_player(self.id, enable)
 
-    def toggle_spectating(self, toggle):
-        """| METHOD |"""
+    def toggle_spectating(self, toggle: bool) -> bool:
+        """Toggle the player in and out of spectate mode. When in spectate
+        mode, the HUD is removed.
+
+        :param bool toggle: Toggle spectate on with ``True`` or off with
+            ``False``.
+        :return: No return value.
+
+        While in spectator mode a the player can spectate (watch) other players
+        and vehicles. After using this method, either :meth:`spectate_player`
+        or :meth:`spectate_vehicle` needs to be used.
+
+        .. note::
+            When spectator mode is disabled, OnPlayerSpawn will automatically
+            be called, if you wish to restore player to state before
+            spectating, you will have to handle that in OnPlayerSpawn.
+            Note also, that player can also go to class selection before if
+            they used F4 during spectate, a player also CAN die in spectate
+            mode due to various glitches.
+
+        .. warning::
+            If the player is not loaded in before setting the spectate
+            status to ``False``, the connection can be closed unexpectedly.
+        """
         return toggle_player_spectating(self.id, toggle)
 
-    def spectate(self, targetplayerid, mode=SPECTATE_MODE_NORMAL):
-        """| METHOD |"""
-        return player_spectate_player(self.id, targetplayerid, mode)
+    def spectate_player(
+        self,
+        target_player: "Player",
+        mode: int = SPECTATE_MODE_NORMAL
+    ) -> bool:
+        """Spectate a specific player.
 
-    def spectate_vehicle(self, targetvehicleid, mode=SPECTATE_MODE_NORMAL):
-        """| METHOD |"""
-        return player_spectate_vehicle(self.id, targetvehicleid, mode)
+        :param Player target_player: The player to spectate.
+        :param optional mode: The spectate mode to use. Default:
+            ``SPECTATE_MODE_NORMAL``
+        :return: No return value.
 
-    def start_recording_data(self, recordtype, recordname):
-        """| METHOD |"""
+        Spectate modes:
+
+            - ``SPECTATE_MODE_NORMAL``: Normal spectate mode\
+                (third person point of view). Camera can not be changed. This\
+                is the default mode.
+            - ``SPECTATE_MODE_FIXED``: Use :meth:`set_camera_position`\
+                after this to position\
+                the player's camera, and it will track the player.
+            - ``SPECTATE_MODE_SIDE``: The camera will be attached to the side\
+                of the player (like when you're in first-person camera on a\
+                bike and you do a wheelie)
+        """
+        return player_spectate_player(self.id, target_player.id, mode)
+
+    def spectate_vehicle(
+        self,
+        target_vehicle: "Vehicle",
+        mode: int = SPECTATE_MODE_NORMAL
+    ):
+        """Spectate a specific vehicle.
+
+        :param Vehicle target_vehicle: The vehicle to spectate.
+        :param optional int mode: The spectate mode to use. Default:
+            ``SPECTATE_MODE_NORMAL``.
+
+        Avaialable spectate modes:
+
+            - ``SPECTATE_MODE_NORMAL``: Normal spectate mode\
+                (third person point of view). Camera can not be changed. This\
+                is the default mode.
+            - ``SPECTATE_MODE_FIXED``: Use :meth:`set_camera_position`\
+                after this to position\
+                the player's camera, and it will track the vehicle.
+            - ``SPECTATE_MODE_SIDE``: The camera will be attached to the side\
+                of the vehicle (like when you're in first-person camera on a\
+                bike and you do a wheelie)
+        """
+        return player_spectate_vehicle(self.id, target_vehicle.id, mode)
+
+    def start_recording_data(self, recordtype: int, recordname: str) -> bool:
+        """Used to record NPC data."""
         return start_recording_player_data(self.id, recordtype, recordname)
 
-    def stop_recording_data(self):
-        """| METHOD |"""
+    def stop_recording_data(self) -> bool:
+        """Stop recording NPC data, started with :meth:`start_recording_data`.
+        """
         return stop_recording_player_data(self.id)
 
-    def create_explosion(self, X, Y, Z, type, Radius):
-        """| METHOD |"""
-        return create_explosion_for_player(self.id, X, Y, Z, type, Radius)
+    def create_explosion(
+        self,
+        x: float,
+        y: float,
+        z: float,
+        type: int,
+        radius: float
+    ) -> bool:
+        """Create an explosion only visible to the player.
 
-    def send_client_message(self, color, message):
-        """| METHOD |"""
+        :param float x: The x coordinate to create the explosion at.
+        :param float y: The y coordinate to create the explosion at.
+        :param float z: The z coordinate to create the explosion at.
+        :param int type: Thich type of explosion.
+        :param float radius: The radious for the explosion.
+        :return: No value returned.
+
+        Explosion list:
+        https://www.open.mp/docs/scripting/resources/explosionlist
+        """
+        return create_explosion_for_player(self.id, x, y, z, type, radius)
+
+    def send_client_message(self, color: int, message: str) -> bool:
+        """Send a chat message only visible to the player.
+
+        :param int color: The color, in ``0xRRGGBBAA`` format.
+        :param str message: The message to send to the player.
+
+        .. note:: A client message can only contain 128 characters, including
+            embedded color codes.
+        """
         return send_client_message(self.id, color, message)
 
-    def send_message(self, senderid, message):
-        """| METHOD |"""
-        return send_player_message_to_player(self.id, senderid, message)
+    def send_message_to_player(self, sender: "Player", message: str) -> bool:
+        """Have the player receive a direct message from the ``sender``.
 
-    def send_death_message(self, killer, killee, weapon):
-        """| METHOD |"""
+        :param Player sender: The player that authored the message.
+        :param str message: The message the ``sender`` wrote.
+        :return: No return value.
+        """
+        return send_player_message_to_player(self.id, sender.id, message)
+
+    def send_death_message(self, killer, killee, weapon) -> bool:
+        """Send a death message only to the current player.
+
+        :param Player killer: The player who killed.
+        :param Player killee: The player who was killed.
+        :param int weapon: The weapon that was used.
+        :return: No return value.
+        """
         return send_death_message_to_player(self.id, killer, killee, weapon)
 
     def game_text(self, text, time, style):
-        """| METHOD |"""
+        """Send a big text to the player visible on their screen.
+
+        :param str text: The text to show.
+        :param int time: The time it should be shown in ms.
+        :param int style: The style of the text. (0, 1 or 5).
+
+        .. warning::
+            Do note that the players may crash because of odd number of tilde
+            (~) symbols used in the game text. Using color codes (e.g. ~r~)
+            beyond the 255th character may crash the client.
+
+            Also, a blank space at end of the string may result in faliure.
+            For example: "Headshot " results in failure. Instead it should be
+            "Headshot" or "`Headshot_`".
+        """
         return game_text_for_player(self.id, text, time, style)
 
-    def is_npc(self):
+    def is_npc(self) -> bool:
+        """Check if the player is an NPC.
+
+        :return: ``True`` if yes, otherwise ``False``.
+        """
         return is_player_npc(self.id)
 
-    def is_admin(self):
+    def is_admin(self) -> bool:
+        """Check if player is logged in to RCON.
+
+        :return: ``True`` if they are, otherwise ``False``.
+        """
         return is_player_admin(self.id)
 
-    def kick(self):
-        """| METHOD |"""
+    def kick(self) -> bool:
+        """Kick the player from the server.
+
+        :return: No value is returned.
+        """
         return kick(self.id)
 
     def ban(self):
-        """| METHOD |"""
+        """Ban the player from the server.
+
+        :return: No value is returned.
+
+        This writes their IP to the server samp.ban file, and they will not be
+        able to reconnect using the same IP.
+        """
         return ban(self.id)
 
     def ban_ex(self, reason):
-        """| METHOD |"""
+        """This method does the exact same as :meth:`ban`, but adds a reason.
+
+        :param str reason: The reason to write together with the ban.
+        :return: No value is returned.
+
+        The reason will be written as a comment together with the IP in the
+        samp.ban file.
+        """
         return ban_ex(self.id, reason)
 
     def gpci(self):
@@ -2175,7 +2407,7 @@ class Player:
         the client.
 
         This is linked to their SAMP/GTA path on their computer.
-        
+
         .. warning:: This hash is NOT Unique, and can be same across multiple
             players.
 
@@ -2186,6 +2418,6 @@ class Player:
         return gpci(self.id, 41)
 
 
-from pysamp.vehicle import Vehicle
-from pysamp.object import Object
-from pysamp.actor import Actor
+from pysamp.vehicle import Vehicle  # noqa
+from pysamp.object import Object  # noqa
+from pysamp.actor import Actor  # noqa

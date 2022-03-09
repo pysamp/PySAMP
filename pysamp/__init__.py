@@ -395,6 +395,8 @@ from samp import (  # type: ignore
     INVALID_VEHICLE_ID,
 )
 
+from typing import Tuple
+
 ########################
 # SNAKE CASE WRAPPERS FOR PEP8 COMPATIBILITY
 ########################
@@ -446,7 +448,7 @@ def set_player_pos_find_z(
     return SetPlayerPosFindZ(player_id, x, y, z)
 
 
-def get_player_pos(player_id: int) -> "tuple[float, float, float]":
+def get_player_pos(player_id: int) -> Tuple[float, float, float]:
     return GetPlayerPos(player_id)
 
 
@@ -570,7 +572,7 @@ def set_player_armed_weapon(player_id: int, weapon_id: int) -> bool:
     return SetPlayerArmedWeapon(player_id, weapon_id)
 
 
-def get_player_weapon_data(player_id: int, slot: int) -> "tuple[int, int]":
+def get_player_weapon_data(player_id: int, slot: int) -> Tuple[int, int]:
     return GetPlayerWeaponData(player_id, slot)
 
 
@@ -606,7 +608,7 @@ def get_player_weapon(player_id: int) -> int:
     return GetPlayerWeapon(player_id)
 
 
-def get_player_keys(player_id: int) -> "tuple[int, int, int]":
+def get_player_keys(player_id: int) -> Tuple[int, int, int]:
     return GetPlayerKeys(player_id)
 
 
@@ -618,7 +620,7 @@ def set_player_time(player_id: int, hour: int, minute: int) -> bool:
     return SetPlayerTime(player_id, hour, minute)
 
 
-def get_player_time(player_id: int) -> "tuple[int, int]":
+def get_player_time(player_id: int) -> Tuple[int, int]:
     return GetPlayerTime(player_id)
 
 
@@ -654,7 +656,7 @@ def set_player_velocity(player_id: int, x: float, y: float, z: float) -> bool:
     return SetPlayerVelocity(player_id, x, y, z)
 
 
-def get_player_velocity(player_id: int) -> "tuple[float, float, float]":
+def get_player_velocity(player_id: int) -> Tuple[float, float, float]:
     return GetPlayerVelocity(player_id)
 
 
@@ -704,7 +706,7 @@ def remove_building_for_player(
 
 def get_player_last_shot_vectors(
     player_id: int,
-) -> "tuple[float, float, float, float, float, float]":
+) -> Tuple[float, float, float, float, float, float]:
     """
     This function returns two coordinates in a tuple.
     The first three values are the coordinate where the shot was shot from.
@@ -1013,7 +1015,7 @@ def disable_remote_vehicle_collisions(player_id: int, disable: bool) -> bool:
 
 
 def set_player_checkpoint(
-    player_id: int, x: float, y: float, z: float, size: int
+    player_id: int, x: float, y: float, z: float, size: float
 ) -> bool:
     return SetPlayerCheckpoint(player_id, x, y, z, size)
 
@@ -1068,7 +1070,7 @@ def set_player_map_icon(
     z: float,
     markertype: int,
     color: int,
-    style: bool = MAPICON_LOCAL,
+    style: int = MAPICON_LOCAL,
 ) -> bool:
     return SetPlayerMapIcon(
         player_id, iconid, x, y, z, markertype, color, style
@@ -1090,7 +1092,7 @@ def set_player_camera_pos(
 
 
 def set_player_camera_look_at(
-    player_id: int, x: float, y: float, z: float, cut: bool = CAMERA_CUT
+    player_id: int, x: float, y: float, z: float, cut: int = CAMERA_CUT
 ) -> bool:
     return SetPlayerCameraLookAt(player_id, x, y, z, cut)
 
@@ -1099,13 +1101,13 @@ def set_camera_behind_player(player_id: int) -> bool:
     return SetCameraBehindPlayer(player_id)
 
 
-def get_player_camera_pos(player_id: int) -> "tuple[float, float, float]":
+def get_player_camera_pos(player_id: int) -> Tuple[float, float, float]:
     return GetPlayerCameraPos(player_id)
 
 
 def get_player_camera_front_vector(
     player_id: int,
-) -> "tuple[float, float, float]":
+) -> Tuple[float, float, float]:
     return GetPlayerCameraFrontVector(player_id)
 
 
@@ -1340,7 +1342,7 @@ def set_object_pos(object_id: int, x: float, y: float, z: float) -> bool:
     return SetObjectPos(object_id, x, y, z)
 
 
-def get_object_pos(object_id: int) -> "tuple[float, float, float]":
+def get_object_pos(object_id: int) -> Tuple[float, float, float]:
     return GetObjectPos(object_id)
 
 
@@ -1350,7 +1352,7 @@ def set_object_rot(
     return SetObjectRot(object_id, rotation_x, rotation_y, rotation_z)
 
 
-def get_object_rot(object_id: int) -> "tuple[float, float, float]":
+def get_object_rot(object_id: int) -> Tuple[float, float, float]:
     return GetObjectRot(object_id)
 
 
@@ -1506,7 +1508,7 @@ def set_player_object_pos(
 
 def get_player_object_pos(
     player_id: int, object_id: int
-) -> "tuple[float, float, float]":
+) -> Tuple[float, float, float]:
     return GetPlayerObjectPos(player_id, object_id)
 
 
@@ -1524,7 +1526,7 @@ def set_player_object_rot(
 
 def get_player_object_rot(
     player_id: int, object_id: int
-) -> "tuple[float, float, float]":
+) -> Tuple[float, float, float]:
     return GetPlayerObjectRot(player_id, object_id)
 
 
@@ -2341,7 +2343,7 @@ def is_vehicle_streamed_in(vehicle_id: int, forplayer_id: int) -> bool:
     return IsVehicleStreamedIn(vehicle_id, forplayer_id)
 
 
-def get_vehicle_pos(vehicle_id: int) -> "tuple[float, float, float]":
+def get_vehicle_pos(vehicle_id: int) -> Tuple[float, float, float]:
     return GetVehiclePos(vehicle_id)
 
 
@@ -2355,7 +2357,7 @@ def get_vehicle_z_angle(vehicle_id: int) -> float:
 
 def get_vehicle_rotation_quat(
     vehicle_id: int
-) -> "tuple[float, float, float, float]":
+) -> Tuple[float, float, float, float]:
     return GetVehicleRotationQuat(vehicle_id)
 
 
@@ -2392,7 +2394,7 @@ def set_vehicle_params_ex(
 
 def get_vehicle_params_ex(
     vehicle_id: int,
-) -> "tuple[int, int, int, int, int, int, int]":
+) -> Tuple[int, int, int, int, int, int, int]:
     return GetVehicleParamsEx(vehicle_id)
 
 
@@ -2412,7 +2414,7 @@ def set_vehicle_params_car_doors(
     )
 
 
-def get_vehicle_params_car_doors(vehicle_id: int) -> "tuple[int, int, int, int]":
+def get_vehicle_params_car_doors(vehicle_id: int) -> Tuple[int, int, int, int]:
     return GetVehicleParamsCarDoors(vehicle_id)
 
 
@@ -2430,7 +2432,7 @@ def set_vehicle_params_car_windows(
 
 def get_vehicle_params_car_windows(
     vehicle_id: int,
-) -> "tuple[int, int, int, int]":
+) -> Tuple[int, int, int, int]:
     return GetVehicleParamsCarWindows(vehicle_id)
 
 
@@ -2502,7 +2504,7 @@ def repair_vehicle(vehicle_id: int) -> bool:
     return RepairVehicle(vehicle_id)
 
 
-def get_vehicle_velocity(vehicle_id: int) -> "tuple[float, float, float]":
+def get_vehicle_velocity(vehicle_id: int) -> Tuple[float, float, float]:
     return GetVehicleVelocity(vehicle_id)
 
 
@@ -2518,7 +2520,7 @@ def set_vehicle_angular_velocity(
     return SetVehicleAngularVelocity(vehicle_id, x, y, z)
 
 
-def get_vehicle_damage_status(vehicle_id: int) -> "tuple[int, int, int, int]":
+def get_vehicle_damage_status(vehicle_id: int) -> Tuple[int, int, int, int]:
     return GetVehicleDamageStatus(vehicle_id)
 
 
@@ -2538,7 +2540,7 @@ def get_vehicle_virtual_world(vehicle_id: int) -> int:
 
 def get_vehicle_model_info(
     model: int, infotype: int
-) -> "tuple[float, float, float]":
+) -> Tuple[float, float, float]:
     return GetVehicleModelInfo(model, infotype)
 
 
@@ -2596,7 +2598,7 @@ def set_actor_pos(actorid: int, x: float, y: float, z: float) -> bool:
     return SetActorPos(actorid, x, y, z)
 
 
-def get_actor_pos(actorid: int) -> "tuple[float, float, float]":
+def get_actor_pos(actorid: int) -> Tuple[float, float, float]:
     return GetActorPos(actorid)
 
 

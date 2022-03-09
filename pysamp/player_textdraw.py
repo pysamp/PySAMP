@@ -19,9 +19,9 @@ from pysamp import (create_player_text_draw,
 class PlayerTextDraw():
     """Textdraws that are per-player. For global textdraws that are shown for
     all players, check out :class:`TextDraw`.
-    
+
     :param id: The ID that represents a textdraw.
-    
+
     Players can have up to 256 textdraws shown of this type at once.
     Exceeding this will cause issues with other textdraws.
 
@@ -33,7 +33,7 @@ class PlayerTextDraw():
     @classmethod
     def create(cls, player: "Player", x: float, y: float, text: str):
         """Create a textdraw for the player.
-        
+
         :param Player player: The :class:`Player` to create the Textdraw for.
         :param float x: the x-position on the screen.
         :param float y: the y-position on the screen.
@@ -79,12 +79,12 @@ class PlayerTextDraw():
 
     def text_draw_letter_size(self, text, x, y) -> bool:
         """Sets the width and height of the letters in a player-textdraw.
-        
+
         :param text: The ID of the player-textdraw to change the letter size of
         :param x: Width of a character.
         :param y: Height of a character.
         :return: Does not return anything.
-        
+
         .. note::
             - Fonts appear to look the best with an X to Y ratio of 1 to 4.\
                 (E.g. if ``x`` is 0.5 then ``y`` should be 2).

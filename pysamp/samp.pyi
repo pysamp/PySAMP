@@ -1,3 +1,6 @@
+from typing import Tuple
+
+
 def SetSpawnInfo(
     player_id: int,
     team: int,
@@ -28,7 +31,7 @@ def SetPlayerPosFindZ(player_id: int, x: float, y: float, z: float) -> bool:
     pass
 
 
-def GetPlayerPos(player_id: int) -> "tuple[float, float, float]":
+def GetPlayerPos(player_id: int) -> "Tuple[float, float, float]":
     pass
 
 
@@ -152,7 +155,7 @@ def SetPlayerArmedWeapon(player_id: int, weapon_id: int) -> bool:
     pass
 
 
-def GetPlayerWeaponData(player_id: int, slot: int) -> "tuple[int, int]":
+def GetPlayerWeaponData(player_id: int, slot: int) -> "Tuple[int, int]":
     pass
 
 
@@ -188,7 +191,7 @@ def GetPlayerWeapon(player_id: int) -> int:
     pass
 
 
-def GetPlayerKeys(player_id: int) -> "tuple[int, int, int]":
+def GetPlayerKeys(player_id: int) -> "Tuple[int, int, int]":
     pass
 
 
@@ -200,7 +203,7 @@ def SetPlayerTime(player_id: int, hour: int, minute: int) -> bool:
     pass
 
 
-def GetPlayerTime(player_id: int) -> "tuple[int, int]":
+def GetPlayerTime(player_id: int) -> "Tuple[int, int]":
     pass
 
 
@@ -236,7 +239,7 @@ def SetPlayerVelocity(player_id: int, x: float, y: float, z: float) -> bool:
     pass
 
 
-def GetPlayerVelocity(player_id: int) -> "tuple[float, float, float]":
+def GetPlayerVelocity(player_id: int) -> "Tuple[float, float, float]":
     pass
 
 
@@ -286,7 +289,7 @@ def RemoveBuildingForPlayer(
 
 def GetPlayerLastShotVectors(
     player_id: int,
-) -> "tuple[float, float, float, float, float, float]":
+) -> "Tuple[float, float, float, float, float, float]":
     pass
 
 
@@ -625,13 +628,13 @@ def SetCameraBehindPlayer(player_id: int) -> bool:
     pass
 
 
-def GetPlayerCameraPos(player_id: int) -> "tuple[float, float, float]":
+def GetPlayerCameraPos(player_id: int) -> "Tuple[float, float, float]":
     pass
 
 
 def GetPlayerCameraFrontVector(
     player_id: int,
-) -> "tuple[float, float, float]":
+) -> "Tuple[float, float, float]":
     pass
 
 
@@ -773,6 +776,10 @@ def CreateExplosionForPlayer(
     pass
 
 
+def gpci(playerid):
+    pass
+
+
 def CreateObject(
     model_id: int,
     x: float,
@@ -830,7 +837,7 @@ def SetObjectPos(object_id: int, x: float, y: float, z: float) -> bool:
     pass
 
 
-def GetObjectPos(object_id: int) -> "tuple[float, float, float]":
+def GetObjectPos(object_id: int) -> "Tuple[float, float, float]":
     pass
 
 
@@ -840,7 +847,7 @@ def SetObjectRot(
     pass
 
 
-def GetObjectRot(object_id: int) -> "tuple[float, float, float]":
+def GetObjectRot(object_id: int) -> "Tuple[float, float, float]":
     pass
 
 
@@ -947,7 +954,7 @@ def SetPlayerObjectPos(
 
 def GetPlayerObjectPos(
     player_id: int, object_id: int
-) -> "tuple[float, float, float]":
+) -> "Tuple[float, float, float]":
     pass
 
 
@@ -963,7 +970,7 @@ def SetPlayerObjectRot(
 
 def GetPlayerObjectRot(
     player_id: int, object_id: int
-) -> "tuple[float, float, float]":
+) -> "Tuple[float, float, float]":
     pass
 
 
@@ -1685,7 +1692,7 @@ def IsVehicleStreamedIn(vehicle_id: int, forplayer_id: int) -> bool:
     pass
 
 
-def GetVehiclePos(vehicle_id: int) -> "tuple[float, float, float]":
+def GetVehiclePos(vehicle_id: int) -> "Tuple[float, float, float]":
     pass
 
 
@@ -1699,7 +1706,7 @@ def GetVehicleZAngle(vehicle_id: int) -> float:
 
 def GetVehicleRotationQuat(
     vehicle_id: int,
-) -> "tuple[float, float, float, float]":
+) -> "Tuple[float, float, float, float]":
     pass
 
 
@@ -1732,7 +1739,7 @@ def SetVehicleParamsEx(
 
 def GetVehicleParamsEx(
     vehicle_id: int,
-) -> "tuple[int, int, int, int, int, int, int]":
+) -> "Tuple[int, int, int, int, int, int, int]":
     pass
 
 
@@ -1750,7 +1757,7 @@ def SetVehicleParamsCarDoors(
     pass
 
 
-def GetVehicleParamsCarDoors(vehicle_id: int) -> "tuple[int, int, int, int]":
+def GetVehicleParamsCarDoors(vehicle_id: int) -> "Tuple[int, int, int, int]":
     pass
 
 
@@ -1766,7 +1773,7 @@ def SetVehicleParamsCarWindows(
 
 def GetVehicleParamsCarWindows(
     vehicle_id: int,
-) -> "tuple[int, int, int, int]":
+) -> "Tuple[int, int, int, int]":
     pass
 
 
@@ -1838,7 +1845,7 @@ def RepairVehicle(vehicle_id: int) -> bool:
     pass
 
 
-def GetVehicleVelocity(vehicle_id: int) -> "tuple[float, float, float]":
+def GetVehicleVelocity(vehicle_id: int) -> "Tuple[float, float, float]":
     pass
 
 
@@ -1852,7 +1859,7 @@ def SetVehicleAngularVelocity(
     pass
 
 
-def GetVehicleDamageStatus(vehicle_id: int) -> "tuple[int, int, int, int]":
+def GetVehicleDamageStatus(vehicle_id: int) -> "Tuple[int, int, int, int]":
     pass
 
 
@@ -1872,7 +1879,7 @@ def GetVehicleVirtualWorld(vehicle_id: int) -> int:
 
 def GetVehicleModelInfo(
     model: int, infotype: int
-) -> "tuple[float, float, float]":
+) -> "Tuple[float, float, float]":
     pass
 
 
@@ -1920,7 +1927,7 @@ def SetActorPos(actorid: int, x: float, y: float, z: float) -> bool:
     pass
 
 
-def GetActorPos(actorid: int) -> "tuple[float, float, float]":
+def GetActorPos(actorid: int) -> "Tuple[float, float, float]":
     pass
 
 
