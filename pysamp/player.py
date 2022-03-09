@@ -1,4 +1,4 @@
-from pysamp import (
+from . import (
     allow_player_teleport,
     apply_animation,
     ban,
@@ -144,8 +144,15 @@ from pysamp import (
     MAPICON_LOCAL,
     CAMERA_CUT,
     SPECTATE_MODE_NORMAL,
+    INVALID_ACTOR_ID,
+    INVALID_OBJECT_ID,
+    gpci,
 )
-from pysamp.samp import INVALID_ACTOR_ID, INVALID_OBJECT_ID, gpci
+
+from pysamp.vehicle import Vehicle  # noqa
+from pysamp.object import Object  # noqa
+from pysamp.actor import Actor  # noqa
+
 from typing import Optional, Tuple
 
 
@@ -157,7 +164,7 @@ class Player:
     characters (NPCs), and are found in the ``Actor`` class.
     """
 
-    def __init__(self, playerid):
+    def __init__(self, playerid: int):
         self.id: int = playerid
 
     def set_spawn_info(
@@ -167,7 +174,7 @@ class Player:
         x: float,
         y: float,
         z: float,
-        rotation,
+        rotation: float,
         weapon1: int,
         weapon1_ammo: int,
         weapon2: int,
@@ -310,10 +317,11 @@ class Player:
         """Get the amount of ammo in the player's current weapon."""
         return get_player_ammo(self.id)
 
-    def set_ammo(self, conf: tuple) -> bool:
-        """Set ammo for a weapon id. Value should be an int between 0-32766.
+    def set_ammo(self, conf: Tuple[int, int]) -> bool:
+        """Set ammo for a weapon id.
 
         :param tuple conf: A tuple containing the weapon id and ammo.
+            Ammo value should be an int between 0-32766.
         :return: No return value.
         """
         try:
@@ -648,7 +656,11 @@ class Player:
         """
         return get_player_time(self.id)
 
-    def set_time(self, time: tuple) -> bool:
+    def set_time(self, time: Tuple[int, int]) -> bool:
+        """Set the time for the player.
+
+        :param tuple time: (Hour, Minute) is how the tuple looks like.
+        """
         try:
             hour, minute = time
         except ValueError:
@@ -1501,7 +1513,7 @@ class Player:
         """
         return toggle_player_controllable(self.id, toggle)
 
-    def play_sound(self, soundid, x: float, y: float, z: float) -> bool:
+    def play_sound(self, soundid: int, x: float, y: float, z: float) -> bool:
         """Play a game sound for the player.
 
         :param soundid: The sound id you would like to play for the player.
@@ -1622,7 +1634,7 @@ class Player:
 
     def set_race_checkpoint(
         self,
-        type,
+        type: int,
         x: float,
         y: float,
         z: float,
@@ -1853,7 +1865,7 @@ class Player:
         """
         return get_player_camera_pos(self.id)
 
-    def set_camera_position(self, pos: tuple) -> bool:
+    def set_camera_position(self, pos: Tuple[float, float, float]) -> bool:
         """Set the camera position to a given coordinate.
 
         :param pos: A tuple with 3 values, representing the x, y and z
@@ -2113,7 +2125,7 @@ class Player:
         to_z: float,
         time: int,
         cut: int = CAMERA_CUT
-    ):
+    ) -> bool:
         """Make the camera change the "focus" from one coordinate to another.
 
         :param from_x: Initial x coordinate to start looking at.
@@ -2161,7 +2173,7 @@ class Player:
         """
         return is_player_in_any_vehicle(self.id)
 
-    def is_in_checkpoint(self):
+    def is_in_checkpoint(self) -> bool:
         """Check if the player is currently inside a checkpoint.
 
         :return: ``True`` if they are, ``False`` if not.
@@ -2188,7 +2200,7 @@ class Player:
         """
         return get_player_virtual_world(self.id)
 
-    def set_virtual_world(self, world_id) -> bool:
+    def set_virtual_world(self, world_id: int) -> bool:
         """Set the player to be part of a different virtual world.
 
         :param int world_id: The world ID (0-65535).
@@ -2196,7 +2208,7 @@ class Player:
         """
         return set_player_virtual_world(self.id, world_id)
 
-    def enable_stunt_bonus(self, enable):
+    def enable_stunt_bonus(self, enable: bool) -> bool:
         """Toggle stunt bonus when doing jumps and flips for the given player.
 
         :param bool enable: Boolean to toggle it on or off. ``True`` = enabled.
@@ -2260,7 +2272,7 @@ class Player:
         self,
         target_vehicle: "Vehicle",
         mode: int = SPECTATE_MODE_NORMAL
-    ):
+    ) -> bool:
         """Spectate a specific vehicle.
 
         :param Vehicle target_vehicle: The vehicle to spectate.
@@ -2332,7 +2344,12 @@ class Player:
         """
         return send_player_message_to_player(self.id, sender.id, message)
 
-    def send_death_message(self, killer, killee, weapon) -> bool:
+    def send_death_message(
+        self,
+        killer: "Player",
+        killee: "Player",
+        weapon: int
+    ) -> bool:
         """Send a death message only to the current player.
 
         :param Player killer: The player who killed.
@@ -2340,14 +2357,20 @@ class Player:
         :param int weapon: The weapon that was used.
         :return: No return value.
         """
-        return send_death_message_to_player(self.id, killer, killee, weapon)
+        return send_death_message_to_player(
+            self.id,
+            killer.id,
+            killee.id,
+            weapon
+        )
 
-    def game_text(self, text, time, style):
+    def game_text(self, text: str, time: int, style: int) -> bool:
         """Send a big text to the player visible on their screen.
 
         :param str text: The text to show.
         :param int time: The time it should be shown in ms.
         :param int style: The style of the text. (0, 1 or 5).
+        :return: No value returned.
 
         .. warning::
             Do note that the players may crash because of odd number of tilde
@@ -2381,7 +2404,7 @@ class Player:
         """
         return kick(self.id)
 
-    def ban(self):
+    def ban(self) -> bool:
         """Ban the player from the server.
 
         :return: No value is returned.
@@ -2391,7 +2414,7 @@ class Player:
         """
         return ban(self.id)
 
-    def ban_ex(self, reason):
+    def ban_ex(self, reason: str):
         """This method does the exact same as :meth:`ban`, but adds a reason.
 
         :param str reason: The reason to write together with the ban.
@@ -2402,7 +2425,7 @@ class Player:
         """
         return ban_ex(self.id, reason)
 
-    def gpci(self):
+    def gpci(self) -> str:
         """Get a hash that represents the installation directory of SA-MP for
         the client.
 
@@ -2415,9 +2438,4 @@ class Player:
 
             print(player.gpci())
         """
-        return gpci(self.id, 41)
-
-
-from pysamp.vehicle import Vehicle  # noqa
-from pysamp.object import Object  # noqa
-from pysamp.actor import Actor  # noqa
+        return gpci(self.id)

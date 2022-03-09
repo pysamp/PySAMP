@@ -836,13 +836,13 @@ def player_text_draw_font(player_id: int, textdraw_id: int, font: int) -> bool:
 
 
 def player_text_draw_set_proportional(
-    player_id: int, textdraw_id: int, set: int
+    player_id: int, textdraw_id: int, set: bool
 ) -> bool:
     return PlayerTextDrawSetProportional(player_id, textdraw_id, set)
 
 
 def player_text_draw_set_selectable(
-    player_id: int, textdraw_id: int, set: int
+    player_id: int, textdraw_id: int, set: bool
 ) -> bool:
     return PlayerTextDrawSetSelectable(player_id, textdraw_id, set)
 
@@ -2703,3 +2703,7 @@ def update_player_3d_text_label_text(
     player_id: int, id: int, color: int, text: str
 ) -> bool:
     return UpdatePlayer3DTextLabelText(player_id, id, color, text)
+
+
+def gpci(playerid: int) -> str:
+    return gpci(playerid)

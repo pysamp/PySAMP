@@ -1,5 +1,5 @@
 Player Textdraw
-=============
+================
 
 .. automodule:: player_textdraw
    :members:

@@ -7,6 +7,7 @@ from pysamp import (
     text_draw_destroy,
     text_draw_font,
     text_draw_hide_for_all,
+    text_draw_hide_for_player,
     text_draw_letter_size,
     text_draw_set_outline,
     text_draw_set_preview_model,
@@ -20,6 +21,7 @@ from pysamp import (
     text_draw_text_size,
     text_draw_use_box,
 )
+from pysamp.player import Player
 
 
 class Textdraw:
@@ -86,3 +88,8 @@ class Textdraw:
 
     def set_preview_veh_col(self, color1, color2):
         return text_draw_set_preview_veh_col(self.id, color1, color2)
+
+    def hide_for_player(self, player: "Player") -> bool:
+        """This method hides a global textdraw for the player.
+        """
+        return text_draw_hide_for_player(self.id, player.id)

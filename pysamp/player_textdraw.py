@@ -1,22 +1,29 @@
-from player import Player
-from pysamp import (create_player_text_draw,
-                    player_text_draw_alignment,
-                    player_text_draw_background_color,
-                    player_text_draw_box_color, player_text_draw_color,
-                    player_text_draw_destroy, player_text_draw_font,
-                    player_text_draw_hide, player_text_draw_letter_size,
-                    player_text_draw_set_outline,
-                    player_text_draw_set_preview_model,
-                    player_text_draw_set_preview_rot,
-                    player_text_draw_set_preview_veh_col,
-                    player_text_draw_set_proportional,
-                    player_text_draw_set_selectable,
-                    player_text_draw_set_shadow, player_text_draw_set_string,
-                    player_text_draw_show, player_text_draw_text_size,
-                    player_text_draw_use_box, text_draw_hide_for_player)
+from pysamp.player import Player
+from pysamp import (
+    create_player_text_draw,
+    player_text_draw_alignment,
+    player_text_draw_background_color,
+    player_text_draw_box_color,
+    player_text_draw_color,
+    player_text_draw_destroy,
+    player_text_draw_font,
+    player_text_draw_hide,
+    player_text_draw_letter_size,
+    player_text_draw_set_outline,
+    player_text_draw_set_preview_model,
+    player_text_draw_set_preview_rot,
+    player_text_draw_set_preview_veh_col,
+    player_text_draw_set_proportional,
+    player_text_draw_set_selectable,
+    player_text_draw_set_shadow,
+    player_text_draw_set_string,
+    player_text_draw_show,
+    player_text_draw_text_size,
+    player_text_draw_use_box
+)
 
 
-class PlayerTextDraw():
+class PlayerTextDraw:
     """Textdraws that are per-player. For global textdraws that are shown for
     all players, check out :class:`TextDraw`.
 
@@ -27,11 +34,15 @@ class PlayerTextDraw():
 
     To create a new textdraw, use :meth:`PlayerTextDraw.create`.
     """
-    def __init__(self, id: int) -> None:
+
+    def __init__(self, id: int, player: "Player") -> None:
         self.id = id
+        self.player = player
 
     @classmethod
-    def create(cls, player: "Player", x: float, y: float, text: str):
+    def create(
+        cls, player: "Player", x: float, y: float, text: str
+    ) -> "PlayerTextDraw":
         """Create a textdraw for the player.
 
         :param Player player: The :class:`Player` to create the Textdraw for.
@@ -67,22 +78,21 @@ class PlayerTextDraw():
             - If part of the text is off-screen, the color of the text will\
                 not show, only the shadow (if enabled) will.
         """
-        return cls(create_player_text_draw(player, x, y, text))
-    
-    def text_draw_destroy(self, text) -> bool:
+        return cls(create_player_text_draw(player.id, x, y, text), player)
+
+    def destroy(self) -> bool:
         """Destroy a textdraw with a given textdraw ID.
 
         :param text: The textdraw ID to destroy.
-        :return: Does not return anything in particular.
+        :return: Does not return anything.
         """
-        return player_text_draw_destroy(self.id, text)
+        return player_text_draw_destroy(self.player.id, self.id)
 
-    def text_draw_letter_size(self, text, x, y) -> bool:
+    def letter_size(self, x: float, y: float) -> bool:
         """Sets the width and height of the letters in a player-textdraw.
 
-        :param text: The ID of the player-textdraw to change the letter size of
-        :param x: Width of a character.
-        :param y: Height of a character.
+        :param float x: Width of a character.
+        :param float y: Height of a character.
         :return: Does not return anything.
 
         .. note::
@@ -92,336 +102,229 @@ class PlayerTextDraw():
                 textdraw box, multiply ``Y`` by 0.135 to convert to\
                 text_size-like measurements
         """
-        return player_text_draw_letter_size(self.id, text, x, y)
+        return player_text_draw_letter_size(self.player.id, self.id, x, y)
 
-    def text_draw_text_size(self, player: Player, x, y):
-        """Change the size of a player-textdraw (box if PlayerTextDrawUseBox is enabled and/or clickable area for use with PlayerTextDrawSetSelectable).
-        __________
+    def text_size(self, x: float, y: float) -> bool:
+        """Change the size of a player-textdraw (box if :meth:`use_box`
+        is enabled and/or clickable area for use with
+        :meth:`set_selectable`).
 
-        - text    \t The ID of the player-textdraw to set the size of.
-        - Float:x \t The size on the X axis (left/right) following the same 640x480 grid as TextDrawCreate.
-        - Float:y \t The size on the Y axis (up/down) following the same 640x480 grid as TextDrawCreate.
-        __________
+        :param float x: The size on the X axis (left/right) following the same
+            640x480 grid as :meth:`create`.
+        :param float y: The size on the Y axis (up/down) following the same
+            640x480 grid as :meth:`create`.
+        :return: Does not return any value.
 
-        Returns
-        -----
-        - Does not return any value
+        .. note::
+            The x and y have different meanings with different
+            :meth:`alignment` values:
 
-        Notes
-        -----
-        The x and y have different meanings with different player.text_draw_alignment values:
-            1 (left): they are the right-most corner of the box, absolute coordinates.
-            2 (center): they need to inverted (switch the two) and the x value is the overall width of the box.
-            3 (right): the x and y are the coordinates of the left-most corner of the box
-        Using font type 4 (sprite) and 5 (model preview) converts X and Y of this function from corner coordinates to WIDTH and HEIGHT (offsets).
+                1. (left): they are the right-most corner of the box,\
+                    absolute coordinates.
+                2. (center): they need to inverted (switch the two) and the\
+                    x value is the overall width of the box.
+                3. (right): the x and y are the coordinates of the left-most\
+                    corner of the box
 
-        The TextDraw box starts 10.0 units up and 5.0 to the left as the origin (TextDrawCreate coordinate).
+            Using font type 4 (sprite) and 5 (model preview) converts X and
+            Y of this function from corner coordinates to WIDTH and HEIGHT
+            (offsets).
 
-        This function defines the clickable area for use with PlayerTextDrawSetSelectable, whether a box is shown or not.
+        The TextDraw box starts 10.0 units up and 5.0 to the left as the origin
+        (:meth:`create`).
 
-
-        Example
-        -----
-        No example available for player-textdraws, but check: https://sampwiki.blast.hk/wiki/PlayerTextDrawTextSize
-
+        This function defines the clickable area for use with
+        :meth:`set_selectable`, whether a box is shown or not.
         """
-        return player_text_draw_text_size(player.id, self.id, x, y)
+        return player_text_draw_text_size(self.player.id, self.id, x, y)
 
-    def text_draw_alignment(self, text, alignment):
-        """Set the text-alignment of a player-textdraw
-        ___________
+    def alignment(self, alignment: int) -> bool:
+        """Set the text-alignment of a player-textdraw.
 
-        - text   	The ID of the player-textdraw to set the alignment of.
-        - alignment	1-left, 2-centered, 3-right
-        ___________
+        :param int alignment: Alignment can be 1: left, 2: center, 3: right.
+        :return: This method does not return anything.
 
-        Returns
-        ------
-        - No sepcific value is returned
-
-        Note
-        ------
-        - For alignment 2 (center) the x and y values of TextSize need to be swapped
-
-        Example
-        ----
-        No example available for player-textdraws, but read more here: https://sampwiki.blast.hk/wiki/PlayerTextDrawAlignment
+        .. note::
+            For alignment 2 (center) the x and y values of TextSize need to be
+            swapped.
         """
-        return player_text_draw_alignment(self.id, text, alignment)
+        return player_text_draw_alignment(self.player.id, self.id, alignment)
 
-    def text_draw_color(self, text, color):
+    def color(self, color: int) -> bool:
         """Sets the text color of a player-textdraw
 
-        You can also use Gametext colors in textdraws.
+        :param int color: The color you want to give the textdraw, in a
+            ``0xRRGGBBAA`` format.
 
-        *NOTE* The textdraw must be re-shown to the player in order to update the color.
-        ________
+        You can also use Gametext colors (like ``~r~`` and ``~w~``) directly in
+        the text if you want.
 
-        - text  \t Textdraw id to be changed color of, as an int
-        - color \t Color in Hexadecimal format
-        ________
-
-        Returns
-        -----
-        - No value is returned
-
-        Example
-        -----
-        No example available for player-textdraws, but check out: https://sampwiki.blast.hk/wiki/PlayerTextDrawColor
+        .. note:: The textdraw must be re-shown to the player in order to
+            update the color.
         """
-        return player_text_draw_color(self.id, text, color)
+        return player_text_draw_color(self.player.id, self.id, color)
 
-    def text_draw_use_box(self, text, use):
-        """Toggle the box on a player-textdraw.
-        ________
+    def use_box(self, use: bool) -> bool:
+        """Toggle the box on the textdraw.
 
-        - text \t Textdraw ID
-        - use  \t 1 to use a box, 0 to hide the box.
-        ________
-
-        Returns
-        -----
-        - No value is returned
-
-        Example
-        ----
-        No example available for player-textdraws, but check out: https://sampwiki.blast.hk/wiki/PlayerTextDrawUseBox
+        :param bool use: ``True`` to use a box, ``False`` to hide the box.
+        :return: This method does not return anything.
         """
-        return player_text_draw_use_box(self.id, text, use)
+        return player_text_draw_use_box(self.player.id, self.id, use)
 
-    def text_draw_box_color(self, text, color):
+    def box_color(self, color: int) -> bool:
         """Sets the text color of a player-textdraw box
-        ________
 
-        - text  \t Textdraw id to be changed box color of, as an int
-        - color \t Color in Hexadecimal format. Alpha (transparency) is supported
-        ________
-
-        Returns
-        -----
-        - No value is returned
-
-        Example
-        -----
-        No example available for player-textdraws, but check out: https://sampwiki.blast.hk/wiki/PlayerTextDrawBoxColor
+        :param int color: Color in ``0xRRGGBBAA`` format.
+        :return: This method does not return anything.
         """
-        return player_text_draw_box_color(self.id, text, color)
+        return player_text_draw_box_color(self.player.id, self.id, color)
 
-    def text_draw_set_shadow(self, text, size):
-        """Adds a shadow to the bottom-right side of the text in a player-textdraw. The shadow font matches the text font.
-        _________
+    def set_shadow(self, size: int) -> bool:
+        """Adds a shadow to the bottom-right side of the text in a
+        player-textdraw. The shadow font matches the text font.
 
-        - text	\tThe ID of the player-textdraw to change the shadow of
-        - size	\tThe size of the shadow. 0 will hide the shadow.
-        _________
+        :param int size: The size of the shadow. 0 will hide the shadow.
+        :return: No value is returned.
 
-        Returns
-        ----
-        1: successful
-        0: failed - maybe player textdraw doesn't exist?
+        .. note::
+            The shadow can be cut by the box area if the size is set too big
+            for the area.
 
-        Note
-        ----
-        - The shadow can be cut by the box area if the size is set too big for the area
+        """
+        return player_text_draw_set_shadow(self.player.id, self.id, size)
+
+    def set_outline(self, size: int) -> bool:
+        """Set the outline of a player-textdraw. The outline colour cannot be
+        changed unless :meth:`background_color` is used.
+
+        :param int size: The thickness of the outline.
+        :return: This method does not return anything.
 
         Example
-        ----
         No example available for player-textdraws
         """
-        return player_text_draw_set_shadow(self.id, text, size)
+        return player_text_draw_set_outline(self.player.id, self.id, size)
 
-    def text_draw_set_outline(self, text, size):
-        """Set the outline of a player-textdraw. The outline colour cannot be changed unless PlayerTextDrawBackgroundColor is used
-        ___________
+    def background_color(self, color: int) -> bool:
+        """Change the textdraw's background color.
 
-        - text\t\tThe ID of the player-textdraw to set the outline of
-        - size\t\tThe thickness of the outline
-        ___________
+        :param int color: The color that the textdraw should be set to.
+        :return: This method does not return anything.
 
-        Returns
-        ----
-        - No values are returned
-
-        Example
-        ----
-        No example available for player-textdraws
+        .. note::
+            - If :meth:`set_outline` is used with size > 0, the outline\
+              color will match the color used in text_draw_background_color.
+            - Changing the value of color seems to alter the color used in\
+              text_draw_color
         """
-        return player_text_draw_set_outline(self.id, text, size)
-
-    def text_draw_background_color(self, text, color):
-        """| METHOD |
-        _________
-
-        - text	    The ID of the player-textdraw to set the background color of
-        - color	    The color that the textdraw should be set to.
-        _________
-        Notes
-        -----
-        - If PlayerTextDrawSetOutline is used with size > 0, the outline color will match the color used in text_draw_background_color.
-        - Changing the value of color seems to alter the color used in text_draw_color
-
-        Returns
-        ------
-        - No value returned
-
-        Example
-        -------
-        No example available for player-textdraws
-
-        """
-        return player_text_draw_background_color(self.id, text, color)
-
-    def text_draw_font(self, text, font):
-        """Change the font of a textdraw.
-
-        See all fonts here: https://sampwiki.blast.hk/wiki/PlayerTextDrawFont
-        ________
-
-        - text \t The ID of the player-textdraw to change the font of
-        - font \t There are four fonts, 0-3. Above 4 may crash the client.
-        ________
-
-        Returns
-        -----
-        - No value is returned
-
-        """
-        return player_text_draw_font(self.id, text, font)
-
-    def text_draw_set_proportional(self, text, set):
-        """Appears to scale text spacing to a proportional ratio.
-        Useful when using PlayerTextDrawLetterSize to ensure the text has even character spacing.
-        _______________
-
-        - text \t The ID of the player-textdraw to set the proportionality of
-        - set  \t 1 to enable proportionality, 0 to disable
-        _______________
-
-        Returns
-        -----
-        - No value is returned
-
-        """
-        return player_text_draw_set_proportional(self.id, text, set)
-
-    def text_draw_set_selectable(self, text, set):
-        """This method MUST be used BEFORE the textdraw is shown to the player!
-
-        This method makes the textdraw selectable. `player.text_draw_text_size` defines the clickable area.
-
-        _________
-
-        - text	        The ID of the player-textdraw
-        - set	        The color that the textdraw should be set to.
-        _________
-
-
-        Returns
-        ----
-        - No value returned
-
-        Example
-        ----
-        No example available for player-textdraws.
-        """
-        return player_text_draw_set_selectable(self.id, text, set)
-
-    def player_text_draw_show(self, text):
-        """Use this method to show a player-textdraw for the player.
-
-        - text \t\t The textdraw id to show for the player
-        """
-        return player_text_draw_show(self.id, text)
-
-    def player_text_draw_hide(self, text):
-        """Use this method to hide a player-textdraw for the player.
-
-        - text\t\t The textdraw id to hide for the player
-
-        Returns
-        ----
-        - No values returned
-        """
-        return player_text_draw_hide(self.id, text)
-
-    def text_draw_hide_for_player(self, text):
-        """This method hides a *global* textdraw for the player. To hide a player-textdraw, check `player.player_text_draw_hide`
-
-        - text\t\tThe global textdraw id to hide for the player.
-
-        Returns
-        ----
-        - No values returned
-        """
-        return text_draw_hide_for_player(self.id, text)
-
-    def text_draw_set_string(self, text, string):
-        """Update the shown text in the player-textdraw. You don't have to show the textdraw again in order to apply the changes
-
-        ____________
-
-        - text  	The ID of the textdraw to change
-        - string	The new string for the TextDraw. Max length: 1023 characters
-        ____________
-
-        Returns
-        -----
-        - No values returned
-
-        """
-        return player_text_draw_set_string(self.id, text, string)
-
-    def text_draw_set_preview_model(self, text, modelindex):
-        """Sets a player textdraw 2D preview sprite of a specified model ID.
-        ____________
-
-        - text  	The ID of the textdraw to change
-        - modelid	The modelid to show. Can be any valid object id.
-        ____________
-
-        Returns
-        ----
-        1: The function executed successfully. If an invalid model is passed 'success' is reported, but the model will appear as a yellow/black question mark.
-        0: The function failed to execute. Player and/or textdraw do not exist.
-
-
-        """
-        return player_text_draw_set_preview_model(self.id, text, modelindex)
-
-    def text_draw_set_preview_rot(self, text, fRotX, fRotY, fRotZ, fZoom=1.0):
-        """Sets the rotation and zoom of a 3D model preview player-textdraw.
-        __________________
-
-        - text	\tThe ID of the player-textdraw to change.
-        - Float:fRotX	The X rotation value.
-        - Float:fRotY	The Y rotation value.
-        - Float:fRotZ	The Z rotation value.
-        - Float:fZoom	The zoom value, default value 1.0, smaller values make the camera closer and larger values make the camera further away.
-        __________________
-
-        Returns
-        ------
-        - No values returned
-        """
-        return player_text_draw_set_preview_rot(
-            self.id, text, fRotX, fRotY, fRotZ, fZoom
+        return player_text_draw_background_color(
+            self.player.id, self.id, color
         )
 
-    def text_draw_set_preview_veh_col(self, text, color1, color2):
-        """Set the color of a vehicle in a player-textdraw model preview (if a vehicle is shown).
+    def font(self, font: int) -> bool:
+        """Change the font of a textdraw.
 
-        The textdraw MUST use the font TEXT_DRAW_FONT_MODEL_PREVIEW and be showing a vehicle, in order for this method to have an effect.
+        :param int font: A font ID to give the textdraw (0-3).
+        :return: No value is returned.
 
-        _______________
+        See all fonts here: https://sampwiki.blast.hk/wiki/PlayerTextDrawFont
 
-        - text  	The ID of the player's player-textdraw to change.
-        - color1	The color to set the vehicle's primary color to.
-        - color2	The color to set the vehicle's secondary color to.
-        _______________
-
-        Returns
-        ------
-        - No values returned
-
+        .. warning:: Setting the ``font`` above 3 may crash the client.
         """
-        return player_text_draw_set_preview_veh_col(self.id, text, color1, color2)
+        return player_text_draw_font(self.player.id, self.id, font)
+
+    def set_proportional(self, set: bool) -> bool:
+        """Appears to scale text spacing to a proportional ratio.
+        Useful when using :meth:`letter_size` to ensure the text has an
+        even character spacing.
+
+        :param bool set: ``True`` to enable proportionality,
+            ``False`` to disable.
+        :return: Does not return anything.
+        """
+        return player_text_draw_set_proportional(self.player.id, self.id, set)
+
+    def set_selectable(self, set: bool) -> bool:
+        """Set a textdraw selectable.
+
+        :param bool set: Toggle the textdraw selectable or not.
+        :return: No return value.
+
+        .. warning:: This method _must_ be used before the textdraw is shown to
+            the player.
+
+        :meth:`text_size` defines the clickable area.
+        """
+        return player_text_draw_set_selectable(self.player.id, self.id, set)
+
+    def show(self) -> bool:
+        """Use this method to show a player-textdraw for the player.
+
+        :return: This method does not return anything.
+        """
+        return player_text_draw_show(self.player.id, self.id)
+
+    def hide(self) -> bool:
+        """Use this method to hide a player-textdraw for the player.
+
+        :return: This method does not return anything.
+        """
+        return player_text_draw_hide(self.player.id, self.id)
+
+    def set_string(self, string: str) -> bool:
+        """Update the shown text in the player-textdraw.
+
+        :param str string: The new string for the textdraw.
+            Max length: 1023 characters.
+        :return: This method does not return anything.
+
+        You don't have to show the textdraw again in order to apply the changes
+        """
+        return player_text_draw_set_string(self.player.id, self.id, string)
+
+    def set_preview_model(self, model_index: int) -> bool:
+        """Sets a player textdraw 2D preview sprite of a specified model ID.
+
+        :param int model_index: The model to show.
+        :return: This method does not return anything.
+        """
+        return player_text_draw_set_preview_model(
+            self.player.id, self.id, model_index
+        )
+
+    def set_preview_rotation(
+        self,
+        rotation_x: float,
+        rotation_y: float,
+        rotation_z: float,
+        zoom: float = 1.0
+    ) -> bool:
+        """Sets the rotation and zoom of a 3D model preview player-textdraw.
+
+        :param float rotation_x: The X rotation value.
+        :param float rotation_y: The Y rotation value.
+        :param float rotation_z: The Z rotation value.
+        :param optional float zoom: The zoom value, default value 1.0,
+            smaller values make the camera closer and larger values make
+            the camera further away.
+        :return: This method does not return anything.
+        """
+        return player_text_draw_set_preview_rot(
+            self.player.id, self.id, rotation_x, rotation_y, rotation_z, zoom
+        )
+
+    def set_preview_vehicle_colour(self, color1: int, color2: int) -> bool:
+        """Set the color of a vehicle in a player-textdraw model preview
+        (if a vehicle is shown).
+
+        :param int color1: The color to set the vehicle's primary color to.
+        :param int color2: The color to set the vehicle's secondary color to.
+        :return: This method does not return anything.
+
+        The textdraw must use the font ``TEXT_DRAW_FONT_MODEL_PREVIEW`` and be
+        showing a vehicle, in order for this method to have an effect.
+        """
+        return player_text_draw_set_preview_veh_col(
+            self.player.id, self.id, color1, color2
+        )

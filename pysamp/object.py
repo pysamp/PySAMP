@@ -41,14 +41,14 @@ class Object:
 
     def __init__(
         self,
-        id,
-    ):
+        id: int,
+    ) -> None:
         self.id = id
     
     @classmethod
     def create(
         cls,
-        model,
+        model: int,
         x: float,
         y: float,
         z: float,
@@ -222,7 +222,7 @@ class Object:
         )
 
     @staticmethod
-    def set_default_camera_col(self, disable: bool) -> bool:
+    def set_default_camera_col(disable: bool) -> bool:
         """Set whether all object should by default ignore colission.
 
         Please note that this is a static method as it is affecting all

@@ -776,7 +776,7 @@ def CreateExplosionForPlayer(
     pass
 
 
-def gpci(playerid):
+def gpci(playerid: int) -> str:
     pass
 
 

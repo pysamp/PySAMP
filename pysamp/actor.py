@@ -30,7 +30,7 @@ class Actor:
     https://open.mp/docs/scripting/functions/CreateActor
     """
 
-    def __init__(self, id):
+    def __init__(self, id: int) -> None:
         self.id: int = id
 
     @classmethod
@@ -56,10 +56,10 @@ class Actor:
             create_actor(modelid, x, y, z, rotation)
         )
 
-    def get_id(self):
+    def get_id(self) -> int:
         return self.id
 
-    def destroy(self):
+    def destroy(self) -> bool:
         """Remove a created actor from the world."""
         return destroy_actor(self.id)
 
@@ -128,7 +128,7 @@ class Actor:
         """Get how much health the actor has."""
         return get_actor_health(self.id)
 
-    def set_health(self, health: float):
+    def set_health(self, health: float) -> bool:
         """Set the health of the actor."""
         return set_actor_health(self.id, health)
 
