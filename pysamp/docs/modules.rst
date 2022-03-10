@@ -9,3 +9,5 @@ pysamp
    object
    vehicle
    player_textdraw
+   textdraw
+   text_label
