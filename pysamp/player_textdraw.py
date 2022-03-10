@@ -49,7 +49,7 @@ class PlayerTextDraw:
         :param float x: the x-position on the screen.
         :param float y: the y-position on the screen.
         :param str text: The text to show.
-        :return: The textdraw ID that references this textdraw as an integer.
+        :return: An instance of :class:`PlayerTextDraw`.
 
         .. note::
             - The (0,0) coordinate is the top left coordinate for the textdraw\
@@ -81,9 +81,8 @@ class PlayerTextDraw:
         return cls(create_player_text_draw(player.id, x, y, text), player)
 
     def destroy(self) -> bool:
-        """Destroy a textdraw with a given textdraw ID.
+        """Destroy the player textdraw.
 
-        :param text: The textdraw ID to destroy.
         :return: Does not return anything.
         """
         return player_text_draw_destroy(self.player.id, self.id)
@@ -105,7 +104,7 @@ class PlayerTextDraw:
         return player_text_draw_letter_size(self.player.id, self.id, x, y)
 
     def text_size(self, x: float, y: float) -> bool:
-        """Change the size of a player-textdraw (box if :meth:`use_box`
+        """Change the size of the player-textdraw (box if :meth:`use_box`
         is enabled and/or clickable area for use with
         :meth:`set_selectable`).
 
@@ -139,24 +138,25 @@ class PlayerTextDraw:
         return player_text_draw_text_size(self.player.id, self.id, x, y)
 
     def alignment(self, alignment: int) -> bool:
-        """Set the text-alignment of a player-textdraw.
+        """Set the text-alignment of the player-textdraw.
 
         :param int alignment: Alignment can be 1: left, 2: center, 3: right.
         :return: This method does not return anything.
 
         .. note::
-            For alignment 2 (center) the x and y values of TextSize need to be
-            swapped.
+            For alignment 2 (center) the x and y values of :meth:`text_size`
+            need to be swapped.
         """
         return player_text_draw_alignment(self.player.id, self.id, alignment)
 
     def color(self, color: int) -> bool:
-        """Sets the text color of a player-textdraw
+        """Sets the text color of the player-textdraw.
 
         :param int color: The color you want to give the textdraw, in a
             ``0xRRGGBBAA`` format.
 
-        You can also use Gametext colors (like ``~r~`` and ``~w~``) directly in
+        You can also use :meth:`~pysamp.player.game_text`
+        colors (like ``~r~`` and ``~w~``) directly in
         the text if you want.
 
         .. note:: The textdraw must be re-shown to the player in order to
@@ -173,7 +173,7 @@ class PlayerTextDraw:
         return player_text_draw_use_box(self.player.id, self.id, use)
 
     def box_color(self, color: int) -> bool:
-        """Sets the text color of a player-textdraw box
+        """Sets the text color of a player-textdraw box.
 
         :param int color: Color in ``0xRRGGBBAA`` format.
         :return: This method does not return anything.
@@ -200,9 +200,6 @@ class PlayerTextDraw:
 
         :param int size: The thickness of the outline.
         :return: This method does not return anything.
-
-        Example
-        No example available for player-textdraws
         """
         return player_text_draw_set_outline(self.player.id, self.id, size)
 
@@ -214,9 +211,9 @@ class PlayerTextDraw:
 
         .. note::
             - If :meth:`set_outline` is used with size > 0, the outline\
-              color will match the color used in text_draw_background_color.
+              color will match the color used in :meth:`background_color`.
             - Changing the value of color seems to alter the color used in\
-              text_draw_color
+              :meth:`color`
         """
         return player_text_draw_background_color(
             self.player.id, self.id, color
@@ -246,7 +243,7 @@ class PlayerTextDraw:
         return player_text_draw_set_proportional(self.player.id, self.id, set)
 
     def set_selectable(self, set: bool) -> bool:
-        """Set a textdraw selectable.
+        """Set the textdraw selectable.
 
         :param bool set: Toggle the textdraw selectable or not.
         :return: No return value.
@@ -259,14 +256,14 @@ class PlayerTextDraw:
         return player_text_draw_set_selectable(self.player.id, self.id, set)
 
     def show(self) -> bool:
-        """Use this method to show a player-textdraw for the player.
+        """Use this method to show the player-textdraw for the player.
 
         :return: This method does not return anything.
         """
         return player_text_draw_show(self.player.id, self.id)
 
     def hide(self) -> bool:
-        """Use this method to hide a player-textdraw for the player.
+        """Use this method to hide the player-textdraw for the player.
 
         :return: This method does not return anything.
         """
@@ -276,7 +273,7 @@ class PlayerTextDraw:
         """Update the shown text in the player-textdraw.
 
         :param str string: The new string for the textdraw.
-            Max length: 1023 characters.
+            Max length: 1024 characters.
         :return: This method does not return anything.
 
         You don't have to show the textdraw again in order to apply the changes
@@ -314,7 +311,7 @@ class PlayerTextDraw:
             self.player.id, self.id, rotation_x, rotation_y, rotation_z, zoom
         )
 
-    def set_preview_vehicle_colour(self, color1: int, color2: int) -> bool:
+    def set_preview_vehicle_color(self, color1: int, color2: int) -> bool:
         """Set the color of a vehicle in a player-textdraw model preview
         (if a vehicle is shown).
 
