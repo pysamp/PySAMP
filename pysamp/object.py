@@ -13,7 +13,9 @@ from pysamp import (
     is_object_moving,
     set_object_material,
     set_object_material_text,
-    set_objects_default_camera_col,
+    set_objects_default_camera_col
+)
+from samp import (
     OBJECT_MATERIAL_SIZE_256x128
 )
 

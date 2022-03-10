@@ -548,7 +548,7 @@ def DisableRemoteVehicleCollisions(player_id: int, disable: bool) -> bool:
 
 
 def SetPlayerCheckpoint(
-    player_id: int, x: float, y: float, z: float, size: int
+    player_id: int, x: float, y: float, z: float, size: float
 ) -> bool:
     pass
 
@@ -566,7 +566,7 @@ def SetPlayerRaceCheckpoint(
     next_x: float,
     next_y: float,
     next_z: float,
-    size: int,
+    size: float,
 ) -> bool:
     pass
 

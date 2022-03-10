@@ -1,4 +1,4 @@
-from samp import (  # type: ignore
+from samp import (
     AddMenuItem,
     AddPlayerClass,
     AddPlayerClassEx,
@@ -392,7 +392,7 @@ from samp import (  # type: ignore
     SPECTATE_MODE_NORMAL,
     OBJECT_MATERIAL_SIZE_256x128,
     INVALID_PLAYER_ID,
-    INVALID_VEHICLE_ID,
+    INVALID_VEHICLE_ID
 )
 
 from typing import Tuple

@@ -13,8 +13,6 @@ class Text_Label:
     """
     Create and adjust 3D Text Labels that can be attached to
     vehicles, players or world coordinates.
-
-    
     """
 
     def __init__(
@@ -26,7 +24,7 @@ class Text_Label:
         z: float,
         drawDistance: float,
         virtualworld: int,
-        testLOS=False,
+        testLOS: bool = False,
     ) -> None:
 
         self.text = text
@@ -48,7 +46,7 @@ class Text_Label:
             self.test_los,
         )
 
-    def delete(self):
+    def delete(self) -> bool:
         return delete_3d_text_label(self.id)
 
     def attach_to_player(
@@ -65,5 +63,5 @@ class Text_Label:
             self.id, vehicle.id, offsetX, offsetY, offsetZ
         )
 
-    def update_text(self, color: int, text: str) -> None:
+    def update_text(self, color: int, text: str) -> bool:
         return update_3d_text_label_text(self.id, color, text)

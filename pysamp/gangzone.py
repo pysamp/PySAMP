@@ -46,7 +46,7 @@ class Gangzone:
 
     def destroy(self) -> bool:
         """Destroy the gangzone."""
-        gang_zone_destroy(self.id)
+        return gang_zone_destroy(self.id)
 
     def show_for_player(
         self, player: Player, color: int
@@ -54,7 +54,7 @@ class Gangzone:
         """Show the gangzone for a player."""
         return gang_zone_show_for_player(player.id, self.id, color)
 
-    def hide_for_player(self, player: Player):
+    def hide_for_player(self, player: Player) -> bool:
         """Hide the ganzone for a player."""
         return gang_zone_hide_for_player(player.id, self.id)
 
