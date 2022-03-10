@@ -1,5 +1,3 @@
-from pysamp.vehicle import Vehicle
-from pysamp.player import Player
 from pysamp import (
     attach_3d_text_label_to_player,
     attach_3d_text_label_to_vehicle,
@@ -50,14 +48,18 @@ class Text_Label:
         return delete_3d_text_label(self.id)
 
     def attach_to_player(
-        self, player: Player, offsetX: float, offsetY: float, offsetZ: float
+        self, player: "Player", offsetX: float, offsetY: float, offsetZ: float
     ) -> int:
         return attach_3d_text_label_to_player(
             self.id, player.id, offsetX, offsetY, offsetZ
         )
 
     def attach_to_vehicle(
-        self, vehicle: Vehicle, offsetX: float, offsetY: float, offsetZ: float
+        self,
+        vehicle: "Vehicle",
+        offsetX: float,
+        offsetY: float,
+        offsetZ: float
     ) -> int:
         return attach_3d_text_label_to_vehicle(
             self.id, vehicle.id, offsetX, offsetY, offsetZ
@@ -65,3 +67,6 @@ class Text_Label:
 
     def update_text(self, color: int, text: str) -> bool:
         return update_3d_text_label_text(self.id, color, text)
+
+from pysamp.vehicle import Vehicle  # noqa
+from pysamp.player import Player  # noqa

@@ -16,7 +16,6 @@ from pysamp import (
     set_actor_pos,
     set_actor_virtual_world,
 )
-from pysamp.player import Player
 from typing import Optional, Tuple
 
 
@@ -63,7 +62,7 @@ class Actor:
         """Remove a created actor from the world."""
         return destroy_actor(self.id)
 
-    def streamed_in(self, for_player: Player) -> bool:
+    def streamed_in(self, for_player: "Player") -> bool:
         """Check if a player has streamed in the actor."""
         return is_actor_streamed_in(self.id, for_player.id)
 
@@ -143,3 +142,5 @@ class Actor:
     def is_valid(self) -> bool:
         """Check if the actor is valid."""
         return is_valid_actor(self.id)
+
+from pysamp.player import Player  # noqa

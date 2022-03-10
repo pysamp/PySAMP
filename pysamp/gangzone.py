@@ -10,7 +10,6 @@ from pysamp import (
     gang_zone_stop_flash_for_all,
     gang_zone_stop_flash_for_player,
 )
-from pysamp.player import Player
 
 
 class Gangzone:
@@ -49,12 +48,12 @@ class Gangzone:
         return gang_zone_destroy(self.id)
 
     def show_for_player(
-        self, player: Player, color: int
+        self, player: "Player", color: int
     ) -> bool:
         """Show the gangzone for a player."""
         return gang_zone_show_for_player(player.id, self.id, color)
 
-    def hide_for_player(self, player: Player) -> bool:
+    def hide_for_player(self, player: "Player") -> bool:
         """Hide the ganzone for a player."""
         return gang_zone_hide_for_player(player.id, self.id)
 
@@ -67,7 +66,7 @@ class Gangzone:
         return gang_zone_hide_for_all(self.id)
 
     def flash_for_player(
-        self, player: Player, flash_color: int
+        self, player: "Player", flash_color: int
     ) -> bool:
         """Make the gangzone flash for the given player,
         with the desired color.
@@ -78,7 +77,7 @@ class Gangzone:
         """Make the gangzone flash for all players."""
         return gang_zone_flash_for_all(self.id, flash_color)
 
-    def stop_flash_for_player(self, player: Player) -> bool:
+    def stop_flash_for_player(self, player: "Player") -> bool:
         """If a gangzone is flashing for a player,
         this can be used to stop it.
         """
@@ -87,3 +86,6 @@ class Gangzone:
     def stop_flash_for_all(self) -> bool:
         """Stop the flashing of a ganzone for all online players."""
         return gang_zone_stop_flash_for_all(self.id)
+
+
+from pysamp.player import Player  # noqa
