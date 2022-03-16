@@ -4,10 +4,11 @@ pysamp
 .. toctree::
    :maxdepth: 4
 
-   player
    actor
    object
-   vehicle
+   pickup
+   player
    player_textdraw
    textdraw
    text_label
+   vehicle
