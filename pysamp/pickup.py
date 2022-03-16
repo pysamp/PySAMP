@@ -13,11 +13,22 @@ class Pickup():
     created and have pre-made actions that make them work (such as health).
     """
     def __init__(
-        self, id: int, x: float, y: float, z: float, world: int
+        self,
+        id: int,
+        model: int,
+        type: int,
+        x: float,
+        y: float,
+        z: float,
+        world: int
     )-> None:
         
         self.id = id 
         """The pickup ID (readonly int)."""
+        self.model = model
+        """The model the pickup is using (readonly int)."""
+        self.type = type
+        """The type of the pickup (readonly int)."""
         self.x = x
         """The pickup X postition (readonly float)."""
         self.y = y
@@ -61,7 +72,13 @@ class Pickup():
             give the player the weapon and some ammo.
         """
         return cls(
-            create_pickup(model, type, x, y, z, virtual_world)
+            create_pickup(model, type, x, y, z, virtual_world),
+            model,
+            type,
+            x,
+            y,
+            z,
+            virtual_world
         )
     
     def destroy(self) -> bool:
