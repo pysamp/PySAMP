@@ -1,4 +1,4 @@
-FROM ubuntu:rolling
+FROM ubuntu:20.04
 
 ARG sampgdk_version=4.6.2
 ARG pysamp_branch=main
