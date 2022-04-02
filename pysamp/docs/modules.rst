@@ -5,6 +5,7 @@ pysamp
    :maxdepth: 4
 
    actor
+   dialog
    object
    pickup
    player
