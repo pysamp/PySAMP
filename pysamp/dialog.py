@@ -13,15 +13,15 @@ class Dialog:
         self,
         id: int,
         type: int,
-        content: str,
         title: str,
+        content: str,
         button_1: str,
         button_2: str
     ) -> None:
         self.id = id
         self.type = type
-        self.content = content
         self.title = title
+        self.content = content
         self.button_1 = button_1
         self.button_2 = button_2
 
@@ -30,8 +30,8 @@ class Dialog:
         cls,
         id: int,
         type: int,
-        content: str,
         title: str,
+        content: str,
         button_1: str,
         button_2: str
     ) -> "Dialog":
