@@ -6,6 +6,7 @@ pysamp
 
    actor
    dialog
+   menu
    object
    pickup
    player
