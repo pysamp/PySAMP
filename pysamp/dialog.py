@@ -47,8 +47,6 @@ class Dialog:
 
         Use :meth:`show` to show the dialog to a player after creating it.
 
-        :param id: Give the dialog an ID. You use this ID to track the object
-            and to handle logic when the response event is called.
         :param type: The type of dialog you want to make. There are 6 different
             types: ``DIALOG_STYLE_MSGBOX``, ``DIALOG_STYLE_INPUT``,
             ``DIALOG_STYLE_LIST``, ``DIALOG_STYLE_PASSWORD``,
@@ -72,7 +70,8 @@ class Dialog:
     def show(self, for_player: "Player") -> None:
         """Show the dialog created with :meth:`create` to a specific player.
 
-        :param player: The :class:`Player` you want to show the dialog to.
+        :param Player for_player: The player you want to show
+            the dialog to.
         :return: No return value.
 
         .. note:: You can only show one dialog to a player at a time.
@@ -95,8 +94,8 @@ class Dialog:
     def hide(for_player: "Player") -> None:
         """Shows a dialog with ID -1 to hide open dialog.
 
-        :param Player for_player: The player you'd like to hide open dialogs
-            for.
+        :param Player for_player: The player you'd like to hide open
+            dialogs for.
         :return: No return value.
         """
         show_player_dialog(for_player.id, -1, 0, "", "", "", "")
