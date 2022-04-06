@@ -1,6 +1,7 @@
 from pysamp import (
     show_player_dialog
 )
+from typing import Dict, List
 
 
 class Dialog:
@@ -8,10 +9,14 @@ class Dialog:
 
     A dialog is a menu that the player can interact with.
     To create a new dialog, use :meth:`create`.
+
+    The player will see the dialog when you do :meth:`show`. The Dialog class
+    keeps track of shown dialogs to a player, and also the last shown
+    dialog, which is used on the dialog response event.
     """
 
     _id: int = 32768  # just a random dialog ID that will be used on SA-MP
-    _by_player: dict = {}  # keeps track of last shown dialog to player
+    _by_player: Dict["Player", "Dialog"] = {}
 
     def __init__(
         self,
@@ -20,7 +25,7 @@ class Dialog:
         content: str,
         button_1: str,
         button_2: str,
-        shown_for: list = []
+        shown_for: List["Player"] = []
     ) -> None:
         self.type = type
         self.title = title
@@ -68,9 +73,9 @@ class Dialog:
         """Show the dialog created with :meth:`create` to a specific player.
 
         :param player: The :class:`Player` you want to show the dialog to.
-        :return: No return value
+        :return: No return value.
 
-        You can only show one dialog to a player at a time.
+        .. note:: You can only show one dialog to a player at a time.
         """
 
         show_player_dialog(
@@ -95,8 +100,8 @@ class Dialog:
         :return: No return value.
         """
         show_player_dialog(for_player.id, -1, 0, "", "", "", "")
-
         Dialog._by_player.pop(for_player, None)
+        return
 
 
 from pysamp.player import Player  # noqa

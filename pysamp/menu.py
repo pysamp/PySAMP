@@ -7,7 +7,7 @@ from pysamp import (add_menu_item, create_menu, destroy_menu, disable_menu,
 class Menu:
     def __init__(
         self,
-        id,
+        id: int,
         title: str,
         columns: int,
         x: float,
