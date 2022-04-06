@@ -1,7 +1,7 @@
-Text Label
+Textlabel
 =============
 
-.. automodule:: text_label
+.. automodule:: textlabel
    :members:
    :undoc-members:
    :show-inheritance:

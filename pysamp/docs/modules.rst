@@ -12,5 +12,5 @@ pysamp
    player
    player_textdraw
    textdraw
-   text_label
+   textlabel
    vehicle
