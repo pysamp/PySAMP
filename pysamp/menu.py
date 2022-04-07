@@ -49,7 +49,8 @@ class Menu:
         .. note:: You can only have 12 items per menu.
             You can only add 8 color codes per one item.
         """
-        add_menu_item(self.id, column, text)
+        if is_valid_menu(self.id):
+            add_menu_item(self.id, column, text)
         return
 
     def destroy(self) -> None:
@@ -57,7 +58,8 @@ class Menu:
 
         :return: No return value.
         """
-        destroy_menu(self.id)
+        if is_valid_menu(self.id):
+            destroy_menu(self.id)
         return
 
     def disable(self) -> None:
@@ -65,7 +67,8 @@ class Menu:
 
         :return: No return value.
         """
-        disable_menu(self.id)
+        if is_valid_menu(self.id):
+            disable_menu(self.id)
         return
 
     def disable_row(self, row: int) -> None:
@@ -74,7 +77,8 @@ class Menu:
         :param int row: The row to disable. Rows start at 0.
         :return: No return value.
         """
-        disable_menu_row(self.id, row)
+        if is_valid_menu(self.id):
+            disable_menu_row(self.id, row)
         return
 
     @staticmethod
@@ -83,7 +87,7 @@ class Menu:
         open.
 
         :param Player player: The player to check last open menu for.
-        :return: An instance of the menu.
+        :return: An instance of the menu. None if no menu was opened.
         """
         id = get_player_menu(player.id)
         if id == INVALID_MENU or id is None:
@@ -96,7 +100,12 @@ class Menu:
         :param Player player: The player you want to hide the menu for.
         :return: No return value.
         """
-        hide_menu_for_player(self.id, player.id)
+        if is_valid_menu(self.id):
+            hide_menu_for_player(self.id, player.id)
         return
+
+    def is_valid(self) -> bool:
+        """Check if the menu is valid. Returns True or False."""
+        return is_valid_menu(self.id)
 
 from pysamp.player import Player  # noqa
