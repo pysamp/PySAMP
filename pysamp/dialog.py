@@ -16,7 +16,7 @@ class Dialog:
     """
 
     _id: int = 32768  # just a random dialog ID that will be used on SA-MP
-    _by_player: Dict["Player", "Dialog"] = {}
+    _by_playerid: Dict[int, "Dialog"] = {}
 
     def __init__(
         self,
@@ -25,7 +25,7 @@ class Dialog:
         content: str,
         button_1: str,
         button_2: str,
-        shown_for: List["Player"] = []
+        shown_for: List[int] = []
     ) -> None:
         self.type = type
         self.title = title
@@ -86,8 +86,8 @@ class Dialog:
             self.button_1,
             self.button_2
         )
-        Dialog._by_player[for_player] = self
-        self.shown_for.append(for_player)
+        Dialog._by_playerid[for_player.id] = self
+        self.shown_for.append(for_player.id)
         return
 
     @staticmethod
@@ -99,7 +99,7 @@ class Dialog:
         :return: No return value.
         """
         show_player_dialog(for_player.id, -1, 0, "", "", "", "")
-        Dialog._by_player.pop(for_player, None)
+        Dialog._by_playerid.pop(for_player.id, None)
         return
 
 
