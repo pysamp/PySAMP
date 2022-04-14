@@ -331,6 +331,7 @@ from samp import (
     SetSVarInt,
     SetSVarString,
     SetTeamCount,
+    SetTimer,
     SetVehicleAngularVelocity,
     SetVehicleHealth,
     SetVehicleNumberPlate,
@@ -395,7 +396,7 @@ from samp import (
     INVALID_VEHICLE_ID
 )
 
-from typing import Tuple
+from typing import Tuple, Callable
 
 ########################
 # SNAKE CASE WRAPPERS FOR PEP8 COMPATIBILITY
@@ -2707,3 +2708,12 @@ def update_player_3d_text_label_text(
 
 def gpci(playerid: int) -> str:
     return gpci(playerid)
+
+
+def set_timer(
+    function: Callable,
+    interval_ms: int,
+    repeating: bool,
+    *args: Tuple
+) -> int:
+    return SetTimer(function, interval_ms, repeating, args)
