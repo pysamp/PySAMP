@@ -48,6 +48,11 @@ Timer& Timer::operator=(const Timer& timer)
 	return *this;
 }
 
+bool Timer::operator==(const Timer& timer)
+{
+	return timer.id == id;
+}
+
 Timer* Timer::from_args(PyObject *args, PyObject *arguments)
 {
 	PyObject* function;
@@ -123,27 +128,21 @@ void TimerManager::process_timers(unsigned int current_tick)
 	if(disabled)
 		return;
 
-	for(auto timer = timers.begin(); timer != timers.end();)
+	for(unsigned int i = 0; i < timers.size(); ++i)
 	{
-		if(timer->is_pending_deletion())
-		{
-			++timer;
-			continue;
-		}
+		Timer& timer = timers[i];
 
-		int id = timer->get_id();
-		bool repeating = timer->is_repeating();
+		if(timer.is_pending_deletion())
+			continue;
 
 		if(
-			timer->process(current_tick)
-			&& !repeating
+			timer.process(current_tick)
+			&& !timer.is_repeating()
 		)
-		{
-			timer = timers.erase(timer);
-			continue;
-		}
-
-		++timer;
+			timers.erase(
+				std::remove(timers.begin(), timers.end(), timer),
+				timers.end()
+			);
 	}
 
 	for(auto timer = timers.begin(); timer != timers.end();)

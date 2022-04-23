@@ -2,6 +2,7 @@
 #define PYTIMER_H
 
 #include <Python.h>
+#include <algorithm>
 #include <deque>
 
 #include "sampgdk.h"
@@ -18,6 +19,7 @@ public:
 	);
 	~Timer();
 	Timer& operator=(const Timer& timer);
+	bool operator==(const Timer& timer);
 
 	static Timer* from_args(PyObject *args, PyObject *arguments);
 	bool process(unsigned int current_tick);
