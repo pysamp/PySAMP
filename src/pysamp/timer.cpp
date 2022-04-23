@@ -28,31 +28,6 @@ Timer::~Timer()
 	Py_XDECREF(arguments);
 }
 
-Timer& Timer::operator=(const Timer& timer)
-{
-	if(&timer == this)
-		return *this;
-
-	id = timer.id;
-	last_call_tick = timer.last_call_tick;
-	Py_DECREF(function);
-	Py_XDECREF(arguments);
-	function = timer.function;
-	arguments = timer.arguments;
-	Py_INCREF(function);
-	Py_XINCREF(arguments);
-	interval = timer.interval;
-	repeating = timer.repeating;
-	pending_deletion = timer.pending_deletion;
-
-	return *this;
-}
-
-bool Timer::operator==(const Timer& timer)
-{
-	return timer.id == id;
-}
-
 Timer* Timer::from_args(PyObject *args, PyObject *arguments)
 {
 	PyObject* function;
@@ -128,36 +103,26 @@ void TimerManager::process_timers(unsigned int current_tick)
 	if(disabled)
 		return;
 
-	for(unsigned int i = 0; i < timers.size(); ++i)
-	{
-		Timer& timer = timers[i];
-
-		if(timer.is_pending_deletion())
-			continue;
-
-		if(
-			timer.process(current_tick)
-			&& !timer.is_repeating()
-		)
-			timers.erase(
-				std::remove(timers.begin(), timers.end(), timer),
-				timers.end()
-			);
-	}
-
 	for(auto timer = timers.begin(); timer != timers.end();)
 	{
-		if(timer->is_pending_deletion())
+		if(
+			timer->is_pending_deletion()
+			|| (
+				timer->process(current_tick)
+				&& !timer->is_repeating()
+			)
+		)
+		{
 			timer = timers.erase(timer);
-		else
-			++timer;
+			continue;
+		}
+
+		++timer;
 	}
 }
 
 void TimerManager::clear_timers()
 {
 	PySAMP::GIL gil;
-
-	for(auto timer = timers.begin(); timer != timers.end();)
-		timer = timers.erase(timer);
+	timers.clear();
 }
