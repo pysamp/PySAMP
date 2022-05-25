@@ -34,7 +34,7 @@ There are three different ways to install the plugin depending on your system. R
 
   <hr>
   Using PySAMP on a Windows machine is fairly easy.
-  Just set your server up and copy the `pysamp-launcher.bat` from the current release to the server directory and start it. It automatically checks all preconditions and downloads an embedded python interpreter automatically. It then sets up the environment path and starts the server itself. It should be then used as a launcher-script to start the server; so use it to start your server as of now.
+  Follow our instructions [here](https://github.com/pysamp/PySAMP/wiki/How-to-get-started-with-python-3.9.7-on-Windows/) in order to install **32 bit** python matching the version in the DLL name you downloaded. As of 2.0.1, this is version 3.9.7. 64-bit or any other version will not work.
   <hr>
 </details>
 
