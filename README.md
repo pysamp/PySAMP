@@ -34,7 +34,7 @@ There are three different ways to install the plugin depending on your system. R
 
   <hr>
   Using PySAMP on a Windows machine is fairly easy.
-  Follow our instructions [here](https://github.com/pysamp/PySAMP/wiki/How-to-get-started-with-python-3.9.7-on-Windows/) in order to install **32 bit** python matching the version in the DLL name you downloaded. As of 2.0.1, this is version 3.9.7. 64-bit or any other version will not work.
+  Follow our instructions <a href="https://github.com/pysamp/PySAMP/wiki/How-to-get-started-with-python-3.9.7-on-Windows/">here</a> in order to install <b>32 bit</b> Python, matching the version in the DLL name you downloaded. As of 2.0.1, this should be version 3.9.7. 64-bit or any other version will not work, and the plugin will not load.
   <hr>
 </details>
 
