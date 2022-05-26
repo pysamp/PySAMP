@@ -10,7 +10,7 @@ pysamp
    object
    pickup
    player
-   player_textdraw
+   playertextdraw
    textdraw
    textlabel
    vehicle

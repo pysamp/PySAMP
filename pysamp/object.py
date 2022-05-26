@@ -46,7 +46,7 @@ class Object:
         id: int,
     ) -> None:
         self.id = id
-    
+
     @classmethod
     def create(
         cls,
@@ -66,7 +66,7 @@ class Object:
         return cls(create_object(
             model, x, y, z, rotation_x, rotation_y, rotation_z, draw_distance
         ))
-    
+
     def set_postition(self, x: float, y: float, z: float) -> bool:
         """Set a new position for the object using world coordinates.
 

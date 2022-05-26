@@ -1,3 +1,6 @@
+"""Snake case wrappers for PEP8 compatibility."""
+from typing import Tuple, Callable
+
 from samp import (
     AddMenuItem,
     AddPlayerClass,
@@ -396,11 +399,7 @@ from samp import (
     INVALID_VEHICLE_ID
 )
 
-from typing import Tuple, Callable
-
-########################
-# SNAKE CASE WRAPPERS FOR PEP8 COMPATIBILITY
-########################
+from .callbacks import _path_hook  # noqa
 
 
 def set_spawn_info(

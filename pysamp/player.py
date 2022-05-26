@@ -1,8 +1,21 @@
 from typing import Optional, Tuple
 
-from samp import (CAMERA_CUT, INVALID_ACTOR_ID, INVALID_OBJECT_ID,
-                  INVALID_PLAYER_ID, INVALID_VEHICLE_ID, MAPICON_LOCAL,
-                  SPECTATE_MODE_NORMAL)
+from samp import (
+    BULLET_HIT_TYPE_NONE,
+    BULLET_HIT_TYPE_OBJECT,
+    BULLET_HIT_TYPE_PLAYER,
+    BULLET_HIT_TYPE_PLAYER_OBJECT,
+    BULLET_HIT_TYPE_VEHICLE,
+    CAMERA_CUT,
+    INVALID_ACTOR_ID,
+    INVALID_OBJECT_ID,
+    INVALID_PLAYER_ID,
+    INVALID_VEHICLE_ID,
+    MAPICON_LOCAL,
+    SELECT_OBJECT_GLOBAL_OBJECT,
+    SELECT_OBJECT_PLAYER_OBJECT,
+    SPECTATE_MODE_NORMAL,
+)
 
 from pysamp import (allow_player_teleport, apply_animation, ban, ban_ex,
                     clear_animations, create_explosion_for_player, delete_pvar,
@@ -71,6 +84,8 @@ from pysamp import (allow_player_teleport, apply_animation, ban, ban_ex,
                     toggle_player_clock, toggle_player_controllable,
                     toggle_player_spectating)
 
+from .event import event
+
 
 class Player:
     """Class to interact with players that are online.
@@ -79,7 +94,6 @@ class Player:
     The characters that are not controlled by a player are called non-player
     characters (NPCs), and are found in the ``Actor`` class.
     """
-
     def __init__(self, playerid: int):
         self.id: int = playerid
 
@@ -2356,6 +2370,264 @@ class Player:
         """
         return gpci(self.id)
 
-from pysamp.actor import Actor  # noqa
-from pysamp.object import Object  # noqa
-from pysamp.vehicle import Vehicle  # noqa
+    @event('OnPlayerConnect')
+    def on_connect(cls, playerid: int):
+        return (cls(playerid),)
+
+    @event('OnPlayerDisconnect')
+    def on_disconnect(cls, playerid: int, reason: int):
+        return (cls(playerid), reason)
+
+    @event('OnPlayerSpawn')
+    def on_spawn(cls, playerid: int):
+        return (cls(playerid),)
+
+    @event('OnPlayerDeath')
+    def on_death(cls, playerid: int, killerid: int, reason: int):
+        return (
+            cls(playerid),
+            killerid if killerid == INVALID_PLAYER_ID else cls(killerid),
+            reason,
+        )
+
+    @event('OnPlayerText')
+    def on_text(cls, playerid: int, text: str):
+        return (cls(playerid), text)
+
+    @event('OnPlayerCommandText')
+    def on_command_text(cls, playerid: int, command_text: str):
+        return (cls(playerid), command_text)
+
+    @event('OnPlayerRequestClass')
+    def on_request_class(cls, playerid: int, classid: int):
+        return (cls(playerid), classid)
+
+    @event('OnPlayerEnterVehicle')
+    def on_enter_vehicle(
+        cls,
+        playerid: int,
+        vehicleid: int,
+        is_passenger: bool,
+    ):
+        return (cls(playerid), Vehicle(vehicleid), is_passenger)
+
+    @event('OnPlayerExitVehicle')
+    def on_exit_vehicle(cls, playerid: int, vehicleid: int):
+        return (cls(playerid), Vehicle(vehicleid))
+
+    @event('OnPlayerStateChange')
+    def on_state_change(cls, playerid, newstate: int, oldstate: int):
+        return (cls(playerid), newstate, oldstate)
+
+    @event('OnPlayerEnterCheckpoint')
+    def on_enter_checkpoint(cls, playerid: int):
+        return (cls(playerid),)
+
+    @event('OnPlayerLeaveCheckpoint')
+    def on_leave_checkpoint(cls, playerid: int):
+        return (cls(playerid),)
+
+    @event('OnPlayerEnterRaceCheckpoint')
+    def on_enter_race_checkpoint(cls, playerid: int):
+        return (cls(playerid),)
+
+    @event('OnPlayerLeaveRaceCheckpoint')
+    def on_leave_race_checkpoint(cls, playerid: int):
+        return (cls(playerid),)
+
+    @event('OnPlayerRequestSpawn')
+    def on_request_spawn(cls, playerid: int):
+        return (cls(playerid),)
+
+    @event('OnPlayerPickUpPickup')
+    def on_pick_up_pickup(cls, playerid, pickupid: int):
+        return (cls(playerid), Pickup(pickupid))
+
+    @event('OnPlayerSelectedMenuRow')
+    def on_selected_menu_row(cls, playerid: int, row: int):
+        return (cls(playerid), row)
+
+    @event('OnPlayerExitedMenu')
+    def on_exited_menu(cls, playerid: int):
+        return (cls(playerid),)
+
+    @event('OnPlayerInteriorChange')
+    def on_interior_change(
+        cls,
+        playerid: int,
+        newinteriorid: int,
+        oldinteriorid: int,
+    ):
+        return (cls(playerid), newinteriorid, oldinteriorid)
+
+    @event('OnPlayerKeyStateChange')
+    def on_key_state_change(cls, playerid: int, newkeys: int, oldkeys: int):
+        return (cls(playerid), newkeys, oldkeys)
+
+    @event('OnPlayerUpdate')
+    def on_update(cls, playerid: int):
+        return (cls(playerid),)
+
+    @event('OnPlayerStreamIn')
+    def on_stream_in(cls, playerid: int, forplayerid: int):
+        return (cls(playerid), cls(forplayerid))
+
+    @event('OnPlayerStreamOut')
+    def on_stream_out(cls, playerid: int, forplayerid: int):
+        return (cls(playerid), cls(forplayerid))
+
+    @event('OnPlayerTakeDamage')
+    def on_take_damage(
+        cls,
+        playerid: int,
+        issuerid: int,
+        amount: float,
+        weaponid: int,
+        bodypart: int,
+    ):
+        return (
+            cls(playerid),
+            issuerid if issuerid == INVALID_PLAYER_ID else cls(issuerid),
+            amount,
+            weaponid,
+            bodypart,
+        )
+
+    @event('OnPlayerGiveDamage')
+    def on_give_damage(
+        cls,
+        playerid: int,
+        damagedid: int,
+        amount: float,
+        weaponid: int,
+        bodypart: int,
+    ):
+        return (
+            cls(playerid),
+            damagedid if damagedid == INVALID_PLAYER_ID else cls(damagedid),
+            amount,
+            weaponid,
+            bodypart,
+        )
+
+    @event('OnPlayerGiveDamageActor')
+    def on_give_damage_actor(
+        cls,
+        playerid: int,
+        damaged_actorid: int,
+        amount: float,
+        weaponid: int,
+        bodypart: int,
+    ):
+        return (
+            cls(playerid),
+            Actor(damaged_actorid),
+            amount,
+            weaponid,
+            bodypart,
+        )
+
+    @event('OnPlayerClickMap')
+    def on_click_map(cls, playerid: int, x: float, y: float, z: float):
+        return (cls(playerid), x, y, z)
+
+    @event('OnPlayerClickTextDraw')
+    def on_click_textdraw(cls, playerid: int, clickedid: int):
+        return (cls(playerid), TextDraw(clickedid))
+
+    @event('OnPlayerClickPlayerTextDraw')
+    def on_click_playertextdraw(cls, playerid: int, playertextid: int):
+        return (cls(playerid), PlayerTextDraw(playertextid))
+
+    @event('OnPlayerClickPlayer')
+    def on_click_player(cls, playerid: int, clickedplayerid: int, source: int):
+        return (cls(playerid), cls(clickedplayerid), source)
+
+    @event('OnPlayerEditObject')
+    def on_edit_object(
+        cls,
+        playerid: int,
+        is_playerobject: bool,
+        objectid: int,
+        response: int,
+        x: float, y: float, z: float,
+        rot_x: float, rot_y: float, rot_z: float,
+    ):
+        return (
+            cls(playerid),
+            PlayerObject(objectid) if is_playerobject else Object(objectid),
+            response,
+            x, y, z,
+            rot_x, rot_y, rot_z,
+        )
+
+    @event('OnPlayerEditAttachedObject')
+    def on_edit_attached_object(
+        cls,
+        playerid: int,
+        response: int,
+        index: int,
+        modelid: int,
+        boneid: int,
+        offset_x: float, offset_y: float, offset_z: float,
+        rot_x: float, rot_y: float, rot_z: float,
+        scale_x: float, scale_y: float, scale_z: float,
+    ):
+        return (
+            cls(playerid), response, index, modelid, boneid,
+            offset_x, offset_y, offset_z,
+            rot_x, rot_y, rot_z,
+            scale_x, scale_y, scale_z,
+        )
+
+    @event('OnPlayerSelectObject')
+    def on_select_object(
+        cls,
+        playerid: int,
+        type: int,
+        objectid: int,
+        modelid: int,
+        x: float, y: float, z: float,
+    ):
+        object_cls = {
+            SELECT_OBJECT_GLOBAL_OBJECT: Object,
+            SELECT_OBJECT_PLAYER_OBJECT: PlayerObject,
+        }
+        return (
+            cls(playerid),
+            object_cls[type](objectid),
+            modelid,
+            x, y, z,
+        )
+
+    @event('OnPlayerWeaponShot')
+    def on_weapon_shot(
+        cls,
+        playerid: int,
+        weaponid: int,
+        hittype: int,
+        hitid: int,
+        x: float, y: float, z: float,
+    ):
+        hit_cls = {
+            BULLET_HIT_TYPE_NONE: lambda _: None,
+            BULLET_HIT_TYPE_PLAYER: cls,
+            BULLET_HIT_TYPE_VEHICLE: Vehicle,
+            BULLET_HIT_TYPE_OBJECT: Object,
+            BULLET_HIT_TYPE_PLAYER_OBJECT: PlayerObject,
+        }
+        return (
+            cls(playerid),
+            weaponid,
+            hit_cls[hittype](hitid),
+            x, y, z,
+        )
+
+
+from .actor import Actor  # noqa
+from .object import Object  # noqa
+from .pickup import Pickup  # noqa
+from .playerobject import PlayerObject  # noqa
+from .playertextdraw import PlayerTextDraw  # noqa
+from .textdraw import TextDraw  # noqa
+from .vehicle import Vehicle  # noqa

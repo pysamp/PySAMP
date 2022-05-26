@@ -22,7 +22,6 @@ from pysamp import (
     text_draw_text_size,
     text_draw_use_box,
 )
-from pysamp.player import Player
 
 
 class TextDraw:
@@ -332,3 +331,6 @@ class TextDraw:
         :return: This method does not return anything.
         """
         return text_draw_show_for_player(self.id, player.id)
+
+
+from .player import Player  # noqa
