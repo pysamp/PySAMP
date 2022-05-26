@@ -1,3 +1,4 @@
+import functools
 from typing import Optional, Tuple
 
 from samp import (
@@ -84,6 +85,7 @@ from pysamp import (allow_player_teleport, apply_animation, ban, ban_ex,
                     toggle_player_clock, toggle_player_controllable,
                     toggle_player_spectating)
 
+from .commands import cmd, _NO_FUNCTION
 from .event import event
 
 
@@ -2622,6 +2624,19 @@ class Player:
             hit_cls[hittype](hitid),
             x, y, z,
         )
+
+    @classmethod
+    def command(cls, function=_NO_FUNCTION, /, **kwargs):
+        if function is _NO_FUNCTION:
+            return functools.partial(cls.command, **kwargs)
+
+        @functools.wraps(function)
+        def handler(playerid: int):
+            return function(cls(playerid))
+
+        cmd(handler, **kwargs)
+
+        return function
 
 
 from .actor import Actor  # noqa
