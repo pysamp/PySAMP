@@ -25,8 +25,7 @@ PyGamemode::PyGamemode(CallbacksManager* callbacks)
 		return;
 	}
 
-	Py_SetPythonHome(PYTHON_HOME);
-	Py_Initialize();
+	Py_InitializeEx(0);
 
 	PyObject* syspath = PySys_GetObject("path");
 

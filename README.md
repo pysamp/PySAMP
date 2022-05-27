@@ -34,8 +34,17 @@ There are three different ways to install the plugin depending on your system. R
   <summary>Windows<br></summary>
 
   <hr>
-  Using PySAMP on a Windows machine is fairly easy.
-  Just set your server up and copy the `pysamp-launcher.bat` from the current release to the server directory and start it. It automatically checks all preconditions and downloads an embedded python interpreter automatically. It then sets up the environment path and starts the server itself. It should be then used as a launcher-script to start the server; so use it to start your server as of now.
+Using PySAMP on a Windows machine is fairly easy. You can either run it in docker, or follow the steps below to run it natively in windows.
+
+## Install correct python version
+Follow our instructions <a href="https://github.com/pysamp/PySAMP/wiki/How-to-get-started-with-python-3.9.7-on-Windows/">here</a> in order to install <b>32 bit</b> Python, matching the version in the DLL name you downloaded. As of 2.0.1, this should be version 3.9.7. 64-bit or any other version will not work, and the plugin will not load.<br>
+
+## Make a python module
+The plugin will look for a module named `python` in your server root. That means you can either create `python.py` or `python/__init__.py`.
+  
+## Server.cfg details
+1. Add `PySAMP.dll` to your `server.cfg` on the `plugins` line. 
+2. OPTIONAL: add an empty gamemode to the `gamemodes` line. For example, use `bare` which is a default, empty gamemode. Please note that this is not mandatory and you are able to run both a pawn and a python gamemode alongside each other just fine. However if you start from zero, we strongly recommend you to not mix, as it gives you much better control over your gamemode.
   <hr>
 </details>
 

@@ -28,26 +28,6 @@ Timer::~Timer()
 	Py_XDECREF(arguments);
 }
 
-Timer& Timer::operator=(const Timer& timer)
-{
-	if(&timer == this)
-		return *this;
-
-	id = timer.id;
-	last_call_tick = timer.last_call_tick;
-	Py_DECREF(function);
-	Py_XDECREF(arguments);
-	function = timer.function;
-	arguments = timer.arguments;
-	Py_INCREF(function);
-	Py_XINCREF(arguments);
-	interval = timer.interval;
-	repeating = timer.repeating;
-	pending_deletion = timer.pending_deletion;
-
-	return *this;
-}
-
 Timer* Timer::from_args(PyObject *args, PyObject *arguments)
 {
 	PyObject* function;
@@ -125,18 +105,12 @@ void TimerManager::process_timers(unsigned int current_tick)
 
 	for(auto timer = timers.begin(); timer != timers.end();)
 	{
-		if(timer->is_pending_deletion())
-		{
-			++timer;
-			continue;
-		}
-
-		int id = timer->get_id();
-		bool repeating = timer->is_repeating();
-
 		if(
-			timer->process(current_tick)
-			&& !repeating
+			timer->is_pending_deletion()
+			|| (
+				timer->process(current_tick)
+				&& !timer->is_repeating()
+			)
 		)
 		{
 			timer = timers.erase(timer);
@@ -145,20 +119,10 @@ void TimerManager::process_timers(unsigned int current_tick)
 
 		++timer;
 	}
-
-	for(auto timer = timers.begin(); timer != timers.end();)
-	{
-		if(timer->is_pending_deletion())
-			timer = timers.erase(timer);
-		else
-			++timer;
-	}
 }
 
 void TimerManager::clear_timers()
 {
 	PySAMP::GIL gil;
-
-	for(auto timer = timers.begin(); timer != timers.end();)
-		timer = timers.erase(timer);
+	timers.clear();
 }
