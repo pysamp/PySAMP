@@ -224,6 +224,8 @@ int PyGamemode::callback(
 	Py_XINCREF(pFunc);
 	Py_XINCREF(pArgs);
 
+	const auto badRet = this->callbacks->getBadret(name);
+
 	if(pFunc && PyCallable_Check(pFunc))
 	{
 		PyObject* pValue = PyObject_CallObject(pFunc, pArgs);
@@ -231,7 +233,6 @@ int PyGamemode::callback(
 		if(PyErr_Occurred())
 		{
 			PyErr_Print();
-			ret = !this->callbacks->getBadret(name);
 			pValue = Py_None;
 		}
 
@@ -242,8 +243,12 @@ int PyGamemode::callback(
 			if(ret == -1)
 			{
 				PyErr_Print();
-				ret = !this->callbacks->getBadret(name);
+				ret = !badRet;
 			}
+		} 
+		else 
+		{
+			ret = !badRet;
 		}
 
 		Py_XDECREF(pValue);
@@ -258,7 +263,7 @@ int PyGamemode::callback(
 	if(
 		stop != NULL
 		&& ret != -1
-		&& ret == this->callbacks->getBadret(name)
+		&& ret == badRet
 	)
 		*stop = true;
 
