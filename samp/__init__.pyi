@@ -1,4 +1,4 @@
-from typing import Tuple
+from typing import Callable, Tuple
 
 
 def SetSpawnInfo(
@@ -2014,6 +2014,10 @@ def DeletePlayer3DTextLabel(player_id: int, id: int) -> bool:
 def UpdatePlayer3DTextLabelText(
     player_id: int, id: int, color: int, text: str
 ) -> bool:
+    pass
+
+
+def SetTimer(func: Callable, interval: int, repeating: bool) -> int:
     pass
 
 
