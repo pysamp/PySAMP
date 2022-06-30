@@ -1,23 +1,27 @@
 #include "callbacks.h"
 
-
-std::string* CallbacksManager::getFormat(std::string name)
+const std::string* CallbacksManager::getFormat(const std::string& name) const
 {
-	if(this->formats.count(name) == 0)
+	auto itr = this->formats.find(name);
+
+	if (itr == this->formats.end())
 		return nullptr;
 
-	return &(this->formats[name]);
+	return &itr->second;
 }
 
-int CallbacksManager::getBadret(std::string name)
+const int* CallbacksManager::getBadret(const std::string& name) const
 {
-	if(this->badrets.count(name) == 0)
-		return -1;
+	static auto not_found = -1;
+	auto itr = this->badrets.find(name);
 
-	return this->badrets.at(name);
+	if (itr == this->badrets.end())
+		return &not_found;
+
+	return &itr->second;
 }
 
-void CallbacksManager::addFormat(const std::string name, const std::string format)
+void CallbacksManager::addFormat(const std::string& name, const std::string& format)
 {
 	this->formats[name] = format;
 }
@@ -79,7 +83,7 @@ std::unordered_map<std::string, std::string> CallbacksManager::formats = {
 	{"OnPlayerWeaponShot", "iiiifff"}
 };
 
-const std::unordered_map<std::string, bool> CallbacksManager::badrets = {
+const std::unordered_map<std::string, int> CallbacksManager::badrets = {
 	{"OnDialogResponse", 1},
 	{"OnIncomingConnection", 1},
 	{"OnPlayerClickMap", 1},
