@@ -224,7 +224,7 @@ int PyGamemode::callback(
 	Py_XINCREF(pFunc);
 	Py_XINCREF(pArgs);
 
-	const auto badRet = this->callbacks->getBadret(name);
+	const int* badRet = nullptr;
 
 	if(pFunc && PyCallable_Check(pFunc))
 	{
@@ -243,11 +243,16 @@ int PyGamemode::callback(
 			if(ret == -1)
 			{
 				PyErr_Print();
-				ret = !badRet;
+
+				if(!badRet)
+					badRet = this->callbacks->getBadret(name);
+				ret = !*badRet;
 			}
 		} 
 		else 
 		{
+			if(!badRet)
+				badRet = this->callbacks->getBadret(name);
 			ret = !badRet;
 		}
 
@@ -260,12 +265,14 @@ int PyGamemode::callback(
 	if(retval != NULL)
 		*retval = ret;
 
-	if(
-		stop != NULL
-		&& ret != -1
-		&& ret == badRet
-	)
-		*stop = true;
+	if(stop != NULL && ret != -1) 
+	{
+		if(!badRet)
+			badRet = this->callbacks->getBadret(name);
+
+		if(ret == *badRet)
+			*stop = true;
+    }
 
 	return ret;
 }
