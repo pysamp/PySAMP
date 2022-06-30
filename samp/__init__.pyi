@@ -2017,7 +2017,12 @@ def UpdatePlayer3DTextLabelText(
     pass
 
 
-def SetTimer(func: Callable, interval: int, repeating: bool) -> int:
+def SetTimer(
+    func: Callable,
+    interval: int,
+    repeating: bool,
+    *args: tuple
+) -> int:
     pass
 
 
