@@ -10,6 +10,7 @@ pysamp
    object
    pickup
    player
+   playerobject
    playertextdraw
    textdraw
    textlabel

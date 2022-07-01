@@ -1,7 +1,7 @@
 Vehicle
 =============
 
-.. automodule:: vehicle
+.. automodule:: pysamp.vehicle
    :members:
    :undoc-members:
    :show-inheritance:

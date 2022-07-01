@@ -1,7 +1,7 @@
 Pickup
 =============
 
-.. automodule:: pickup
+.. automodule:: pysamp.pickup
    :members:
    :undoc-members:
    :show-inheritance:

@@ -1,7 +1,7 @@
 Textdraw
 =============
 
-.. automodule:: textdraw
+.. automodule:: pysamp.textdraw
    :members:
    :undoc-members:
    :show-inheritance:

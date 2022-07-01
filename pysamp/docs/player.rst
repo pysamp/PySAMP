@@ -1,7 +1,7 @@
 Player
 =============
 
-.. automodule:: player
+.. automodule:: pysamp.player
    :members:
    :undoc-members:
    :show-inheritance:

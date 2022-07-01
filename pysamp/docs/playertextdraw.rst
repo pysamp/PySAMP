@@ -1,7 +1,7 @@
 Player Textdraw
 ================
 
-.. automodule:: playertextdraw
+.. automodule:: pysamp.playertextdraw
    :members:
    :undoc-members:
    :show-inheritance:

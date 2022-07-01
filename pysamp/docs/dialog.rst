@@ -1,7 +1,7 @@
 Dialog
 =============
 
-.. automodule:: dialog
+.. automodule:: pysamp.dialog
    :members:
    :undoc-members:
    :show-inheritance:

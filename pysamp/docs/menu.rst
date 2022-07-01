@@ -1,7 +1,7 @@
 Menu
 =============
 
-.. automodule:: menu
+.. automodule:: pysamp.menu
    :members:
    :undoc-members:
    :show-inheritance:

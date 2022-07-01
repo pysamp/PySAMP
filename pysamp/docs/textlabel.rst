@@ -1,7 +1,7 @@
 Textlabel
 =============
 
-.. automodule:: textlabel
+.. automodule:: pysamp.textlabel
    :members:
    :undoc-members:
    :show-inheritance:
