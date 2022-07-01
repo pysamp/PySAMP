@@ -18,7 +18,7 @@ from samp import (
     SPECTATE_MODE_NORMAL,
 )
 
-from pysamp import (allow_player_teleport, apply_animation, ban, ban_ex,
+from pysamp import (allow_player_teleport, apply_animation, attach_camera_to_player_object, ban, ban_ex,
                     clear_animations, create_explosion_for_player, delete_pvar,
                     disable_player_checkpoint, disable_player_race_checkpoint,
                     disable_remote_vehicle_collisions, edit_attached_object,
@@ -2371,6 +2371,18 @@ class Player:
             print(player.gpci())
         """
         return gpci(self.id)
+
+    def attach_camera_to_player_object(
+        self,
+        player_object: "PlayerObject"
+    ) -> bool:
+        """Attach the player camera to a player object.
+
+        :param PlayerObject player_object: The player object you want to
+            attach to.
+        :returns: No return value.
+        """
+        return attach_camera_to_player_object(self.id, player_object.id)
 
     @event('OnPlayerConnect')
     def on_connect(cls, playerid: int):
