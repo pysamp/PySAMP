@@ -1,7 +1,7 @@
 Object
 =============
 
-.. automodule:: object
+.. automodule:: pysamp.object
    :members:
    :undoc-members:
    :show-inheritance:
