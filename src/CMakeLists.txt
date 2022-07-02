@@ -16,13 +16,6 @@ find_package(
     REQUIRED
 )
 
-find_library(
-    SAMPGDK_LIBRARY
-    NAMES sampgdk sampgdk4s
-    HINTS "${CMAKE_PREFIX_PATH}/lib/"
-    REQUIRED
-)
-
 include(AMXConfig)
 include(AddSAMPPlugin)
 include(FindSAMPSDK)
@@ -40,7 +33,6 @@ include_directories(
 
 message(STATUS "Python3_LIBRARIES = ${Python3_LIBRARIES}")
 message(STATUS "Python3_INCLUDE_DIRS = ${Python3_INCLUDE_DIRS}")
-message(STATUS "SAMPGDK_LIBRARY = ${SAMPGDK_LIBRARY}")
 
 add_definitions(-DSAMPGDK_AMALGAMATION)
 
@@ -77,7 +69,6 @@ add_samp_plugin(PySAMP
 )
 
 target_link_libraries(PySAMP ${Python3_LIBRARIES})
-target_link_libraries(PySAMP ${SAMPGDK_LIBRARY})
 
 find_package(Doxygen)
 if(DOXYGEN_FOUND)

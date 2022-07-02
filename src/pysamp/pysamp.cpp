@@ -109,18 +109,18 @@ std::string PySAMP::getEncoding()
 	);
 }
 
-int PySAMP::callback(const std::string name)
+int PySAMP::callback(const std::string& name)
 {
 	return PySAMP::callback(name, NULL);
 }
 
-int PySAMP::callback(const std::string name, PyObject* pArgs)
+int PySAMP::callback(const std::string& name, PyObject* pArgs)
 {
 	return PySAMP::callback(name, pArgs, NULL, NULL);
 }
 
 int PySAMP::callback(
-	const std::string name,
+	const std::string& name,
 	PyObject* pArgs,
 	cell* retval,
 	bool* stop
@@ -157,7 +157,7 @@ bool PySAMP::onPlayerCommandText(int playerid, const char* cmdtext)
 	return PySAMP::callback("OnPlayerCommandText", tuple);
 }
 
-void PySAMP::registerCallback(const std::string name, const std::string format)
+void PySAMP::registerCallback(const std::string& name, const std::string& format)
 {
 	if(!PySAMP::isLoaded())
 		return;
@@ -165,7 +165,7 @@ void PySAMP::registerCallback(const std::string name, const std::string format)
 	PySAMP::callbacks->addFormat(name, format);
 }
 
-std::string* PySAMP::getCallbackFormat(const std::string callback_name)
+const std::string* PySAMP::getCallbackFormat(const std::string& callback_name)
 {
 	if(!PySAMP::isLoaded())
 		return nullptr;
@@ -173,7 +173,7 @@ std::string* PySAMP::getCallbackFormat(const std::string callback_name)
 	return PySAMP::callbacks->getFormat(callback_name);
 }
 
-int PySAMP::getConstant(const std::string constant_name)
+int PySAMP::getConstant(const std::string& constant_name)
 {
 	if(!PySAMP::isLoaded())
 		return -1;
@@ -189,12 +189,12 @@ PyObject* PySAMP::pyConfig(PyObject *self, PyObject *args, PyObject *kwargs)
 	return PySAMP::gamemode->pyConfig(self, args, kwargs);
 }
 
-PyObject* PySAMP::amxParamsToTuple(AMX *amx, const std::string callback_name, cell *params)
+PyObject* PySAMP::amxParamsToTuple(AMX *amx, const std::string& callback_name, cell *params)
 {
 	if(!PySAMP::isLoaded())
 		return NULL;
 
-	std::string *format = PySAMP::callbacks->getFormat(callback_name);
+	const std::string* format = PySAMP::callbacks->getFormat(callback_name);
 
 	if(format == nullptr)
 		return NULL;

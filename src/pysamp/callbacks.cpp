@@ -1,23 +1,28 @@
 #include "callbacks.h"
 
 
-std::string* CallbacksManager::getFormat(std::string name)
+const std::string* CallbacksManager::getFormat(const std::string& name) const
 {
-	if(this->formats.count(name) == 0)
+	auto itr = this->formats.find(name);
+
+	if(itr == this->formats.end())
 		return nullptr;
 
-	return &(this->formats[name]);
+	return &itr->second;
 }
 
-int CallbacksManager::getBadret(std::string name)
+int CallbacksManager::getBadret(const std::string& name) const
 {
-	if(this->badrets.count(name) == 0)
-		return -1;
+	static int const notFound = -1;
+	auto itr = this->badrets.find(name);
 
-	return this->badrets.at(name);
+	if(itr == this->badrets.end())
+		return notFound;
+
+	return itr->second;
 }
 
-void CallbacksManager::addFormat(const std::string name, const std::string format)
+void CallbacksManager::addFormat(const std::string& name, const std::string& format)
 {
 	this->formats[name] = format;
 }
@@ -80,33 +85,33 @@ std::unordered_map<std::string, std::string> CallbacksManager::formats = {
 };
 
 const std::unordered_map<std::string, bool> CallbacksManager::badrets = {
-	{"OnDialogResponse", 1},
-	{"OnIncomingConnection", 1},
-	{"OnPlayerClickMap", 1},
-	{"OnPlayerClickPlayer", 1},
-	{"OnPlayerClickPlayerTextDraw", 1},
-	{"OnPlayerClickTextDraw", 1},
-	{"OnPlayerCommandText", 1},
-	{"OnPlayerConnect", 0},
-	{"OnPlayerDeath", 0},
-	{"OnPlayerDisconnect", 0},
-	{"OnPlayerEditAttachedObject", 1},
-	{"OnPlayerEditObject", 1},
-	{"OnPlayerGiveDamage", 1},
-	{"OnPlayerGiveDamageActor", 1},
-	{"OnPlayerRequestSpawn", 0},
-	{"OnPlayerSelectObject", 1},
-	{"OnPlayerSpawn", 0},
-	{"OnPlayerTakeDamage", 1},
-	{"OnPlayerText", 0},
-	{"OnPlayerUpdate", 0},
-	{"OnPlayerWeaponShot", 0},
-	{"OnRconCommand", 1},
-	{"OnTrailerUpdate", 0},
-	{"OnUnoccupiedVehicleUpdate", 0},
-	{"OnVehicleDamageStatusUpdate", 1},
-	{"OnVehicleMod", 0},
-	{"OnVehiclePaintjob", 0},
-	{"OnVehicleRespray", 0},
-	{"OnVehicleSpawn", 0}
+	{"OnDialogResponse", true},
+	{"OnIncomingConnection", true},
+	{"OnPlayerClickMap", true},
+	{"OnPlayerClickPlayer", true},
+	{"OnPlayerClickPlayerTextDraw", true},
+	{"OnPlayerClickTextDraw", true},
+	{"OnPlayerCommandText", true},
+	{"OnPlayerConnect", false},
+	{"OnPlayerDeath", false},
+	{"OnPlayerDisconnect", false},
+	{"OnPlayerEditAttachedObject", true},
+	{"OnPlayerEditObject", true},
+	{"OnPlayerGiveDamage", true},
+	{"OnPlayerGiveDamageActor", true},
+	{"OnPlayerRequestSpawn", false},
+	{"OnPlayerSelectObject", true},
+	{"OnPlayerSpawn", false},
+	{"OnPlayerTakeDamage", true},
+	{"OnPlayerText", false},
+	{"OnPlayerUpdate", false},
+	{"OnPlayerWeaponShot", false},
+	{"OnRconCommand", true},
+	{"OnTrailerUpdate", false},
+	{"OnUnoccupiedVehicleUpdate", false},
+	{"OnVehicleDamageStatusUpdate", true},
+	{"OnVehicleMod", false},
+	{"OnVehiclePaintjob", false},
+	{"OnVehicleRespray", false},
+	{"OnVehicleSpawn", false}
 };

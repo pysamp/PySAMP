@@ -27,16 +27,16 @@ public:
 	static void addTimer(Timer& timer);
 	static void removeTimer(int id);
 	static void processTick(unsigned int currentTick);
-	static int callback(const std::string name);
-	static int callback(const std::string name, PyObject* pArgs);
-	static int callback(const std::string name, PyObject* pArgs, cell* retval, bool* stop);
+	static int callback(const std::string& name);
+	static int callback(const std::string& name, PyObject* pArgs);
+	static int callback(const std::string& name, PyObject* pArgs, cell* retval, bool* stop);
 	static bool onPlayerCommandText(int playerid, const char* cmdtext);
 	static std::string getEncoding();
-	static void registerCallback(const std::string name, const std::string format);
-	static std::string* getCallbackFormat(const std::string callback_name);
-	static int getConstant(std::string);
+	static void registerCallback(const std::string& name, const std::string& format);
+	static const std::string* getCallbackFormat(const std::string& callback_name);
+	static int getConstant(const std::string&);
 	static PyObject* pyConfig(PyObject *self, PyObject *args, PyObject *kwargs);
-	static PyObject* amxParamsToTuple(AMX *amx, const std::string callback_name, cell *params);
+	static PyObject* amxParamsToTuple(AMX *amx, const std::string& callback_name, cell *params);
 	static cell* tupleToAmxParams(PyObject *tuple, bool asReference = false);
 
 	class GIL
