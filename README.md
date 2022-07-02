@@ -1,5 +1,5 @@
 # PySAMP
-Using PySAMP in your SA-MP server allows you to create gamemodes with the python language. All API-functions, callbacks and constants except timers and http functions can be accessed in python. 
+Using PySAMP in your SA-MP server allows you to create gamemodes with the python language. All API-functions, callbacks and constants except timers and http functions can be accessed in python.
 In case of the call-by-reference functions like ```GetPlayerName``` are returning the value instead of using a reference, since call-by-reference isn't possible in python.
 The following example shows the difference.
 
@@ -40,9 +40,9 @@ Follow our instructions <a href="https://github.com/pysamp/PySAMP/wiki/How-to-ge
 
 ## Make a python module
 The plugin will look for a module named `python` in your server root. That means you can either create `python.py` or `python/__init__.py`.
-  
+
 ## Server.cfg details
-1. Add `PySAMP.dll` to your `server.cfg` on the `plugins` line. 
+1. Add `PySAMP.dll` to your `server.cfg` on the `plugins` line.
 2. OPTIONAL: add an empty gamemode to the `gamemodes` line. For example, use `bare` which is a default, empty gamemode. Please note that this is not mandatory and you are able to run both a pawn and a python gamemode alongside each other just fine. However if you start from zero, we strongly recommend you to not mix, as it gives you much better control over your gamemode.
   <hr>
 </details>
@@ -85,7 +85,7 @@ With our docker setup, you can run your entire SA-MP server inside a docker cont
 </details>
 
 # Community
-<img src="https://pics.ducky.rocks/images/2019/12/10/imaged9f253a7387d8393.th.png" alt="Discord Logo" width="40"/> 
+<img src="https://pics.ducky.rocks/images/2019/12/10/imaged9f253a7387d8393.th.png" alt="Discord Logo" width="40"/>
 
 Join us over at [Discord](https://discord.gg/puw5VeQtbx)! You can join the discussion or even ask for help/support.
 
