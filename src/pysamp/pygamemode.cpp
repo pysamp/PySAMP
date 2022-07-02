@@ -206,18 +206,19 @@ int PyGamemode::callback(
 	bool* stop
 )
 {
-	int ret = -1;
+	int ret = -1;  // -1 == !badRet, 0/1 are user-specified
+	const int badRet = this->callbacks->getBadret(name);
 
 	if(
 		disabled
 		|| this->module == nullptr
 	)
-		return ret;
+		return !badRet;
 
 	PySAMP::GIL gil;
 
 	if(!PyObject_HasAttrString(this->module, name.c_str()))
-		return ret;
+		return !badRet;
 
 	PyObject* pFunc = PyObject_GetAttrString(this->module, name.c_str());
 
@@ -231,7 +232,7 @@ int PyGamemode::callback(
 		if(PyErr_Occurred())
 		{
 			PyErr_Print();
-			ret = !this->callbacks->getBadret(name);
+			ret = !badRet;
 			pValue = Py_None;
 		}
 
@@ -242,7 +243,7 @@ int PyGamemode::callback(
 			if(ret == -1)
 			{
 				PyErr_Print();
-				ret = !this->callbacks->getBadret(name);
+				ret = !badRet;
 			}
 		}
 
@@ -252,13 +253,15 @@ int PyGamemode::callback(
 	Py_XDECREF(pFunc);
 	Py_XDECREF(pArgs);
 
+	if(ret == -1)
+		ret = !badRet;
+
 	if(retval != NULL)
 		*retval = ret;
 
 	if(
 		stop != NULL
-		&& ret != -1
-		&& ret == this->callbacks->getBadret(name)
+		&& ret == badRet
 	)
 		*stop = true;
 
