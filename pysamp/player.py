@@ -18,74 +18,152 @@ from samp import (
     SPECTATE_MODE_NORMAL,
 )
 
-from pysamp import (allow_player_teleport, apply_animation, attach_camera_to_player_object, ban, ban_ex,
-                    clear_animations, create_explosion_for_player, delete_pvar,
-                    disable_player_checkpoint, disable_player_race_checkpoint,
-                    disable_remote_vehicle_collisions, edit_attached_object,
-                    enable_player_camera_target, enable_stunt_bonus_for_player,
-                    force_class_selection, game_text_for_player,
-                    get_player_ammo, get_player_animation_index,
-                    get_player_armour, get_player_camera_aspect_ratio,
-                    get_player_camera_front_vector, get_player_camera_mode,
-                    get_player_camera_pos, get_player_camera_target_actor,
-                    get_player_camera_target_object,
-                    get_player_camera_target_player,
-                    get_player_camera_target_vehicle, get_player_camera_zoom,
-                    get_player_color, get_player_distance_from_point,
-                    get_player_drunk_level, get_player_facing_angle,
-                    get_player_fighting_style, get_player_health,
-                    get_player_interior, get_player_ip, get_player_keys,
-                    get_player_last_shot_vectors, get_player_money,
-                    get_player_name, get_player_ping, get_player_pos,
-                    get_player_score, get_player_skin,
-                    get_player_special_action, get_player_state,
-                    get_player_surfing_object_id,
-                    get_player_surfing_vehicle_id, get_player_target_actor,
-                    get_player_target_player, get_player_team, get_player_time,
-                    get_player_vehicle_id, get_player_vehicle_seat,
-                    get_player_velocity, get_player_virtual_world,
-                    get_player_wanted_level, get_player_weapon,
-                    get_player_weapon_data, get_player_weapon_state,
-                    get_pvar_float, get_pvar_int, get_pvar_name_at_index,
-                    get_pvar_string, get_pvar_type, get_pvars_upper_index,
-                    give_player_money, give_player_weapon, gpci,
-                    interpolate_camera_look_at, interpolate_camera_pos,
-                    is_player_admin, is_player_attached_object_slot_used,
-                    is_player_connected, is_player_in_any_vehicle,
-                    is_player_in_checkpoint, is_player_in_race_checkpoint,
-                    is_player_in_range_of_point, is_player_in_vehicle,
-                    is_player_npc, is_player_streamed_in, kick,
-                    play_audio_stream_for_player, play_crime_report_for_player,
-                    player_play_sound, player_spectate_player,
-                    player_spectate_vehicle, put_player_in_vehicle,
-                    remove_building_for_player, remove_player_attached_object,
-                    remove_player_from_vehicle, remove_player_map_icon,
-                    reset_player_money, reset_player_weapons,
-                    send_client_message, send_death_message_to_player,
-                    send_player_message_to_player, set_camera_behind_player,
-                    set_player_ammo, set_player_armed_weapon,
-                    set_player_armour, set_player_attached_object,
-                    set_player_camera_look_at, set_player_camera_pos,
-                    set_player_chat_bubble, set_player_checkpoint,
-                    set_player_color, set_player_drunk_level,
-                    set_player_facing_angle, set_player_fighting_style,
-                    set_player_health, set_player_interior,
-                    set_player_map_icon, set_player_marker_for_player,
-                    set_player_name, set_player_pos, set_player_pos_find_z,
-                    set_player_race_checkpoint, set_player_score,
-                    set_player_shop_name, set_player_skill_level,
-                    set_player_skin, set_player_special_action,
-                    set_player_team, set_player_time, set_player_velocity,
-                    set_player_virtual_world, set_player_wanted_level,
-                    set_player_weather, set_player_world_bounds,
-                    set_pvar_float, set_pvar_int, set_pvar_string,
-                    set_spawn_info, show_player_name_tag_for_player,
-                    spawn_player, start_recording_player_data,
-                    stop_audio_stream_for_player, stop_recording_player_data,
-                    toggle_player_clock, toggle_player_controllable,
-                    toggle_player_spectating)
+from pysamp import (
+    allow_player_teleport,
+    apply_animation,
+    attach_camera_to_player_object,
+    ban,
+    ban_ex,
+    clear_animations,
+    create_explosion_for_player,
+    delete_pvar,
+    disable_player_checkpoint,
+    disable_player_race_checkpoint,
+    disable_remote_vehicle_collisions,
+    edit_attached_object,
+    enable_player_camera_target,
+    enable_stunt_bonus_for_player,
+    force_class_selection,
+    game_text_for_player,
+    get_player_ammo,
+    get_player_animation_index,
+    get_player_armour,
+    get_player_camera_aspect_ratio,
+    get_player_camera_front_vector,
+    get_player_camera_mode,
+    get_player_camera_pos,
+    get_player_camera_target_actor,
+    get_player_camera_target_object,
+    get_player_camera_target_player,
+    get_player_camera_target_vehicle,
+    get_player_camera_zoom,
+    get_player_color,
+    get_player_distance_from_point,
+    get_player_drunk_level,
+    get_player_facing_angle,
+    get_player_fighting_style,
+    get_player_health,
+    get_player_interior,
+    get_player_ip,
+    get_player_keys,
+    get_player_last_shot_vectors,
+    get_player_money,
+    get_player_name,
+    get_player_ping,
+    get_player_pos,
+    get_player_score,
+    get_player_skin,
+    get_player_special_action,
+    get_player_state,
+    get_player_surfing_object_id,
+    get_player_surfing_vehicle_id,
+    get_player_target_actor,
+    get_player_target_player,
+    get_player_team,
+    get_player_time,
+    get_player_vehicle_id,
+    get_player_vehicle_seat,
+    get_player_velocity,
+    get_player_virtual_world,
+    get_player_wanted_level,
+    get_player_weapon,
+    get_player_weapon_data,
+    get_player_weapon_state,
+    get_pvar_float,
+    get_pvar_int,
+    get_pvar_name_at_index,
+    get_pvar_string,
+    get_pvar_type,
+    get_pvars_upper_index,
+    give_player_money,
+    give_player_weapon,
+    gpci,
+    interpolate_camera_look_at,
+    interpolate_camera_pos,
+    is_player_admin,
+    is_player_attached_object_slot_used,
+    is_player_connected,
+    is_player_in_any_vehicle,
+    is_player_in_checkpoint,
+    is_player_in_race_checkpoint,
+    is_player_in_range_of_point,
+    is_player_in_vehicle,
+    is_player_npc,
+    is_player_streamed_in,
+    kick,
+    play_audio_stream_for_player,
+    play_crime_report_for_player,
+    player_play_sound,
+    player_spectate_player,
+    player_spectate_vehicle,
+    put_player_in_vehicle,
+    remove_building_for_player,
+    remove_player_attached_object,
+    remove_player_from_vehicle,
+    remove_player_map_icon,
+    reset_player_money,
+    reset_player_weapons,
+    send_client_message,
+    send_death_message_to_player,
+    send_player_message_to_player,
+    set_camera_behind_player,
+    set_player_ammo,
+    set_player_armed_weapon,
+    set_player_armour,
+    set_player_attached_object,
+    set_player_camera_look_at,
+    set_player_camera_pos,
+    set_player_chat_bubble,
+    set_player_checkpoint,
+    set_player_color,
+    set_player_drunk_level,
+    set_player_facing_angle,
+    set_player_fighting_style,
+    set_player_health,
+    set_player_interior,
+    set_player_map_icon,
+    set_player_marker_for_player,
+    set_player_name,
+    set_player_pos,
+    set_player_pos_find_z,
+    set_player_race_checkpoint,
+    set_player_score,
+    set_player_shop_name,
+    set_player_skill_level,
+    set_player_skin,
+    set_player_special_action,
+    set_player_team,
+    set_player_time,
+    set_player_velocity,
+    set_player_virtual_world,
+    set_player_wanted_level,
+    set_player_weather,
+    set_player_world_bounds,
+    set_pvar_float,
+    set_pvar_int,
+    set_pvar_string,
+    set_spawn_info,
+    show_player_name_tag_for_player,
+    spawn_player,
+    start_recording_player_data,
+    stop_audio_stream_for_player,
+    stop_recording_player_data,
+    toggle_player_clock,
+    toggle_player_controllable,
+    toggle_player_spectating,
+)
 
-from .commands import cmd, _NO_FUNCTION
+from .commands import _NO_FUNCTION, cmd
 from .event import event
 
 
@@ -96,6 +174,7 @@ class Player:
     The characters that are not controlled by a player are called non-player
     characters (NPCs), and are found in the ``Actor`` class.
     """
+
     def __init__(self, playerid: int):
         self.id: int = playerid
 
@@ -926,25 +1005,30 @@ class Player:
         """
         return set_player_skill_level(self.id, weapon_skill, level)
 
-    def get_surfing_vehicle_id(self) -> int:
-        # TODO: Make it return a vehicle instance
-        """Get which vehicle the player is standing on.
+    def get_surfing_vehicle(self) -> Optional["Vehicle"]:
+        """Get the moving vehicle the player is standing on.
 
-        Can return `INVALID_VEHICLE_ID` if there's no driver in the car.
+        .. note:: Can return ``None`` if there's no driver in the car.
 
-        https://open.mp/docs/scripting/functions/GetPlayerSurfingVehicleID for
-        more information.
+        :returns: A :class:`~pysamp.vehicle.Vehicle` instance
+            the player is surfing on, or ``None`` if there's no vehicle being
+            surfed.
         """
-        return get_player_surfing_vehicle_id(self.id)
+        veh_id = get_player_surfing_vehicle_id(self.id)
+        if(veh_id == INVALID_VEHICLE_ID):
+            return None
+        return Vehicle(veh_id)
 
-    def get_surfing_object_id(self) -> int:
-        # TODO: Return an object instance
-        """Get which *moving* object the player is standing on.
+    def get_surfing_object(self) -> Optional["Object"]:
+        """Get the moving object the player is standing on.
 
-        https://open.mp/docs/scripting/functions/GetPlayerSurfingObjectID for
-        more information.
+        :returns: An instance of :class:`~pysamp.object.Object` the player is
+            standing on, or ``None`` if there's no moving object found.
         """
-        return get_player_surfing_object_id(self.id)
+        obj_id = get_player_surfing_object_id(self.id)
+        if(obj_id == INVALID_OBJECT_ID):
+            return None
+        return Object(obj_id)
 
     def remove_building(
         self, model_id: int, x: float, y: float, z: float, radius: float
@@ -2015,7 +2099,7 @@ class Player:
         to_y: float,
         to_z: float,
         time: int,
-        cut: int = CAMERA_CUT
+        cut: int = CAMERA_CUT,
     ) -> bool:
 
         """Smoothly move the camera position from one coordinate to another,
@@ -2056,7 +2140,7 @@ class Player:
         to_y: float,
         to_z: float,
         time: int,
-        cut: int = CAMERA_CUT
+        cut: int = CAMERA_CUT,
     ) -> bool:
         """Make the camera change the "focus" from one coordinate to another.
 
@@ -2175,9 +2259,7 @@ class Player:
         return toggle_player_spectating(self.id, toggle)
 
     def spectate_player(
-        self,
-        target_player: "Player",
-        mode: int = SPECTATE_MODE_NORMAL
+        self, target_player: "Player", mode: int = SPECTATE_MODE_NORMAL
     ) -> bool:
         """Spectate a specific player.
 
@@ -2201,9 +2283,7 @@ class Player:
         return player_spectate_player(self.id, target_player.id, mode)
 
     def spectate_vehicle(
-        self,
-        target_vehicle: "Vehicle",
-        mode: int = SPECTATE_MODE_NORMAL
+        self, target_vehicle: "Vehicle", mode: int = SPECTATE_MODE_NORMAL
     ) -> bool:
         """Spectate a specific vehicle.
 
@@ -2235,12 +2315,7 @@ class Player:
         return stop_recording_player_data(self.id)
 
     def create_explosion(
-        self,
-        x: float,
-        y: float,
-        z: float,
-        type: int,
-        radius: float
+        self, x: float, y: float, z: float, type: int, radius: float
     ) -> bool:
         """Create an explosion only visible to the player.
 
@@ -2277,10 +2352,7 @@ class Player:
         return send_player_message_to_player(self.id, sender.id, message)
 
     def send_death_message(
-        self,
-        killer: "Player",
-        killee: "Player",
-        weapon: int
+        self, killer: "Player", killee: "Player", weapon: int
     ) -> bool:
         """Send a death message only to the current player.
 
@@ -2290,10 +2362,7 @@ class Player:
         :return: No return value.
         """
         return send_death_message_to_player(
-            self.id,
-            killer.id,
-            killee.id,
-            weapon
+            self.id, killer.id, killee.id, weapon
         )
 
     def game_text(self, text: str, time: int, style: int) -> bool:
@@ -2373,8 +2442,7 @@ class Player:
         return gpci(self.id)
 
     def attach_camera_to_player_object(
-        self,
-        player_object: "PlayerObject"
+        self, player_object: "PlayerObject"
     ) -> bool:
         """Attach the player camera to a player object.
 
@@ -2384,19 +2452,19 @@ class Player:
         """
         return attach_camera_to_player_object(self.id, player_object.id)
 
-    @event('OnPlayerConnect')
+    @event("OnPlayerConnect")
     def on_connect(cls, playerid: int):
         return (cls(playerid),)
 
-    @event('OnPlayerDisconnect')
+    @event("OnPlayerDisconnect")
     def on_disconnect(cls, playerid: int, reason: int):
         return (cls(playerid), reason)
 
-    @event('OnPlayerSpawn')
+    @event("OnPlayerSpawn")
     def on_spawn(cls, playerid: int):
         return (cls(playerid),)
 
-    @event('OnPlayerDeath')
+    @event("OnPlayerDeath")
     def on_death(cls, playerid: int, killerid: int, reason: int):
         return (
             cls(playerid),
@@ -2404,19 +2472,19 @@ class Player:
             reason,
         )
 
-    @event('OnPlayerText')
+    @event("OnPlayerText")
     def on_text(cls, playerid: int, text: str):
         return (cls(playerid), text)
 
-    @event('OnPlayerCommandText')
+    @event("OnPlayerCommandText")
     def on_command_text(cls, playerid: int, command_text: str):
         return (cls(playerid), command_text)
 
-    @event('OnPlayerRequestClass')
+    @event("OnPlayerRequestClass")
     def on_request_class(cls, playerid: int, classid: int):
         return (cls(playerid), classid)
 
-    @event('OnPlayerEnterVehicle')
+    @event("OnPlayerEnterVehicle")
     def on_enter_vehicle(
         cls,
         playerid: int,
@@ -2425,47 +2493,47 @@ class Player:
     ):
         return (cls(playerid), Vehicle(vehicleid), is_passenger)
 
-    @event('OnPlayerExitVehicle')
+    @event("OnPlayerExitVehicle")
     def on_exit_vehicle(cls, playerid: int, vehicleid: int):
         return (cls(playerid), Vehicle(vehicleid))
 
-    @event('OnPlayerStateChange')
+    @event("OnPlayerStateChange")
     def on_state_change(cls, playerid, newstate: int, oldstate: int):
         return (cls(playerid), newstate, oldstate)
 
-    @event('OnPlayerEnterCheckpoint')
+    @event("OnPlayerEnterCheckpoint")
     def on_enter_checkpoint(cls, playerid: int):
         return (cls(playerid),)
 
-    @event('OnPlayerLeaveCheckpoint')
+    @event("OnPlayerLeaveCheckpoint")
     def on_leave_checkpoint(cls, playerid: int):
         return (cls(playerid),)
 
-    @event('OnPlayerEnterRaceCheckpoint')
+    @event("OnPlayerEnterRaceCheckpoint")
     def on_enter_race_checkpoint(cls, playerid: int):
         return (cls(playerid),)
 
-    @event('OnPlayerLeaveRaceCheckpoint')
+    @event("OnPlayerLeaveRaceCheckpoint")
     def on_leave_race_checkpoint(cls, playerid: int):
         return (cls(playerid),)
 
-    @event('OnPlayerRequestSpawn')
+    @event("OnPlayerRequestSpawn")
     def on_request_spawn(cls, playerid: int):
         return (cls(playerid),)
 
-    @event('OnPlayerPickUpPickup')
+    @event("OnPlayerPickUpPickup")
     def on_pick_up_pickup(cls, playerid, pickupid: int):
         return (cls(playerid), Pickup(pickupid))
 
-    @event('OnPlayerSelectedMenuRow')
+    @event("OnPlayerSelectedMenuRow")
     def on_selected_menu_row(cls, playerid: int, row: int):
         return (cls(playerid), row)
 
-    @event('OnPlayerExitedMenu')
+    @event("OnPlayerExitedMenu")
     def on_exited_menu(cls, playerid: int):
         return (cls(playerid),)
 
-    @event('OnPlayerInteriorChange')
+    @event("OnPlayerInteriorChange")
     def on_interior_change(
         cls,
         playerid: int,
@@ -2474,23 +2542,23 @@ class Player:
     ):
         return (cls(playerid), newinteriorid, oldinteriorid)
 
-    @event('OnPlayerKeyStateChange')
+    @event("OnPlayerKeyStateChange")
     def on_key_state_change(cls, playerid: int, newkeys: int, oldkeys: int):
         return (cls(playerid), newkeys, oldkeys)
 
-    @event('OnPlayerUpdate')
+    @event("OnPlayerUpdate")
     def on_update(cls, playerid: int):
         return (cls(playerid),)
 
-    @event('OnPlayerStreamIn')
+    @event("OnPlayerStreamIn")
     def on_stream_in(cls, playerid: int, forplayerid: int):
         return (cls(playerid), cls(forplayerid))
 
-    @event('OnPlayerStreamOut')
+    @event("OnPlayerStreamOut")
     def on_stream_out(cls, playerid: int, forplayerid: int):
         return (cls(playerid), cls(forplayerid))
 
-    @event('OnPlayerTakeDamage')
+    @event("OnPlayerTakeDamage")
     def on_take_damage(
         cls,
         playerid: int,
@@ -2507,7 +2575,7 @@ class Player:
             bodypart,
         )
 
-    @event('OnPlayerGiveDamage')
+    @event("OnPlayerGiveDamage")
     def on_give_damage(
         cls,
         playerid: int,
@@ -2524,7 +2592,7 @@ class Player:
             bodypart,
         )
 
-    @event('OnPlayerGiveDamageActor')
+    @event("OnPlayerGiveDamageActor")
     def on_give_damage_actor(
         cls,
         playerid: int,
@@ -2541,41 +2609,49 @@ class Player:
             bodypart,
         )
 
-    @event('OnPlayerClickMap')
+    @event("OnPlayerClickMap")
     def on_click_map(cls, playerid: int, x: float, y: float, z: float):
         return (cls(playerid), x, y, z)
 
-    @event('OnPlayerClickTextDraw')
+    @event("OnPlayerClickTextDraw")
     def on_click_textdraw(cls, playerid: int, clickedid: int):
         return (cls(playerid), TextDraw(clickedid))
 
-    @event('OnPlayerClickPlayerTextDraw')
+    @event("OnPlayerClickPlayerTextDraw")
     def on_click_playertextdraw(cls, playerid: int, playertextid: int):
         return (cls(playerid), PlayerTextDraw(playertextid))
 
-    @event('OnPlayerClickPlayer')
+    @event("OnPlayerClickPlayer")
     def on_click_player(cls, playerid: int, clickedplayerid: int, source: int):
         return (cls(playerid), cls(clickedplayerid), source)
 
-    @event('OnPlayerEditObject')
+    @event("OnPlayerEditObject")
     def on_edit_object(
         cls,
         playerid: int,
         is_playerobject: bool,
         objectid: int,
         response: int,
-        x: float, y: float, z: float,
-        rot_x: float, rot_y: float, rot_z: float,
+        x: float,
+        y: float,
+        z: float,
+        rot_x: float,
+        rot_y: float,
+        rot_z: float,
     ):
         return (
             cls(playerid),
             PlayerObject(objectid) if is_playerobject else Object(objectid),
             response,
-            x, y, z,
-            rot_x, rot_y, rot_z,
+            x,
+            y,
+            z,
+            rot_x,
+            rot_y,
+            rot_z,
         )
 
-    @event('OnPlayerEditAttachedObject')
+    @event("OnPlayerEditAttachedObject")
     def on_edit_attached_object(
         cls,
         playerid: int,
@@ -2583,25 +2659,43 @@ class Player:
         index: int,
         modelid: int,
         boneid: int,
-        offset_x: float, offset_y: float, offset_z: float,
-        rot_x: float, rot_y: float, rot_z: float,
-        scale_x: float, scale_y: float, scale_z: float,
+        offset_x: float,
+        offset_y: float,
+        offset_z: float,
+        rot_x: float,
+        rot_y: float,
+        rot_z: float,
+        scale_x: float,
+        scale_y: float,
+        scale_z: float,
     ):
         return (
-            cls(playerid), response, index, modelid, boneid,
-            offset_x, offset_y, offset_z,
-            rot_x, rot_y, rot_z,
-            scale_x, scale_y, scale_z,
+            cls(playerid),
+            response,
+            index,
+            modelid,
+            boneid,
+            offset_x,
+            offset_y,
+            offset_z,
+            rot_x,
+            rot_y,
+            rot_z,
+            scale_x,
+            scale_y,
+            scale_z,
         )
 
-    @event('OnPlayerSelectObject')
+    @event("OnPlayerSelectObject")
     def on_select_object(
         cls,
         playerid: int,
         type: int,
         objectid: int,
         modelid: int,
-        x: float, y: float, z: float,
+        x: float,
+        y: float,
+        z: float,
     ):
         object_cls = {
             SELECT_OBJECT_GLOBAL_OBJECT: Object,
@@ -2611,17 +2705,21 @@ class Player:
             cls(playerid),
             object_cls[type](objectid),
             modelid,
-            x, y, z,
+            x,
+            y,
+            z,
         )
 
-    @event('OnPlayerWeaponShot')
+    @event("OnPlayerWeaponShot")
     def on_weapon_shot(
         cls,
         playerid: int,
         weaponid: int,
         hittype: int,
         hitid: int,
-        x: float, y: float, z: float,
+        x: float,
+        y: float,
+        z: float,
     ):
         hit_cls = {
             BULLET_HIT_TYPE_NONE: lambda _: None,
@@ -2634,7 +2732,9 @@ class Player:
             cls(playerid),
             weaponid,
             hit_cls[hittype](hitid),
-            x, y, z,
+            x,
+            y,
+            z,
         )
 
     @classmethod
