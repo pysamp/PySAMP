@@ -1,5 +1,7 @@
 from typing import Tuple
 
+from pysamp.event import event
+
 from samp import OBJECT_MATERIAL_SIZE_256x128
 
 from pysamp import (
@@ -43,9 +45,16 @@ class PlayerObject:
         objects.
     """
 
-    def __init__(self, id: int, player: "Player"):
+    def __init__(self, id: int, player_id: int):
         self.id = id
-        self.player = player
+        self._player_id = player_id
+
+    def get_player(self) -> "Player":
+        """Get the player who owns the player object.
+
+        :returns: An instance of :class:~`pysamp.player.Player`
+        """
+        return Player(self._player_id)
 
     @classmethod
     def create(
@@ -87,7 +96,7 @@ class PlayerObject:
                 rotation_z,
                 draw_distance,
             ),
-            player,
+            player.id,
         )
 
     def attach_to_vehicle(
@@ -117,7 +126,7 @@ class PlayerObject:
             call :meth:`~set_material_text` after to circumvent it.
         """
         return attach_player_object_to_vehicle(
-            self.player.id,
+            self._player_id,
             self.id,
             vehicle.id,
             offset_x,
@@ -195,7 +204,7 @@ class PlayerObject:
 
         """
         return set_player_object_material_text(
-            self.player.id,
+            self._player_id,
             self.id,
             text,
             material_index,
@@ -216,7 +225,7 @@ class PlayerObject:
         :param float z: The world z coordinate to set.
         :returns: No return value.
         """
-        return set_player_object_pos(self.player.id, self.id, x, y, z)
+        return set_player_object_pos(self._player_id, self.id, x, y, z)
 
     def set_rotation(
         self, rotation_x: float, rotation_y: float, rotation_z: float
@@ -229,7 +238,7 @@ class PlayerObject:
         :returns: No return value.
         """
         return set_player_object_rot(
-            self.player.id, self.id, rotation_x, rotation_y, rotation_z
+            self._player_id, self.id, rotation_x, rotation_y, rotation_z
         )
 
     def get_position(self) -> Tuple[float, float, float]:
@@ -237,42 +246,42 @@ class PlayerObject:
 
         :returns: A tuple with 3 floats; The x, y and z coordinate.
         """
-        return get_player_object_pos(self.player.id, self.id)
+        return get_player_object_pos(self._player_id, self.id)
 
     def get_rotation(self) -> Tuple[float, float, float]:
         """Get the current rotation values for the player object.
 
         :returns: A tuple with 3 floats; The x, y and z rotation.
         """
-        return get_player_object_rot(self.player.id, self.id)
+        return get_player_object_rot(self._player_id, self.id)
 
     def edit(self) -> bool:
         """Put the player in edit mode to move/rotate the object.
 
         :returns: No return value.
         """
-        return edit_player_object(self.player.id, self.id)
+        return edit_player_object(self._player_id, self.id)
 
     def get_model(self) -> int:
         """Get the current object model the player object is.
 
         :returns: An integer representing the object model.
         """
-        return get_player_object_model(self.player.id, self.id)
+        return get_player_object_model(self._player_id, self.id)
 
     def set_no_camera_col(self) -> bool:
         """Disable player object camera collision.
 
         :returns: No return value.
         """
-        return set_player_object_no_camera_col(self.player.id, self.id)
+        return set_player_object_no_camera_col(self._player_id, self.id)
 
     def is_valid(self) -> bool:
         """Check if the player object is valid.
 
         :returns: True/False depending on it if is valid or not.
         """
-        return is_valid_player_object(self.player.id, self.id)
+        return is_valid_player_object(self._player_id, self.id)
 
     def destroy(self) -> bool:
         """Destroys the player object.
@@ -282,7 +291,7 @@ class PlayerObject:
 
         :returns: No return value.
         """
-        return destroy_player_object(self.player.id, self.id)
+        return destroy_player_object(self._player_id, self.id)
 
     def move(
         self,
@@ -312,7 +321,7 @@ class PlayerObject:
             you do not give it new x,y,z, the rotation will not apply.
         """
         return move_player_object(
-            self.player.id,
+            self._player_id,
             self.id,
             x,
             y,
@@ -330,14 +339,14 @@ class PlayerObject:
 
         :returns: No return value.
         """
-        return stop_player_object(self.player.id, self.id)
+        return stop_player_object(self._player_id, self.id)
 
     def is_moving(self) -> bool:
         """Check if the player object is currently moving.
 
         :returns: A bool (True/False) depending on if it is moving or not.
         """
-        return is_player_object_moving(self.player.id, self.id)
+        return is_player_object_moving(self._player_id, self.id)
 
     def set_material(
         self,
@@ -371,7 +380,7 @@ class PlayerObject:
         :returns: No return value.
         """
         return set_player_object_material(
-            self.player.id,
+            self._player_id,
             self.id,
             material_index,
             model_id,
@@ -380,6 +389,9 @@ class PlayerObject:
             material_color,
         )
 
+    @event("OnPlayerObjectMoved")
+    def on_move(cls, playerid: int, objectid: int):
+        return (cls(objectid, playerid), Player(playerid))
 
 from pysamp.player import Player  # noqa
 from pysamp.vehicle import Vehicle  # noqa
