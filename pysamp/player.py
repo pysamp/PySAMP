@@ -2452,6 +2452,12 @@ class Player:
         """
         return attach_camera_to_player_object(self.id, player_object.id)
 
+    @event("OnEnterExitModShop")
+    def on_enter_exit_mod_shop(
+        cls, playerid: int, enterexit: int, interiorid: int
+    ):
+        return (cls(playerid), enterexit, interiorid)
+
     @event("OnPlayerConnect")
     def on_connect(cls, playerid: int):
         return (cls(playerid),)
