@@ -15,6 +15,7 @@ from pysamp import (
     set_object_material_text,
     set_objects_default_camera_col
 )
+from pysamp.event import event
 from samp import (
     OBJECT_MATERIAL_SIZE_256x128
 )
@@ -236,3 +237,7 @@ class Object:
             Object.set_default_camera_col(True)
         """
         return set_objects_default_camera_col(disable)
+
+    @event("OnObjectMoved")
+    def on_moved(cls, objectid: int):
+        return (cls(objectid),)
