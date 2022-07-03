@@ -17,6 +17,7 @@ from pysamp import (
     set_actor_virtual_world,
 )
 from typing import Optional, Tuple
+from pysamp.event import event
 
 
 class Actor:
@@ -142,5 +143,13 @@ class Actor:
     def is_valid(self) -> bool:
         """Check if the actor is valid."""
         return is_valid_actor(self.id)
+
+    @event("OnActorStreamIn")
+    def on_stream_in(cls, actorid: int, forplayerid: int):
+        return (cls(actorid), Player(forplayerid))
+
+    @event("OnActorStreamOut")
+    def on_stream_out(cls, actorid: int, forplayerid: int):
+        return (cls(actorid), Player(forplayerid))
 
 from pysamp.player import Player  # noqa
