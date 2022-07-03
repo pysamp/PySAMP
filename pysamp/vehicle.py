@@ -41,7 +41,9 @@ from pysamp import (
     update_vehicle_damage_status,
 )
 
-from typing import Tuple
+from typing import Optional, Tuple
+from pysamp.event import event
+from samp import INVALID_PLAYER_ID
 
 
 class Vehicle:
@@ -52,16 +54,13 @@ class Vehicle:
     Edit and work on them using this class. This class represents all drivable
     vehicles (Planes, boats, bikes, trains, trailers ++)
 
-    To create a new vehicle, please use :meth:`Vehicle.create`.
-
     A car that explodes or dies, will be respawned at its original
     coordinates where it was created.
+
+    To create a new vehicle, check out :meth:`~create`
     """
 
-    def __init__(
-        self,
-        id: int
-    ):
+    def __init__(self, id: int):
         self.id = id
 
     @classmethod
@@ -93,17 +92,19 @@ class Vehicle:
             a siren. Defaults to False.
         :return: An instance of :class:`Vehicle`.
         """
-        return cls(create_vehicle(
-            model,
-            x,
-            y,
-            z,
-            rotation,
-            color1,
-            color2,
-            respawn_delay,
-            add_siren,
-        ))
+        return cls(
+            create_vehicle(
+                model,
+                x,
+                y,
+                z,
+                rotation,
+                color1,
+                color2,
+                respawn_delay,
+                add_siren,
+            )
+        )
 
     def is_valid(self) -> bool:
         """Check if the vehicle is valid"""
@@ -117,7 +118,7 @@ class Vehicle:
         """Removes the vehicle from the server."""
         return destroy_vehicle(self.id)
 
-    def is_streamed_in(self, for_player: 'Player') -> bool:
+    def is_streamed_in(self, for_player: "Player") -> bool:
         """Lets you know if a specific player has streamed in the vehicle."""
         return is_vehicle_streamed_in(self.id, for_player.id)
 
@@ -150,7 +151,7 @@ class Vehicle:
         return get_vehicle_rotation_quat(self.id)
 
     def set_params_for_player(
-        self, player: 'Player', objective: int, doors_locked: int
+        self, player: "Player", objective: int, doors_locked: int
     ) -> bool:
         """Set the parameters on the vehicle."""
         return set_vehicle_params_for_player(
@@ -300,17 +301,22 @@ class Vehicle:
         """Check if a trailer is attached to the vehicle."""
         return is_trailer_attached_to_vehicle(self.id)
 
-    def get_trailer(self) -> int:  # TODO: Interface towards vehicle objects
+    def get_trailer(self) -> Optional["Vehicle"]:
+        """Get the Vehicle of the trailer that the vehicle is pulling.
+
+        :returns: An instance of :class:`~pysamp.vehicle.Vehicle` that is the
+            trailer, or ``None`` if no trailer found.
         """
-        Get the ID of the trailer that the vehicle is pulling.
-        If no trailer, this returns 0.
-        """
-        return get_vehicle_trailer(self.id)
+        trailer_id = get_vehicle_trailer(self.id)
+        if trailer_id == 0:
+            return None
+        return Vehicle(trailer_id)
 
     def set_number_plate(self, number_plate: str) -> bool:
         """Set the vehicle number plate text.
 
-        This function has no internal error checking.
+        .. note:: This method has no internal error checking.
+
         Do not assign custom number plates to vehicles without plates
         (boats, planes, etc) as this will result in some unneeded processing
         time on the client. The vehicle must be re-spawned or re-streamed for
@@ -319,6 +325,9 @@ class Vehicle:
         seen on the number plate is around 9 to 10 characters. More characters
         will cause the text to split. Some vehicle models has a backward
         number plate, e.g. Boxville (498).
+
+        :param str number_plate: The text you want to set.
+        :returns: No return value.
         """
         return set_vehicle_number_plate(self.id, number_plate)
 
@@ -369,7 +378,7 @@ class Vehicle:
         The returned values in the tuple are 4 bits each. For example the
         tires are represented as 4 bits, where a flat tire is 0 and a normal
         tire is represented by 1.
-        """  # TODO: Add a good example
+        """
         return get_vehicle_damage_status(self.id)
 
     def set_damage_status(self, param: Tuple[int, int, int, int]) -> bool:
@@ -397,6 +406,79 @@ class Vehicle:
     def set_virtual_world(self, world_id: int) -> bool:
         """Set the virtual world ID that the vehicle should be visible in."""
         return set_vehicle_virtual_world(self.id, world_id)
+
+    @event("OnTrailerUpdate")
+    def on_trailer_update(cls, playerid: int, trailerid: int):
+        return (Player(playerid), cls(trailerid))
+
+    @event("OnVehicleDamageStatusUpdate")
+    def on_damage_status_update(cls, vehicleid: int, playerid: int):
+        return (cls(vehicleid), Player(playerid))
+
+    @event("OnVehicleDeath")
+    def on_death(cls, vehicleid: int, killerid: int):
+        return (
+            cls(vehicleid),
+            Player(killerid) if killerid != INVALID_PLAYER_ID else killerid,
+        )
+
+    @event("OnVehicleMod")
+    def on_mod(cls, playerid: int, vehicleid: int, componentid: int):
+        return (Player(playerid), cls(vehicleid), componentid)
+
+    @event("OnVehiclePaintjob")
+    def on_paintjob(cls, playerid: int, vehicleid: int, paintjobid: int):
+        return (Player(playerid), cls(vehicleid), paintjobid)
+
+    @event("OnVehicleRespray")
+    def on_respray(
+        cls, playerid: int, vehicleid: int, color1: int, color2: int
+    ):
+        return (Player(playerid), cls(vehicleid), color1, color2)
+
+    @event("OnVehicleSirenStateChange")
+    def on_siren_state_change(
+        cls, playerid: int, vehicleid: int, newstate: int
+    ):
+        return (Player(playerid), cls(vehicleid), newstate)
+
+    @event("OnVehicleSpawn")
+    def on_spawn(cls, vehicleid: int):
+        """When a vehicle is respawning only."""
+        return (cls(vehicleid),)
+
+    @event("OnVehicleStreamIn")
+    def on_stream_in(cls, vehicleid: int, forplayerid: int):
+        return (cls(vehicleid), Player(forplayerid))
+
+    @event("OnVehicleStreamOut")
+    def on_stream_out(cls, vehicleid: int, forplayerid: int):
+        return (cls(vehicleid), Player(forplayerid))
+
+    @event("OnUnoccupiedVehicleUpdate")
+    def on_unoccupied_update(
+        cls,
+        vehicleid: int,
+        playerid: int,
+        passenger_seat: int,
+        new_x: float,
+        new_y: float,
+        new_z: float,
+        vel_x: float,
+        vel_y: float,
+        vel_z: float,
+    ):
+        return (
+            cls(vehicleid),
+            Player(playerid),
+            passenger_seat,
+            new_x,
+            new_y,
+            new_z,
+            vel_x,
+            vel_y,
+            vel_z,
+        )
 
 
 from pysamp.player import Player  # noqa
