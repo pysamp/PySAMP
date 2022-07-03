@@ -1,7 +1,6 @@
-from pysamp import (
-    show_player_dialog
-)
-from typing import Dict, List
+from pysamp import show_player_dialog
+from typing import Callable, Dict, Optional
+from pysamp.event import registry
 
 
 class Dialog:
@@ -16,7 +15,7 @@ class Dialog:
     """
 
     _id: int = 32768  # just a random dialog ID that will be used on SA-MP
-    _by_playerid: Dict[int, "Dialog"] = {}
+    _shown_for: Dict[int, "Dialog"] = {}
 
     def __init__(
         self,
@@ -25,14 +24,14 @@ class Dialog:
         content: str,
         button_1: str,
         button_2: str,
-        shown_for: List[int] = []
+        on_response: Optional[Callable] = None,
     ) -> None:
         self.type = type
         self.title = title
         self.content = content
         self.button_1 = button_1
         self.button_2 = button_2
-        self.shown_for = shown_for
+        self.on_response = on_response
 
     @classmethod
     def create(
@@ -41,7 +40,8 @@ class Dialog:
         title: str,
         content: str,
         button_1: str,
-        button_2: str
+        button_2: str,
+        on_response: Optional[Callable] = None,
     ) -> "Dialog":
         """Create/prepare a dialog for use later.
 
@@ -57,15 +57,10 @@ class Dialog:
             than 8 characters, else it looks weird.
         :param button_2: The second button, negative response.
             If it is left empty, it will be hidden from the dialog.
+        :param Callable on_response: The function to call on response.
         :return: This classmethod creates a new instance of :class:`Dialog`.
         """
-        return cls(
-            type,
-            title,
-            content,
-            button_1,
-            button_2
-        )
+        return cls(type, title, content, button_1, button_2, on_response)
 
     def show(self, for_player: "Player") -> None:
         """Show the dialog created with :meth:`create` to a specific player.
@@ -84,11 +79,9 @@ class Dialog:
             self.title,
             self.content,
             self.button_1,
-            self.button_2
+            self.button_2,
         )
-        Dialog._by_playerid[for_player.id] = self
-        self.shown_for.append(for_player.id)
-        return
+        Dialog._shown_for[for_player.id] = self
 
     @staticmethod
     def hide(for_player: "Player") -> None:
@@ -99,8 +92,36 @@ class Dialog:
         :return: No return value.
         """
         show_player_dialog(for_player.id, -1, 0, "", "", "", "")
-        Dialog._by_playerid.pop(for_player.id, None)
-        return
+        Dialog._shown_for.pop(for_player.id, None)
 
+    @classmethod
+    def handle(
+        cls,
+        player_id: int,
+        dialog_id: int,
+        response: int,
+        list_item: int,
+        input_text: str,
+    ):
+        if dialog_id != cls._id:
+            # This dialog is either invalid or handled in pawn.
+            return
+
+        instance = cls._shown_for.get(player_id)
+
+        if not instance:
+            return
+
+        if instance.on_response is not None:
+            return instance.on_response(
+                Player(player_id), response, list_item, input_text
+            )
+
+
+registry.register_callback(
+    'OnDialogResponse',
+    Dialog.handle,
+    'pysamp.dialogs',
+)
 
 from pysamp.player import Player  # noqa
