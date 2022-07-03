@@ -103,11 +103,11 @@ class Dialog:
         list_item: int,
         input_text: str,
     ):
-        if dialog_id != cls._ID:
+        if dialog_id != Dialog._ID:
             # This dialog is either invalid or handled in pawn.
             return
 
-        instance = cls._shown_for.get(player_id)
+        instance = Dialog._shown_for.get(player_id)
 
         if not instance or not instance.on_response:
             return
