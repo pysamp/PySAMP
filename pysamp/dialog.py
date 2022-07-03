@@ -14,7 +14,7 @@ class Dialog:
     dialog, which is used on the dialog response event.
     """
 
-    _id: int = 32768  # just a random dialog ID that will be used on SA-MP
+    _ID: int = 32768  # just a random dialog ID that will be used on SA-MP
     _shown_for: Dict[int, "Dialog"] = {}
 
     def __init__(
@@ -74,7 +74,7 @@ class Dialog:
 
         show_player_dialog(
             for_player.id,
-            Dialog._id,  # we only occupy one ID on SA-MP side.
+            Dialog._ID,  # we only occupy one ID on SA-MP side.
             self.type,
             self.title,
             self.content,
@@ -103,19 +103,18 @@ class Dialog:
         list_item: int,
         input_text: str,
     ):
-        if dialog_id != cls._id:
+        if dialog_id != cls._ID:
             # This dialog is either invalid or handled in pawn.
             return
 
         instance = cls._shown_for.get(player_id)
 
-        if not instance:
+        if not instance or not instance.on_response:
             return
 
-        if instance.on_response is not None:
-            return instance.on_response(
-                Player(player_id), response, list_item, input_text
-            )
+        return instance.on_response(
+            Player(player_id), response, list_item, input_text
+        )
 
 
 registry.register_callback(
