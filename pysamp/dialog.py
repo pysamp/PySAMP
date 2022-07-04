@@ -10,11 +10,11 @@ class Dialog:
     To create a new dialog, use :meth:`create`.
 
     The player will see the dialog when you do :meth:`show`. The Dialog class
-    keeps track of shown dialogs to a player, and also the last shown
-    dialog, which is used on the dialog response event.
+    will behind the scenes keep track of if a dialog is shown to a player, and
+    will that way automatically prevent traditional spoofing of dialogs.
     """
 
-    _ID: int = 32768  # just a random dialog ID that will be used on SA-MP
+    _ID: int = 32767  # just a random dialog ID that will be used on SA-MP
     _shown_for: Dict[int, "Dialog"] = {}
 
     def __init__(
@@ -66,10 +66,11 @@ class Dialog:
         """Show the dialog created with :meth:`create` to a specific player.
 
         :param Player for_player: The player you want to show
-            the dialog to.
+            the dialog for.
         :return: No return value.
 
-        .. note:: You can only show one dialog to a player at a time.
+        .. note:: You can only show one dialog to a player at a time. Showing
+            a new dialog will close the old one, if shown.
         """
 
         show_player_dialog(
