@@ -1,5 +1,8 @@
 """Snake case wrappers for PEP8 compatibility."""
 from typing import Tuple, Callable
+import functools
+from pysamp.event import registry
+
 
 from samp import (
     AddMenuItem,
@@ -2716,3 +2719,28 @@ def set_timer(
     *args: Tuple
 ) -> int:
     return SetTimer(function, interval_ms, repeating, args)
+
+
+on_gamemode_init = functools.partial(
+    registry.register_callback,
+    'OnGameModeInit',
+    group='pysamp.on_gamemode_init',
+)
+
+on_gamemode_exit = functools.partial(
+    registry.register_callback,
+    'OnGameModeExit',
+    group='pysamp.on_gamemode_exit',
+)
+
+on_rcon_login_attempt = functools.partial(
+    registry.register_callback,
+    'OnRconLoginAttempt',
+    group='pysamp.on_rcon_login_attempt',
+)
+
+on_incoming_connection = functools.partial(
+    registry.register_callback,
+    'OnIncomingConnection',
+    group='pysamp.on_incoming_connection',
+)
