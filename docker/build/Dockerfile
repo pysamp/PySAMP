@@ -1,4 +1,4 @@
-FROM ubuntu:20.04
+FROM ubuntu:22.04
 
 ARG sampgdk_version=4.6.2
 ARG pysamp_branch=main

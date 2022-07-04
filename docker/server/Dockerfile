@@ -1,4 +1,4 @@
-FROM ubuntu:20.04
+FROM ubuntu:22.04
 
 ARG samp_url=http://files.sa-mp.com/samp037svr_R2-1.tar.gz
 ARG crashdetect_version=4.20
