@@ -22,7 +22,7 @@ from pysamp import (
 
 @Player.on_connect
 def when_player_connects(player: Player):
-    name = Player.get_name()
+    name = player.get_name()
     send_client_message_to_all(0x000000FF,  f'{name} has joined the server.')
 ```
  
