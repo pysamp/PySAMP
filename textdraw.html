@@ -81,8 +81,435 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="textdraw">
-<h1>Textdraw<a class="headerlink" href="#textdraw" title="Permalink to this heading"></a></h1>
+  <section id="module-pysamp.textdraw">
+<span id="textdraw"></span><h1>Textdraw<a class="headerlink" href="#module-pysamp.textdraw" title="Permalink to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="pysamp.textdraw.TextDraw">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pysamp.textdraw.</span></span><span class="sig-name descname"><span class="pre">TextDraw</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pysamp.textdraw.TextDraw" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Textdraws that are global. For that are separate for
+individual players, check out <code class="xref py py-class docutils literal notranslate"><span class="pre">PlayerTextDraw</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>id</strong> – The ID that represents a textdraw.</p>
+</dd>
+</dl>
+<p>Max 2048 textdraws can be created globally.</p>
+<p>To create a new textdraw, use <a class="reference internal" href="#pysamp.textdraw.TextDraw.create" title="pysamp.textdraw.TextDraw.create"><code class="xref py py-meth docutils literal notranslate"><span class="pre">TextDraw.create()</span></code></a>.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.textdraw.TextDraw.alignment">
+<span class="sig-name descname"><span class="pre">alignment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">alignment</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pysamp.textdraw.TextDraw.alignment" title="Permalink to this definition"></a></dt>
+<dd><p>Set the text-alignment of the textdraw.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>alignment</strong> (<em>int</em>) – Alignment can be 1: left, 2: center, 3: right.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>This method does not return anything.</p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For alignment 2 (center) the x and y values of <a class="reference internal" href="#pysamp.textdraw.TextDraw.text_size" title="pysamp.textdraw.TextDraw.text_size"><code class="xref py py-meth docutils literal notranslate"><span class="pre">text_size()</span></code></a>
+need to be swapped.</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.textdraw.TextDraw.background_color">
+<span class="sig-name descname"><span class="pre">background_color</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pysamp.textdraw.TextDraw.background_color" title="Permalink to this definition"></a></dt>
+<dd><p>Change the textdraw’s background color.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>color</strong> (<em>int</em>) – The color that the textdraw should be set to.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>This method does not return anything.</p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<ul class="simple">
+<li><p>If <a class="reference internal" href="#pysamp.textdraw.TextDraw.set_outline" title="pysamp.textdraw.TextDraw.set_outline"><code class="xref py py-meth docutils literal notranslate"><span class="pre">set_outline()</span></code></a> is used with size &gt; 0, the outline              color will match the color used in <a class="reference internal" href="#pysamp.textdraw.TextDraw.background_color" title="pysamp.textdraw.TextDraw.background_color"><code class="xref py py-meth docutils literal notranslate"><span class="pre">background_color()</span></code></a>.</p></li>
+<li><p>Changing the value of color seems to alter the color used in              <a class="reference internal" href="#pysamp.textdraw.TextDraw.color" title="pysamp.textdraw.TextDraw.color"><code class="xref py py-meth docutils literal notranslate"><span class="pre">color()</span></code></a></p></li>
+</ul>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.textdraw.TextDraw.box_color">
+<span class="sig-name descname"><span class="pre">box_color</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pysamp.textdraw.TextDraw.box_color" title="Permalink to this definition"></a></dt>
+<dd><p>Sets the text color of a textdraw box.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>color</strong> (<em>int</em>) – Color in <code class="docutils literal notranslate"><span class="pre">0xRRGGBBAA</span></code> format.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>This method does not return anything.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.textdraw.TextDraw.color">
+<span class="sig-name descname"><span class="pre">color</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pysamp.textdraw.TextDraw.color" title="Permalink to this definition"></a></dt>
+<dd><p>Sets the text color of the textdraw.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>color</strong> (<em>int</em>) – The color you want to give the textdraw, in a
+<code class="docutils literal notranslate"><span class="pre">0xRRGGBBAA</span></code> format.</p>
+</dd>
+</dl>
+<p>You can also use <code class="xref py py-meth docutils literal notranslate"><span class="pre">game_text()</span></code>
+colors (like <code class="docutils literal notranslate"><span class="pre">~r~</span></code> and <code class="docutils literal notranslate"><span class="pre">~w~</span></code>) directly in
+the text if you want.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The textdraw must be re-shown to the player in order to
+update the color.</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.textdraw.TextDraw.create">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">create</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#pysamp.textdraw.TextDraw" title="pysamp.textdraw.TextDraw"><span class="pre">TextDraw</span></a></span></span><a class="headerlink" href="#pysamp.textdraw.TextDraw.create" title="Permalink to this definition"></a></dt>
+<dd><p>Create a new global textdraw.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>float</em>) – the x-position on the screen.</p></li>
+<li><p><strong>y</strong> (<em>float</em>) – the y-position on the screen.</p></li>
+<li><p><strong>text</strong> (<em>str</em>) – The text to show.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>An instance of <a class="reference internal" href="#pysamp.textdraw.TextDraw" title="pysamp.textdraw.TextDraw"><code class="xref py py-class docutils literal notranslate"><span class="pre">TextDraw</span></code></a>.</p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<ul class="simple">
+<li><p>The (0,0) coordinate is the top left coordinate for the textdraw                area based on a 640x448 “canvas” (irrespective of screen                resolution). If you plan on using                <code class="docutils literal notranslate"><span class="pre">player.text_draw_alignment()</span></code> with alignment 3 (right),                the x,y coordinate is the <em>top right</em> coordinate                for the textdraw.</p></li>
+<li><p>This function only “creates” the textdraw, you must use                <code class="docutils literal notranslate"><span class="pre">player.text_draw_show()</span></code> to show it to a player.</p></li>
+<li><p>It is recommended to use WHOLE numbers instead of decimal                positions when creating player textdraws to ensure resolution                friendly design.</p></li>
+<li><p>Player-textdraws are automatically destroyed when a player                disconnects</p></li>
+<li><p>Keyboard key mapping codes (such as <code class="docutils literal notranslate"><span class="pre">~k~~VEHICLE_ENTER_EXIT~</span></code>)                Doesn’t work beyond 255th character.</p></li>
+</ul>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<ul class="simple">
+<li><p>If you choose values for y that are less than 1, the first                text row will be invisible and only the shadow is visible.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">text</span></code> must NOT be empty or the server will crash.                Use ” ” (a space) or _ (underscore) instead.</p></li>
+<li><p>If the last character in the text is a space (” “),                the text will all be blank.</p></li>
+<li><p>If part of the text is off-screen, the color of the text will                not show, only the shadow (if enabled) will.</p></li>
+</ul>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.textdraw.TextDraw.destroy">
+<span class="sig-name descname"><span class="pre">destroy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pysamp.textdraw.TextDraw.destroy" title="Permalink to this definition"></a></dt>
+<dd><p>Destroy the textdraw.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Does not return anything.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.textdraw.TextDraw.font">
+<span class="sig-name descname"><span class="pre">font</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">font</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pysamp.textdraw.TextDraw.font" title="Permalink to this definition"></a></dt>
+<dd><p>Change the font of a textdraw.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>font</strong> (<em>int</em>) – A font ID to give the textdraw (0-3).</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>No value is returned.</p>
+</dd>
+</dl>
+<p>See all fonts here: <a class="reference external" href="https://sampwiki.blast.hk/wiki/TextDrawFont">https://sampwiki.blast.hk/wiki/TextDrawFont</a></p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Setting the <code class="docutils literal notranslate"><span class="pre">font</span></code> above 3 may crash the client.</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.textdraw.TextDraw.hide_for_all">
+<span class="sig-name descname"><span class="pre">hide_for_all</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pysamp.textdraw.TextDraw.hide_for_all" title="Permalink to this definition"></a></dt>
+<dd><p>Use this method to hide the textdraw for everyone.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>This method does not return anything.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.textdraw.TextDraw.hide_for_player">
+<span class="sig-name descname"><span class="pre">hide_for_player</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">player</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="player.html#pysamp.player.Player" title="pysamp.player.Player"><span class="pre">Player</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pysamp.textdraw.TextDraw.hide_for_player" title="Permalink to this definition"></a></dt>
+<dd><p>This method hides a global textdraw for the player.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>player</strong> (<a class="reference internal" href="player.html#pysamp.player.Player" title="pysamp.player.Player"><em>Player</em></a>) – The player to hide the textdraw for.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>This method does not return anything.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.textdraw.TextDraw.letter_size">
+<span class="sig-name descname"><span class="pre">letter_size</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pysamp.textdraw.TextDraw.letter_size" title="Permalink to this definition"></a></dt>
+<dd><p>Sets the width and height of the letters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>float</em>) – Width of a character.</p></li>
+<li><p><strong>y</strong> (<em>float</em>) – Height of a character.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Does not return anything.</p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<ul class="simple">
+<li><p>Fonts appear to look the best with an X to Y ratio of 1 to 4.                (E.g. if <code class="docutils literal notranslate"><span class="pre">x</span></code> is 0.5 then <code class="docutils literal notranslate"><span class="pre">y</span></code> should be 2).</p></li>
+<li><p>When using this function purely for the benefit of affecting the                textdraw box, multiply <code class="docutils literal notranslate"><span class="pre">Y</span></code> by 0.135 to convert to                text_size-like measurements</p></li>
+</ul>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.textdraw.TextDraw.set_outline">
+<span class="sig-name descname"><span class="pre">set_outline</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pysamp.textdraw.TextDraw.set_outline" title="Permalink to this definition"></a></dt>
+<dd><p>Set the outline of a textdraw. The outline colour cannot be
+changed unless <a class="reference internal" href="#pysamp.textdraw.TextDraw.background_color" title="pysamp.textdraw.TextDraw.background_color"><code class="xref py py-meth docutils literal notranslate"><span class="pre">background_color()</span></code></a> is used.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>size</strong> (<em>int</em>) – The thickness of the outline.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>This method does not return anything.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.textdraw.TextDraw.set_preview_model">
+<span class="sig-name descname"><span class="pre">set_preview_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pysamp.textdraw.TextDraw.set_preview_model" title="Permalink to this definition"></a></dt>
+<dd><p>Sets the textdraw 2D preview sprite of a specified model ID.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>model_index</strong> (<em>int</em>) – The model to show.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>This method does not return anything.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.textdraw.TextDraw.set_preview_rotation">
+<span class="sig-name descname"><span class="pre">set_preview_rotation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rotation_x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rotation_y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rotation_z</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zoom</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pysamp.textdraw.TextDraw.set_preview_rotation" title="Permalink to this definition"></a></dt>
+<dd><p>Sets the rotation and zoom of a 3D model preview textdraw.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>rotation_x</strong> (<em>float</em>) – The X rotation value.</p></li>
+<li><p><strong>rotation_y</strong> (<em>float</em>) – The Y rotation value.</p></li>
+<li><p><strong>rotation_z</strong> (<em>float</em>) – The Z rotation value.</p></li>
+<li><p><strong>zoom</strong> (<em>optional float</em>) – The zoom value, default value 1.0,
+smaller values make the camera closer and larger values make
+the camera further away.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>This method does not return anything.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.textdraw.TextDraw.set_preview_vehicle_color">
+<span class="sig-name descname"><span class="pre">set_preview_vehicle_color</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">color1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pysamp.textdraw.TextDraw.set_preview_vehicle_color" title="Permalink to this definition"></a></dt>
+<dd><p>Set the color of a vehicle in a textdraw model preview
+(if a vehicle is shown).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>color1</strong> (<em>int</em>) – The color to set the vehicle’s primary color to.</p></li>
+<li><p><strong>color2</strong> (<em>int</em>) – The color to set the vehicle’s secondary color to.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>This method does not return anything.</p>
+</dd>
+</dl>
+<p>The textdraw must use the font <code class="docutils literal notranslate"><span class="pre">TEXT_DRAW_FONT_MODEL_PREVIEW</span></code> and be
+showing a vehicle, in order for this method to have an effect.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.textdraw.TextDraw.set_proportional">
+<span class="sig-name descname"><span class="pre">set_proportional</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">set</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pysamp.textdraw.TextDraw.set_proportional" title="Permalink to this definition"></a></dt>
+<dd><p>Appears to scale text spacing to a proportional ratio.
+Useful when using <a class="reference internal" href="#pysamp.textdraw.TextDraw.letter_size" title="pysamp.textdraw.TextDraw.letter_size"><code class="xref py py-meth docutils literal notranslate"><span class="pre">letter_size()</span></code></a> to ensure the text has an
+even character spacing.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>set</strong> (<em>bool</em>) – <code class="docutils literal notranslate"><span class="pre">True</span></code> to enable proportionality,
+<code class="docutils literal notranslate"><span class="pre">False</span></code> to disable.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Does not return anything.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.textdraw.TextDraw.set_selectable">
+<span class="sig-name descname"><span class="pre">set_selectable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">set</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pysamp.textdraw.TextDraw.set_selectable" title="Permalink to this definition"></a></dt>
+<dd><p>Set the textdraw selectable.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>set</strong> (<em>bool</em>) – Toggle the textdraw selectable or not.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>No return value.</p>
+</dd>
+</dl>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This method _must_ be used before the textdraw is shown to
+the player.</p>
+</div>
+<p><a class="reference internal" href="#pysamp.textdraw.TextDraw.text_size" title="pysamp.textdraw.TextDraw.text_size"><code class="xref py py-meth docutils literal notranslate"><span class="pre">text_size()</span></code></a> defines the clickable area.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.textdraw.TextDraw.set_shadow">
+<span class="sig-name descname"><span class="pre">set_shadow</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pysamp.textdraw.TextDraw.set_shadow" title="Permalink to this definition"></a></dt>
+<dd><p>Adds a shadow to the bottom-right side of the text in a
+textdraw. The shadow font matches the text font.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>size</strong> (<em>int</em>) – The size of the shadow. 0 will hide the shadow.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>No value is returned.</p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The shadow can be cut by the box area if the size is set too big
+for the area.</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.textdraw.TextDraw.set_string">
+<span class="sig-name descname"><span class="pre">set_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pysamp.textdraw.TextDraw.set_string" title="Permalink to this definition"></a></dt>
+<dd><p>Update the shown text in the textdraw.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>string</strong> (<em>str</em>) – The new string for the textdraw.
+Max length: 1024 characters.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>This method does not return anything.</p>
+</dd>
+</dl>
+<p>You don’t have to show the textdraw again in order to apply the changes</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.textdraw.TextDraw.show_for_all">
+<span class="sig-name descname"><span class="pre">show_for_all</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pysamp.textdraw.TextDraw.show_for_all" title="Permalink to this definition"></a></dt>
+<dd><p>Use this method to show the textdraw for all online players.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>This method does not return anything.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.textdraw.TextDraw.show_for_player">
+<span class="sig-name descname"><span class="pre">show_for_player</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">player</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="player.html#pysamp.player.Player" title="pysamp.player.Player"><span class="pre">Player</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pysamp.textdraw.TextDraw.show_for_player" title="Permalink to this definition"></a></dt>
+<dd><p>This method shows a global textdraw for the selected player.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>player</strong> (<a class="reference internal" href="player.html#pysamp.player.Player" title="pysamp.player.Player"><em>Player</em></a>) – The player to show the textdraw for.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>This method does not return anything.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.textdraw.TextDraw.text_size">
+<span class="sig-name descname"><span class="pre">text_size</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pysamp.textdraw.TextDraw.text_size" title="Permalink to this definition"></a></dt>
+<dd><p>Change the size of the textdraw (box if <a class="reference internal" href="#pysamp.textdraw.TextDraw.use_box" title="pysamp.textdraw.TextDraw.use_box"><code class="xref py py-meth docutils literal notranslate"><span class="pre">use_box()</span></code></a>
+is enabled and/or clickable area for use with
+<a class="reference internal" href="#pysamp.textdraw.TextDraw.set_selectable" title="pysamp.textdraw.TextDraw.set_selectable"><code class="xref py py-meth docutils literal notranslate"><span class="pre">set_selectable()</span></code></a>).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>float</em>) – The size on the X axis (left/right) following the same
+640x480 grid as <a class="reference internal" href="#pysamp.textdraw.TextDraw.create" title="pysamp.textdraw.TextDraw.create"><code class="xref py py-meth docutils literal notranslate"><span class="pre">create()</span></code></a>.</p></li>
+<li><p><strong>y</strong> (<em>float</em>) – The size on the Y axis (up/down) following the same
+640x480 grid as <a class="reference internal" href="#pysamp.textdraw.TextDraw.create" title="pysamp.textdraw.TextDraw.create"><code class="xref py py-meth docutils literal notranslate"><span class="pre">create()</span></code></a>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Does not return any value.</p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The x and y have different meanings with different
+<a class="reference internal" href="#pysamp.textdraw.TextDraw.alignment" title="pysamp.textdraw.TextDraw.alignment"><code class="xref py py-meth docutils literal notranslate"><span class="pre">alignment()</span></code></a> values:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>(left): they are the right-most corner of the box,                    absolute coordinates.</p></li>
+<li><p>(center): they need to inverted (switch the two) and the                    x value is the overall width of the box.</p></li>
+<li><p>(right): the x and y are the coordinates of the left-most                    corner of the box</p></li>
+</ol>
+</div></blockquote>
+<p>Using font type 4 (sprite) and 5 (model preview) converts X and
+Y of this function from corner coordinates to WIDTH and HEIGHT
+(offsets).</p>
+</div>
+<p>The TextDraw box starts 10.0 units up and 5.0 to the left as the origin
+(<a class="reference internal" href="#pysamp.textdraw.TextDraw.create" title="pysamp.textdraw.TextDraw.create"><code class="xref py py-meth docutils literal notranslate"><span class="pre">create()</span></code></a>).</p>
+<p>This function defines the clickable area for use with
+<a class="reference internal" href="#pysamp.textdraw.TextDraw.set_selectable" title="pysamp.textdraw.TextDraw.set_selectable"><code class="xref py py-meth docutils literal notranslate"><span class="pre">set_selectable()</span></code></a>, whether a box is shown or not.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.textdraw.TextDraw.use_box">
+<span class="sig-name descname"><span class="pre">use_box</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">use</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pysamp.textdraw.TextDraw.use_box" title="Permalink to this definition"></a></dt>
+<dd><p>Toggle the box on the textdraw.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>use</strong> (<em>bool</em>) – <code class="docutils literal notranslate"><span class="pre">True</span></code> to use a box, <code class="docutils literal notranslate"><span class="pre">False</span></code> to hide the box.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>This method does not return anything.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 
 

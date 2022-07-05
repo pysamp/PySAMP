@@ -81,8 +81,178 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="menu">
-<h1>Menu<a class="headerlink" href="#menu" title="Permalink to this heading"></a></h1>
+  <section id="module-pysamp.menu">
+<span id="menu"></span><h1>Menu<a class="headerlink" href="#module-pysamp.menu" title="Permalink to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="pysamp.menu.Menu">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pysamp.menu.</span></span><span class="sig-name descname"><span class="pre">Menu</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pysamp.menu.Menu" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Create and manage menus using this class.</p>
+<p>Create a new menu with <a class="reference internal" href="#pysamp.menu.Menu.create" title="pysamp.menu.Menu.create"><code class="xref py py-meth docutils literal notranslate"><span class="pre">create()</span></code></a>. Then add items to it with
+<a class="reference internal" href="#pysamp.menu.Menu.add_item" title="pysamp.menu.Menu.add_item"><code class="xref py py-meth docutils literal notranslate"><span class="pre">add_item()</span></code></a>, and finally show it to players using <a class="reference internal" href="#pysamp.menu.Menu.show" title="pysamp.menu.Menu.show"><code class="xref py py-meth docutils literal notranslate"><span class="pre">show()</span></code></a>.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.menu.Menu.add_item">
+<span class="sig-name descname"><span class="pre">add_item</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">column</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pysamp.menu.Menu.add_item" title="Permalink to this definition"></a></dt>
+<dd><p>Add a new menu item to the menu.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>column</strong> (<em>int</em>) – The columt to add to. (0 or 1)</p></li>
+<li><p><strong>text</strong> (<em>str</em>) – The text to write. Max length: 31</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>No return value.</p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You can only have 12 items per menu.
+You can only add 8 color codes per one item.</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.menu.Menu.create">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">create</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">columns</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">column_1_width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">column_2_width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#pysamp.menu.Menu" title="pysamp.menu.Menu"><span class="pre">Menu</span></a></span></span><a class="headerlink" href="#pysamp.menu.Menu.create" title="Permalink to this definition"></a></dt>
+<dd><p>Create a new menu.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>title</strong> (<em>str</em>) – The menu title.</p></li>
+<li><p><strong>columns</strong> (<em>int</em>) – How many columns the meny should have.</p></li>
+<li><p><strong>x</strong> (<em>float</em>) – The X position on the screen (horizontally).</p></li>
+<li><p><strong>y</strong> (<em>float</em>) – the Y position on the screen (vertically)</p></li>
+<li><p><strong>column_1_width</strong> (<em>float</em>) – The width of the first column.</p></li>
+<li><p><strong>column_2_width</strong> (<em>optional float</em>) – The width of the second column.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Returns an instance of <a class="reference internal" href="#pysamp.menu.Menu" title="pysamp.menu.Menu"><code class="xref py py-class docutils literal notranslate"><span class="pre">Menu</span></code></a>.</p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If the title’s length is equal to or greater than 32 chars,
+the title is truncated to 30 characters.
+You can only create and access 2 columns (0 &amp; 1).</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>There is a limit of 12 items per menu, and a limit of
+128 menus in total.</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.menu.Menu.destroy">
+<span class="sig-name descname"><span class="pre">destroy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pysamp.menu.Menu.destroy" title="Permalink to this definition"></a></dt>
+<dd><p>Destroy the menu.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>No return value.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.menu.Menu.disable">
+<span class="sig-name descname"><span class="pre">disable</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pysamp.menu.Menu.disable" title="Permalink to this definition"></a></dt>
+<dd><p>Disable the menu.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>No return value.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.menu.Menu.disable_row">
+<span class="sig-name descname"><span class="pre">disable_row</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">row</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pysamp.menu.Menu.disable_row" title="Permalink to this definition"></a></dt>
+<dd><p>Disable one of the menu rows for all players.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>row</strong> (<em>int</em>) – The row to disable. Rows start at 0.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>No return value.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.menu.Menu.get_player_menu">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_player_menu</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">player</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="player.html#pysamp.player.Player" title="pysamp.player.Player"><span class="pre">Player</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#pysamp.menu.Menu" title="pysamp.menu.Menu"><span class="pre">Menu</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#pysamp.menu.Menu.get_player_menu" title="Permalink to this definition"></a></dt>
+<dd><p>Figure out which menu a has last had open when no menu is currently
+open.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>player</strong> (<a class="reference internal" href="player.html#pysamp.player.Player" title="pysamp.player.Player"><em>Player</em></a>) – The player to check last open menu for.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>An instance of the menu. None if no menu was opened.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.menu.Menu.hide_for_player">
+<span class="sig-name descname"><span class="pre">hide_for_player</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">player</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="player.html#pysamp.player.Player" title="pysamp.player.Player"><span class="pre">Player</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pysamp.menu.Menu.hide_for_player" title="Permalink to this definition"></a></dt>
+<dd><p>Hide the menu for a player.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>player</strong> (<a class="reference internal" href="player.html#pysamp.player.Player" title="pysamp.player.Player"><em>Player</em></a>) – The player you want to hide the menu for.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>No return value.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.menu.Menu.is_valid">
+<span class="sig-name descname"><span class="pre">is_valid</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pysamp.menu.Menu.is_valid" title="Permalink to this definition"></a></dt>
+<dd><p>Check if the menu is valid.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">True</span></code> if valid, otherwise <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.menu.Menu.set_column_header">
+<span class="sig-name descname"><span class="pre">set_column_header</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">column</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pysamp.menu.Menu.set_column_header" title="Permalink to this definition"></a></dt>
+<dd><p>Set the menu column header text.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>column</strong> (<em>int</em>) – The column you want to set the header for. (0 or 1)</p></li>
+<li><p><strong>text</strong> (<em>str</em>) – The header text you would like to set.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>No return value.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.menu.Menu.show">
+<span class="sig-name descname"><span class="pre">show</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">player</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="player.html#pysamp.player.Player" title="pysamp.player.Player"><span class="pre">Player</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pysamp.menu.Menu.show" title="Permalink to this definition"></a></dt>
+<dd><p>Show the menu for a given player.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>player</strong> (<a class="reference internal" href="player.html#pysamp.player.Player" title="pysamp.player.Player"><em>Player</em></a>) – The player you would like to see the menu.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>No return value.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 
 

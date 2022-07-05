@@ -81,8 +81,177 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="object">
-<h1>Object<a class="headerlink" href="#object" title="Permalink to this heading"></a></h1>
+  <section id="module-pysamp.object">
+<span id="object"></span><h1>Object<a class="headerlink" href="#module-pysamp.object" title="Permalink to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="pysamp.object.Object">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pysamp.object.</span></span><span class="sig-name descname"><span class="pre">Object</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pysamp.object.Object" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class that creates and handles global objects.</p>
+<p>To create a new object, check <a class="reference internal" href="#pysamp.object.Object.create" title="pysamp.object.Object.create"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Object.create()</span></code></a>.</p>
+<p>For player objects, check out <code class="xref py py-class docutils literal notranslate"><span class="pre">pysamp.PlayerObject</span></code>.</p>
+<p>Objects are world objects represented by what object they are (model), and
+where they are created. They can be moved, rotated and customized with
+non-default textures.</p>
+<p>It is recommended to use a streamer if you need more than 1000 objects.
+SA-MP has a limit if approximately 1000 objects. Bypassing this limit will
+cause all objects to disappear.</p>
+<p>For a list of models, you can utilize tools like here:
+<a class="reference external" href="https://dev.prineside.com/en/gtasa_samp_model_id/">https://dev.prineside.com/en/gtasa_samp_model_id/</a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.object.Object.create">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">create</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rotation_x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rotation_y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rotation_z</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">draw_distance</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#pysamp.object.Object" title="pysamp.object.Object"><span class="pre">Object</span></a></span></span><a class="headerlink" href="#pysamp.object.Object.create" title="Permalink to this definition"></a></dt>
+<dd><p>Create a new object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>An instance of an <a class="reference internal" href="#pysamp.object.Object" title="pysamp.object.Object"><code class="xref py py-class docutils literal notranslate"><span class="pre">Object</span></code></a>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.object.Object.destroy">
+<span class="sig-name descname"><span class="pre">destroy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pysamp.object.Object.destroy" title="Permalink to this definition"></a></dt>
+<dd><p>Destroy the object.</p>
+<p>This removes the object from the world, and will no longer be
+available. It’s occupied object id gets free’d up.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.object.Object.get_model">
+<span class="sig-name descname"><span class="pre">get_model</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#pysamp.object.Object.get_model" title="Permalink to this definition"></a></dt>
+<dd><p>Get the model of the object.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.object.Object.get_position">
+<span class="sig-name descname"><span class="pre">get_position</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#pysamp.object.Object.get_position" title="Permalink to this definition"></a></dt>
+<dd><p>Retrieve the coordinates for where the object is right now.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.object.Object.get_rotation">
+<span class="sig-name descname"><span class="pre">get_rotation</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#pysamp.object.Object.get_rotation" title="Permalink to this definition"></a></dt>
+<dd><p>Get the rotation the object currently have.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.object.Object.is_moving">
+<span class="sig-name descname"><span class="pre">is_moving</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pysamp.object.Object.is_moving" title="Permalink to this definition"></a></dt>
+<dd><p>Check if the object is currently moving.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.object.Object.is_valid">
+<span class="sig-name descname"><span class="pre">is_valid</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pysamp.object.Object.is_valid" title="Permalink to this definition"></a></dt>
+<dd><p>Check if the object exists.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.object.Object.move">
+<span class="sig-name descname"><span class="pre">move</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rotation_x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">-</span> <span class="pre">1000.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rotation_y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">-</span> <span class="pre">1000.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rotation_z</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">-</span> <span class="pre">1000.0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#pysamp.object.Object.move" title="Permalink to this definition"></a></dt>
+<dd><p>Move and rotate the object to given values.</p>
+<p>Rotation values should be -1000 if you don’t want to modify the object
+rotation.</p>
+<p>Returns the time in seconds it takes to move the object.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.object.Object.on_moved">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">on_moved</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">objectid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pysamp.object.Object.on_moved" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.object.Object.set_default_camera_col">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">set_default_camera_col</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">disable</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pysamp.object.Object.set_default_camera_col" title="Permalink to this definition"></a></dt>
+<dd><p>Set whether all object should by default ignore colission.</p>
+<p>Please note that this is a static method as it is affecting all
+objects. You call it like this:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Disable camera colission by default on all objects:</span>
+<span class="n">Object</span><span class="o">.</span><span class="n">set_default_camera_col</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.object.Object.set_material">
+<span class="sig-name descname"><span class="pre">set_material</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">material_index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">txd_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">texture_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">material_color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pysamp.object.Object.set_material" title="Permalink to this definition"></a></dt>
+<dd><p>Change the object materials.</p>
+<p>The material can be from another object model in the game.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Vertex lighting of the object will disappear if material            color is changed.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>You MUST use ARGB color format, not RGBA.</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.object.Object.set_material_text">
+<span class="sig-name descname"><span class="pre">set_material_text</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">material_index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">material_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">90</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">font_face</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'Arial'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">font_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">24</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bold</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">font_color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">4294967295</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">back_color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">text_alignment</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pysamp.object.Object.set_material_text" title="Permalink to this definition"></a></dt>
+<dd><p>Change the material text of the object.</p>
+<p>Example of usage:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="s2">&quot;/text&quot;</span> <span class="ow">in</span> <span class="n">cmdtext</span><span class="p">:</span>
+    <span class="nb">object</span> <span class="o">=</span> <span class="n">Object</span><span class="p">(</span><span class="mi">19353</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">90.0</span><span class="p">)</span>
+    <span class="nb">object</span><span class="o">.</span><span class="n">set_material_text</span><span class="p">(</span>
+        <span class="s2">&quot;Here is text!&quot;</span><span class="p">,</span>  <span class="c1"># desired text</span>
+        <span class="mi">0</span><span class="p">,</span>  <span class="c1"># material index</span>
+        <span class="n">OBJECT_MATERIAL_SIZE_256x128</span><span class="p">,</span>  <span class="c1"># material size</span>
+        <span class="s2">&quot;Arial&quot;</span><span class="p">,</span>  <span class="c1"># font face</span>
+        <span class="mi">28</span><span class="p">,</span>  <span class="c1"># font size</span>
+        <span class="kc">False</span><span class="p">,</span>  <span class="c1"># bold?</span>
+        <span class="mh">0xFFFF8200</span><span class="p">,</span>  <span class="c1"># font color (ARGB format)</span>
+        <span class="mh">0xFF000000</span><span class="p">,</span>  <span class="c1"># background color (ARGB format)</span>
+        <span class="n">OBJECT_MATERIAL_TEXT_ALIGN_CENTER</span>  <span class="c1"># alignment</span>
+    <span class="p">)</span>
+<span class="c1"># write &quot;Here is text!&quot; on the object, with orange font color</span>
+<span class="c1"># and black background</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Text does not update after 16 calls on the same object.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The color format is ARGB opposed to how RGBA format.</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.object.Object.set_no_camera_collision">
+<span class="sig-name descname"><span class="pre">set_no_camera_collision</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pysamp.object.Object.set_no_camera_collision" title="Permalink to this definition"></a></dt>
+<dd><p>Disable camera collision on the object.</p>
+<p>Makes the camera freely pass through it.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This only works outside the map boundaries (past -3000/3000            on the X and Y axis).</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.object.Object.set_postition">
+<span class="sig-name descname"><span class="pre">set_postition</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pysamp.object.Object.set_postition" title="Permalink to this definition"></a></dt>
+<dd><p>Set a new position for the object using world coordinates.</p>
+<p>For rotation, check out <code class="docutils literal notranslate"><span class="pre">Object.set_rotation</span></code>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.object.Object.set_rotation">
+<span class="sig-name descname"><span class="pre">set_rotation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rotation_x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rotation_y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rotation_z</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pysamp.object.Object.set_rotation" title="Permalink to this definition"></a></dt>
+<dd><p>Set the new rotation the object should have.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.object.Object.stop">
+<span class="sig-name descname"><span class="pre">stop</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pysamp.object.Object.stop" title="Permalink to this definition"></a></dt>
+<dd><p>Stop moving the object.</p>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 
 

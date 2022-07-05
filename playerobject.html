@@ -81,8 +81,390 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="player-object">
-<h1>Player Object<a class="headerlink" href="#player-object" title="Permalink to this heading"></a></h1>
+  <section id="module-pysamp.playerobject">
+<span id="player-object"></span><h1>Player Object<a class="headerlink" href="#module-pysamp.playerobject" title="Permalink to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="pysamp.playerobject.PlayerObject">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pysamp.playerobject.</span></span><span class="sig-name descname"><span class="pre">PlayerObject</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">player_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pysamp.playerobject.PlayerObject" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Create, modify and remove Player Objects using this class.</p>
+<p>Player Objects are almost same as normal objects, except for that they
+are only shown for the player they are created for.</p>
+<p>Situations you can consider objects like these, are to preview things for
+a player, maybe while they are adjusting said thing. Could be used for
+custom gate systems, where you only want the player to see what they are
+working on. Or race in systems if you want to show an object for a player
+in a checkpoint or so.</p>
+<p>If you are looking to attach an object to a player, have a look at
+<a class="reference internal" href="player.html#pysamp.player.Player.set_attached_object" title="pysamp.player.Player.set_attached_object"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pysamp.player.Player.set_attached_object()</span></code></a></p>
+<p>In order to create a new player object, please use <a class="reference internal" href="#pysamp.playerobject.PlayerObject.create" title="pysamp.playerobject.PlayerObject.create"><code class="xref py py-meth docutils literal notranslate"><span class="pre">create()</span></code></a>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Please note that the global object limit still applies to player
+objects.</p>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.playerobject.PlayerObject.attach_to_vehicle">
+<span class="sig-name descname"><span class="pre">attach_to_vehicle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vehicle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="vehicle.html#pysamp.vehicle.Vehicle" title="pysamp.vehicle.Vehicle"><span class="pre">Vehicle</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">offset_x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offset_y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offset_z</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rotation_x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rotation_y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rotation_z</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pysamp.playerobject.PlayerObject.attach_to_vehicle" title="Permalink to this definition"></a></dt>
+<dd><p>Attach the player object to a vehicle.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>vehicle</strong> (<a class="reference internal" href="vehicle.html#pysamp.vehicle.Vehicle" title="pysamp.vehicle.Vehicle"><em>Vehicle</em></a>) – The vehicle to attach the player object to.</p></li>
+<li><p><strong>offset_x</strong> (<em>float</em>) – X-coordinate relative to car center.</p></li>
+<li><p><strong>offset_y</strong> (<em>float</em>) – Y-coordinate relative to car center.</p></li>
+<li><p><strong>offset_z</strong> (<em>float</em>) – Z-coordinate relative to car center.</p></li>
+<li><p><strong>rotation_x</strong> (<em>float</em>) – X-axis rotation of the object.</p></li>
+<li><p><strong>rotation_y</strong> (<em>float</em>) – Y-axis rotation of the object.</p></li>
+<li><p><strong>rotation_z</strong> (<em>float</em>) – Z-axis rotation of the object.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>No return value.</p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You need to create the object before attaching it.
+If you are calling this method after <a class="reference internal" href="#pysamp.playerobject.PlayerObject.set_material_text" title="pysamp.playerobject.PlayerObject.set_material_text"><code class="xref py py-meth docutils literal notranslate"><span class="pre">set_material_text()</span></code></a>
+you most likely will lose the text. Call this method first, then
+call <a class="reference internal" href="#pysamp.playerobject.PlayerObject.set_material_text" title="pysamp.playerobject.PlayerObject.set_material_text"><code class="xref py py-meth docutils literal notranslate"><span class="pre">set_material_text()</span></code></a> after to circumvent it.</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.playerobject.PlayerObject.create">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">create</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">player</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="player.html#pysamp.player.Player" title="pysamp.player.Player"><span class="pre">Player</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rotation_x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rotation_y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rotation_z</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">draw_distance</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#pysamp.playerobject.PlayerObject" title="pysamp.playerobject.PlayerObject"><span class="pre">PlayerObject</span></a></span></span><a class="headerlink" href="#pysamp.playerobject.PlayerObject.create" title="Permalink to this definition"></a></dt>
+<dd><p>Create a player object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>player</strong> (<a class="reference internal" href="player.html#pysamp.player.Player" title="pysamp.player.Player"><em>Player</em></a>) – The player that should have an object created.</p></li>
+<li><p><strong>model_id</strong> (<em>int</em>) – Which model of the object to create.</p></li>
+<li><p><strong>x</strong> (<em>float</em>) – The world x-coordinate to create the object at.</p></li>
+<li><p><strong>y</strong> (<em>float</em>) – The world y-coordinate to create the object at.</p></li>
+<li><p><strong>z</strong> (<em>float</em>) – The world z-coordinate to create the object at.</p></li>
+<li><p><strong>rotation_x</strong> (<em>float</em>) – X-axis rotation of the object.</p></li>
+<li><p><strong>rotation_y</strong> (<em>float</em>) – Y-axis rotation of the object.</p></li>
+<li><p><strong>rotation_z</strong> (<em>float</em>) – Z-axis rotation of the object.</p></li>
+<li><p><strong>draw_distance</strong> (<em>optional float</em>) – The distance at which the object
+should start being visible at.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>An instance of <a class="reference internal" href="#pysamp.playerobject.PlayerObject" title="pysamp.playerobject.PlayerObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">PlayerObject</span></code></a>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.playerobject.PlayerObject.destroy">
+<span class="sig-name descname"><span class="pre">destroy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pysamp.playerobject.PlayerObject.destroy" title="Permalink to this definition"></a></dt>
+<dd><p>Destroys the player object.</p>
+<p>This removes the object for the player, and it can no longer be
+interacted with.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>No return value.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.playerobject.PlayerObject.edit">
+<span class="sig-name descname"><span class="pre">edit</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pysamp.playerobject.PlayerObject.edit" title="Permalink to this definition"></a></dt>
+<dd><p>Put the player in edit mode to move/rotate the object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>No return value.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.playerobject.PlayerObject.get_model">
+<span class="sig-name descname"><span class="pre">get_model</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#pysamp.playerobject.PlayerObject.get_model" title="Permalink to this definition"></a></dt>
+<dd><p>Get the current object model the player object is.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>An integer representing the object model.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.playerobject.PlayerObject.get_player">
+<span class="sig-name descname"><span class="pre">get_player</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="player.html#pysamp.player.Player" title="pysamp.player.Player"><span class="pre">Player</span></a></span></span><a class="headerlink" href="#pysamp.playerobject.PlayerObject.get_player" title="Permalink to this definition"></a></dt>
+<dd><p>Get the player who owns the player object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>An instance of :class:~`pysamp.player.Player`</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.playerobject.PlayerObject.get_position">
+<span class="sig-name descname"><span class="pre">get_position</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#pysamp.playerobject.PlayerObject.get_position" title="Permalink to this definition"></a></dt>
+<dd><p>Get the current coordinates for the player object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A tuple with 3 floats; The x, y and z coordinate.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.playerobject.PlayerObject.get_rotation">
+<span class="sig-name descname"><span class="pre">get_rotation</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#pysamp.playerobject.PlayerObject.get_rotation" title="Permalink to this definition"></a></dt>
+<dd><p>Get the current rotation values for the player object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A tuple with 3 floats; The x, y and z rotation.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.playerobject.PlayerObject.is_moving">
+<span class="sig-name descname"><span class="pre">is_moving</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pysamp.playerobject.PlayerObject.is_moving" title="Permalink to this definition"></a></dt>
+<dd><p>Check if the player object is currently moving.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A bool (True/False) depending on if it is moving or not.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.playerobject.PlayerObject.is_valid">
+<span class="sig-name descname"><span class="pre">is_valid</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pysamp.playerobject.PlayerObject.is_valid" title="Permalink to this definition"></a></dt>
+<dd><p>Check if the player object is valid.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>True/False depending on it if is valid or not.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.playerobject.PlayerObject.move">
+<span class="sig-name descname"><span class="pre">move</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rotation_x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">-</span> <span class="pre">1000.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rotation_y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">-</span> <span class="pre">1000.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rotation_z</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">-</span> <span class="pre">1000.0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#pysamp.playerobject.PlayerObject.move" title="Permalink to this definition"></a></dt>
+<dd><p>Move and rotate the player object to given values.</p>
+<p>Rotation values should be <code class="docutils literal notranslate"><span class="pre">-1000</span></code> if you don’t want to modify
+the object rotation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>float</em>) – The new x-coordinate you want to move the object to.</p></li>
+<li><p><strong>y</strong> (<em>float</em>) – The new y-coordinate you want to move the object to.</p></li>
+<li><p><strong>z</strong> (<em>float</em>) – The new z-coordinate you want to move the object to.</p></li>
+<li><p><strong>speed</strong> (<em>float</em>) – The speed of the object moving from old to new pos.</p></li>
+<li><p><strong>rotation_x</strong> (<em>float</em>) – The new object x rotation to set.</p></li>
+<li><p><strong>rotation_y</strong> (<em>float</em>) – The new object y rotation to set.</p></li>
+<li><p><strong>rotation_z</strong> (<em>float</em>) – The new object z rotation to set.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The time in milliseconds it takes to move the object.</p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The rotation will only work if you also move the object. If
+you do not give it new x,y,z, the rotation will not apply.</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.playerobject.PlayerObject.on_move">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">on_move</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">playerid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">objectid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pysamp.playerobject.PlayerObject.on_move" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.playerobject.PlayerObject.set_material">
+<span class="sig-name descname"><span class="pre">set_material</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">material_index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">txd_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">texture_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">material_color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pysamp.playerobject.PlayerObject.set_material" title="Permalink to this definition"></a></dt>
+<dd><p>Replace the texture of a player-object with the texture from
+another model in the game.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Vertex lightning of the object will disappear if material
+color is changed.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>You MUST use ARGB color format, not RGBA like used
+in client messages etc.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>material_index</strong> (<em>int</em>) – The material index on the object to change
+(0 to 15).</p></li>
+<li><p><strong>model_id</strong> (<em>int</em>) – The modelid on which replacement texture is
+located. Use 0 for alpha.
+Use -1 to change the material color without altering the existing
+texture.</p></li>
+<li><p><strong>txd_name</strong> (<em>str</em>) – The name of the txd file which contains the
+replacement texture (use “none” if not required).</p></li>
+<li><p><strong>texture_name</strong> (<em>str</em>) – The name of the texture to use as the
+replacement (use “none” if not required).</p></li>
+<li><p><strong>material_color</strong> (<em>int</em>) – The object color to set, as an integer or
+hex in ARGB format. Using 0 keeps the existing material color.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>No return value.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.playerobject.PlayerObject.set_material_text">
+<span class="sig-name descname"><span class="pre">set_material_text</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">material_index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">material_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">90</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">font_face</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'Arial'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">font_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">24</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bold</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">font_color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">4294967295</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">back_color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">text_alignment</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pysamp.playerobject.PlayerObject.set_material_text" title="Permalink to this definition"></a></dt>
+<dd><p>Replace the texture of a player object with text.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>text</strong> (<em>str</em>) – The text to set. Max 2048 characters.</p></li>
+<li><p><strong>material_index</strong> (<em>optional int</em>) – The material index to replace with
+text. Default is 0. Valid values are 0-15.</p></li>
+<li><p><strong>material_size</strong> (<em>optional int</em>) – The size of the material.
+Default size is 256x128. See table below for all possible values.</p></li>
+<li><p><strong>font_face</strong> (<em>optional str</em>) – The font to use. Default is “Arial”.</p></li>
+<li><p><strong>font_size</strong> (<em>optional int</em>) – The size of the font. Default is 24.</p></li>
+<li><p><strong>bold</strong> (<em>optional bool</em>) – Whether the text should be bold or not.</p></li>
+<li><p><strong>font_color</strong> (<em>optional int</em>) – The color of the text.
+Default is white (-1).</p></li>
+<li><p><strong>back_color</strong> (<em>optional int</em>) – The background color.
+Default is transparent.</p></li>
+<li><p><strong>text_alignment</strong> (<em>optional int</em>) – The alignment of the text. Can be
+0 (left), 1 (center) or 2 (right). Default value is 0.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>No return value.</p>
+</dd>
+</dl>
+<table class="colwidths-given docutils align-default" id="id1">
+<caption><span class="caption-text">material_size’s for <a class="reference internal" href="#pysamp.playerobject.PlayerObject.set_material_text" title="pysamp.playerobject.PlayerObject.set_material_text"><code class="xref py py-meth docutils literal notranslate"><span class="pre">set_material_text()</span></code></a>.</span><a class="headerlink" href="#id1" title="Permalink to this table"></a></caption>
+<colgroup>
+<col style="width: 55%" />
+<col style="width: 45%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Constant</p></th>
+<th class="head"><p>Value as integer</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>OBJECT_MATERIAL_SIZE_32x32</p></td>
+<td><p>10</p></td>
+</tr>
+<tr class="row-odd"><td><p>OBJECT_MATERIAL_SIZE_64x32</p></td>
+<td><p>20</p></td>
+</tr>
+<tr class="row-even"><td><p>OBJECT_MATERIAL_SIZE_64x64</p></td>
+<td><p>30</p></td>
+</tr>
+<tr class="row-odd"><td><p>OBJECT_MATERIAL_SIZE_128x32</p></td>
+<td><p>40</p></td>
+</tr>
+<tr class="row-even"><td><p>OBJECT_MATERIAL_SIZE_128x64</p></td>
+<td><p>50</p></td>
+</tr>
+<tr class="row-odd"><td><p>OBJECT_MATERIAL_SIZE_128x128</p></td>
+<td><p>60</p></td>
+</tr>
+<tr class="row-even"><td><p>OBJECT_MATERIAL_SIZE_256x32</p></td>
+<td><p>70</p></td>
+</tr>
+<tr class="row-odd"><td><p>OBJECT_MATERIAL_SIZE_256x64</p></td>
+<td><p>80</p></td>
+</tr>
+<tr class="row-even"><td><p>OBJECT_MATERIAL_SIZE_256x128</p></td>
+<td><p>90</p></td>
+</tr>
+<tr class="row-odd"><td><p>OBJECT_MATERIAL_SIZE_256x256</p></td>
+<td><p>100</p></td>
+</tr>
+<tr class="row-even"><td><p>OBJECT_MATERIAL_SIZE_512x64</p></td>
+<td><p>110</p></td>
+</tr>
+<tr class="row-odd"><td><p>OBJECT_MATERIAL_SIZE_512x128</p></td>
+<td><p>120</p></td>
+</tr>
+<tr class="row-even"><td><p>OBJECT_MATERIAL_SIZE_512x256</p></td>
+<td><p>130</p></td>
+</tr>
+<tr class="row-odd"><td><p>OBJECT_MATERIAL_SIZE_512x512</p></td>
+<td><p>140</p></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.playerobject.PlayerObject.set_no_camera_col">
+<span class="sig-name descname"><span class="pre">set_no_camera_col</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pysamp.playerobject.PlayerObject.set_no_camera_col" title="Permalink to this definition"></a></dt>
+<dd><p>Disable player object camera collision.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>No return value.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.playerobject.PlayerObject.set_position">
+<span class="sig-name descname"><span class="pre">set_position</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pysamp.playerobject.PlayerObject.set_position" title="Permalink to this definition"></a></dt>
+<dd><p>Set the world coordinates of the player object</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>float</em>) – The world x coordinate to set.</p></li>
+<li><p><strong>y</strong> (<em>float</em>) – The world y coordinate to set.</p></li>
+<li><p><strong>z</strong> (<em>float</em>) – The world z coordinate to set.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>No return value.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.playerobject.PlayerObject.set_rotation">
+<span class="sig-name descname"><span class="pre">set_rotation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rotation_x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rotation_y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rotation_z</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pysamp.playerobject.PlayerObject.set_rotation" title="Permalink to this definition"></a></dt>
+<dd><p>Set object rotation values.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>rotation_x</strong> (<em>float</em>) – The object x rotation to set.</p></li>
+<li><p><strong>rotation_y</strong> (<em>float</em>) – The object y rotation to set.</p></li>
+<li><p><strong>rotation_z</strong> (<em>float</em>) – The object z rotation to set.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>No return value.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.playerobject.PlayerObject.stop">
+<span class="sig-name descname"><span class="pre">stop</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pysamp.playerobject.PlayerObject.stop" title="Permalink to this definition"></a></dt>
+<dd><p>Stop a moving player object.</p>
+<p>This method will only have an effect if you used <a class="reference internal" href="#pysamp.playerobject.PlayerObject.move" title="pysamp.playerobject.PlayerObject.move"><code class="xref py py-meth docutils literal notranslate"><span class="pre">move()</span></code></a> first.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>No return value.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 
 

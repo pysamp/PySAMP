@@ -80,8 +80,399 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="vehicle">
-<h1>Vehicle<a class="headerlink" href="#vehicle" title="Permalink to this heading"></a></h1>
+  <section id="module-pysamp.vehicle">
+<span id="vehicle"></span><h1>Vehicle<a class="headerlink" href="#module-pysamp.vehicle" title="Permalink to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="pysamp.vehicle.Vehicle">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pysamp.vehicle.</span></span><span class="sig-name descname"><span class="pre">Vehicle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pysamp.vehicle.Vehicle" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A class that represents server vehicles.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>id</strong> – The ID of the vehicle.</p>
+</dd>
+</dl>
+<p>Edit and work on them using this class. This class represents all drivable
+vehicles (Planes, boats, bikes, trains, trailers ++)</p>
+<p>A car that explodes or dies, will be respawned at its original
+coordinates where it was created.</p>
+<p>To create a new vehicle, check out <a class="reference internal" href="#pysamp.vehicle.Vehicle.create" title="pysamp.vehicle.Vehicle.create"><code class="xref py py-meth docutils literal notranslate"><span class="pre">create()</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.vehicle.Vehicle.add_component">
+<span class="sig-name descname"><span class="pre">add_component</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">component_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pysamp.vehicle.Vehicle.add_component" title="Permalink to this definition"></a></dt>
+<dd><p>Adds a component (often referred to as a modification)
+to a vehicle.</p>
+<p>Valid components can be found here:
+<a class="reference external" href="https://open.mp/docs/scripting/resources/carcomponentid">https://open.mp/docs/scripting/resources/carcomponentid</a></p>
+<p>NB: Using an invalid component ID crashes the player’s game.
+There are no internal checks for this.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.vehicle.Vehicle.change_color">
+<span class="sig-name descname"><span class="pre">change_color</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">color_1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color_2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pysamp.vehicle.Vehicle.change_color" title="Permalink to this definition"></a></dt>
+<dd><p>Change a vehicle’s primary and secondary colors.</p>
+<p>Some vehicles have only a primary color and some can not have
+the color changed at all. A few (cement, squallo) have 4 colors,
+of which 2 can not be changed in SA:MP.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.vehicle.Vehicle.change_paintjob">
+<span class="sig-name descname"><span class="pre">change_paintjob</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paint_job_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pysamp.vehicle.Vehicle.change_paintjob" title="Permalink to this definition"></a></dt>
+<dd><p>Change a vehicle’s paintjob.</p>
+<p>If vehicle is black, it may not show.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.vehicle.Vehicle.create">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">create</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rotation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">respawn_delay</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">add_siren</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#pysamp.vehicle.Vehicle" title="pysamp.vehicle.Vehicle"><span class="pre">Vehicle</span></a></span></span><a class="headerlink" href="#pysamp.vehicle.Vehicle.create" title="Permalink to this definition"></a></dt>
+<dd><p>Create a new vehicle with the given model, position, colors and
+settings.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model</strong> – The model of the car (400-622).</p></li>
+<li><p><strong>x</strong> (<em>float</em>) – The x coordinate to spawn the vehicle.</p></li>
+<li><p><strong>y</strong> (<em>float</em>) – The y coordinate to spawn the vehicle.</p></li>
+<li><p><strong>z</strong> (<em>float</em>) – The z coordinate to spawn the vehicle.</p></li>
+<li><p><strong>rotation</strong> (<em>float</em>) – Set the vehicle heading.</p></li>
+<li><p><strong>color1</strong> (<em>int</em>) – Primary color (0-255).</p></li>
+<li><p><strong>color2</strong> (<em>int</em>) – Secondary color (if available) (0-255).</p></li>
+<li><p><strong>respawn_delay</strong> (<em>int</em>) – How long it should take for it to
+automatically respawn.</p></li>
+<li><p><strong>add_siren</strong> (<em>optional bool</em>) – Set if the car should have
+a siren. Defaults to False.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>An instance of <a class="reference internal" href="#pysamp.vehicle.Vehicle" title="pysamp.vehicle.Vehicle"><code class="xref py py-class docutils literal notranslate"><span class="pre">Vehicle</span></code></a>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.vehicle.Vehicle.destroy">
+<span class="sig-name descname"><span class="pre">destroy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pysamp.vehicle.Vehicle.destroy" title="Permalink to this definition"></a></dt>
+<dd><p>Removes the vehicle from the server.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.vehicle.Vehicle.detach_trailer">
+<span class="sig-name descname"><span class="pre">detach_trailer</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pysamp.vehicle.Vehicle.detach_trailer" title="Permalink to this definition"></a></dt>
+<dd><p>Detach a trailer from the vehicle, if any.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.vehicle.Vehicle.get_component_in_slot">
+<span class="sig-name descname"><span class="pre">get_component_in_slot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">slot</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#pysamp.vehicle.Vehicle.get_component_in_slot" title="Permalink to this definition"></a></dt>
+<dd><p>Retrieves the installed component ID in the specific slot.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.vehicle.Vehicle.get_damage_status">
+<span class="sig-name descname"><span class="pre">get_damage_status</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#pysamp.vehicle.Vehicle.get_damage_status" title="Permalink to this definition"></a></dt>
+<dd><p>This method returns information to you about if parts of the
+car has been damaged, or tires has been deflated.</p>
+<p>Please refer to:
+<a class="reference external" href="https://open.mp/docs/scripting/resources/damagestatus">https://open.mp/docs/scripting/resources/damagestatus</a></p>
+<p>The returned values in the tuple are 4 bits each. For example the
+tires are represented as 4 bits, where a flat tire is 0 and a normal
+tire is represented by 1.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.vehicle.Vehicle.get_distance_from_point">
+<span class="sig-name descname"><span class="pre">get_distance_from_point</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#pysamp.vehicle.Vehicle.get_distance_from_point" title="Permalink to this definition"></a></dt>
+<dd><p>Check how far away the vehicle is from a given coordinate.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.vehicle.Vehicle.get_health">
+<span class="sig-name descname"><span class="pre">get_health</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#pysamp.vehicle.Vehicle.get_health" title="Permalink to this definition"></a></dt>
+<dd><p>Get the vehicle’s health. Vehicle starts burning at &lt; 250.0.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.vehicle.Vehicle.get_model">
+<span class="sig-name descname"><span class="pre">get_model</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#pysamp.vehicle.Vehicle.get_model" title="Permalink to this definition"></a></dt>
+<dd><p>Get the vehicle model.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.vehicle.Vehicle.get_params_car_doors">
+<span class="sig-name descname"><span class="pre">get_params_car_doors</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#pysamp.vehicle.Vehicle.get_params_car_doors" title="Permalink to this definition"></a></dt>
+<dd><p>Allows you to retrieve the current state of a vehicle’s doors</p>
+<p>Returns -1 if the door state is not set, like on a bike or a 2-door.
+Otherwise, it will return 0 (closed) or 1 (open).</p>
+<p>The tuple contains information about doors in this order:
+(driver, passenger, back_left, back_right)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.vehicle.Vehicle.get_params_car_windows">
+<span class="sig-name descname"><span class="pre">get_params_car_windows</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#pysamp.vehicle.Vehicle.get_params_car_windows" title="Permalink to this definition"></a></dt>
+<dd><p>Check if windows are available and if they are closed / open.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.vehicle.Vehicle.get_params_ex">
+<span class="sig-name descname"><span class="pre">get_params_ex</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#pysamp.vehicle.Vehicle.get_params_ex" title="Permalink to this definition"></a></dt>
+<dd><p>Get the vehicle’s params.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.vehicle.Vehicle.get_params_siren_state">
+<span class="sig-name descname"><span class="pre">get_params_siren_state</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#pysamp.vehicle.Vehicle.get_params_siren_state" title="Permalink to this definition"></a></dt>
+<dd><p>Check if the sirens are on or off.</p>
+<p>Returns -1 if the siren hasn’t been set up.
+Otherwise, it will return 0 (off) or 1 (on).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.vehicle.Vehicle.get_position">
+<span class="sig-name descname"><span class="pre">get_position</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#pysamp.vehicle.Vehicle.get_position" title="Permalink to this definition"></a></dt>
+<dd><p>Get the vehicle’s current position.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.vehicle.Vehicle.get_rotation_quat">
+<span class="sig-name descname"><span class="pre">get_rotation_quat</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#pysamp.vehicle.Vehicle.get_rotation_quat" title="Permalink to this definition"></a></dt>
+<dd><p>Returns a vehicle’s rotation on all axes as a quaternion</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.vehicle.Vehicle.get_trailer">
+<span class="sig-name descname"><span class="pre">get_trailer</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#pysamp.vehicle.Vehicle" title="pysamp.vehicle.Vehicle"><span class="pre">Vehicle</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#pysamp.vehicle.Vehicle.get_trailer" title="Permalink to this definition"></a></dt>
+<dd><p>Get the Vehicle of the trailer that the vehicle is pulling.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>An instance of <a class="reference internal" href="#pysamp.vehicle.Vehicle" title="pysamp.vehicle.Vehicle"><code class="xref py py-class docutils literal notranslate"><span class="pre">Vehicle</span></code></a> that is the
+trailer, or <code class="docutils literal notranslate"><span class="pre">None</span></code> if no trailer found.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.vehicle.Vehicle.get_velocity">
+<span class="sig-name descname"><span class="pre">get_velocity</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#pysamp.vehicle.Vehicle.get_velocity" title="Permalink to this definition"></a></dt>
+<dd><p>Get the vehicle velocity. Vector is relative to the car axis</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.vehicle.Vehicle.get_virtual_world">
+<span class="sig-name descname"><span class="pre">get_virtual_world</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#pysamp.vehicle.Vehicle.get_virtual_world" title="Permalink to this definition"></a></dt>
+<dd><p>Find out which virtual world ID the vehicle is currently in.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.vehicle.Vehicle.get_z_angle">
+<span class="sig-name descname"><span class="pre">get_z_angle</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#pysamp.vehicle.Vehicle.get_z_angle" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the heading the vehicle has. Can be &gt;= 0.0 and &lt; 360.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.vehicle.Vehicle.is_streamed_in">
+<span class="sig-name descname"><span class="pre">is_streamed_in</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">for_player</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="player.html#pysamp.player.Player" title="pysamp.player.Player"><span class="pre">Player</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pysamp.vehicle.Vehicle.is_streamed_in" title="Permalink to this definition"></a></dt>
+<dd><p>Lets you know if a specific player has streamed in the vehicle.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.vehicle.Vehicle.is_trailer_attached">
+<span class="sig-name descname"><span class="pre">is_trailer_attached</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pysamp.vehicle.Vehicle.is_trailer_attached" title="Permalink to this definition"></a></dt>
+<dd><p>Check if a trailer is attached to the vehicle.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.vehicle.Vehicle.is_valid">
+<span class="sig-name descname"><span class="pre">is_valid</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pysamp.vehicle.Vehicle.is_valid" title="Permalink to this definition"></a></dt>
+<dd><p>Check if the vehicle is valid</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.vehicle.Vehicle.link_to_interior">
+<span class="sig-name descname"><span class="pre">link_to_interior</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">interior_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pysamp.vehicle.Vehicle.link_to_interior" title="Permalink to this definition"></a></dt>
+<dd><p>Link the vehicle to a specific interior id.</p>
+<p>Only if the players are in the same interior,
+they can interact with and see the vehicle.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.vehicle.Vehicle.on_damage_status_update">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">on_damage_status_update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vehicleid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">playerid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pysamp.vehicle.Vehicle.on_damage_status_update" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.vehicle.Vehicle.on_death">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">on_death</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vehicleid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">killerid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pysamp.vehicle.Vehicle.on_death" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.vehicle.Vehicle.on_mod">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">on_mod</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">playerid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vehicleid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">componentid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pysamp.vehicle.Vehicle.on_mod" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.vehicle.Vehicle.on_paintjob">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">on_paintjob</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">playerid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vehicleid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">paintjobid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pysamp.vehicle.Vehicle.on_paintjob" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.vehicle.Vehicle.on_respray">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">on_respray</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">playerid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vehicleid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pysamp.vehicle.Vehicle.on_respray" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.vehicle.Vehicle.on_siren_state_change">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">on_siren_state_change</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">playerid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vehicleid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">newstate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pysamp.vehicle.Vehicle.on_siren_state_change" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.vehicle.Vehicle.on_spawn">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">on_spawn</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vehicleid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pysamp.vehicle.Vehicle.on_spawn" title="Permalink to this definition"></a></dt>
+<dd><p>When a vehicle is respawning only.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.vehicle.Vehicle.on_stream_in">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">on_stream_in</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vehicleid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">forplayerid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pysamp.vehicle.Vehicle.on_stream_in" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.vehicle.Vehicle.on_stream_out">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">on_stream_out</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vehicleid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">forplayerid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pysamp.vehicle.Vehicle.on_stream_out" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.vehicle.Vehicle.on_trailer_update">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">on_trailer_update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">playerid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trailerid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pysamp.vehicle.Vehicle.on_trailer_update" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.vehicle.Vehicle.on_unoccupied_update">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">on_unoccupied_update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vehicleid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">playerid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">passenger_seat</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_z</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vel_x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vel_y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vel_z</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pysamp.vehicle.Vehicle.on_unoccupied_update" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.vehicle.Vehicle.remove_component">
+<span class="sig-name descname"><span class="pre">remove_component</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">component_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pysamp.vehicle.Vehicle.remove_component" title="Permalink to this definition"></a></dt>
+<dd><p>Remove an added component by its component id.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.vehicle.Vehicle.repair">
+<span class="sig-name descname"><span class="pre">repair</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pysamp.vehicle.Vehicle.repair" title="Permalink to this definition"></a></dt>
+<dd><p>Fully repairs the vehicle - including health</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.vehicle.Vehicle.set_angular_velocity">
+<span class="sig-name descname"><span class="pre">set_angular_velocity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pysamp.vehicle.Vehicle.set_angular_velocity" title="Permalink to this definition"></a></dt>
+<dd><p>Set the angular velocity of a vehicle.</p>
+<p>This is set relative to world space and not vehicle’s local space.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.vehicle.Vehicle.set_damage_status">
+<span class="sig-name descname"><span class="pre">set_damage_status</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pysamp.vehicle.Vehicle.set_damage_status" title="Permalink to this definition"></a></dt>
+<dd><p>Set vehicle damage status.</p>
+<p>Please refer to:
+<a class="reference external" href="https://open.mp/docs/scripting/resources/damagestatus">https://open.mp/docs/scripting/resources/damagestatus</a></p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.vehicle.Vehicle.set_health">
+<span class="sig-name descname"><span class="pre">set_health</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">health</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pysamp.vehicle.Vehicle.set_health" title="Permalink to this definition"></a></dt>
+<dd><p>Set the vehicle’s health.</p>
+<p>When the vehicle’s health decreases the engine will produce
+smoke, and finally fire when it decreases to less than 250.0 (25%).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.vehicle.Vehicle.set_number_plate">
+<span class="sig-name descname"><span class="pre">set_number_plate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">number_plate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pysamp.vehicle.Vehicle.set_number_plate" title="Permalink to this definition"></a></dt>
+<dd><p>Set the vehicle number plate text.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This method has no internal error checking.</p>
+</div>
+<p>Do not assign custom number plates to vehicles without plates
+(boats, planes, etc) as this will result in some unneeded processing
+time on the client. The vehicle must be re-spawned or re-streamed for
+the changes to take effect. There’s a limit of 32 characters on each
+number plate (including embedded colors). The text length that can be
+seen on the number plate is around 9 to 10 characters. More characters
+will cause the text to split. Some vehicle models has a backward
+number plate, e.g. Boxville (498).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>number_plate</strong> (<em>str</em>) – The text you want to set.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>No return value.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.vehicle.Vehicle.set_params_car_doors">
+<span class="sig-name descname"><span class="pre">set_params_car_doors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doors</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pysamp.vehicle.Vehicle.set_params_car_doors" title="Permalink to this definition"></a></dt>
+<dd><p>Open and close vehicle doors.</p>
+<p>The doors tuple should be in this order:
+(driver, passenger, back_left, back_right)</p>
+<p>Setting an unavailable door to 0 or 1, has no effect.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.vehicle.Vehicle.set_params_car_windows">
+<span class="sig-name descname"><span class="pre">set_params_car_windows</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">windows</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pysamp.vehicle.Vehicle.set_params_car_windows" title="Permalink to this definition"></a></dt>
+<dd><p>Allows you to open and close the windows of a vehicle.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.vehicle.Vehicle.set_params_ex">
+<span class="sig-name descname"><span class="pre">set_params_ex</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pysamp.vehicle.Vehicle.set_params_ex" title="Permalink to this definition"></a></dt>
+<dd><p>Set additional parameters on the vehicle.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.vehicle.Vehicle.set_params_for_player">
+<span class="sig-name descname"><span class="pre">set_params_for_player</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">player</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="player.html#pysamp.player.Player" title="pysamp.player.Player"><span class="pre">Player</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">objective</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">doors_locked</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pysamp.vehicle.Vehicle.set_params_for_player" title="Permalink to this definition"></a></dt>
+<dd><p>Set the parameters on the vehicle.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.vehicle.Vehicle.set_position">
+<span class="sig-name descname"><span class="pre">set_position</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">position</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pysamp.vehicle.Vehicle.set_position" title="Permalink to this definition"></a></dt>
+<dd><p>Sets the vehicle position directly on the passed position.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.vehicle.Vehicle.set_to_respawn">
+<span class="sig-name descname"><span class="pre">set_to_respawn</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pysamp.vehicle.Vehicle.set_to_respawn" title="Permalink to this definition"></a></dt>
+<dd><p>Respawn the vehicle. It will spawn at its created coordinates.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.vehicle.Vehicle.set_velocity">
+<span class="sig-name descname"><span class="pre">set_velocity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pysamp.vehicle.Vehicle.set_velocity" title="Permalink to this definition"></a></dt>
+<dd><p>Set the car velocity. Relative to the car axis.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.vehicle.Vehicle.set_virtual_world">
+<span class="sig-name descname"><span class="pre">set_virtual_world</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">world_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pysamp.vehicle.Vehicle.set_virtual_world" title="Permalink to this definition"></a></dt>
+<dd><p>Set the virtual world ID that the vehicle should be visible in.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.vehicle.Vehicle.set_z_angle">
+<span class="sig-name descname"><span class="pre">set_z_angle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">z_angle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pysamp.vehicle.Vehicle.set_z_angle" title="Permalink to this definition"></a></dt>
+<dd><p>Set the vehicle’s heading hangle. 0.0 =&gt; z_angle &lt; 360.0</p>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 
 

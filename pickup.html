@@ -81,8 +81,107 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="pickup">
-<h1>Pickup<a class="headerlink" href="#pickup" title="Permalink to this heading"></a></h1>
+  <section id="module-pysamp.pickup">
+<span id="pickup"></span><h1>Pickup<a class="headerlink" href="#module-pysamp.pickup" title="Permalink to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="pysamp.pickup.Pickup">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pysamp.pickup.</span></span><span class="sig-name descname"><span class="pre">Pickup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">world</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pysamp.pickup.Pickup" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Pickups are global items that can be “picked” up by a player.</p>
+<p>Pickups trigger an event <cite>TODO: PLACEHOLDER</cite> when picked up.</p>
+<p>Benefit of having pickups compared to static pickups, is that you can
+recreate, destroy and modify pickups, while static pickups can only be
+created and have pre-made actions that make them work (such as health).</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.pickup.Pickup.create">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">create</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">virtual_world</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#pysamp.pickup.Pickup" title="pysamp.pickup.Pickup"><span class="pre">Pickup</span></a></span></span><a class="headerlink" href="#pysamp.pickup.Pickup.create" title="Permalink to this definition"></a></dt>
+<dd><p>Create a new global pickup.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model</strong> (<em>int</em>) – The pickup model to use. <a class="reference external" href="https://dev.prineside.com/gtasa_samp_model_id/">You can use any model here.</a></p></li>
+<li><p><strong>type</strong> (<em>int</em>) – The pickup type. <a class="reference external" href="https://www.open.mp/docs/scripting/resources/pickuptypes">See here for available types</a>.</p></li>
+<li><p><strong>x</strong> (<em>float</em>) – The x coordinate to place the pickup at.</p></li>
+<li><p><strong>y</strong> (<em>float</em>) – The y coordinate to place the pickup at.</p></li>
+<li><p><strong>z</strong> (<em>float</em>) – The z coordinate to place the pickup at.</p></li>
+<li><p><strong>virtual_world</strong> (<em>optional int</em>) – Which world should it be visible in?
+The default value is 0.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>This method does not return anything.</p>
+</dd>
+</dl>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Pickups that have a X or Y &lt; -4096.0  or &gt; 4096.0 will not
+show up and won’t trigger any events either.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<ul class="simple">
+<li><p>Only pickup type that can be picked up from within a car,            is ID 14.</p></li>
+<li><p>Certain pickup types come with ‘automatic responses’,            for example using an M4 model in the pickup will automatically            give the player the weapon and some ammo.</p></li>
+</ul>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.pickup.Pickup.destroy">
+<span class="sig-name descname"><span class="pre">destroy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pysamp.pickup.Pickup.destroy" title="Permalink to this definition"></a></dt>
+<dd><p>Destroy the pickup.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>No return value.</p>
+</dd>
+</dl>
+<p>This removes the pickup from the world.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pysamp.pickup.Pickup.id">
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#pysamp.pickup.Pickup.id" title="Permalink to this definition"></a></dt>
+<dd><p>The pickup ID (readonly int).</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pysamp.pickup.Pickup.model">
+<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#pysamp.pickup.Pickup.model" title="Permalink to this definition"></a></dt>
+<dd><p>The model the pickup is using (readonly int).</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pysamp.pickup.Pickup.type">
+<span class="sig-name descname"><span class="pre">type</span></span><a class="headerlink" href="#pysamp.pickup.Pickup.type" title="Permalink to this definition"></a></dt>
+<dd><p>The type of the pickup (readonly int).</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pysamp.pickup.Pickup.world">
+<span class="sig-name descname"><span class="pre">world</span></span><a class="headerlink" href="#pysamp.pickup.Pickup.world" title="Permalink to this definition"></a></dt>
+<dd><p>The virtual world the pickup exist in (readonly int).</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pysamp.pickup.Pickup.x">
+<span class="sig-name descname"><span class="pre">x</span></span><a class="headerlink" href="#pysamp.pickup.Pickup.x" title="Permalink to this definition"></a></dt>
+<dd><p>The pickup X postition (readonly float).</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pysamp.pickup.Pickup.y">
+<span class="sig-name descname"><span class="pre">y</span></span><a class="headerlink" href="#pysamp.pickup.Pickup.y" title="Permalink to this definition"></a></dt>
+<dd><p>The pickup Y postition (readonly float).</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pysamp.pickup.Pickup.z">
+<span class="sig-name descname"><span class="pre">z</span></span><a class="headerlink" href="#pysamp.pickup.Pickup.z" title="Permalink to this definition"></a></dt>
+<dd><p>The pickup Z postition (readonly float).</p>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 
 

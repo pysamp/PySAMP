@@ -81,8 +81,145 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="actor">
-<h1>Actor<a class="headerlink" href="#actor" title="Permalink to this heading"></a></h1>
+  <section id="module-pysamp.actor">
+<span id="actor"></span><h1>Actor<a class="headerlink" href="#module-pysamp.actor" title="Permalink to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="pysamp.actor.Actor">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pysamp.actor.</span></span><span class="sig-name descname"><span class="pre">Actor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pysamp.actor.Actor" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A class that represents actors, also known as NPC’s.</p>
+<p>These ‘actors’ are like NPCs, however they have limited functionality.
+They do not take up server player slots.</p>
+<p>Read more about actors here:
+<a class="reference external" href="https://open.mp/docs/scripting/functions/CreateActor">https://open.mp/docs/scripting/functions/CreateActor</a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.actor.Actor.apply_animation">
+<span class="sig-name descname"><span class="pre">apply_animation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">animation_library</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">animation_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delta</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">loop</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lock_x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lock_y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">freeze</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pysamp.actor.Actor.apply_animation" title="Permalink to this definition"></a></dt>
+<dd><p>Set an animation on the actor.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.actor.Actor.clear_animations">
+<span class="sig-name descname"><span class="pre">clear_animations</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pysamp.actor.Actor.clear_animations" title="Permalink to this definition"></a></dt>
+<dd><p>Clear the animations that are in use by the actor, if any.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.actor.Actor.create">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">create</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">modelid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rotation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#pysamp.actor.Actor" title="pysamp.actor.Actor"><span class="pre">Actor</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#pysamp.actor.Actor.create" title="Permalink to this definition"></a></dt>
+<dd><p>Create a new actor.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>modelid</strong> (<em>int</em>) – The model of the actor.</p></li>
+<li><p><strong>x</strong> (<em>float</em>) – The model of the actor.</p></li>
+<li><p><strong>y</strong> (<em>float</em>) – The model of the actor.</p></li>
+<li><p><strong>z</strong> (<em>float</em>) – The model of the actor.</p></li>
+<li><p><strong>rotation</strong> (<em>float</em>) – The model of the actor.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>An <a class="reference internal" href="#pysamp.actor.Actor" title="pysamp.actor.Actor"><code class="xref py py-class docutils literal notranslate"><span class="pre">Actor</span></code></a> object. Will return <code class="docutils literal notranslate"><span class="pre">None</span></code> if the actor
+limit is reached of 1000 actors.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.actor.Actor.destroy">
+<span class="sig-name descname"><span class="pre">destroy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pysamp.actor.Actor.destroy" title="Permalink to this definition"></a></dt>
+<dd><p>Remove a created actor from the world.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.actor.Actor.get_facing_angle">
+<span class="sig-name descname"><span class="pre">get_facing_angle</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#pysamp.actor.Actor.get_facing_angle" title="Permalink to this definition"></a></dt>
+<dd><p>Get the actor’s facing angle.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.actor.Actor.get_health">
+<span class="sig-name descname"><span class="pre">get_health</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#pysamp.actor.Actor.get_health" title="Permalink to this definition"></a></dt>
+<dd><p>Get how much health the actor has.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.actor.Actor.get_id">
+<span class="sig-name descname"><span class="pre">get_id</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#pysamp.actor.Actor.get_id" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.actor.Actor.get_position">
+<span class="sig-name descname"><span class="pre">get_position</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#pysamp.actor.Actor.get_position" title="Permalink to this definition"></a></dt>
+<dd><p>Gets the current world coordinates of where the actor is located.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.actor.Actor.get_virtual_world">
+<span class="sig-name descname"><span class="pre">get_virtual_world</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#pysamp.actor.Actor.get_virtual_world" title="Permalink to this definition"></a></dt>
+<dd><p>Get which virtual world ID the actor is in.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.actor.Actor.is_invulnerable">
+<span class="sig-name descname"><span class="pre">is_invulnerable</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pysamp.actor.Actor.is_invulnerable" title="Permalink to this definition"></a></dt>
+<dd><p>See if the actor is invulnerable to damage.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.actor.Actor.is_valid">
+<span class="sig-name descname"><span class="pre">is_valid</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pysamp.actor.Actor.is_valid" title="Permalink to this definition"></a></dt>
+<dd><p>Check if the actor is valid.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.actor.Actor.on_stream_in">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">on_stream_in</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">actorid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">forplayerid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pysamp.actor.Actor.on_stream_in" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.actor.Actor.on_stream_out">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">on_stream_out</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">actorid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">forplayerid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pysamp.actor.Actor.on_stream_out" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.actor.Actor.set_facing_angle">
+<span class="sig-name descname"><span class="pre">set_facing_angle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">angle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pysamp.actor.Actor.set_facing_angle" title="Permalink to this definition"></a></dt>
+<dd><p>Set the actor’s facing angle.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.actor.Actor.set_health">
+<span class="sig-name descname"><span class="pre">set_health</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">health</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pysamp.actor.Actor.set_health" title="Permalink to this definition"></a></dt>
+<dd><p>Set the health of the actor.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.actor.Actor.set_invulnerable">
+<span class="sig-name descname"><span class="pre">set_invulnerable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">invulnerable</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pysamp.actor.Actor.set_invulnerable" title="Permalink to this definition"></a></dt>
+<dd><p>Set the actor to be invlunerable to damage.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.actor.Actor.set_position">
+<span class="sig-name descname"><span class="pre">set_position</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">position</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pysamp.actor.Actor.set_position" title="Permalink to this definition"></a></dt>
+<dd><p>Set a new position for the actor.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.actor.Actor.streamed_in">
+<span class="sig-name descname"><span class="pre">streamed_in</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">for_player</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="player.html#pysamp.player.Player" title="pysamp.player.Player"><span class="pre">Player</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pysamp.actor.Actor.streamed_in" title="Permalink to this definition"></a></dt>
+<dd><p>Check if a player has streamed in the actor.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.actor.Actor.virtual_world">
+<span class="sig-name descname"><span class="pre">virtual_world</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">virtual_world</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pysamp.actor.Actor.virtual_world" title="Permalink to this definition"></a></dt>
+<dd><p>Set the actor to a specific virtual world id.</p>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 
 

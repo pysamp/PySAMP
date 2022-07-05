@@ -81,8 +81,87 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="dialog">
-<h1>Dialog<a class="headerlink" href="#dialog" title="Permalink to this heading"></a></h1>
+  <section id="module-pysamp.dialog">
+<span id="dialog"></span><h1>Dialog<a class="headerlink" href="#module-pysamp.dialog" title="Permalink to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="pysamp.dialog.Dialog">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pysamp.dialog.</span></span><span class="sig-name descname"><span class="pre">Dialog</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">content</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">button_1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">button_2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">on_response</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Callable</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pysamp.dialog.Dialog" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class to create and show dialogs.</p>
+<p>A dialog is a menu that the player can interact with.
+To create a new dialog, use <a class="reference internal" href="#pysamp.dialog.Dialog.create" title="pysamp.dialog.Dialog.create"><code class="xref py py-meth docutils literal notranslate"><span class="pre">create()</span></code></a>.</p>
+<p>The player will see the dialog when you do <a class="reference internal" href="#pysamp.dialog.Dialog.show" title="pysamp.dialog.Dialog.show"><code class="xref py py-meth docutils literal notranslate"><span class="pre">show()</span></code></a>. The Dialog class
+will behind the scenes keep track of if a dialog is shown to a player, and
+will that way automatically prevent traditional spoofing of dialogs.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.dialog.Dialog.create">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">create</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">content</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">button_1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">button_2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">on_response</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Callable</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#pysamp.dialog.Dialog" title="pysamp.dialog.Dialog"><span class="pre">Dialog</span></a></span></span><a class="headerlink" href="#pysamp.dialog.Dialog.create" title="Permalink to this definition"></a></dt>
+<dd><p>Create/prepare a dialog for use later.</p>
+<p>Use <a class="reference internal" href="#pysamp.dialog.Dialog.show" title="pysamp.dialog.Dialog.show"><code class="xref py py-meth docutils literal notranslate"><span class="pre">show()</span></code></a> to show the dialog to a player after creating it.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>type</strong> – The type of dialog you want to make. There are 6 different
+types: <code class="docutils literal notranslate"><span class="pre">DIALOG_STYLE_MSGBOX</span></code>, <code class="docutils literal notranslate"><span class="pre">DIALOG_STYLE_INPUT</span></code>,
+<code class="docutils literal notranslate"><span class="pre">DIALOG_STYLE_LIST</span></code>, <code class="docutils literal notranslate"><span class="pre">DIALOG_STYLE_PASSWORD</span></code>,
+<code class="docutils literal notranslate"><span class="pre">DIALOG_STYLE_TABLIST``and</span> <span class="pre">``DIALOG_STYLE_TABLIST_HEADERS</span></code>.</p></li>
+<li><p><strong>title</strong> – The dialog title show at top.</p></li>
+<li><p><strong>content</strong> – The content of the dialog.</p></li>
+<li><p><strong>button_1</strong> – The positive dialog response button. Can’t be longer
+than 8 characters, else it looks weird.</p></li>
+<li><p><strong>button_2</strong> – The second button, negative response.
+If it is left empty, it will be hidden from the dialog.</p></li>
+<li><p><strong>on_response</strong> (<em>Callable</em>) – The function to call on response.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>This classmethod creates a new instance of <a class="reference internal" href="#pysamp.dialog.Dialog" title="pysamp.dialog.Dialog"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dialog</span></code></a>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.dialog.Dialog.handle">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">handle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">player_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dialog_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">response</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">list_item</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pysamp.dialog.Dialog.handle" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.dialog.Dialog.hide">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">hide</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">for_player</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="player.html#pysamp.player.Player" title="pysamp.player.Player"><span class="pre">Player</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pysamp.dialog.Dialog.hide" title="Permalink to this definition"></a></dt>
+<dd><p>Shows a dialog with ID -1 to hide open dialog.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>for_player</strong> (<a class="reference internal" href="player.html#pysamp.player.Player" title="pysamp.player.Player"><em>Player</em></a>) – The player you’d like to hide open
+dialogs for.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>No return value.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysamp.dialog.Dialog.show">
+<span class="sig-name descname"><span class="pre">show</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">for_player</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="player.html#pysamp.player.Player" title="pysamp.player.Player"><span class="pre">Player</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pysamp.dialog.Dialog.show" title="Permalink to this definition"></a></dt>
+<dd><p>Show the dialog created with <a class="reference internal" href="#pysamp.dialog.Dialog.create" title="pysamp.dialog.Dialog.create"><code class="xref py py-meth docutils literal notranslate"><span class="pre">create()</span></code></a> to a specific player.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>for_player</strong> (<a class="reference internal" href="player.html#pysamp.player.Player" title="pysamp.player.Player"><em>Player</em></a>) – The player you want to show
+the dialog for.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>No return value.</p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You can only show one dialog to a player at a time. Showing
+a new dialog will close the old one, if shown.</p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 
 
