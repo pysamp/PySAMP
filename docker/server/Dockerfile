@@ -10,6 +10,7 @@ COPY empty.amx /root
 COPY empty.py /root
 COPY server.cfg.template /root
 COPY docker-entrypoint.sh /
+COPY pysamp/ /root/pysamp
 
 RUN \
     dpkg --add-architecture i386 && \
@@ -45,6 +46,7 @@ RUN \
         envsubst < /root/server.cfg.template > server.cfg && \
         rm /root/server.cfg.template && \
         mv /root/empty.py python.py && \
+        mv /root/pysamp . && \
         touch requirements.txt \
     )
 
