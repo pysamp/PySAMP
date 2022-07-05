@@ -24,3 +24,8 @@ gamemodes/remote-server/
 target/
 **/.DS_Store
 docker/data
+docker/build/PySAMP.so
+venv/
+_static/
+_templates/
+_build/

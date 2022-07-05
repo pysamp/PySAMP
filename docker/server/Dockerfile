@@ -1,4 +1,4 @@
-FROM ubuntu:20.04
+FROM ubuntu:22.04
 
 ARG samp_url=http://files.sa-mp.com/samp037svr_R2-1.tar.gz
 ARG crashdetect_version=4.20
@@ -10,6 +10,7 @@ COPY empty.amx /root
 COPY empty.py /root
 COPY server.cfg.template /root
 COPY docker-entrypoint.sh /
+COPY pysamp/ /root/pysamp
 
 RUN \
     dpkg --add-architecture i386 && \
@@ -45,6 +46,7 @@ RUN \
         envsubst < /root/server.cfg.template > server.cfg && \
         rm /root/server.cfg.template && \
         mv /root/empty.py python.py && \
+        mv /root/pysamp . && \
         touch requirements.txt \
     )
 
