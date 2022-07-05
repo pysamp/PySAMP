@@ -47,7 +47,7 @@ Install the correct version (written in the DLL name you downloaded). As of PySA
 The plugin will look for a module named `python` in your server root. That means you can either create `python.py` or `python/__init__.py`.
 
 ## Add PySAMP's API
-In order to work with our v2.1 API, you need to copy the folders named `samp` and `pysamp` to your server root directory. It includes snake_case versions of the default SA-MP functions, and classes for various objects such as `Player`, `Vehicle`, `TextDraw` and so on. If you created a `python` folder in last step, you should now have the normal SA-MP server folders, plus the three new ones (python, pysamp and samp).
+In order to work with our v2.1 API, you need to copy the folder `pysamp` to your server root directory. It includes snake_case versions of the default SA-MP functions, and classes for various objects such as `Player`, `Vehicle`, `TextDraw` and so on. If you created a `python` folder in last step, you should now have the normal SA-MP server folders, plus the two new ones (python and pysamp).
 
 ## Server.cfg
 1. Add `PySAMP.dll` to your `server.cfg` on the `plugins` line.
@@ -91,7 +91,8 @@ With our docker setup, you can run your entire SA-MP server inside a docker cont
   1. Install the python version as written in the name of the file on the releases page. This should be version 3.10.4 as of PySAMP 2.1. (32 bit version is required, and it needs to be on $PATH)
   2. Copy the downloaded PySAMP.so to the plugins directory of your server. (If it has a weird name, just rename it to PySAMP.so)
   3. Copy `/docker/server/empty.py` to your server root directory, renamed as `python.py`
-  4. Run the server and verify that the plugin has loaded in your logs. If not, make sure step 1. is done correctly. You need exact versions.
+  4. Copy `pysamp` folder/module to your server root directory.
+  5. Run the server and verify that the plugin has loaded in your logs. If not, make sure step 1-4. is done correctly. You need exact versions of python.
   
   <hr>
 </details>
