@@ -103,7 +103,7 @@ With our docker setup, you can run your entire SA-MP server inside a docker cont
 Join us over at [Discord](https://discord.gg/puw5VeQtbx)! You can join the discussion or even ask for help/support.
 
 # Documentation
-Documentation is generated using sphinx. Link to documentation for v2.1 will appear soon!
+Documentation is generated using sphinx. Link to WIP documentation for v2.1 (temporary): https://pysamp.github.io/PySAMP/
 
 # Thanks to
 - SA:MP Team for developing SA:MP, especially [@Y-Less](https://github.com/Y-Less)
