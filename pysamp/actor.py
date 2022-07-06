@@ -16,6 +16,7 @@ from pysamp import (
     set_actor_pos,
     set_actor_virtual_world,
 )
+from samp import INVALID_ACTOR_ID
 from typing import Optional, Tuple
 from pysamp.event import event
 
@@ -52,11 +53,16 @@ class Actor:
         :return: An :class:`Actor` object. Will return ``None`` if the actor
             limit is reached of 1000 actors.
         """
-        return cls(
-            create_actor(modelid, x, y, z, rotation)
-        )
+        actor_id = create_actor(modelid, x, y, z, rotation)
+        if actor_id == INVALID_ACTOR_ID:
+            return None
+        return cls(actor_id)
 
     def get_id(self) -> int:
+        """Get the Actor's ID.
+
+        :returns: The ID of the Actor.
+        """
         return self.id
 
     def destroy(self) -> bool:
