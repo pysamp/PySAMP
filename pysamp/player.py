@@ -2749,8 +2749,8 @@ class Player:
             return functools.partial(cls.command, **kwargs)
 
         @functools.wraps(function)
-        def handler(playerid: int):
-            return function(cls(playerid))
+        def handler(playerid: int, *args):
+            return function(cls(playerid), *args)
 
         cmd(handler, **kwargs)
 
