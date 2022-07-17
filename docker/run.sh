@@ -14,6 +14,7 @@ then
     cp -r "$pysamp_module_path" ./ &&
     docker build \
         --no-cache \
+        --platform linux/amd64 \
         -t pysamp/server \
         . \
     &&
@@ -23,6 +24,7 @@ fi
 
 docker run \
     --name pysamp_server \
+    --platform linux/amd64 \
     -v "$PWD/../data:/server" \
     -p 7777:7777/udp \
     --rm \
