@@ -193,6 +193,7 @@ from samp import (
     GetWeaponName,
     GivePlayerMoney,
     GivePlayerWeapon,
+    gpci as _gpci,
     HideMenuForPlayer,
     InterpolateCameraLookAt,
     InterpolateCameraPos,
@@ -2709,7 +2710,7 @@ def update_player_3d_text_label_text(
 
 
 def gpci(playerid: int) -> str:
-    return gpci(playerid)
+    return _gpci(playerid)
 
 
 def set_timer(
