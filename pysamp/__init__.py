@@ -30,6 +30,7 @@ from samp import (
     Ban,
     BanEx,
     BlockIpAddress,
+    CallNativeFunction,
     CancelEdit,
     CancelSelectTextDraw,
     ChangeVehicleColor,
@@ -2720,6 +2721,10 @@ def set_timer(
     *args: Tuple
 ) -> int:
     return SetTimer(function, interval_ms, repeating, args)
+
+
+def call_native_function(name: str, *arguments):
+    return CallNativeFunction(name, *arguments)
 
 
 on_gamemode_init = functools.partial(

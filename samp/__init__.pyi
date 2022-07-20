@@ -1,4 +1,4 @@
-from typing import Callable, Tuple
+from typing import Any, Callable, Tuple
 
 
 def SetSpawnInfo(
@@ -2023,6 +2023,10 @@ def SetTimer(
     repeating: bool,
     *args: tuple
 ) -> int:
+    pass
+
+
+def CallNativeFunction(name: str, *arguments) -> Any:
     pass
 
 
