@@ -390,7 +390,7 @@ class PlayerObject:
         )
 
     @event("OnPlayerObjectMoved")
-    def on_move(cls, playerid: int, objectid: int):
+    def on_moved(cls, playerid: int, objectid: int):
         return (cls(objectid, playerid), Player(playerid))
 
 from pysamp.player import Player  # noqa
