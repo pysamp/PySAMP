@@ -2743,19 +2743,6 @@ class Player:
             z,
         )
 
-    @classmethod
-    def command(cls, function=_NO_FUNCTION, /, **kwargs):
-        if function is _NO_FUNCTION:
-            return functools.partial(cls.command, **kwargs)
-
-        @functools.wraps(function)
-        def handler(playerid: int, *args):
-            return function(cls(playerid), *args)
-
-        cmd(handler, **kwargs)
-
-        return function
-
 
 from .actor import Actor  # noqa
 from .object import Object  # noqa

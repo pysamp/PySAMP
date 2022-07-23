@@ -1,7 +1,7 @@
 from collections import defaultdict
 from dataclasses import dataclass, field
 from types import ModuleType
-from typing import Any, Callable, Dict, List, Optional, Tuple
+from typing import Any, Callable, Optional
 
 from .names import names as callback_names
 
@@ -15,15 +15,14 @@ class HookedCallback:
     name: str
     original: Optional[Callable[..., None]]
 
-    def __call__(self, *args: Tuple[Any], **kwargs: Dict[str, Any]) -> None:
+    def __call__(self, *args: tuple[Any], **kwargs: dict[str, Any]) -> None:
         """Call the real callback first, then all registered modules'."""
-        if(
-            self.original
-            and self.original(*args, **kwargs) is False
-        ):
-            return
+        if self.original:
+            ret = self.original(*args, **kwargs)
+            if ret is not None:
+                return ret
 
-        registry.dispatch(self.name, *args, **kwargs)
+        return registry.dispatch(self.name, *args, **kwargs)
 
 
 @dataclass
@@ -37,8 +36,8 @@ class RegisteredCallback:
 
     def __call__(
         self,
-        *args: Tuple[Any],
-        **kwargs: Dict[str, Any]
+        *args: tuple[Any],
+        **kwargs: dict[str, Any]
     ) -> Optional[bool]:
         return self.callback(*args, **kwargs)
 
@@ -46,10 +45,10 @@ class RegisteredCallback:
 @dataclass
 class CallbackRegistry:
     """A registry for module callbacks. Gets populated on pysamp import."""
-    _by_group: Dict[str, List[RegisteredCallback]] = field(
+    _by_group: dict[str, list[RegisteredCallback]] = field(
         default_factory=lambda: defaultdict(list)
     )
-    _by_callback_name: Dict[str, List[RegisteredCallback]] = field(
+    _by_callback_name: dict[str, list[RegisteredCallback]] = field(
         default_factory=lambda: defaultdict(list)
     )
 
@@ -110,13 +109,14 @@ class CallbackRegistry:
     def dispatch(
         self,
         callback_name: str,
-        *args: Tuple[Any],
-        **kwargs: Dict[str, Any]
+        *args: tuple[Any],
+        **kwargs: dict[str, Any]
     ) -> None:
         """Dispatch an event to all registered module callbacks."""
         for callback in self._by_callback_name[callback_name]:
-            if callback(*args, **kwargs) is False:
-                break
+            ret = callback(*args, **kwargs)
+            if ret is not None:
+                return ret
 
 
 def hook_callback(module: ModuleType, name: str) -> None:

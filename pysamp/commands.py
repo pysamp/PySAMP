@@ -1,10 +1,18 @@
 import functools
+import inspect
 from dataclasses import dataclass, field
 from typing import Any, Callable, Protocol
 
 from samp import SendClientMessage  # type: ignore
 
 from .callbacks import registry
+
+
+class ArgumentConversionError(ValueError):
+    def __init__(self, arg_type, arg_name, arg_input):
+        self.arg_type = arg_type
+        self.arg_name = arg_name
+        self.arg_input = arg_input
 
 
 class CommandHandler(Protocol):
@@ -27,26 +35,83 @@ class Message(Protocol):
 class Command:
     triggers: set[str]
     handler: CommandHandler
-    split_args: bool
     requires: tuple[Validator, ...]
     error_message: Message
 
+    def __post_init__(self):
+        parameters = list(inspect.signature(self.handler).parameters.values())
+        self._min_params = len([
+            parameter
+            for parameter in parameters
+            if parameter.default is inspect._empty
+            and parameter.kind != inspect.Parameter.VAR_POSITIONAL
+        ])
+        self._max_params = len(parameters) if not any(
+            parameter.kind == inspect.Parameter.VAR_POSITIONAL
+            for parameter in parameters
+        ) else 1e3
+        self._parameters = parameters
+        self._usage_message = BaseMessage(
+            text=f'USAGE: {list(self.triggers)[0]} ' + ' '.join(
+                parameter.name
+                if parameter.default is inspect._empty
+                and parameter.kind != inspect.Parameter.VAR_POSITIONAL
+                else f'[{parameter.name}]'
+                for parameter in parameters[1:]
+            ),
+            color=0xFF0000FF,
+        )
+
     def handle(self, playerid: int, args_text: str) -> None:
-        """Call handler, doing validation and argument splitting if needed."""
+        """Call handler, doing validation and argument conversion."""
         for validator in self.requires:
             if not validator(playerid):
                 self.error_message.send(playerid)
-                return
+                return True
 
-        args = [
-            arg
-            for arg in (
-                [args_text] if not self.split_args
-                else args_text.split(' ')
-            )
-            if arg
-        ]
-        self.handler(playerid, *args)
+        args = [playerid] + [arg for arg in args_text.split(' ') if arg]
+
+        if not (self._min_params <= len(args) <= self._max_params):
+            self._usage_message.send(playerid)
+            return True
+
+        try:
+            self.handler(*self._convert_args(args))
+        except ArgumentConversionError as exception:
+            BaseMessage(
+                text=(
+                    f'ERROR: Invalid {exception.arg_type} '
+                    f'for argument {exception.arg_name}: '
+                    f'"{exception.arg_input}"'
+                ),
+                color=0xFF0000FF,
+            ).send(playerid)
+
+        return True
+
+    def _convert_args(self, args):
+        new_args = []
+
+        for index, (arg, parameter) in enumerate(zip(args, self._parameters)):
+            if parameter.kind == inspect.Parameter.VAR_POSITIONAL:
+                new_args.extend(args[index:])
+                break
+
+            annotation = parameter.annotation
+
+            if annotation is not inspect._empty:
+                try:
+                    arg = annotation(arg)
+                except (ValueError, TypeError):
+                    raise ArgumentConversionError(
+                        arg_type=annotation.__name__,
+                        arg_name=parameter.name,
+                        arg_input=arg,
+                    )
+
+            new_args.append(arg)
+
+        return new_args
 
 
 @dataclass
@@ -76,11 +141,9 @@ class CommandDispatcher:
         command = self._commands_by_trigger.get(trigger)
 
         if not command:
-            UNKNOWN_COMMAND.send(playerid)
             return False
 
         command.handle(playerid, args_text)
-
         return True
 
 
@@ -101,10 +164,6 @@ DEFAULT_ERROR_MESSAGE = BaseMessage(
     text='You are not allowed to use this command.',
     color=0xFF0000FF,
 )
-UNKNOWN_COMMAND = BaseMessage(
-    text='SERVER: Unknown command.',
-    color=0xFFFFFFFF,
-)
 
 
 def cmd(
@@ -113,7 +172,6 @@ def cmd(
     *,
     aliases: tuple[str, ...] = (),
     use_function_name: bool = True,
-    split_args: bool = True,
     requires: tuple[Validator, ...] = (),
     error_message: Message = DEFAULT_ERROR_MESSAGE,
 ) -> Callable[[Any], Any]:
@@ -126,9 +184,6 @@ def cmd(
     use_function_name: Whether to use the function name as a command name to
         trigger the handler with. If this is False and aliases is empty, a
         ValueError is raised.
-    split_args: Whether command arguments should be passed to the function as
-        individual string arguments (split by whitespace) or as a single
-        string argument (all text after the issued command).
     requires: Tuple of callables implementing the Validator protocol. If
         specified, they will be called in order with a playerid as argument
         and should return False if the player is not allowed to use this
@@ -141,7 +196,6 @@ def cmd(
             cmd,
             aliases=aliases,
             use_function_name=use_function_name,
-            split_args=split_args,
             requires=requires,
             error_message=error_message,
         )
@@ -160,7 +214,6 @@ def cmd(
     dispatcher._register(Command(
         triggers={f'/{trigger}' for trigger in triggers},
         handler=function,
-        split_args=split_args,
         requires=requires,
         error_message=error_message,
     ))
