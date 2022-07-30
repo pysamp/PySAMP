@@ -58,7 +58,7 @@ class Object:
         rotation_x: float,
         rotation_y: float,
         rotation_z: float,
-        draw_distance: float
+        draw_distance: float = 0.0
     ) -> "Object":
         """Create a new object.
 
