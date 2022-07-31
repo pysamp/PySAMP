@@ -32,6 +32,7 @@ def event(callback_name):
                 wrapper,
                 args_converter.__name__,
             )
+            return handler
 
         return classmethod(register)
 
