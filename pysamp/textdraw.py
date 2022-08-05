@@ -322,7 +322,7 @@ class TextDraw:
         :param Player player: The player to hide the textdraw for.
         :return: This method does not return anything.
         """
-        return text_draw_hide_for_player(self.id, player.id)
+        return text_draw_hide_for_player(player.id, self.id)
 
     def show_for_player(self, player: "Player") -> bool:
         """This method shows a global textdraw for the selected player.
@@ -330,7 +330,7 @@ class TextDraw:
         :param Player player: The player to show the textdraw for.
         :return: This method does not return anything.
         """
-        return text_draw_show_for_player(self.id, player.id)
+        return text_draw_show_for_player(player.id, self.id)
 
 
 from .player import Player  # noqa
