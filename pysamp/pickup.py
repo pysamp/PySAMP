@@ -7,7 +7,7 @@ from pysamp import (
 class Pickup:
     """Pickups are global items that can be "picked" up by a player.
 
-    Pickups trigger an event `TODO: PLACEHOLDER` when picked up.
+    Pickups triggers :meth:`~pysamp.Player.on_pick_up_pickup` when picked up.
 
     Benefit of having pickups compared to static pickups, is that you can
     recreate, destroy and modify pickups, while static pickups can only be
