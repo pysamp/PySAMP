@@ -4,7 +4,8 @@ from pysamp.event import registry
 
 
 class Dialog:
-    """Class to create and show dialogs.
+    """
+    Class to create and show dialogs.
 
     A dialog is a menu that the player can interact with.
     To create a new dialog, use :meth:`create`.
@@ -22,15 +23,15 @@ class Dialog:
         type: int,
         title: str,
         content: str,
-        button_1: str,
-        button_2: str,
+        button1: str,
+        button2: str,
         on_response: Optional[Callable] = None,
     ) -> None:
         self.type = type
         self.title = title
         self.content = content
-        self.button_1 = button_1
-        self.button_2 = button_2
+        self.button1 = button1
+        self.button2 = button2
         self.on_response = on_response
 
     @classmethod
@@ -39,11 +40,12 @@ class Dialog:
         type: int,
         title: str,
         content: str,
-        button_1: str,
-        button_2: str,
+        button1: str,
+        button2: str,
         on_response: Optional[Callable] = None,
     ) -> "Dialog":
-        """Create/prepare a dialog for use later.
+        """
+        Create/prepare a dialog for use later.
 
         Use :meth:`show` to show the dialog to a player after creating it.
 
@@ -60,10 +62,11 @@ class Dialog:
         :param Callable on_response: The function to call on response.
         :return: This classmethod creates a new instance of :class:`Dialog`.
         """
-        return cls(type, title, content, button_1, button_2, on_response)
+        return cls(type, title, content, button1, button2, on_response)
 
     def show(self, for_player: "Player") -> None:
-        """Show the dialog created with :meth:`create` to a specific player.
+        """
+        Show the dialog created with :meth:`create` to a specific player.
 
         :param Player for_player: The player you want to show
             the dialog for.
@@ -75,18 +78,19 @@ class Dialog:
 
         show_player_dialog(
             for_player.id,
-            Dialog._ID,  # we only occupy one ID on SA-MP side.
+            Dialog._ID,  # We only occupy one ID on SA-MP side.
             self.type,
             self.title,
             self.content,
-            self.button_1,
-            self.button_2,
+            self.button1,
+            self.button2,
         )
         Dialog._shown_for[for_player.id] = self
 
     @staticmethod
     def hide(for_player: "Player") -> None:
-        """Shows a dialog with ID -1 to hide open dialog.
+        """
+        Shows a dialog with ID -1 to hide open dialog.
 
         :param Player for_player: The player you'd like to hide open
             dialogs for.
