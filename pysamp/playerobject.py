@@ -25,7 +25,8 @@ from pysamp import (
 
 
 class PlayerObject:
-    """Create, modify and remove Player Objects using this class.
+    """
+    Create, modify and remove Player Objects using this class.
 
     Player Objects are almost same as normal objects, except for that they
     are only shown for the player they are created for.
@@ -50,7 +51,8 @@ class PlayerObject:
         self._player_id = player_id
 
     def get_player(self) -> "Player":
-        """Get the player who owns the player object.
+        """
+        Get the player who owns the player object.
 
         :returns: An instance of :class:~`pysamp.player.Player`
         """
@@ -67,9 +69,10 @@ class PlayerObject:
         rotation_x: float,
         rotation_y: float,
         rotation_z: float,
-        draw_distance: float,
+        draw_distance: float
     ) -> "PlayerObject":
-        """Create a player object.
+        """
+        Create a player object.
 
         :param Player player: The player that should have an object created.
         :param int model_id: Which model of the object to create.
@@ -94,7 +97,7 @@ class PlayerObject:
                 rotation_x,
                 rotation_y,
                 rotation_z,
-                draw_distance,
+                draw_distance
             ),
             player.id,
         )
@@ -107,9 +110,10 @@ class PlayerObject:
         offset_z: float,
         rotation_x: float,
         rotation_y: float,
-        rotation_z: float,
+        rotation_z: float
     ) -> bool:
-        """Attach the player object to a vehicle.
+        """
+        Attach the player object to a vehicle.
 
         :param Vehicle vehicle: The vehicle to attach the player object to.
         :param float offset_x: X-coordinate relative to car center.
@@ -134,7 +138,7 @@ class PlayerObject:
             offset_z,
             rotation_x,
             rotation_y,
-            rotation_z,
+            rotation_z
         )
 
     def set_material_text(
@@ -147,9 +151,10 @@ class PlayerObject:
         bold: bool = True,
         font_color: int = 4294967295,
         back_color: int = 0,
-        text_alignment: int = 0,
+        text_alignment: int = 0
     ) -> bool:
-        """Replace the texture of a player object with text.
+        """
+        Replace the texture of a player object with text.
 
         :param str text: The text to set. Max 2048 characters.
         :param optional int material_index: The material index to replace with
@@ -214,11 +219,12 @@ class PlayerObject:
             bold,
             font_color,
             back_color,
-            text_alignment,
+            text_alignment
         )
 
     def set_position(self, x: float, y: float, z: float) -> bool:
-        """Set the world coordinates of the player object
+        """
+        Set the world coordinates of the player object
 
         :param float x: The world x coordinate to set.
         :param float y: The world y coordinate to set.
@@ -227,64 +233,68 @@ class PlayerObject:
         """
         return set_player_object_pos(self._player_id, self.id, x, y, z)
 
-    def set_rotation(
-        self, rotation_x: float, rotation_y: float, rotation_z: float
-    ) -> bool:
-        """Set object rotation values.
+    def set_rotation(self, rotation_x: float, rotation_y: float, rotation_z: float) -> bool:
+        """
+        Set object rotation values.
 
         :param float rotation_x: The object x rotation to set.
         :param float rotation_y: The object y rotation to set.
         :param float rotation_z: The object z rotation to set.
         :returns: No return value.
         """
-        return set_player_object_rot(
-            self._player_id, self.id, rotation_x, rotation_y, rotation_z
-        )
+        return set_player_object_rot(self._player_id, self.id, rotation_x, rotation_y, rotation_z)
 
     def get_position(self) -> Tuple[float, float, float]:
-        """Get the current coordinates for the player object.
+        """
+        Get the current coordinates for the player object.
 
         :returns: A tuple with 3 floats; The x, y and z coordinate.
         """
         return get_player_object_pos(self._player_id, self.id)
 
     def get_rotation(self) -> Tuple[float, float, float]:
-        """Get the current rotation values for the player object.
+        """
+        Get the current rotation values for the player object.
 
         :returns: A tuple with 3 floats; The x, y and z rotation.
         """
         return get_player_object_rot(self._player_id, self.id)
 
     def edit(self) -> bool:
-        """Put the player in edit mode to move/rotate the object.
+        """
+        Put the player in edit mode to move/rotate the object.
 
         :returns: No return value.
         """
         return edit_player_object(self._player_id, self.id)
 
     def get_model(self) -> int:
-        """Get the current object model the player object is.
+        """
+        Get the current object model the player object is.
 
         :returns: An integer representing the object model.
         """
         return get_player_object_model(self._player_id, self.id)
 
     def set_no_camera_col(self) -> bool:
-        """Disable player object camera collision.
+        """
+        Disable player object camera collision.
 
         :returns: No return value.
         """
         return set_player_object_no_camera_col(self._player_id, self.id)
 
     def is_valid(self) -> bool:
-        """Check if the player object is valid.
+        """
+        Check if the player object is valid.
 
         :returns: True/False depending on it if is valid or not.
         """
         return is_valid_player_object(self._player_id, self.id)
 
     def destroy(self) -> bool:
-        """Destroys the player object.
+        """
+        Destroys the player object.
 
         This removes the object for the player, and it can no longer be
         interacted with.
@@ -301,9 +311,10 @@ class PlayerObject:
         speed: float,
         rotation_x: float = -1000.0,
         rotation_y: float = -1000.0,
-        rotation_z: float = -1000.0,
+        rotation_z: float = -1000.0
     ) -> int:
-        """Move and rotate the player object to given values.
+        """
+        Move and rotate the player object to given values.
 
         Rotation values should be ``-1000`` if you don't want to modify
         the object rotation.
@@ -329,11 +340,12 @@ class PlayerObject:
             speed,
             rotation_x,
             rotation_y,
-            rotation_z,
+            rotation_z
         )
 
     def stop(self) -> bool:
-        """Stop a moving player object.
+        """
+        Stop a moving player object.
 
         This method will only have an effect if you used :meth:`~move` first.
 
@@ -342,7 +354,8 @@ class PlayerObject:
         return stop_player_object(self._player_id, self.id)
 
     def is_moving(self) -> bool:
-        """Check if the player object is currently moving.
+        """
+        Check if the player object is currently moving.
 
         :returns: A bool (True/False) depending on if it is moving or not.
         """
@@ -354,7 +367,7 @@ class PlayerObject:
         model_id: int,
         txd_name: str,
         texture_name: str,
-        material_color: int = 0,
+        material_color: int = 0
     ) -> bool:
         """Replace the texture of a player-object with the texture from
         another model in the game.
@@ -386,12 +399,12 @@ class PlayerObject:
             model_id,
             txd_name,
             texture_name,
-            material_color,
+            material_color
         )
 
     @event("OnPlayerObjectMoved")
-    def on_moved(cls, playerid: int, objectid: int):
-        return (cls(objectid, playerid), Player(playerid))
+    def on_moved(cls, player_id: int, object_id: int):
+        return (cls(object_id, player_id), Player(player_id))
 
 from pysamp.player import Player  # noqa
 from pysamp.vehicle import Vehicle  # noqa
