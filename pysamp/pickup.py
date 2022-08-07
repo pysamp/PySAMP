@@ -7,38 +7,16 @@ from pysamp import (
 class Pickup:
     """Pickups are global items that can be "picked" up by a player.
 
-    Pickups trigger an event `TODO: PLACEHOLDER` when picked up.
+    Pickups triggers :meth:`~pysamp.Player.on_pick_up_pickup` when picked up.
 
     Benefit of having pickups compared to static pickups, is that you can
     recreate, destroy and modify pickups, while static pickups can only be
     created and have pre-made actions that make them work (such as health).
     """
 
-    def __init__(
-        self,
-        id: int,
-        model: int,
-        type: int,
-        x: float,
-        y: float,
-        z: float,
-        world: int,
-    ) -> None:
-
+    def __init__(self, id: int) -> None:
         self.id = id
         """The pickup ID (readonly int)."""
-        self.model = model
-        """The model the pickup is using (readonly int)."""
-        self.type = type
-        """The type of the pickup (readonly int)."""
-        self.x = x
-        """The pickup X postition (readonly float)."""
-        self.y = y
-        """The pickup Y postition (readonly float)."""
-        self.z = z
-        """The pickup Z postition (readonly float)."""
-        self.world = world
-        """The virtual world the pickup exist in (readonly int)."""
 
     @classmethod
     def create(
@@ -74,14 +52,7 @@ class Pickup:
             give the player the weapon and some ammo.
         """
         return cls(
-            create_pickup(model, type, x, y, z, virtual_world),
-            model,
-            type,
-            x,
-            y,
-            z,
-            virtual_world,
-        )
+            create_pickup(model, type, x, y, z, virtual_world))
 
     def destroy(self) -> bool:
         """Destroy the pickup.
