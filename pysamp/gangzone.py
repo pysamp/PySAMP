@@ -79,9 +79,9 @@ class Gangzone:
         return gang_zone_flash_for_all(self.id, flash_color)
 
     def stop_flash_for_player(self, player: "Player") -> bool:
-        """If a gangzone is flashing for a player
-         this can be used to stop it.
-         """
+        """If a gangzone is flashing for a player,
+        this can be used to stop it.
+        """
         return gang_zone_stop_flash_for_player(player.id, self.id)
 
     def stop_flash_for_all(self) -> bool:
