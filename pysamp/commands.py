@@ -16,19 +16,19 @@ class ArgumentConversionError(ValueError):
 
 
 class CommandHandler(Protocol):
-    def __call__(self, playerid: int, *args: str) -> None: ...
+    def __call__(self, player_id: int, *args: str) -> None: ...
 
 
 class Validator(Protocol):
-    """Return True if playerid is allowed, False otherwise."""
-    def __call__(self, playerid: int) -> bool: ...
+    """Return True if player_id is allowed, False otherwise."""
+    def __call__(self, player_id: int) -> bool: ...
 
 
 class Message(Protocol):
     text: str
     color: int
 
-    def send(self, playerid: int) -> None: ...
+    def send(self, player_id: int) -> None: ...
 
 
 @dataclass
@@ -62,17 +62,17 @@ class Command:
             color=0xFF0000FF,
         )
 
-    def handle(self, playerid: int, args_text: str) -> None:
+    def handle(self, player_id: int, args_text: str) -> None:
         """Call handler, doing validation and argument conversion."""
         for validator in self.requires:
-            if not validator(playerid):
-                self.error_message.send(playerid)
+            if not validator(player_id):
+                self.error_message.send(player_id)
                 return True
 
-        args = [playerid] + [arg for arg in args_text.split(' ') if arg]
+        args = [player_id] + [arg for arg in args_text.split(' ') if arg]
 
         if not (self._min_params <= len(args) <= self._max_params):
-            self._usage_message.send(playerid)
+            self._usage_message.send(player_id)
             return True
 
         try:
@@ -85,7 +85,7 @@ class Command:
                     f'"{exception.arg_input}"'
                 ),
                 color=0xFF0000FF,
-            ).send(playerid)
+            ).send(player_id)
 
         return True
 
@@ -131,8 +131,8 @@ class CommandDispatcher:
             for trigger in command.triggers
         })
 
-    def handle(self, playerid: int, command_text: str) -> bool:
-        """Attempt to handle command_text sent by playerid.
+    def handle(self, player_id: int, command_text: str) -> bool:
+        """Attempt to handle command_text sent by player_id.
 
         Returns True if a Command was found, False otherwise.
         Should be used in OnPlayerCommandText.
@@ -143,7 +143,7 @@ class CommandDispatcher:
         if not command:
             return False
 
-        command.handle(playerid, args_text)
+        command.handle(player_id, args_text)
         return True
 
 
@@ -153,11 +153,11 @@ class BaseMessage:
     text: str
     color: int
 
-    def send(self, playerid: int) -> None:
-        SendClientMessage(playerid, self.color, self.text)
+    def send(self, player_id: int) -> None:
+        SendClientMessage(player_id, self.color, self.text)
 
 
-def _NO_FUNCTION(playerid: int, *args: str) -> None: ...
+def _NO_FUNCTION(player_id: int, *args: str) -> None: ...
 
 
 DEFAULT_ERROR_MESSAGE = BaseMessage(
@@ -185,7 +185,7 @@ def cmd(
         trigger the handler with. If this is False and aliases is empty, a
         ValueError is raised.
     requires: Tuple of callables implementing the Validator protocol. If
-        specified, they will be called in order with a playerid as argument
+        specified, they will be called in order with a player_id as argument
         and should return False if the player is not allowed to use this
         command, in which case error_message will be issued.
     error_message: An object implementing the Message protocol. It will be sent

@@ -20,18 +20,19 @@ class Gangzone:
     by default. You need to show it for players.
     Be aware that you can only have up to 1024 gangzones.
     ```
-            MinY
+            min_y
              v
-      MinX > *-------------
+      min_x > *-------------
              |            |
              |  Gangzone  |
              |   center   |
              |            |
-             -------------* < MaxX
+             -------------* < max_x
                           ^
-                         MaxY
+                         max_y
     ```
     """
+
     def __init__(self, min_x: float, min_y: float, max_x: float, max_y: float):
         self.min_x = min_x
         self.min_y = min_y
@@ -78,9 +79,9 @@ class Gangzone:
         return gang_zone_flash_for_all(self.id, flash_color)
 
     def stop_flash_for_player(self, player: "Player") -> bool:
-        """If a gangzone is flashing for a player,
-        this can be used to stop it.
-        """
+        """If a gangzone is flashing for a player
+         this can be used to stop it.
+         """
         return gang_zone_stop_flash_for_player(player.id, self.id)
 
     def stop_flash_for_all(self) -> bool:

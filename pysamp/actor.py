@@ -36,15 +36,15 @@ class Actor:
     @classmethod
     def create(
         cls,
-        modelid: int,
+        model_id: int,
         x: float,
         y: float,
         z: float,
-        rotation: float
+        rotation: float = 0
     ) -> Optional["Actor"]:
         """Create a new actor.
 
-        :param int modelid: The model of the actor.
+        :param int model_id: The model of the actor.
         :param float x: The model of the actor.
         :param float y: The model of the actor.
         :param float z: The model of the actor.
@@ -53,7 +53,7 @@ class Actor:
             limit is reached of 1000 actors.
         """
         return cls(
-            create_actor(modelid, x, y, z, rotation)
+            create_actor(model_id, x, y, z, rotation)
         )
 
     def get_id(self) -> int:
@@ -84,7 +84,7 @@ class Actor:
         lock_x: bool,
         lock_y: bool,
         freeze: bool,
-        time: int,
+        time: int
     ) -> bool:
         """Set an animation on the actor."""
         return apply_actor_animation(
@@ -96,7 +96,7 @@ class Actor:
             lock_x,
             lock_y,
             freeze,
-            time,
+            time
         )
 
     def clear_animations(self) -> bool:
@@ -111,8 +111,10 @@ class Actor:
         """Set a new position for the actor."""
         try:
             x, y, z = position
+
         except ValueError:
             raise ValueError("Expected position as tuple: (x, y, z)")
+
         else:
             return set_actor_pos(self.id, x, y, z)
 
@@ -137,7 +139,7 @@ class Actor:
         return is_actor_invulnerable(self.id)
 
     def set_invulnerable(self, invulnerable: bool = True) -> bool:
-        """Set the actor to be invlunerable to damage."""
+        """Set the actor to be invulnerable to damage."""
         return set_actor_invulnerable(self.id, invulnerable)
 
     def is_valid(self) -> bool:
@@ -145,11 +147,11 @@ class Actor:
         return is_valid_actor(self.id)
 
     @event("OnActorStreamIn")
-    def on_stream_in(cls, actorid: int, forplayerid: int):
-        return (cls(actorid), Player(forplayerid))
+    def on_stream_in(cls, actor_id: int, for_player_id: int):
+        return (cls(actor_id), Player(for_player_id))
 
     @event("OnActorStreamOut")
-    def on_stream_out(cls, actorid: int, forplayerid: int):
-        return (cls(actorid), Player(forplayerid))
+    def on_stream_out(cls, actor_id: int, for_player_id: int):
+        return (cls(actor_id), Player(for_player_id))
 
 from pysamp.player import Player  # noqa

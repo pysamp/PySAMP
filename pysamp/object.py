@@ -16,9 +16,7 @@ from pysamp import (
     set_objects_default_camera_col
 )
 from pysamp.event import event
-from samp import (
-    OBJECT_MATERIAL_SIZE_256x128
-)
+from samp import OBJECT_MATERIAL_SIZE_256x128
 
 from typing import Tuple
 
@@ -42,16 +40,13 @@ class Object:
     https://dev.prineside.com/en/gtasa_samp_model_id/
     """
 
-    def __init__(
-        self,
-        id: int,
-    ) -> None:
+    def __init__(self, id: int) -> None:
         self.id = id
 
     @classmethod
     def create(
         cls,
-        model: int,
+        model_id: int,
         x: float,
         y: float,
         z: float,
@@ -65,7 +60,7 @@ class Object:
         :return: An instance of an :class:`Object`.
         """
         return cls(create_object(
-            model, x, y, z, rotation_x, rotation_y, rotation_z, draw_distance
+            model_id, x, y, z, rotation_x, rotation_y, rotation_z, draw_distance
         ))
 
     def set_postition(self, x: float, y: float, z: float) -> bool:
@@ -80,11 +75,7 @@ class Object:
         return get_object_pos(self.id)
 
     def set_rotation(
-        self,
-        rotation_x: float,
-        rotation_y: float,
-        rotation_z: float
-    ) -> bool:
+        self, rotation_x: float, rotation_y: float, rotation_z: float) -> bool:
         """Set the new rotation the object should have."""
         return set_object_rot(self.id, rotation_x, rotation_y, rotation_z)
 
@@ -126,7 +117,7 @@ class Object:
         speed: float,
         rotation_x: float = -1000.0,
         rotation_y: float = -1000.0,
-        rotation_z: float = -1000.0,
+        rotation_z: float = -1000.0
     ) -> int:
         """Move and rotate the object to given values.
 
@@ -170,7 +161,7 @@ class Object:
             model_id,
             txd_name,
             texture_name,
-            material_color,
+            material_color
         )
 
     def set_material_text(
@@ -225,19 +216,19 @@ class Object:
         )
 
     @staticmethod
-    def set_default_camera_col(disable: bool) -> bool:
-        """Set whether all object should by default ignore colission.
+    def set_default_camera_col(default_camera_col: bool) -> bool:
+        """Set whether all object should by default ignore collision.
 
         Please note that this is a static method as it is affecting all
         objects. You call it like this:
 
         .. code-block:: python
 
-            # Disable camera colission by default on all objects:
+            # Disable camera collision by default on all objects:
             Object.set_default_camera_col(True)
         """
-        return set_objects_default_camera_col(disable)
+        return set_objects_default_camera_col(default_camera_col)
 
     @event("OnObjectMoved")
-    def on_moved(cls, objectid: int):
-        return (cls(objectid),)
+    def on_moved(cls, object_id: int):
+        return (cls(object_id))

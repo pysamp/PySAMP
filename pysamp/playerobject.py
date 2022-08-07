@@ -67,7 +67,7 @@ class PlayerObject:
         rotation_x: float,
         rotation_y: float,
         rotation_z: float,
-        draw_distance: float,
+        draw_distance: float
     ) -> "PlayerObject":
         """Create a player object.
 
@@ -94,9 +94,9 @@ class PlayerObject:
                 rotation_x,
                 rotation_y,
                 rotation_z,
-                draw_distance,
+                draw_distance
             ),
-            player.id,
+            player.id
         )
 
     def attach_to_vehicle(
@@ -107,7 +107,7 @@ class PlayerObject:
         offset_z: float,
         rotation_x: float,
         rotation_y: float,
-        rotation_z: float,
+        rotation_z: float
     ) -> bool:
         """Attach the player object to a vehicle.
 
@@ -134,7 +134,7 @@ class PlayerObject:
             offset_z,
             rotation_x,
             rotation_y,
-            rotation_z,
+            rotation_z
         )
 
     def set_material_text(
@@ -147,7 +147,7 @@ class PlayerObject:
         bold: bool = True,
         font_color: int = 4294967295,
         back_color: int = 0,
-        text_alignment: int = 0,
+        text_alignment: int = 0
     ) -> bool:
         """Replace the texture of a player object with text.
 
@@ -214,7 +214,7 @@ class PlayerObject:
             bold,
             font_color,
             back_color,
-            text_alignment,
+            text_alignment
         )
 
     def set_position(self, x: float, y: float, z: float) -> bool:
@@ -228,7 +228,7 @@ class PlayerObject:
         return set_player_object_pos(self._player_id, self.id, x, y, z)
 
     def set_rotation(
-        self, rotation_x: float, rotation_y: float, rotation_z: float
+            self, rotation_x: float, rotation_y: float, rotation_z: float
     ) -> bool:
         """Set object rotation values.
 
@@ -301,7 +301,7 @@ class PlayerObject:
         speed: float,
         rotation_x: float = -1000.0,
         rotation_y: float = -1000.0,
-        rotation_z: float = -1000.0,
+        rotation_z: float = -1000.0
     ) -> int:
         """Move and rotate the player object to given values.
 
@@ -329,7 +329,7 @@ class PlayerObject:
             speed,
             rotation_x,
             rotation_y,
-            rotation_z,
+            rotation_z
         )
 
     def stop(self) -> bool:
@@ -354,7 +354,7 @@ class PlayerObject:
         model_id: int,
         txd_name: str,
         texture_name: str,
-        material_color: int = 0,
+        material_color: int = 0
     ) -> bool:
         """Replace the texture of a player-object with the texture from
         another model in the game.
@@ -386,12 +386,12 @@ class PlayerObject:
             model_id,
             txd_name,
             texture_name,
-            material_color,
+            material_color
         )
 
     @event("OnPlayerObjectMoved")
-    def on_moved(cls, playerid: int, objectid: int):
-        return (cls(objectid, playerid), Player(playerid))
+    def on_moved(cls, player_id: int, object_id: int):
+        return (cls(object_id, player_id), Player(player_id))
 
 from pysamp.player import Player  # noqa
 from pysamp.vehicle import Vehicle  # noqa

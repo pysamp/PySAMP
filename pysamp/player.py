@@ -175,23 +175,23 @@ class Player:
     characters (NPCs), and are found in the ``Actor`` class.
     """
 
-    def __init__(self, playerid: int):
-        self.id: int = playerid
+    def __init__(self, player_id: int):
+        self.id: int = player_id
 
     def set_spawn_info(
         self,
-        team: int,
-        skin: int,
+        team_id: int,
+        skin_id: int,
         x: float,
         y: float,
         z: float,
-        rotation: float,
+        angle: float,
         weapon1: int,
         weapon1_ammo: int,
         weapon2: int,
         weapon2_ammo: int,
         weapon3: int,
-        weapon3_ammo: int,
+        weapon3_ammo: int
     ) -> bool:
         """This method can be used to change the spawn information of a
         specific player.
@@ -204,12 +204,12 @@ class Player:
         """
         return set_spawn_info(
             self.id,
-            team,
-            skin,
+            team_id,
+            skin_id,
             x,
             y,
             z,
-            rotation,
+            angle,
             weapon1,
             weapon1_ammo,
             weapon2,
@@ -240,8 +240,10 @@ class Player:
         """
         try:
             x, y, z = position
+
         except ValueError:
             raise ValueError("Expected a tuple for pos. (x, y, z)")
+
         else:
             return set_player_pos_find_z(self.id, x, y, z)
 
@@ -250,11 +252,13 @@ class Player:
         return get_player_pos(self.id)
 
     def set_pos(self, pos: Tuple[float, float, float]) -> bool:
-        """Set the player's position"""
+        """Set the player's position."""
         try:
             x, y, z = pos
+
         except ValueError:
             raise ValueError("Expected a tuple for pos. (x, y, z)")
+
         else:
             return set_player_pos(self.id, x, y, z)
 
@@ -273,12 +277,14 @@ class Player:
         return set_player_facing_angle(self.id, angle)
 
     def is_in_range_of_point(
-        self, range: float, x: float, y: float, z: float
+            self, range: float, x: float, y: float, z: float
     ) -> bool:
         """Checks if the player is in range of a point.
 
-        :param range: The radius of the circle around the point.
-        :param x,y,z: The coordinate of the point.
+        :param float range: The radius of the circle around the point.
+        :param float x: The X coordinate of the point.
+        :param float y: The Y coordinate of the point.
+        :param float z: The Z coordinate of the point.
         :return: A boolean that represents if the player is in range or not.
         """
         return is_player_in_range_of_point(self.id, range, x, y, z)
@@ -297,7 +303,7 @@ class Player:
         :return: A positive integer between 0-65535.
 
         A list of currently known interiors and their positions can be
-        found here: https://open.mp/docs/scripting/resources/interiorids
+        found here: https://open.mp/docs/scripting/resources/interior_ids
         """
         return get_player_interior(self.id)
 
@@ -336,11 +342,13 @@ class Player:
         :return: No return value.
         """
         try:
-            weaponid, ammo = conf
+            weapon_id, ammo = conf
+
         except ValueError:
-            raise ValueError("Expected a tuple for ammo: (weaponid, ammo)")
+            raise ValueError("Expected a tuple for ammo: (weapon_id, ammo)")
+
         else:
-            return set_player_ammo(self.id, weaponid, ammo)
+            return set_player_ammo(self.id, weapon_id, ammo)
 
     def get_weapon_state(self) -> int:  # PS - this is a test docstring w/rst!
         """Check the state of the player's weapon.
@@ -391,13 +399,13 @@ class Player:
         """
         return get_player_team(self.id)
 
-    def set_team(self, teamid: int) -> bool:
+    def set_team(self, team_id: int) -> bool:
         """Set the team the player should belong to.
 
         0-254 are valid teams. 255 is defined as NO_TEAM.
         That means you need to set team to 255 to remove from a team.
         """
-        return set_player_team(self.id, teamid)
+        return set_player_team(self.id, team_id)
 
     def get_score(self) -> int:
         """Get the player's score."""
@@ -468,10 +476,10 @@ class Player:
         """
         return get_player_skin(self.id)
 
-    def set_skin(self, skinid: int) -> bool:
+    def set_skin(self, skin_id: int) -> bool:
         """Change the skin/character of the player.
 
-        :param skinid: ID can be between 0 and 311, except for skin ID 74.
+        :param skin_id: ID can be between 0 and 311, except for skin ID 74.
         :return: Nothing is returned by this method.
 
         See available skins and the corresponding ID's here:
@@ -500,7 +508,7 @@ class Player:
             player.set_skin(45)
 
         """
-        return set_player_skin(self.id, skinid)
+        return set_player_skin(self.id, skin_id)
 
     def give_weapon(self, weapon_id: int, ammo: int) -> bool:
         """Give the player a weapon with specified amount of ammo.
@@ -510,7 +518,7 @@ class Player:
         :return: This function does not return anything.
 
         See all weapon ID's here:
-        https://open.mp/docs/scripting/resources/weaponids
+        https://open.mp/docs/scripting/resources/weapon_ids
 
         Also, notice how you can use the constants as in pawn too, to define
         the weapon. For example, ``WEAPON_KATANA``.
@@ -674,27 +682,29 @@ class Player:
         """
         try:
             hour, minute = time
+
         except ValueError:
             raise ValueError("Expected a tuple for time: (hour, minute)")
+
         else:
             return set_player_time(self.id, hour, minute)
 
-    def toggle_clock(self, toggle: bool) -> bool:
+    def toggle_clock(self, clock: bool) -> bool:
         """Toggle the in-game clock (top-right corner) for a specific player.
 
-        :param bool toggle: ``True`` to toggle clock on, else use ``False``.
+        :param bool clock: ``True`` to toggle clock on, else use ``False``.
         :return: No return value.
 
         When this is enabled, time will progress at 1 minute per second.
         Weather will also interpolate (slowly change over time) when set using
         :meth:`set_weather()`
         """
-        return toggle_player_clock(self.id, toggle)
+        return toggle_player_clock(self.id, clock)
 
-    def set_weather(self, weather: int) -> bool:
+    def set_weather(self, weather_id: int) -> bool:
         """Set the player's weather.
 
-            :param weather: The weather ID to set between 0 and 20.
+            :param weather_id: The weather ID to set between 0 and 20.
             :return: This method does not return anything.
 
         If ``player.toggle_clock`` is on,
@@ -774,10 +784,10 @@ class Player:
         More information and details:
         https://dev.prineside.com/en/gtasa_weather_id/
 
-        To set weather for everyone, use ``set_weather(weatherid)`` which is a
+        To set weather for everyone, use ``set_weather(weather_id)`` which is a
         global function.
         """
-        return set_player_weather(self.id, weather)
+        return set_player_weather(self.id, weather_id)
 
     def force_class_selection(self) -> bool:
         """Forces a player to go back to class selection on next spawn.
@@ -793,18 +803,18 @@ class Player:
         """Get the player's wanted level."""
         return get_player_wanted_level(self.id)
 
-    def set_wanted_level(self, level: int) -> bool:
+    def set_wanted_level(self, wanted_level: int) -> bool:
         """Set the player's wanted level."""
-        return set_player_wanted_level(self.id, level)
+        return set_player_wanted_level(self.id, wanted_level)
 
     def get_fighting_style(self) -> int:
         """Get the player's special fighting style."""
         return get_player_fighting_style(self.id)
 
-    def set_fighting_style(self, style: int) -> bool:
+    def set_fighting_style(self, fighting_style: int) -> bool:
         """Set the player's fighting style.
 
-        :param style: A fight style ID, shown in below table.
+        :param fighting_style: A fight style ID, shown in below table.
         :return: This method does not return anything.
 
         To use in-game, aim and press the 'secondary attack' key
@@ -829,7 +839,7 @@ class Player:
             * - 16
               - FIGHT_STYLE_ELBOW
         """
-        return set_player_fighting_style(self.id, style)
+        return set_player_fighting_style(self.id, fighting_style)
 
     def get_velocity(self) -> Tuple[float, float, float]:
         """Get the velocity of the player.
@@ -852,8 +862,10 @@ class Player:
         """Set the velocity of a player in X,Y,Z direction."""
         try:
             x, y, z = pos
+
         except ValueError:
             raise ValueError("Expected a tuple for velocity: (x, y, z).")
+
         else:
             return set_player_velocity(self.id, x, y, z)
 
@@ -942,14 +954,20 @@ class Player:
         position_y: float = 0.0,
         position_z: float = 0.0,
         distance: float = 50.0,
-        usepos: bool = False,
+        use_position: bool = False
     ) -> bool:
         """Play an audio stream for a player.
 
         Normal files can also be streamed, such as MP3.
         """
         return play_audio_stream_for_player(
-            self.id, url, position_x, position_y, position_z, distance, usepos
+            self.id,
+            url,
+            position_x,
+            position_y,
+            position_z,
+            distance,
+            use_position
         )
 
     def stop_audio_stream(self) -> bool:
@@ -967,11 +985,12 @@ class Player:
         """
         return set_player_shop_name(self.id, shop_name)
 
-    def set_skill_level(self, weapon_skill: int, level: int) -> bool:
+    def set_skill_level(self, weapon_skill: int, skill_level: int) -> bool:
         """Set the skill level of a certain weapon type for a player.
 
         :param weapon_skill: The weaponskill type (see below table).
-        :param level: The level, range 0-999 where 999 is the maximum skill.
+        :param skill_level: The level, range 0-999
+        where 999 is the maximum skill.
         :returns: This method does not return anything.
 
         .. list-table:: Weapon skills
@@ -1003,7 +1022,7 @@ class Player:
             * - 10
               - WEAPONSKILL_SNIPERRIFLE
         """
-        return set_player_skill_level(self.id, weapon_skill, level)
+        return set_player_skill_level(self.id, weapon_skill, skill_level)
 
     def get_surfing_vehicle(self) -> Optional["Vehicle"]:
         """Get the moving vehicle the player is standing on.
@@ -1015,8 +1034,9 @@ class Player:
             surfed.
         """
         veh_id = get_player_surfing_vehicle_id(self.id)
-        if(veh_id == INVALID_VEHICLE_ID):
+        if veh_id == INVALID_VEHICLE_ID:
             return None
+
         return Vehicle(veh_id)
 
     def get_surfing_object(self) -> Optional["Object"]:
@@ -1026,12 +1046,13 @@ class Player:
             standing on, or ``None`` if there's no moving object found.
         """
         obj_id = get_player_surfing_object_id(self.id)
-        if(obj_id == INVALID_OBJECT_ID):
+        if obj_id == INVALID_OBJECT_ID:
             return None
+
         return Object(obj_id)
 
     def remove_building(
-        self, model_id: int, x: float, y: float, z: float, radius: float
+            self, model_id: int, x: float, y: float, z: float, radius: float
     ) -> bool:
         """Removes a standard San Andreas model for a single player within a
         specified range.
@@ -1072,7 +1093,7 @@ class Player:
         return remove_building_for_player(self.id, model_id, x, y, z, radius)
 
     def get_last_shot_vectors(
-        self,
+            self
     ) -> Tuple[float, float, float, float, float, float]:
         """Find out from where a bullet was shot, and where it hit/collided.
 
@@ -1143,8 +1164,8 @@ class Player:
         scale_x: float = 1.0,
         scale_y: float = 1.0,
         scale_z: float = 1.0,
-        material_color_1: int = 0,
-        material_color_2: int = 0,
+        material_color1: int = 0,
+        material_color2: int = 0
     ) -> bool:
         """Attach an object to a specific bone on a player.
 
@@ -1160,8 +1181,8 @@ class Player:
         :param optional, float scale_x: X axis scale of the object.
         :param optional, float scale_y: Y axis scale of the object.
         :param optional, float scale_z: Z axis scale of the object.
-        :param optional, int material_color_1: The first object color.
-        :param optional, int material_color_2: The second object color.
+        :param optional, int material_color1: The first object color.
+        :param optional, int material_color2: The second object color.
         :returns: This method does not return anything.
 
         .. note:: Colors can be set as an integer or hex in ARGB color format.
@@ -1246,8 +1267,8 @@ class Player:
             scale_x,
             scale_y,
             scale_z,
-            material_color_1,
-            material_color_2,
+            material_color1,
+            material_color2
         )
 
     def remove_attached_object(self, index: int) -> bool:
@@ -1448,7 +1469,7 @@ class Player:
         return get_pvar_type(self.id, var_name)
 
     def set_chat_bubble(
-        self, text: str, color: int, draw_distance: float, expiretime: int
+            self, text: str, color: int, draw_distance: float, expire_time: int
     ) -> bool:
         """Make text appear above the nametag of a player, that other
         players can see.
@@ -1456,14 +1477,14 @@ class Player:
         :param text: The text you would like to show.
         :param color: Which color you would like to give the font.
         :param draw_distance: How far you want the text to be visible from.
-        :param expiretime: How long in miliseconds the bubble should stay.
+        :param expire_time: How long in miliseconds the bubble should stay.
         :return: This method does not return anything.
 
         .. note:: You can not see your own chat bubbles, same applies
             for 3D textlabels.
         """
         return set_player_chat_bubble(
-            self.id, text, color, draw_distance, expiretime
+            self.id, text, color, draw_distance, expire_time
         )
 
     def put_in_vehicle(self, vehicle_id: int, seat_id: int) -> bool:
@@ -1495,7 +1516,7 @@ class Player:
         :returns: Vehicle ID of the vehicle.
 
         .. note:: NOT the model id of the vehicle. See
-            ``get_vehicle_model(vehicleid)`` for that.
+            ``get_vehicle_model(vehicle_id)`` for that.
         """
         return get_player_vehicle_id(self.id)
 
@@ -1519,20 +1540,20 @@ class Player:
         """
         return remove_player_from_vehicle(self.id)
 
-    def toggle_controllable(self, toggle: bool) -> bool:
+    def toggle_controllable(self, controllable: bool) -> bool:
         """Freeze or unfreeze a player.
 
-        :param toggle: Set to ``False`` to freeze, ``True`` to unfreeze.
+        :param controllable: Set to ``False`` to freeze, ``True`` to unfreeze.
         :returns: This method does not return antyhing.
 
         .. warning:: The player will also be unable to move their camera.
         """
-        return toggle_player_controllable(self.id, toggle)
+        return toggle_player_controllable(self.id, controllable)
 
-    def play_sound(self, soundid: int, x: float, y: float, z: float) -> bool:
+    def play_sound(self, sound_id: int, x: float, y: float, z: float) -> bool:
         """Play a game sound for the player.
 
-        :param soundid: The sound id you would like to play for the player.
+        :param sound_id: The sound id you would like to play for the player.
         :param x: x coordinate to play the sound at.
         :param y: y coordinate.
         :param z: z coordinate.
@@ -1543,7 +1564,7 @@ class Player:
         A list with available sound id's can be found here:
         https://sampwiki.blast.hk/wiki/SoundID
         """
-        return player_play_sound(self.id, soundid, x, y, z)
+        return player_play_sound(self.id, sound_id, x, y, z)
 
     def apply_animation(
         self,
@@ -1555,7 +1576,7 @@ class Player:
         lock_y: bool,
         freeze: bool,
         time: int,
-        force_sync: bool = False,
+        force_sync: bool = False
     ) -> bool:
         """Apply a given animation to the player."""
         return apply_animation(
@@ -1568,13 +1589,13 @@ class Player:
             lock_y,
             freeze,
             time,
-            force_sync,
+            force_sync
         )
 
-    def clear_animations(self, forcesync: bool = False) -> bool:
+    def clear_animations(self, force_sync: bool = False) -> bool:
         """Stop any ongoing animations the player has running.
 
-        :param optional bool forcesync: Set to ``True`` to force the player
+        :param optional bool force_sync: Set to ``True`` to force the player
             to sync the animation with other players in streaming radius.
         :return: This method does not have any return values.
 
@@ -1583,7 +1604,7 @@ class Player:
         driving, swimming, etc..).
 
         """
-        return clear_animations(self.id, forcesync)
+        return clear_animations(self.id, force_sync)
 
     def animation_index(self) -> int:
         """Get the current playing animation index of the player.
@@ -1614,18 +1635,21 @@ class Player:
         """
         return set_player_special_action(self.id, action_id)
 
-    def disable_remote_vehicle_collisions(self, disable: bool) -> bool:
+    def disable_remote_vehicle_collisions(
+            self, remote_vehicle_collisions: bool
+    ) -> bool:
         """Disables collisions between occupied vehicles for a player.
 
-        :param disable: Bool that disables colissions if set to ``True``.
+        :param remote_vehicle_collisions: Bool that disables colissions
+        if set to ``True``.
         :return: No return value for this method.
 
         """
-        return disable_remote_vehicle_collisions(self.id, disable)
+        return disable_remote_vehicle_collisions(
+            self.id, remote_vehicle_collisions
+        )
 
-    def set_checkpoint(
-        self, x: float, y: float, z: float, size: float
-    ) -> bool:
+    def set_checkpoint(self, x: float, y: float, z: float, size: float) -> bool:
         """Create a checkpoint for the player. Shows a red blip on the radar.
 
         :param x: The x position for the checkpoint.
@@ -1657,7 +1681,7 @@ class Player:
         next_x: float,
         next_y: float,
         next_z: float,
-        size: float,
+        size: float
     ) -> bool:
         """Race checkpoints are red checkpoints, as used in singleplayer races.
 
@@ -1728,41 +1752,41 @@ class Player:
         return disable_player_race_checkpoint(self.id)
 
     def set_world_bounds(
-        self, x_max: float, x_min: float, y_max: float, y_min: float
+            self, max_x: float, min_x: float, max_y: float, min_y: float
     ) -> bool:
         """Set the world boundaries for a player.
         Players can not go out of the boundaries, they will be pushed back in.
 
-        :param x_max: The max x coordinate of the bounds.
-        :param x_min: The min x coordinate of the bounds.
-        :param y_max: The max y coordinate of the bounds.
-        :param y_min: The min y coordinate of the bounds.
+        :param float max_x: The max x coordinate of the bounds.
+        :param float min_x: The min x coordinate of the bounds.
+        :param float max_y: The max y coordinate of the bounds.
+        :param float min_y: The min y coordinate of the bounds.
         :return: This method does not return anything.
 
         :Illustration:
 
         .. code-block:: python
 
-                  MinY
+                  min_y
                     v
-             MinX > *-------------
+             min_x > *-------------
                     |            |
                     |   Bound    |
                     |   center   |
                     |            |
-                    -------------* < MaxX
+                    -------------* < max_x
                                 ^
-                               MaxY
+                               max_y
 
 
         """
-        return set_player_world_bounds(self.id, x_max, x_min, y_max, y_min)
+        return set_player_world_bounds(self.id, max_x, min_x, max_y, min_y)
 
-    def set_marker(self, showplayer: "Player", color: int) -> bool:
+    def set_marker(self, for_player: "Player", color: int) -> bool:
         """Change the colour of the player's nametag and radar blip for
         another player on the server.
 
-        :param showplayer: The player that should see the change.
+        :param for_player: The player that should see the change.
         :param color: The desired color in RGBA format.
         :return: Returns nothing.
 
@@ -1773,20 +1797,20 @@ class Player:
             # Now, "target" will see the "player" with the given
             # color on their map.
         """
-        return set_player_marker_for_player(self.id, showplayer.id, color)
+        return set_player_marker_for_player(self.id, for_player.id, color)
 
-    def show_name_tag(self, showplayer: "Player", show: bool) -> bool:
+    def show_name_tag(self, for_player: "Player", show: bool) -> bool:
         """This method allows you to toggle the drawing of player nametags,
         healthbars and armor bars which display above their head.
 
-        :param showplayer: Player whose name tag will be shown or hidden.
+        :param for_player: Player whose name tag will be shown or hidden.
         :param show: ``False`` to hide, ``True`` to show.
         :return: Returns nothing.
 
         For use of a similar function like this on a global level,
         check out ``show_name_tags()`` function.
         """
-        return show_player_name_tag_for_player(self.id, showplayer.id, show)
+        return show_player_name_tag_for_player(self.id, for_player.id, show)
 
     def set_map_icon(
         self,
@@ -1796,7 +1820,7 @@ class Player:
         z: float,
         marker_type: int,
         color: int,
-        style: int = MAPICON_LOCAL,
+        style: int = MAPICON_LOCAL
     ) -> bool:
         """Place an icon/marker on a player's map. Can be used to mark
         locations.
@@ -1835,20 +1859,20 @@ class Player:
         """
         return remove_player_map_icon(self.id, icon_id)
 
-    def allow_teleport(self, allow: bool) -> bool:
+    def allow_teleport(self, teleport: bool) -> bool:
         """Enable or disable teleporting when marking the map with the map-
         marker.
 
-        :param allow: A bool to allow or disallow teleport.
+        :param teleport: A bool to allow or disallow teleport.
         :return: Nothing.
 
         .. warning:: Deprecated since 0.3d.
             Please use the callback ``player.on_click_map`` instead.
         """
-        return allow_player_teleport(self.id, allow)
+        return allow_player_teleport(self.id, teleport)
 
     def set_camera_look_at(
-        self, x: float, y: float, z: float, cut: int = CAMERA_CUT
+            self, x: float, y: float, z: float, cut: int = CAMERA_CUT
     ) -> bool:
         """Make the camera look towards a set corrdinate.
 
@@ -1890,8 +1914,10 @@ class Player:
         """
         try:
             x, y, z = pos
+
         except ValueError:
             raise ValueError("Expected x, y, z as a tuple (x, y, z)")
+
         else:
             return set_player_camera_pos(self.id, x, y, z)
 
@@ -1993,18 +2019,17 @@ class Player:
         """
         return get_player_camera_mode(self.id)
 
-    def enable_camera_target(self, enable: bool) -> bool:
+    def enable_camera_target(self, camera_target: bool) -> bool:
         """Toggle camera targeting functions for a player. Disabled by default
         to save bandwidth.
 
-        :param bool enable: ``False`` to disable, ``True`` to enable.
+        :param bool camera_target: ``False`` to disable, ``True`` to enable.
         :return: This method does not return anything.
         """
-        return enable_player_camera_target(self.id, enable)
+        return enable_player_camera_target(self.id, camera_target)
 
     def get_camera_target_object(self) -> Optional["Object"]:
-        """Allows you to retrieve the map object the player is looking
-        at.
+        """Allows you to retrieve the map object the player is looking at.
 
         :return: The :class:`~object.Object` the player is looking at.
             If ``None`` is returned, player isn't
@@ -2017,11 +2042,12 @@ class Player:
         object_id = get_player_camera_target_object(self.id)
         if object_id == INVALID_OBJECT_ID:
             return None
+
         return Object(object_id)
 
     def get_camera_target_vehicle(self) -> Optional["Vehicle"]:
-        """Allows you to retrieve the ID of the vehicle the player is looking
-        at.
+        """Allows you to retrieve the ID of the vehicle
+        the player is looking at
 
         :return: The :class:`~vehicle.Vehicle` the player is looking at.
             If ``None`` is returned, player isn't
@@ -2038,6 +2064,7 @@ class Player:
         vehicle_id = get_player_camera_target_vehicle(self.id)
         if vehicle_id == INVALID_VEHICLE_ID:
             return None
+
         return Vehicle(vehicle_id)
 
     def get_camera_target_player(self) -> Optional["Player"]:
@@ -2051,9 +2078,9 @@ class Player:
             player.
         """
         player_id = get_player_camera_target_player(self.id)
-
         if player_id == INVALID_PLAYER_ID:
             return None
+
         return Player(player_id)
 
     def camera_target_actor(self) -> Optional["Actor"]:
@@ -2063,9 +2090,9 @@ class Player:
             actor is being targeted by the camera, it will return ``None``.
         """
         actor_id = get_player_camera_target_actor(self.id)
-
         if actor_id == INVALID_ACTOR_ID:
             return None
+
         return Actor(actor_id)
 
     def get_camera_aspect_ratio(self) -> float:
@@ -2099,9 +2126,8 @@ class Player:
         to_y: float,
         to_z: float,
         time: int,
-        cut: int = CAMERA_CUT,
+        cut: int = CAMERA_CUT
     ) -> bool:
-
         """Smoothly move the camera position from one coordinate to another,
         using a given time on the transition.
 
@@ -2140,7 +2166,7 @@ class Player:
         to_y: float,
         to_z: float,
         time: int,
-        cut: int = CAMERA_CUT,
+        cut: int = CAMERA_CUT
     ) -> bool:
         """Make the camera change the "focus" from one coordinate to another.
 
@@ -2224,19 +2250,20 @@ class Player:
         """
         return set_player_virtual_world(self.id, world_id)
 
-    def enable_stunt_bonus(self, enable: bool) -> bool:
+    def enable_stunt_bonus(self, stunt_bonus: bool) -> bool:
         """Toggle stunt bonus when doing jumps and flips for the given player.
 
-        :param bool enable: Boolean to toggle it on or off. ``True`` = enabled.
+        :param bool stunt_bonus: Boolean to toggle it on or off.
+        ``True`` = enabled.
         :return: This method does not return anything.
         """
-        return enable_stunt_bonus_for_player(self.id, enable)
+        return enable_stunt_bonus_for_player(self.id, stunt_bonus)
 
-    def toggle_spectating(self, toggle: bool) -> bool:
+    def toggle_spectating(self, spectating: bool) -> bool:
         """Toggle the player in and out of spectate mode. When in spectate
         mode, the HUD is removed.
 
-        :param bool toggle: Toggle spectate on with ``True`` or off with
+        :param bool spectating: Toggle spectate on with ``True`` or off with
             ``False``.
         :return: No return value.
 
@@ -2256,15 +2283,17 @@ class Player:
             If the player is not loaded in before setting the spectate
             status to ``False``, the connection can be closed unexpectedly.
         """
-        return toggle_player_spectating(self.id, toggle)
+        return toggle_player_spectating(self.id, spectating)
 
     def spectate_player(
-        self, target_player: "Player", mode: int = SPECTATE_MODE_NORMAL
+            self,
+            target_player: "Player",
+            spectate_mode: int = SPECTATE_MODE_NORMAL
     ) -> bool:
         """Spectate a specific player.
 
         :param Player target_player: The player to spectate.
-        :param optional mode: The spectate mode to use. Default:
+        :param optional spectate_mode: The spectate mode to use. Default:
             ``SPECTATE_MODE_NORMAL``
         :return: No return value.
 
@@ -2280,15 +2309,17 @@ class Player:
                 of the player (like when you're in first-person camera on a\
                 bike and you do a wheelie)
         """
-        return player_spectate_player(self.id, target_player.id, mode)
+        return player_spectate_player(self.id, target_player.id, spectate_mode)
 
     def spectate_vehicle(
-        self, target_vehicle: "Vehicle", mode: int = SPECTATE_MODE_NORMAL
+            self,
+            target_vehicle: "Vehicle",
+            spectate_mode: int = SPECTATE_MODE_NORMAL
     ) -> bool:
         """Spectate a specific vehicle.
 
         :param Vehicle target_vehicle: The vehicle to spectate.
-        :param optional int mode: The spectate mode to use. Default:
+        :param optional int spectate_mode: The spectate mode to use. Default:
             ``SPECTATE_MODE_NORMAL``.
 
         Avaialable spectate modes:
@@ -2303,20 +2334,17 @@ class Player:
                 of the vehicle (like when you're in first-person camera on a\
                 bike and you do a wheelie)
         """
-        return player_spectate_vehicle(self.id, target_vehicle.id, mode)
+        return player_spectate_vehicle(self.id, target_vehicle.id, spectate_mode)
 
-    def start_recording_data(self, recordtype: int, recordname: str) -> bool:
+    def start_recording_data(self, record_type: int, record_name: str) -> bool:
         """Used to record NPC data."""
-        return start_recording_player_data(self.id, recordtype, recordname)
+        return start_recording_player_data(self.id, record_type, record_name)
 
     def stop_recording_data(self) -> bool:
-        """Stop recording NPC data, started with :meth:`start_recording_data`.
-        """
+        """Stop recording NPC data, started with :meth:`start_recording_data`."""
         return stop_recording_player_data(self.id)
 
-    def create_explosion(
-        self, x: float, y: float, z: float, type: int, radius: float
-    ) -> bool:
+    def create_explosion(self, x: float, y: float, z: float, type: int, radius: float) -> bool:
         """Create an explosion only visible to the player.
 
         :param float x: The x coordinate to create the explosion at.
@@ -2352,17 +2380,17 @@ class Player:
         return send_player_message_to_player(self.id, sender.id, message)
 
     def send_death_message(
-        self, killer: "Player", killee: "Player", weapon: int
+            self, killer: "Player", victim: "Player", weapon: int
     ) -> bool:
         """Send a death message only to the current player.
 
         :param Player killer: The player who killed.
-        :param Player killee: The player who was killed.
+        :param Player victim: The player who was killed.
         :param int weapon: The weapon that was used.
         :return: No return value.
         """
         return send_death_message_to_player(
-            self.id, killer.id, killee.id, weapon
+            self.id, killer.id, victim.id, weapon
         )
 
     def game_text(self, text: str, time: int, style: int) -> bool:
@@ -2442,7 +2470,7 @@ class Player:
         return gpci(self.id)
 
     def attach_camera_to_player_object(
-        self, player_object: "PlayerObject"
+            self, player_object: "PlayerObject"
     ) -> bool:
         """Attach the player camera to a player object.
 
@@ -2452,218 +2480,214 @@ class Player:
         """
         return attach_camera_to_player_object(self.id, player_object.id)
 
-    @event("OnEnterExitModShop")
+    @event("OnEnter_ExitModShop")
     def on_enter_exit_mod_shop(
-        cls, playerid: int, enterexit: int, interiorid: int
+            cls, player_id: int, enter_exit: int, interior_id: int
     ):
-        return (cls(playerid), enterexit, interiorid)
+        return (cls(player_id), enter_exit, interior_id)
 
     @event("OnPlayerConnect")
-    def on_connect(cls, playerid: int):
-        return (cls(playerid),)
+    def on_connect(cls, player_id: int):
+        return (cls(player_id))
 
     @event("OnPlayerDisconnect")
-    def on_disconnect(cls, playerid: int, reason: int):
-        return (cls(playerid), reason)
+    def on_disconnect(cls, player_id: int, reason: int):
+        return (cls(player_id), reason)
 
     @event("OnPlayerSpawn")
-    def on_spawn(cls, playerid: int):
-        return (cls(playerid),)
+    def on_spawn(cls, player_id: int):
+        return (cls(player_id))
 
     @event("OnPlayerDeath")
-    def on_death(cls, playerid: int, killerid: int, reason: int):
+    def on_death(cls, player_id: int, killer_id: int, reason: int):
         return (
-            cls(playerid),
-            killerid if killerid == INVALID_PLAYER_ID else cls(killerid),
-            reason,
+            cls(player_id),
+            killer_id if killer_id == INVALID_PLAYER_ID else cls(killer_id),
+            reason
         )
 
     @event("OnPlayerText")
-    def on_text(cls, playerid: int, text: str):
-        return (cls(playerid), text)
+    def on_text(cls, player_id: int, text: str):
+        return (cls(player_id), text)
 
     @event("OnPlayerCommandText")
-    def on_command_text(cls, playerid: int, command_text: str):
-        return (cls(playerid), command_text)
+    def on_command_text(cls, player_id: int, command_text: str):
+        return (cls(player_id), command_text)
 
     @event("OnPlayerRequestClass")
-    def on_request_class(cls, playerid: int, classid: int):
-        return (cls(playerid), classid)
+    def on_request_class(cls, player_id: int, class_id: int):
+        return (cls(player_id), class_id)
 
     @event("OnPlayerEnterVehicle")
     def on_enter_vehicle(
-        cls,
-        playerid: int,
-        vehicleid: int,
-        is_passenger: bool,
+            cls, player_id: int, vehicle_id: int, is_passenger: bool
     ):
-        return (cls(playerid), Vehicle(vehicleid), is_passenger)
+        return (cls(player_id), Vehicle(vehicle_id), is_passenger)
 
     @event("OnPlayerExitVehicle")
-    def on_exit_vehicle(cls, playerid: int, vehicleid: int):
-        return (cls(playerid), Vehicle(vehicleid))
+    def on_exit_vehicle(cls, player_id: int, vehicle_id: int):
+        return (cls(player_id), Vehicle(vehicle_id))
 
     @event("OnPlayerStateChange")
-    def on_state_change(cls, playerid, newstate: int, oldstate: int):
-        return (cls(playerid), newstate, oldstate)
+    def on_state_change(cls, player_id, new_state: int, old_state: int):
+        return (cls(player_id), new_state, old_state)
 
     @event("OnPlayerEnterCheckpoint")
-    def on_enter_checkpoint(cls, playerid: int):
-        return (cls(playerid),)
+    def on_enter_checkpoint(cls, player_id: int):
+        return (cls(player_id))
 
     @event("OnPlayerLeaveCheckpoint")
-    def on_leave_checkpoint(cls, playerid: int):
-        return (cls(playerid),)
+    def on_leave_checkpoint(cls, player_id: int):
+        return (cls(player_id))
 
     @event("OnPlayerEnterRaceCheckpoint")
-    def on_enter_race_checkpoint(cls, playerid: int):
-        return (cls(playerid),)
+    def on_enter_race_checkpoint(cls, player_id: int):
+        return (cls(player_id))
 
     @event("OnPlayerLeaveRaceCheckpoint")
-    def on_leave_race_checkpoint(cls, playerid: int):
-        return (cls(playerid),)
+    def on_leave_race_checkpoint(cls, player_id: int):
+        return (cls(player_id))
 
     @event("OnPlayerRequestSpawn")
-    def on_request_spawn(cls, playerid: int):
-        return (cls(playerid),)
+    def on_request_spawn(cls, player_id: int):
+        return (cls(player_id))
 
     @event("OnPlayerPickUpPickup")
-    def on_pick_up_pickup(cls, playerid, pickupid: int):
-        return (cls(playerid), Pickup(pickupid))
+    def on_pick_up_pickup(cls, player_id, pickup_id: int):
+        return (cls(player_id), Pickup(pickup_id))
 
     @event("OnPlayerSelectedMenuRow")
-    def on_selected_menu_row(cls, playerid: int, row: int):
-        return (cls(playerid), row)
+    def on_selected_menu_row(cls, player_id: int, row: int):
+        return (cls(player_id), row)
 
     @event("OnPlayerExitedMenu")
-    def on_exited_menu(cls, playerid: int):
-        return (cls(playerid),)
+    def on_exited_menu(cls, player_id: int):
+        return (cls(player_id))
 
     @event("OnPlayerInteriorChange")
     def on_interior_change(
-        cls,
-        playerid: int,
-        newinteriorid: int,
-        oldinteriorid: int,
+            cls, player_id: int, new_interior_id: int, old_interior_id: int
     ):
-        return (cls(playerid), newinteriorid, oldinteriorid)
+        return (cls(player_id), new_interior_id, old_interior_id)
 
     @event("OnPlayerKeyStateChange")
-    def on_key_state_change(cls, playerid: int, newkeys: int, oldkeys: int):
-        return (cls(playerid), newkeys, oldkeys)
+    def on_key_state_change(cls, player_id: int, new_key: int, old_key: int):
+        return (cls(player_id), new_key, old_key)
 
     @event("OnPlayerUpdate")
-    def on_update(cls, playerid: int):
-        return (cls(playerid),)
+    def on_update(cls, player_id: int):
+        return (cls(player_id))
 
     @event("OnPlayerStreamIn")
-    def on_stream_in(cls, playerid: int, forplayerid: int):
-        return (cls(playerid), cls(forplayerid))
+    def on_stream_in(cls, player_id: int, for_player_id: int):
+        return (cls(player_id), cls(for_player_id))
 
     @event("OnPlayerStreamOut")
-    def on_stream_out(cls, playerid: int, forplayerid: int):
-        return (cls(playerid), cls(forplayerid))
+    def on_stream_out(cls, player_id: int, for_player_id: int):
+        return (cls(player_id), cls(for_player_id))
 
     @event("OnPlayerTakeDamage")
     def on_take_damage(
         cls,
-        playerid: int,
-        issuerid: int,
+        player_id: int,
+        issuer_id: int,
         amount: float,
-        weaponid: int,
-        bodypart: int,
+        weapon_id: int,
+        bodypart: int
     ):
         return (
-            cls(playerid),
-            issuerid if issuerid == INVALID_PLAYER_ID else cls(issuerid),
+            cls(player_id),
+            issuer_id if issuer_id == INVALID_PLAYER_ID else cls(issuer_id),
             amount,
-            weaponid,
-            bodypart,
+            weapon_id,
+            bodypart
         )
 
     @event("OnPlayerGiveDamage")
     def on_give_damage(
         cls,
-        playerid: int,
-        damagedid: int,
+        player_id: int,
+        damaged_id: int,
         amount: float,
-        weaponid: int,
-        bodypart: int,
+        weapon_id: int,
+        bodypart: int
     ):
         return (
-            cls(playerid),
-            damagedid if damagedid == INVALID_PLAYER_ID else cls(damagedid),
+            cls(player_id),
+            damaged_id if damaged_id == INVALID_PLAYER_ID else cls(damaged_id),
             amount,
-            weaponid,
-            bodypart,
+            weapon_id,
+            bodypart
         )
 
     @event("OnPlayerGiveDamageActor")
     def on_give_damage_actor(
         cls,
-        playerid: int,
-        damaged_actorid: int,
+        player_id: int,
+        damaged_actor_id: int,
         amount: float,
-        weaponid: int,
-        bodypart: int,
+        weapon_id: int,
+        bodypart: int
     ):
         return (
-            cls(playerid),
-            Actor(damaged_actorid),
+            cls(player_id),
+            Actor(damaged_actor_id),
             amount,
-            weaponid,
-            bodypart,
+            weapon_id,
+            bodypart
         )
 
     @event("OnPlayerClickMap")
-    def on_click_map(cls, playerid: int, x: float, y: float, z: float):
-        return (cls(playerid), x, y, z)
+    def on_click_map(cls, player_id: int, x: float, y: float, z: float):
+        return (cls(player_id), x, y, z)
 
     @event("OnPlayerClickTextDraw")
-    def on_click_textdraw(cls, playerid: int, clickedid: int):
-        return (cls(playerid), TextDraw(clickedid))
+    def on_click_textdraw(cls, player_id: int, clicked_id: int):
+        return (cls(player_id), TextDraw(clicked_id))
 
     @event("OnPlayerClickPlayerTextDraw")
-    def on_click_playertextdraw(cls, playerid: int, playertextid: int):
-        return (cls(playerid), PlayerTextDraw(playertextid))
+    def on_click_playertextdraw(cls, player_id: int, player_text_id: int):
+        return (cls(player_id), PlayerTextDraw(player_text_id))
 
     @event("OnPlayerClickPlayer")
-    def on_click_player(cls, playerid: int, clickedplayerid: int, source: int):
-        return (cls(playerid), cls(clickedplayerid), source)
+    def on_click_player(
+            cls, player_id: int, clicked_player_id: int, source: int
+    ):
+        return (cls(player_id), cls(clicked_player_id), source)
 
     @event("OnPlayerEditObject")
     def on_edit_object(
         cls,
-        playerid: int,
+        player_id: int,
         is_playerobject: bool,
-        objectid: int,
+        object_id: int,
         response: int,
         x: float,
         y: float,
         z: float,
         rot_x: float,
         rot_y: float,
-        rot_z: float,
+        rot_z: float
     ):
         return (
-            cls(playerid),
-            PlayerObject(objectid) if is_playerobject else Object(objectid),
+            cls(player_id),
+            PlayerObject(object_id) if is_playerobject else Object(object_id),
             response,
             x,
             y,
             z,
             rot_x,
             rot_y,
-            rot_z,
+            rot_z
         )
 
     @event("OnPlayerEditAttachedObject")
     def on_edit_attached_object(
         cls,
-        playerid: int,
+        player_id: int,
         response: int,
         index: int,
-        modelid: int,
+        model_id: int,
         boneid: int,
         offset_x: float,
         offset_y: float,
@@ -2673,13 +2697,13 @@ class Player:
         rot_z: float,
         scale_x: float,
         scale_y: float,
-        scale_z: float,
+        scale_z: float
     ):
         return (
-            cls(playerid),
+            cls(player_id),
             response,
             index,
-            modelid,
+            model_id,
             boneid,
             offset_x,
             offset_y,
@@ -2689,59 +2713,45 @@ class Player:
             rot_z,
             scale_x,
             scale_y,
-            scale_z,
+            scale_z
         )
 
     @event("OnPlayerSelectObject")
     def on_select_object(
         cls,
-        playerid: int,
+        player_id: int,
         type: int,
-        objectid: int,
-        modelid: int,
+        object_id: int,
+        model_id: int,
         x: float,
         y: float,
-        z: float,
+        z: float
     ):
         object_cls = {
             SELECT_OBJECT_GLOBAL_OBJECT: Object,
-            SELECT_OBJECT_PLAYER_OBJECT: PlayerObject,
+            SELECT_OBJECT_PLAYER_OBJECT: PlayerObject
         }
-        return (
-            cls(playerid),
-            object_cls[type](objectid),
-            modelid,
-            x,
-            y,
-            z,
-        )
+        return (cls(player_id), object_cls[type](object_id), model_id, x, y, z)
 
     @event("OnPlayerWeaponShot")
     def on_weapon_shot(
         cls,
-        playerid: int,
-        weaponid: int,
-        hittype: int,
-        hitid: int,
+        player_id: int,
+        weapon_id: int,
+        hit_type: int,
+        hit_id: int,
         x: float,
         y: float,
-        z: float,
+        z: float
     ):
         hit_cls = {
             BULLET_HIT_TYPE_NONE: lambda _: None,
             BULLET_HIT_TYPE_PLAYER: cls,
             BULLET_HIT_TYPE_VEHICLE: Vehicle,
             BULLET_HIT_TYPE_OBJECT: Object,
-            BULLET_HIT_TYPE_PLAYER_OBJECT: PlayerObject,
+            BULLET_HIT_TYPE_PLAYER_OBJECT: PlayerObject
         }
-        return (
-            cls(playerid),
-            weaponid,
-            hit_cls[hittype](hitid),
-            x,
-            y,
-            z,
-        )
+        return (cls(player_id), weapon_id, hit_cls[hit_type](hit_id), x, y, z)
 
 
 from .actor import Actor  # noqa

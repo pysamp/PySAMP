@@ -47,7 +47,7 @@ from samp import INVALID_PLAYER_ID
 
 
 class Vehicle:
-    """A class that represents server vehicles.
+    """Class that represents server vehicles.
 
     :param id: The ID of the vehicle.
 
@@ -66,43 +66,43 @@ class Vehicle:
     @classmethod
     def create(
         cls,
-        model: int,
+        model_id: int,
         x: float,
         y: float,
         z: float,
-        rotation: float,
+        angle: float,
         color1: int,
         color2: int,
         respawn_delay: int,
-        add_siren: bool = False,
+        siren: bool = False
     ) -> "Vehicle":
         """Create a new vehicle with the given model, position, colors and
         settings.
 
-        :param model: The model of the car (400-622).
+        :param model_id: The model of the car (400-622).
         :param float x: The x coordinate to spawn the vehicle.
         :param float y: The y coordinate to spawn the vehicle.
         :param float z: The z coordinate to spawn the vehicle.
-        :param float rotation: Set the vehicle heading.
+        :param float angle: Set the vehicle heading.
         :param int color1: Primary color (0-255).
         :param int color2: Secondary color (if available) (0-255).
         :param int respawn_delay: How long it should take for it to
             automatically respawn.
-        :param optional bool add_siren: Set if the car should have
+        :param optional bool siren: Set if the car should have
             a siren. Defaults to False.
         :return: An instance of :class:`Vehicle`.
         """
         return cls(
             create_vehicle(
-                model,
+                model_id,
                 x,
                 y,
                 z,
-                rotation,
+                angle,
                 color1,
                 color2,
                 respawn_delay,
-                add_siren,
+                siren
             )
         )
 
@@ -130,11 +130,13 @@ class Vehicle:
         """Sets the vehicle position directly on the passed position."""
         try:
             x, y, z = position
+
         except ValueError:
             raise ValueError(
                 "Method set_pos() expects the position to be a tuple = \
                     (x: float, y: float, z: float)"
             )
+
         else:
             return set_vehicle_pos(self.id, x, y, z)
 
@@ -142,16 +144,16 @@ class Vehicle:
         """Returns the heading the vehicle has. Can be >= 0.0 and < 360."""
         return get_vehicle_z_angle(self.id)
 
-    def set_z_angle(self, z_angle: float) -> bool:
+    def set_z_angle(self, angle: float) -> bool:
         """Set the vehicle's heading hangle. 0.0 => z_angle < 360.0"""
-        return set_vehicle_z_angle(self.id, z_angle)
+        return set_vehicle_z_angle(self.id, angle)
 
     def get_rotation_quat(self) -> Tuple[float, float, float, float]:
         """Returns a vehicle's rotation on all axes as a quaternion"""
         return get_vehicle_rotation_quat(self.id)
 
     def set_params_for_player(
-        self, player: "Player", objective: int, doors_locked: int
+            self, player: "Player", objective: int, doors_locked: int
     ) -> bool:
         """Set the parameters on the vehicle."""
         return set_vehicle_params_for_player(
@@ -163,16 +165,18 @@ class Vehicle:
         return get_vehicle_params_ex(self.id)
 
     def set_params_ex(
-        self, param: Tuple[int, int, int, int, int, int, int]
+            self, param: Tuple[int, int, int, int, int, int, int]
     ) -> bool:
         """Set additional parameters on the vehicle."""
         try:
             engine, lights, alarm, doors, bonnet, boot, objective = param
+
         except ValueError:
             raise ValueError(
                 "A tuple was expected: \
                     (engine, lights, alarm, doors, bonnet, boot, objective)"
             )
+
         else:
             return set_vehicle_params_ex(
                 self.id, engine, lights, alarm, doors, bonnet, boot, objective
@@ -206,15 +210,17 @@ class Vehicle:
         Setting an unavailable door to 0 or 1, has no effect.
         """
         try:
-            driver, passenger, backleft, backright = doors
+            driver, passenger, back_left, back_right = doors
+
         except ValueError:
             raise ValueError(
                 "A tuple was expected: \
-                    (driver, passenger, backleft, backright)"
+                    (driver, passenger, back_left, back_right)"
             )
+
         else:
             return set_vehicle_params_car_doors(
-                self.id, driver, passenger, backleft, backright
+                self.id, driver, passenger, back_left, back_right
             )
 
     def get_params_car_windows(self) -> Tuple[int, int, int, int]:
@@ -222,19 +228,21 @@ class Vehicle:
         return get_vehicle_params_car_windows(self.id)
 
     def set_params_car_windows(
-        self, windows: Tuple[int, int, int, int]
+            self, windows: Tuple[int, int, int, int]
     ) -> bool:
         """Allows you to open and close the windows of a vehicle."""
         try:
-            driver, passenger, backleft, backright = windows
+            driver, passenger, back_left, back_right = windows
+
         except ValueError:
             raise ValueError(
                 "A tuple was expected: \
-                    (driver, passenger, backleft, backright)"
+                    (driver, passenger, back_left, back_right)"
             )
+
         else:
             return set_vehicle_params_car_windows(
-                self.id, driver, passenger, backleft, backright
+                self.id, driver, passenger, back_left, back_right
             )
 
     def set_to_respawn(self) -> bool:
@@ -265,21 +273,21 @@ class Vehicle:
         """Remove an added component by its component id."""
         return remove_vehicle_component(self.id, component_id)
 
-    def change_color(self, color_1: int, color_2: int) -> bool:
+    def change_color(self, color1: int, color2: int) -> bool:
         """Change a vehicle's primary and secondary colors.
 
         Some vehicles have only a primary color and some can not have
         the color changed at all. A few (cement, squallo) have 4 colors,
         of which 2 can not be changed in SA:MP.
         """
-        return change_vehicle_color(self.id, color_1, color_2)
+        return change_vehicle_color(self.id, color1, color2)
 
-    def change_paintjob(self, paint_job_id: int) -> bool:
+    def change_paintjob(self, paintjob_id: int) -> bool:
         """Change a vehicle's paintjob.
 
         If vehicle is black, it may not show.
         """
-        return change_vehicle_paintjob(self.id, paint_job_id)
+        return change_vehicle_paintjob(self.id, paintjob_id)
 
     def get_health(self) -> float:
         """Get the vehicle's health. Vehicle starts burning at < 250.0."""
@@ -310,6 +318,7 @@ class Vehicle:
         trailer_id = get_vehicle_trailer(self.id)
         if trailer_id == 0:
             return None
+
         return Vehicle(trailer_id)
 
     def set_number_plate(self, number_plate: str) -> bool:
@@ -335,9 +344,9 @@ class Vehicle:
         """Get the vehicle model."""
         return get_vehicle_model(self.id)
 
-    def get_component_in_slot(self, slot: int) -> int:
+    def get_component_in_slot(self, slot_id: int) -> int:
         """Retrieves the installed component ID in the specific slot."""
-        return get_vehicle_component_in_slot(self.id, slot)
+        return get_vehicle_component_in_slot(self.id, slot_id)
 
     def repair(self) -> bool:
         """Fully repairs the vehicle - including health"""
@@ -351,8 +360,10 @@ class Vehicle:
         """Set the car velocity. Relative to the car axis."""
         try:
             x, y, z = vector
+
         except ValueError:
-            raise ValueError("Expected a tuple for vector (x,y,z)")
+            raise ValueError("Expected a tuple for vector (x, y, z)")
+
         else:
             return set_vehicle_velocity(self.id, x, y, z)
 
@@ -363,8 +374,10 @@ class Vehicle:
         """
         try:
             x, y, z = vector
+
         except ValueError:
-            raise ValueError("Expected a tuple for vector (x,y,z)")
+            raise ValueError("Expected a tuple for vector (x, y, z)")
+
         else:
             return set_vehicle_angular_velocity(self.id, x, y, z)
 
@@ -389,11 +402,13 @@ class Vehicle:
         """
         try:
             panels, doors, lights, tires = param
+
         except ValueError:
             raise ValueError(
                 "Expected a tuple for damage_status: \
                     (panels, doors, lights, tires)"
             )
+
         else:
             return update_vehicle_damage_status(
                 self.id, panels, doors, lights, tires
@@ -408,58 +423,58 @@ class Vehicle:
         return set_vehicle_virtual_world(self.id, world_id)
 
     @event("OnTrailerUpdate")
-    def on_trailer_update(cls, playerid: int, trailerid: int):
-        return (Player(playerid), cls(trailerid))
+    def on_trailer_update(cls, player_id: int, trailer_id: int):
+        return (Player(player_id), cls(trailer_id))
 
     @event("OnVehicleDamageStatusUpdate")
-    def on_damage_status_update(cls, vehicleid: int, playerid: int):
-        return (cls(vehicleid), Player(playerid))
+    def on_damage_status_update(cls, vehicle_id: int, player_id: int):
+        return (cls(vehicle_id), Player(player_id))
 
     @event("OnVehicleDeath")
-    def on_death(cls, vehicleid: int, killerid: int):
+    def on_death(cls, vehicle_id: int, killer_id: int):
         return (
-            cls(vehicleid),
-            Player(killerid) if killerid != INVALID_PLAYER_ID else killerid,
+            cls(vehicle_id),
+            Player(killer_id) if killer_id != INVALID_PLAYER_ID else killer_id,
         )
 
     @event("OnVehicleMod")
-    def on_mod(cls, playerid: int, vehicleid: int, componentid: int):
-        return (Player(playerid), cls(vehicleid), componentid)
+    def on_mod(cls, player_id: int, vehicle_id: int, component_id: int):
+        return (Player(player_id), cls(vehicle_id), component_id)
 
     @event("OnVehiclePaintjob")
-    def on_paintjob(cls, playerid: int, vehicleid: int, paintjobid: int):
-        return (Player(playerid), cls(vehicleid), paintjobid)
+    def on_paintjob(cls, player_id: int, vehicle_id: int, paintjob_id: int):
+        return (Player(player_id), cls(vehicle_id), paintjob_id)
 
     @event("OnVehicleRespray")
     def on_respray(
-        cls, playerid: int, vehicleid: int, color1: int, color2: int
+        cls, player_id: int, vehicle_id: int, color1: int, color2: int
     ):
-        return (Player(playerid), cls(vehicleid), color1, color2)
+        return (Player(player_id), cls(vehicle_id), color1, color2)
 
     @event("OnVehicleSirenStateChange")
     def on_siren_state_change(
-        cls, playerid: int, vehicleid: int, newstate: int
+        cls, player_id: int, vehicle_id: int, new_state: int
     ):
-        return (Player(playerid), cls(vehicleid), newstate)
+        return (Player(player_id), cls(vehicle_id), new_state)
 
     @event("OnVehicleSpawn")
-    def on_spawn(cls, vehicleid: int):
+    def on_spawn(cls, vehicle_id: int):
         """When a vehicle is respawning only."""
-        return (cls(vehicleid),)
+        return (cls(vehicle_id))
 
     @event("OnVehicleStreamIn")
-    def on_stream_in(cls, vehicleid: int, forplayerid: int):
-        return (cls(vehicleid), Player(forplayerid))
+    def on_stream_in(cls, vehicle_id: int, for_player_id: int):
+        return (cls(vehicle_id), Player(for_player_id))
 
     @event("OnVehicleStreamOut")
-    def on_stream_out(cls, vehicleid: int, forplayerid: int):
-        return (cls(vehicleid), Player(forplayerid))
+    def on_stream_out(cls, vehicle_id: int, for_player_id: int):
+        return (cls(vehicle_id), Player(for_player_id))
 
     @event("OnUnoccupiedVehicleUpdate")
     def on_unoccupied_update(
         cls,
-        vehicleid: int,
-        playerid: int,
+        vehicle_id: int,
+        player_id: int,
         passenger_seat: int,
         new_x: float,
         new_y: float,
@@ -469,15 +484,15 @@ class Vehicle:
         vel_z: float,
     ):
         return (
-            cls(vehicleid),
-            Player(playerid),
+            cls(vehicle_id),
+            Player(player_id),
             passenger_seat,
             new_x,
             new_y,
             new_z,
             vel_x,
             vel_y,
-            vel_z,
+            vel_z
         )
 
 
