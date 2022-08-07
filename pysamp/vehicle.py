@@ -434,7 +434,7 @@ class Vehicle:
     def on_death(cls, vehicle_id: int, killer_id: int):
         return (
             cls(vehicle_id),
-            Player(killer_id) if killer_id != INVALID_PLAYER_ID else killer_id,
+            Player(killer_id) if killer_id != INVALID_PLAYER_ID else killer_id
         )
 
     @event("OnVehicleMod")
@@ -460,7 +460,7 @@ class Vehicle:
     @event("OnVehicleSpawn")
     def on_spawn(cls, vehicle_id: int):
         """When a vehicle is respawning only."""
-        return (cls(vehicle_id))
+        return (cls(vehicle_id),)
 
     @event("OnVehicleStreamIn")
     def on_stream_in(cls, vehicle_id: int, for_player_id: int):
@@ -481,7 +481,7 @@ class Vehicle:
         new_z: float,
         vel_x: float,
         vel_y: float,
-        vel_z: float,
+        vel_z: float
     ):
         return (
             cls(vehicle_id),

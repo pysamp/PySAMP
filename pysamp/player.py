@@ -2480,15 +2480,15 @@ class Player:
         """
         return attach_camera_to_player_object(self.id, player_object.id)
 
-    @event("OnEnter_ExitModShop")
+    @event("OnEnterExitModShop")
     def on_enter_exit_mod_shop(
-            cls, player_id: int, enter_exit: int, interior_id: int
+        cls, player_id: int, enter_exit: int, interior_id: int
     ):
         return (cls(player_id), enter_exit, interior_id)
 
     @event("OnPlayerConnect")
     def on_connect(cls, player_id: int):
-        return (cls(player_id))
+        return (cls(player_id),)
 
     @event("OnPlayerDisconnect")
     def on_disconnect(cls, player_id: int, reason: int):
@@ -2496,7 +2496,7 @@ class Player:
 
     @event("OnPlayerSpawn")
     def on_spawn(cls, player_id: int):
-        return (cls(player_id))
+        return (cls(player_id),)
 
     @event("OnPlayerDeath")
     def on_death(cls, player_id: int, killer_id: int, reason: int):
@@ -2520,7 +2520,10 @@ class Player:
 
     @event("OnPlayerEnterVehicle")
     def on_enter_vehicle(
-            cls, player_id: int, vehicle_id: int, is_passenger: bool
+        cls,
+        player_id: int,
+        vehicle_id: int,
+        is_passenger: bool
     ):
         return (cls(player_id), Vehicle(vehicle_id), is_passenger)
 
@@ -2534,23 +2537,23 @@ class Player:
 
     @event("OnPlayerEnterCheckpoint")
     def on_enter_checkpoint(cls, player_id: int):
-        return (cls(player_id))
+        return (cls(player_id),)
 
     @event("OnPlayerLeaveCheckpoint")
     def on_leave_checkpoint(cls, player_id: int):
-        return (cls(player_id))
+        return (cls(player_id),)
 
     @event("OnPlayerEnterRaceCheckpoint")
     def on_enter_race_checkpoint(cls, player_id: int):
-        return (cls(player_id))
+        return (cls(player_id),)
 
     @event("OnPlayerLeaveRaceCheckpoint")
     def on_leave_race_checkpoint(cls, player_id: int):
-        return (cls(player_id))
+        return (cls(player_id),)
 
     @event("OnPlayerRequestSpawn")
     def on_request_spawn(cls, player_id: int):
-        return (cls(player_id))
+        return (cls(player_id),)
 
     @event("OnPlayerPickUpPickup")
     def on_pick_up_pickup(cls, player_id, pickup_id: int):
@@ -2562,11 +2565,14 @@ class Player:
 
     @event("OnPlayerExitedMenu")
     def on_exited_menu(cls, player_id: int):
-        return (cls(player_id))
+        return (cls(player_id),)
 
     @event("OnPlayerInteriorChange")
     def on_interior_change(
-            cls, player_id: int, new_interior_id: int, old_interior_id: int
+        cls,
+        player_id: int,
+        new_interior_id: int,
+        old_interior_id: int
     ):
         return (cls(player_id), new_interior_id, old_interior_id)
 
@@ -2576,7 +2582,7 @@ class Player:
 
     @event("OnPlayerUpdate")
     def on_update(cls, player_id: int):
-        return (cls(player_id))
+        return (cls(player_id),)
 
     @event("OnPlayerStreamIn")
     def on_stream_in(cls, player_id: int, for_player_id: int):
@@ -2650,9 +2656,7 @@ class Player:
         return (cls(player_id), PlayerTextDraw(player_text_id))
 
     @event("OnPlayerClickPlayer")
-    def on_click_player(
-            cls, player_id: int, clicked_player_id: int, source: int
-    ):
+    def on_click_player(cls, player_id: int, clicked_player_id: int, source: int):
         return (cls(player_id), cls(clicked_player_id), source)
 
     @event("OnPlayerEditObject")
@@ -2688,7 +2692,7 @@ class Player:
         response: int,
         index: int,
         model_id: int,
-        boneid: int,
+        bone_id: int,
         offset_x: float,
         offset_y: float,
         offset_z: float,
@@ -2704,7 +2708,7 @@ class Player:
             response,
             index,
             model_id,
-            boneid,
+            bone_id,
             offset_x,
             offset_y,
             offset_z,
@@ -2729,9 +2733,16 @@ class Player:
     ):
         object_cls = {
             SELECT_OBJECT_GLOBAL_OBJECT: Object,
-            SELECT_OBJECT_PLAYER_OBJECT: PlayerObject
+            SELECT_OBJECT_PLAYER_OBJECT: PlayerObject,
         }
-        return (cls(player_id), object_cls[type](object_id), model_id, x, y, z)
+        return (
+            cls(player_id),
+            object_cls[type](object_id),
+            model_id,
+            x,
+            y,
+            z,
+        )
 
     @event("OnPlayerWeaponShot")
     def on_weapon_shot(
@@ -2751,7 +2762,14 @@ class Player:
             BULLET_HIT_TYPE_OBJECT: Object,
             BULLET_HIT_TYPE_PLAYER_OBJECT: PlayerObject
         }
-        return (cls(player_id), weapon_id, hit_cls[hit_type](hit_id), x, y, z)
+        return (
+            cls(player_id),
+            weapon_id,
+            hit_cls[hit_type](hit_id),
+            x,
+            y,
+            z
+        )
 
 
 from .actor import Actor  # noqa

@@ -231,4 +231,4 @@ class Object:
 
     @event("OnObjectMoved")
     def on_moved(cls, object_id: int):
-        return (cls(object_id))
+        return (cls(object_id),)
