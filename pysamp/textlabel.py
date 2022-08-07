@@ -88,11 +88,7 @@ class TextLabel:
         :return: This method does not return anything.
         """
         return attach_3d_textlabel_to_vehicle(
-            self.id,
-            vehicle.id,
-            offset_x,
-            offset_y,
-            offset_z
+            self.id, vehicle.id, offset_x, offset_y, offset_z
         )
 
     def update_text(self, color: int, text: str) -> bool:
