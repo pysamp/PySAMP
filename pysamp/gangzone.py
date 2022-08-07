@@ -13,23 +13,24 @@ from pysamp import (
 
 
 class Gangzone:
-    """Create and manage Gangzones on the server.
+    """
+    Create and manage Gangzones on the server.
 
     Gangzones are created in 2D space, and covers a rectangular area.
     Even if a gangzone has been created, it is not shown
     by default. You need to show it for players.
     Be aware that you can only have up to 1024 gangzones.
     ```
-            MinY
+            min_y
              v
-      MinX > *-------------
+      min_x > *-------------
              |            |
              |  Gangzone  |
              |   center   |
              |            |
-             -------------* < MaxX
+             -------------* < max_x
                           ^
-                         MaxY
+                         max_y
     ```
     """
     def __init__(self, min_x: float, min_y: float, max_x: float, max_y: float):
@@ -40,51 +41,50 @@ class Gangzone:
         self.id: int = gang_zone_create(min_x, min_y, max_x, max_y)
 
     def get_id(self) -> int:
-        """Get the gangzone id."""
+        """ Get the gangzone id. """
         return self.id
 
     def destroy(self) -> bool:
-        """Destroy the gangzone."""
+        """ Destroy the gangzone. """
         return gang_zone_destroy(self.id)
 
     def show_for_player(
         self, player: "Player", color: int
     ) -> bool:
-        """Show the gangzone for a player."""
+        """ Show the gangzone for a player. """
         return gang_zone_show_for_player(player.id, self.id, color)
 
     def hide_for_player(self, player: "Player") -> bool:
-        """Hide the ganzone for a player."""
+        """ Hide the ganzone for a player. """
         return gang_zone_hide_for_player(player.id, self.id)
 
     def show_for_all(self, color: int) -> bool:
-        """Show the ganzone for all players, with the desired color."""
+        """ Show the ganzone for all players, with the desired color. """
         return gang_zone_show_for_all(self.id, color)
 
     def hide_for_all(self) -> bool:
-        """Hide the gangzone for everyone."""
+        """ Hide the gangzone for everyone. """
         return gang_zone_hide_for_all(self.id)
 
     def flash_for_player(
         self, player: "Player", flash_color: int
     ) -> bool:
-        """Make the gangzone flash for the given player,
+        """
+        Make the gangzone flash for the given player,
         with the desired color.
         """
         return gang_zone_flash_for_player(player.id, self.id, flash_color)
 
     def flash_for_all(self, flash_color: int) -> bool:
-        """Make the gangzone flash for all players."""
+        """ Make the gangzone flash for all players. """
         return gang_zone_flash_for_all(self.id, flash_color)
 
     def stop_flash_for_player(self, player: "Player") -> bool:
-        """If a gangzone is flashing for a player,
-        this can be used to stop it.
-        """
+        """ If a gangzone is flashing for a player, this can be used to stop it. """
         return gang_zone_stop_flash_for_player(player.id, self.id)
 
     def stop_flash_for_all(self) -> bool:
-        """Stop the flashing of a ganzone for all online players."""
+        """ Stop the flashing of a ganzone for all online players. """
         return gang_zone_stop_flash_for_all(self.id)
 
 
