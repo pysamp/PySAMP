@@ -21,7 +21,7 @@ from samp import (
 from pysamp import (
     allow_player_teleport,
     apply_animation,
-    attach_camera_to_player_object,
+    attach_camera_to_playerobject,
     ban,
     ban_ex,
     clear_animations,
@@ -2469,16 +2469,16 @@ class Player:
         """
         return gpci(self.id)
 
-    def attach_camera_to_player_object(
-            self, player_object: "PlayerObject"
+    def attach_camera_to_playerobject(
+            self, playerobject: "PlayerObject"
     ) -> bool:
         """Attach the player camera to a player object.
 
-        :param PlayerObject player_object: The player object you want to
+        :param PlayerObject playerobject: The player object you want to
             attach to.
         :returns: No return value.
         """
-        return attach_camera_to_player_object(self.id, player_object.id)
+        return attach_camera_to_playerobject(self.id, playerobject.id)
 
     @event("OnEnterExitModShop")
     def on_enter_exit_mod_shop(
