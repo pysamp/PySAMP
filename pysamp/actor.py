@@ -71,7 +71,7 @@ class Actor:
         """Get which virtual world ID the actor is in."""
         return get_actor_virtual_world(self.id)
 
-    def virtual_world(self, virtual_world: int) -> bool:
+    def set_virtual_world(self, virtual_world: int) -> bool:
         """Set the actor to a specific virtual world id."""
         return set_actor_virtual_world(self.id, virtual_world)
 
