@@ -63,7 +63,7 @@ class Actor:
         """Remove a created actor from the world."""
         return destroy_actor(self.id)
 
-    def streamed_in(self, for_player: "Player") -> bool:
+    def is_streamed_in(self, for_player: "Player") -> bool:
         """Check if a player has streamed in the actor."""
         return is_actor_streamed_in(self.id, for_player.id)
 
