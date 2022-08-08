@@ -34,7 +34,7 @@ from pysamp import (
     enable_player_camera_target,
     enable_stunt_bonus_for_player,
     force_class_selection,
-    game_text_for_player,
+    gametext_for_player,
     get_player_ammo,
     get_player_animation_index,
     get_player_armour,
@@ -2393,7 +2393,7 @@ class Player:
             self.id, killer.id, victim.id, weapon
         )
 
-    def game_text(self, text: str, time: int, style: int) -> bool:
+    def gametext(self, text: str, time: int, style: int) -> bool:
         """Send a big text to the player visible on their screen.
 
         :param str text: The text to show.
@@ -2410,7 +2410,7 @@ class Player:
             For example: "Headshot " results in failure. Instead it should be
             "Headshot" or "`Headshot_`".
         """
-        return game_text_for_player(self.id, text, time, style)
+        return gametext_for_player(self.id, text, time, style)
 
     def is_npc(self) -> bool:
         """Check if the player is an NPC.

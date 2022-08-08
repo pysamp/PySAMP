@@ -155,7 +155,7 @@ class PlayerTextDraw:
         :param int color: The color you want to give the textdraw, in a
             ``0xRRGGBBAA`` format.
 
-        You can also use :meth:`~pysamp.player.game_text`
+        You can also use :meth:`~pysamp.player.gametext`
         colors (like ``~r~`` and ``~w~``) directly in
         the text if you want.
 

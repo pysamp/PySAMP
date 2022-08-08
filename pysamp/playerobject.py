@@ -5,22 +5,22 @@ from pysamp.event import event
 from samp import OBJECT_MATERIAL_SIZE_256x128
 
 from pysamp import (
-    attach_player_object_to_vehicle,
-    create_player_object,
-    destroy_player_object,
-    edit_player_object,
-    get_player_object_model,
-    get_player_object_pos,
-    get_player_object_rot,
-    is_player_object_moving,
-    is_valid_player_object,
-    move_player_object,
-    set_player_object_material,
-    set_player_object_material_text,
-    set_player_object_no_camera_col,
-    set_player_object_pos,
-    set_player_object_rot,
-    stop_player_object,
+    attach_playerobject_to_vehicle,
+    create_playerobject,
+    destroy_playerobject,
+    edit_playerobject,
+    get_playerobject_model,
+    get_playerobject_pos,
+    get_playerobject_rot,
+    is_playerobject_moving,
+    is_valid_playerobject,
+    move_playerobject,
+    set_playerobject_material,
+    set_playerobject_material_text,
+    set_playerobject_no_camera_col,
+    set_playerobject_pos,
+    set_playerobject_rot,
+    stop_playerobject,
 )
 
 
@@ -85,7 +85,7 @@ class PlayerObject:
 
         """
         return cls(
-            create_player_object(
+            create_playerobject(
                 player.id,
                 model_id,
                 x,
@@ -125,7 +125,7 @@ class PlayerObject:
             you most likely will lose the text. Call this method first, then
             call :meth:`~set_material_text` after to circumvent it.
         """
-        return attach_player_object_to_vehicle(
+        return attach_playerobject_to_vehicle(
             self._player_id,
             self.id,
             vehicle.id,
@@ -203,7 +203,7 @@ class PlayerObject:
               - 140
 
         """
-        return set_player_object_material_text(
+        return set_playerobject_material_text(
             self._player_id,
             self.id,
             text,
@@ -225,7 +225,7 @@ class PlayerObject:
         :param float z: The world z coordinate to set.
         :returns: No return value.
         """
-        return set_player_object_pos(self._player_id, self.id, x, y, z)
+        return set_playerobject_pos(self._player_id, self.id, x, y, z)
 
     def set_rotation(
             self, rotation_x: float, rotation_y: float, rotation_z: float
@@ -237,7 +237,7 @@ class PlayerObject:
         :param float rotation_z: The object z rotation to set.
         :returns: No return value.
         """
-        return set_player_object_rot(
+        return set_playerobject_rot(
             self._player_id, self.id, rotation_x, rotation_y, rotation_z
         )
 
@@ -246,42 +246,42 @@ class PlayerObject:
 
         :returns: A tuple with 3 floats; The x, y and z coordinate.
         """
-        return get_player_object_pos(self._player_id, self.id)
+        return get_playerobject_pos(self._player_id, self.id)
 
     def get_rotation(self) -> Tuple[float, float, float]:
         """Get the current rotation values for the player object.
 
         :returns: A tuple with 3 floats; The x, y and z rotation.
         """
-        return get_player_object_rot(self._player_id, self.id)
+        return get_playerobject_rot(self._player_id, self.id)
 
     def edit(self) -> bool:
         """Put the player in edit mode to move/rotate the object.
 
         :returns: No return value.
         """
-        return edit_player_object(self._player_id, self.id)
+        return edit_playerobject(self._player_id, self.id)
 
     def get_model(self) -> int:
         """Get the current object model the player object is.
 
         :returns: An integer representing the object model.
         """
-        return get_player_object_model(self._player_id, self.id)
+        return get_playerobject_model(self._player_id, self.id)
 
     def set_no_camera_col(self) -> bool:
         """Disable player object camera collision.
 
         :returns: No return value.
         """
-        return set_player_object_no_camera_col(self._player_id, self.id)
+        return set_playerobject_no_camera_col(self._player_id, self.id)
 
     def is_valid(self) -> bool:
         """Check if the player object is valid.
 
         :returns: True/False depending on it if is valid or not.
         """
-        return is_valid_player_object(self._player_id, self.id)
+        return is_valid_playerobject(self._player_id, self.id)
 
     def destroy(self) -> bool:
         """Destroys the player object.
@@ -291,7 +291,7 @@ class PlayerObject:
 
         :returns: No return value.
         """
-        return destroy_player_object(self._player_id, self.id)
+        return destroy_playerobject(self._player_id, self.id)
 
     def move(
         self,
@@ -320,7 +320,7 @@ class PlayerObject:
         .. note:: The rotation will only work if you also move the object. If
             you do not give it new x,y,z, the rotation will not apply.
         """
-        return move_player_object(
+        return move_playerobject(
             self._player_id,
             self.id,
             x,
@@ -339,14 +339,14 @@ class PlayerObject:
 
         :returns: No return value.
         """
-        return stop_player_object(self._player_id, self.id)
+        return stop_playerobject(self._player_id, self.id)
 
     def is_moving(self) -> bool:
         """Check if the player object is currently moving.
 
         :returns: A bool (True/False) depending on if it is moving or not.
         """
-        return is_player_object_moving(self._player_id, self.id)
+        return is_playerobject_moving(self._player_id, self.id)
 
     def set_material(
         self,
@@ -379,7 +379,7 @@ class PlayerObject:
             hex in ARGB format. Using 0 keeps the existing material color.
         :returns: No return value.
         """
-        return set_player_object_material(
+        return set_playerobject_material(
             self._player_id,
             self.id,
             material_index,
