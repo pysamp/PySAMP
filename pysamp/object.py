@@ -216,7 +216,7 @@ class Object:
         )
 
     @staticmethod
-    def set_default_camera_col(default_camera_col: bool) -> bool:
+    def set_default_camera_col(disable: bool) -> bool:
         """Set whether all object should by default ignore collision.
 
         Please note that this is a static method as it is affecting all
@@ -227,7 +227,7 @@ class Object:
             # Disable camera collision by default on all objects:
             Object.set_default_camera_col(True)
         """
-        return set_objects_default_camera_col(default_camera_col)
+        return set_objects_default_camera_col(disable)
 
     @event("OnObjectMoved")
     def on_moved(cls, object_id: int):

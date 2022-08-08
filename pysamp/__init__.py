@@ -409,12 +409,12 @@ from .callbacks import _path_hook  # noqa
 
 def set_spawn_info(
     player_id: int,
-    team: int,
-    skin: int,
+    team_id: int,
+    model_id: int,
     x: float,
     y: float,
     z: float,
-    rotation: float,
+    angle: float,
     weapon1: int,
     weapon1_ammo: int,
     weapon2: int,
@@ -424,12 +424,12 @@ def set_spawn_info(
 ) -> bool:
     return SetSpawnInfo(
         player_id,
-        team,
-        skin,
+        team_id,
+        model_id,
         x,
         y,
         z,
-        rotation,
+        angle,
         weapon1,
         weapon1_ammo,
         weapon2,
@@ -575,8 +575,8 @@ def set_player_armed_weapon(player_id: int, weapon_id: int) -> bool:
     return SetPlayerArmedWeapon(player_id, weapon_id)
 
 
-def get_player_weapon_data(player_id: int, slot: int) -> Tuple[int, int]:
-    return GetPlayerWeaponData(player_id, slot)
+def get_player_weapon_data(player_id: int, slot_id: int) -> Tuple[int, int]:
+    return GetPlayerWeaponData(player_id, slot_id)
 
 
 def give_player_money(player_id: int, money: int) -> bool:
@@ -647,8 +647,8 @@ def get_player_wanted_level(player_id: int) -> int:
     return GetPlayerWantedLevel(player_id)
 
 
-def set_player_fighting_style(player_id: int, style: int) -> bool:
-    return SetPlayerFightingStyle(player_id, style)
+def set_player_fighting_style(player_id: int, style_id: int) -> bool:
+    return SetPlayerFightingStyle(player_id, style_id)
 
 
 def get_player_fighting_style(player_id: int) -> int:
@@ -689,8 +689,8 @@ def set_player_shop_name(player_id: int, shop_name: str) -> bool:
     return SetPlayerShopName(player_id, shop_name)
 
 
-def set_player_skill_level(player_id: int, skill: int, level: int) -> bool:
-    return SetPlayerSkillLevel(player_id, skill, level)
+def set_player_skill_level(player_id: int, skill_id: int, level: int) -> bool:
+    return SetPlayerSkillLevel(player_id, skill_id, level)
 
 
 def get_player_surfing_vehicle_id(player_id: int) -> int:
@@ -713,6 +713,7 @@ def get_player_last_shot_vectors(
     """This function returns two coordinates in a tuple.
     The first three values are the coordinate where the shot was shot from.
     The last three values are where the bullet hit (if it hit something).
+
     -> NB: This function only works when lag compensation is enabled.
     The last three values may also be 0, that if the bullet did not hit
     anything in range of the weapon.
@@ -756,16 +757,16 @@ def set_player_attached_object(
     )
 
 
-def remove_player_attached_object(player_id: int, index: int) -> bool:
-    return RemovePlayerAttachedObject(player_id, index)
+def remove_player_attached_object(player_id: int, slot_id: int) -> bool:
+    return RemovePlayerAttachedObject(player_id, slot_id)
 
 
-def is_player_attached_object_slot_used(player_id: int, index: int) -> bool:
-    return IsPlayerAttachedObjectSlotUsed(player_id, index)
+def is_player_attached_object_slot_used(player_id: int, slot_id: int) -> bool:
+    return IsPlayerAttachedObjectSlotUsed(player_id, slot_id)
 
 
-def edit_attached_object(player_id: int, index: int) -> bool:
-    return EditAttachedObject(player_id, index)
+def edit_attached_object(player_id: int, slot_id: int) -> bool:
+    return EditAttachedObject(player_id, slot_id)
 
 
 def create_player_textdraw(
@@ -801,9 +802,9 @@ def player_textdraw_color(player_id: int, textdraw_id: int, color: int) -> bool:
 
 
 def player_textdraw_use_box(
-        player_id: int, textdraw_id: int, box: bool
+        player_id: int, textdraw_id: int, enable: bool
 ) -> bool:
-    return PlayerTextDrawUseBox(player_id, textdraw_id, box)
+    return PlayerTextDrawUseBox(player_id, textdraw_id, enable)
 
 
 def player_textdraw_box_color(
@@ -813,15 +814,15 @@ def player_textdraw_box_color(
 
 
 def player_textdraw_set_shadow(
-        player_id: int, textdraw_id: int, size: int
+        player_id: int, textdraw_id: int, shadow_size: int
 ) -> bool:
-    return PlayerTextDrawSetShadow(player_id, textdraw_id, size)
+    return PlayerTextDrawSetShadow(player_id, textdraw_id, shadow_size)
 
 
 def player_textdraw_set_outline(
-        player_id: int, textdraw_id: int, size: int
+        player_id: int, textdraw_id: int, outline_size: int
 ) -> bool:
-    return PlayerTextDrawSetOutline(player_id, textdraw_id, size)
+    return PlayerTextDrawSetOutline(player_id, textdraw_id, outline_size)
 
 
 def player_textdraw_background_color(
@@ -835,15 +836,15 @@ def player_textdraw_font(player_id: int, textdraw_id: int, font: int) -> bool:
 
 
 def player_textdraw_set_proportional(
-        player_id: int, textdraw_id: int, proportional: bool
+        player_id: int, textdraw_id: int, enable: bool
 ) -> bool:
-    return PlayerTextDrawSetProportional(player_id, textdraw_id, proportional)
+    return PlayerTextDrawSetProportional(player_id, textdraw_id, enable)
 
 
 def player_textdraw_set_selectable(
-        player_id: int, textdraw_id: int, selectable: bool
+        player_id: int, textdraw_id: int, enable: bool
 ) -> bool:
-    return PlayerTextDrawSetSelectable(player_id, textdraw_id, selectable)
+    return PlayerTextDrawSetSelectable(player_id, textdraw_id, enable)
 
 
 def player_textdraw_show(
@@ -857,15 +858,15 @@ def player_textdraw_hide(player_id: int, textdraw_id: int) -> bool:
 
 
 def player_textdraw_set_string(
-        player_id: int, textdraw_id: int, string: str
+        player_id: int, textdraw_id: int, text: str
 ) -> bool:
-    return PlayerTextDrawSetString(player_id, textdraw_id, string)
+    return PlayerTextDrawSetString(player_id, textdraw_id, text)
 
 
 def player_textdraw_set_preview_model(
-        player_id: int, textdraw_id: int, model_index: int
+        player_id: int, textdraw_id: int, model_id: int
 ) -> bool:
-    return PlayerTextDrawSetPreviewModel(player_id, textdraw_id, model_index)
+    return PlayerTextDrawSetPreviewModel(player_id, textdraw_id, model_id)
 
 
 def player_textdraw_set_preview_rot(
@@ -960,9 +961,9 @@ def remove_player_from_vehicle(player_id: int) -> bool:
 
 
 def toggle_player_controllable(
-        player_id: int, player_controllable: bool
+        player_id: int, toggle: bool
 ) -> bool:
-    return TogglePlayerControllable(player_id, player_controllable)
+    return TogglePlayerControllable(player_id, toggle)
 
 
 def player_play_sound(
@@ -975,12 +976,12 @@ def apply_animation(
     player_id: int,
     anim_lib: str,
     anim_name: str,
-    delta: float,
-    loop: bool,
-    lock_x: bool,
-    lock_y: bool,
-    freeze: bool,
-    time: int,
+    delta: float = 4.1,
+    loop: bool = False,
+    lock_x: bool = True,
+    lock_y: bool = True,
+    freeze: bool = False,
+    time: int = 0,
     force_sync: bool = False
 ) -> bool:
     return ApplyAnimation(
@@ -1005,8 +1006,8 @@ def get_player_animation_index(player_id: int) -> int:
     return GetPlayerAnimationIndex(player_id)
 
 
-def get_animation_name(index: int) -> str:
-    return GetAnimationName(index)
+def get_animation_name(anim_id: int) -> str:
+    return GetAnimationName(anim_id)
 
 
 def get_player_special_action(player_id: int) -> int:
@@ -1018,9 +1019,9 @@ def set_player_special_action(player_id: int, action_id: int) -> bool:
 
 
 def disable_remote_vehicle_collisions(
-        player_id: int, vehicle_collisions: bool
+        player_id: int, disable: bool
 ) -> bool:
-    return DisableRemoteVehicleCollisions(player_id, vehicle_collisions)
+    return DisableRemoteVehicleCollisions(player_id, disable)
 
 
 def set_player_checkpoint(
@@ -1125,9 +1126,9 @@ def get_player_camera_mode(player_id: int) -> int:
 
 
 def enable_player_camera_target(
-        player_id: int, player_camera_target: bool
+        player_id: int, enable: bool
 ) -> bool:
-    return EnablePlayerCameraTarget(player_id, player_camera_target)
+    return EnablePlayerCameraTarget(player_id, enable)
 
 
 def get_player_camera_target_object(player_id: int) -> int:
@@ -1158,10 +1159,10 @@ def attach_camera_to_object(player_id: int, object_id: int) -> bool:
     return AttachCameraToObject(player_id, object_id)
 
 
-def attach_camera_to_player_object(
-        player_id: int, player_object_id: int
+def attach_camera_to_playerobject(
+        player_id: int, playerobject_id: int
 ) -> bool:
-    return AttachCameraToPlayerObject(player_id, player_object_id)
+    return AttachCameraToPlayerObject(player_id, playerobject_id)
 
 
 def interpolate_camera_pos(
@@ -1225,23 +1226,23 @@ def get_player_virtual_world(player_id: int) -> int:
 
 
 def enable_stunt_bonus_for_player(
-        player_id: int, stunt_bonus_for_player: bool
+        player_id: int, enable: bool
 ) -> bool:
-    return EnableStuntBonusForPlayer(player_id, stunt_bonus_for_player)
+    return EnableStuntBonusForPlayer(player_id, enable)
 
 
 def enable_stunt_bonus_for_all(enable: bool) -> bool:
     return EnableStuntBonusForAll(enable)
 
 
-def toggle_player_spectating(player_id: int, player_spectating: bool) -> bool:
-    return TogglePlayerSpectating(player_id, player_spectating)
+def toggle_player_spectating(player_id: int, toggle: bool) -> bool:
+    return TogglePlayerSpectating(player_id, toggle)
 
 
 def player_spectate_player(
-        player_id: int, target_player_id: int, mode: int = SPECTATE_MODE_NORMAL
+        player_id: int, target_id: int, mode: int = SPECTATE_MODE_NORMAL
 ) -> bool:
-    return PlayerSpectatePlayer(player_id, target_player_id, mode)
+    return PlayerSpectatePlayer(player_id, target_id, mode)
 
 
 def player_spectate_vehicle(
@@ -1399,8 +1400,10 @@ def move_object(
     rotation_z: float = -1000.0
 ) -> int:
     """Move and rotate an object to given values.
+
     Rotation values should be -1000 if you don't want to modify the object
     rotation.
+
     Returns the time in seconds it takes to move the object.
     """
     return MoveObject(
@@ -1423,13 +1426,14 @@ def edit_object(player_id: int, object_id: int) -> bool:
     return EditObject(player_id, object_id)
 
 
-def edit_player_object(player_id: int, object_id: int) -> bool:
+def edit_playerobject(player_id: int, object_id: int) -> bool:
     """Let the player_id edit the given player object."""
     return EditPlayerObject(player_id, object_id)
 
 
 def select_object(player_id: int) -> bool:
     """Allow the player_id to select an object with their mouse pointer.
+
     When the player selects an object, the on_player_select_object callback
     is called.
     """
@@ -1441,7 +1445,7 @@ def cancel_edit(player_id: int) -> bool:
     return CancelEdit(player_id)
 
 
-def create_player_object(
+def create_playerobject(
     player_id: int,
     model_id: int,
     x: float,
@@ -1465,7 +1469,7 @@ def create_player_object(
     )
 
 
-def attach_player_object_to_player(
+def attach_playerobject_to_player(
     object_player: int,
     object_id: int,
     attach_player: int,
@@ -1489,7 +1493,7 @@ def attach_player_object_to_player(
     )
 
 
-def attach_player_object_to_vehicle(
+def attach_playerobject_to_vehicle(
     player_id: int,
     object_id: int,
     vehicle_id: int,
@@ -1513,19 +1517,19 @@ def attach_player_object_to_vehicle(
     )
 
 
-def set_player_object_pos(
+def set_playerobject_pos(
         player_id: int, object_id: int, x: float, y: float, z: float
 ) -> bool:
     return SetPlayerObjectPos(player_id, object_id, x, y, z)
 
 
-def get_player_object_pos(
+def get_playerobject_pos(
         player_id: int, object_id: int
 ) -> Tuple[float, float, float]:
     return GetPlayerObjectPos(player_id, object_id)
 
 
-def set_player_object_rot(
+def set_playerobject_rot(
     player_id: int,
     object_id: int,
     rotation_x: float,
@@ -1537,29 +1541,29 @@ def set_player_object_rot(
     )
 
 
-def get_player_object_rot(
+def get_playerobject_rot(
         player_id: int, object_id: int
 ) -> Tuple[float, float, float]:
     return GetPlayerObjectRot(player_id, object_id)
 
 
-def get_player_object_model(player_id: int, object_id: int) -> int:
+def get_playerobject_model(player_id: int, object_id: int) -> int:
     return GetPlayerObjectModel(player_id, object_id)
 
 
-def set_player_object_no_camera_col(player_id: int, object_id: int) -> bool:
+def set_playerobject_no_camera_col(player_id: int, object_id: int) -> bool:
     return SetPlayerObjectNoCameraCol(player_id, object_id)
 
 
-def is_valid_player_object(player_id: int, object_id: int) -> bool:
+def is_valid_playerobject(player_id: int, object_id: int) -> bool:
     return IsValidPlayerObject(player_id, object_id)
 
 
-def destroy_player_object(player_id: int, object_id: int) -> bool:
+def destroy_playerobject(player_id: int, object_id: int) -> bool:
     return DestroyPlayerObject(player_id, object_id)
 
 
-def move_player_object(
+def move_playerobject(
     player_id: int,
     object_id: int,
     x: float,
@@ -1583,11 +1587,11 @@ def move_player_object(
     )
 
 
-def stop_player_object(player_id: int, object_id: int) -> bool:
+def stop_playerobject(player_id: int, object_id: int) -> bool:
     return StopPlayerObject(player_id, object_id)
 
 
-def is_player_object_moving(player_id: int, object_id: int) -> bool:
+def is_playerobject_moving(player_id: int, object_id: int) -> bool:
     return IsPlayerObjectMoving(player_id, object_id)
 
 
@@ -1609,7 +1613,7 @@ def set_object_material(
     )
 
 
-def set_player_object_material(
+def set_playerobject_material(
     player_id: int,
     object_id: int,
     material_index: int,
@@ -1655,7 +1659,7 @@ def set_object_material_text(
     )
 
 
-def set_player_object_material_text(
+def set_playerobject_material_text(
     player_id: int,
     object_id: int,
     text: str,
@@ -1683,8 +1687,8 @@ def set_player_object_material_text(
     )
 
 
-def set_objects_default_camera_col(disable: bool) -> bool:
-    return SetObjectsDefaultCameraCol(disable)
+def set_objects_default_camera_col(enable: bool) -> bool:
+    return SetObjectsDefaultCameraCol(enable)
 
 
 def send_client_message(player_id: int, color: int, message: str) -> bool:
@@ -1696,9 +1700,9 @@ def send_client_message_to_all(color: int, message: str) -> bool:
 
 
 def send_player_message_to_player(
-        player_id: int, sender_id: int, message: str
+        target_id: int, sender_id: int, message: str
 ) -> bool:
-    return SendPlayerMessageToPlayer(player_id, sender_id, message)
+    return SendPlayerMessageToPlayer(target_id, sender_id, message)
 
 
 def send_player_message_to_all(sender_id: int, message: str) -> bool:
@@ -1715,11 +1719,11 @@ def send_death_message_to_player(
     return SendDeathMessageToPlayer(player_id, killer_id, victim_id, weapon)
 
 
-def game_text_for_all(text: str, time: int, style: int) -> bool:
+def gametext_for_all(text: str, time: int, style: int) -> bool:
     return GameTextForAll(text, time, style)
 
 
-def game_text_for_player(
+def gametext_for_player(
         player_id: int, text: str, time: int, style: int
 ) -> bool:
     return GameTextForPlayer(player_id, text, time, style)
@@ -1789,7 +1793,7 @@ def get_svar_type(var_name: str) -> int:
     return GetSVarType(var_name)
 
 
-def set_game_mode_text(text: str) -> bool:
+def set_gamemode_text(text: str) -> bool:
     return SetGameModeText(text)
 
 
@@ -1894,29 +1898,29 @@ def add_static_vehicle_ex(
 
 
 def add_static_pickup(
-        model: int,
+        model_id: int,
         type: int,
         x: float,
         y: float,
         z: float,
         virtual_world: int = 0
 ) -> int:
-    return AddStaticPickup(model, type, x, y, z, virtual_world)
+    return AddStaticPickup(model_id, type, x, y, z, virtual_world)
 
 
 def create_pickup(
-        model: int,
+        model_id: int,
         type: int,
         x: float,
         y: float,
         z: float,
         virtual_world: int = 0
 ) -> int:
-    return CreatePickup(model, type, x, y, z, virtual_world)
+    return CreatePickup(model_id, type, x, y, z, virtual_world)
 
 
-def destroy_pickup(pickup: int) -> bool:
-    return DestroyPickup(pickup)
+def destroy_pickup(pickup_id: int) -> bool:
+    return DestroyPickup(pickup_id)
 
 
 def show_name_tags(show: bool) -> bool:
@@ -1927,7 +1931,7 @@ def show_player_markers(mode: int) -> bool:
     return ShowPlayerMarkers(mode)
 
 
-def game_mode_exit() -> bool:
+def gamemode_exit() -> bool:
     return GameModeExit()
 
 
@@ -1939,16 +1943,16 @@ def get_weapon_name(weapon_id: int) -> str:
     return GetWeaponName(weapon_id)
 
 
-def enable_tire_popping(tire_popping: bool) -> bool:
-    return EnableTirePopping(tire_popping)
+def enable_tire_popping(enable: bool) -> bool:
+    return EnableTirePopping(enable)
 
 
 def enable_vehicle_friendly_fire() -> bool:
     return EnableVehicleFriendlyFire()
 
 
-def allow_interior_weapons(interior_weapons: bool) -> bool:
-    return AllowInteriorWeapons(interior_weapons)
+def allow_interior_weapons(allow: bool) -> bool:
+    return AllowInteriorWeapons(allow)
 
 
 def set_weather(weather_id: int) -> bool:
@@ -1963,8 +1967,8 @@ def get_gravity() -> float:
     return GetGravity()
 
 
-def allow_admin_teleport(admin_teleport: bool) -> bool:
-    return AllowAdminTeleport(admin_teleport)
+def allow_admin_teleport(allow: bool) -> bool:
+    return AllowAdminTeleport(allow)
 
 
 def set_death_drop_amount(amount: int) -> bool:
@@ -1977,8 +1981,8 @@ def create_explosion(
     return CreateExplosion(x, y, z, type, radius)
 
 
-def enable_zone_names(zone_names: bool) -> bool:
-    return EnableZoneNames(zone_names)
+def enable_zone_names(enable: bool) -> bool:
+    return EnableZoneNames(enable)
 
 
 def use_player_ped_anims() -> bool:
@@ -2180,16 +2184,16 @@ def textdraw_text_size(textdraw_id: int, x: float, y: float) -> bool:
     return TextDrawTextSize(textdraw_id, x, y)
 
 
-def textdraw_alignment(textdraw_id: int, alignment: int) -> bool:
-    return TextDrawAlignment(textdraw_id, alignment)
+def textdraw_alignment(textdraw_id: int, enable: int) -> bool:
+    return TextDrawAlignment(textdraw_id, enable)
 
 
 def textdraw_color(textdraw_id: int, color: int) -> bool:
     return TextDrawColor(textdraw_id, color)
 
 
-def textdraw_use_box(textdraw_id: int, use_box: bool) -> bool:
-    return TextDrawUseBox(textdraw_id, use_box)
+def textdraw_use_box(textdraw_id: int, enable: bool) -> bool:
+    return TextDrawUseBox(textdraw_id, enable)
 
 
 def textdraw_box_color(textdraw_id: int, box_color: int) -> bool:
@@ -2212,12 +2216,12 @@ def textdraw_font(textdraw_id: int, font: int) -> bool:
     return TextDrawFont(textdraw_id, font)
 
 
-def textdraw_set_proportional(textdraw_id: int, proportional: bool) -> bool:
-    return TextDrawSetProportional(textdraw_id, proportional)
+def textdraw_set_proportional(textdraw_id: int, enable: bool) -> bool:
+    return TextDrawSetProportional(textdraw_id, enable)
 
 
-def textdraw_set_selectable(textdraw_id: int, selectable: bool) -> bool:
-    return TextDrawSetSelectable(textdraw_id, selectable)
+def textdraw_set_selectable(textdraw_id: int, enable: bool) -> bool:
+    return TextDrawSetSelectable(textdraw_id, enable)
 
 
 def textdraw_show_for_player(player_id: int, textdraw_id: int) -> bool:
@@ -2240,8 +2244,8 @@ def textdraw_set_string(textdraw_id: int, string: str) -> bool:
     return TextDrawSetString(textdraw_id, string)
 
 
-def textdraw_set_preview_model(textdraw_id: int, model_index: int) -> bool:
-    return TextDrawSetPreviewModel(textdraw_id, model_index)
+def textdraw_set_preview_model(textdraw_id: int, model_id: int) -> bool:
+    return TextDrawSetPreviewModel(textdraw_id, model_id)
 
 
 def textdraw_set_preview_rot(
@@ -2341,18 +2345,18 @@ def get_vehicle_distance_from_point(
 
 
 def create_vehicle(
-    vehicle_type: int,
+    model_id: int,
     x: float,
     y: float,
     z: float,
-    rotation: float,
-    color1: int,
-    color2: int,
-    respawn_delay: int,
+    rotation: float = 0,
+    color1: int = 0,
+    color2: int = 0,
+    respawn_delay: int = -1,
     siren: bool = False
 ) -> int:
     return CreateVehicle(
-        vehicle_type, x, y, z, rotation, color1, color2, respawn_delay, siren)
+        model_id, x, y, z, rotation, color1, color2, respawn_delay, siren)
 
 
 def destroy_vehicle(vehicle_id: int) -> bool:
@@ -2516,8 +2520,8 @@ def get_vehicle_component_in_slot(vehicle_id: int, slot: int) -> int:
     return GetVehicleComponentInSlot(vehicle_id, slot)
 
 
-def get_vehicle_component_type(component: int) -> int:
-    return GetVehicleComponentType(component)
+def get_vehicle_component_type(component_id: int) -> int:
+    return GetVehicleComponentType(component_id)
 
 
 def repair_vehicle(vehicle_id: int) -> bool:
@@ -2557,13 +2561,17 @@ def get_vehicle_virtual_world(vehicle_id: int) -> int:
 
 
 def get_vehicle_model_info(
-        model: int, info_type: int
+        model_id: int, info_type: int
 ) -> Tuple[float, float, float]:
-    return GetVehicleModelInfo(model, info_type)
+    return GetVehicleModelInfo(model_id, info_type)
 
 
 def create_actor(
-        model_id: int, x: float, y: float, z: float, angle: float
+        model_id: int,
+        x: float,
+        y: float,
+        z: float,
+        angle: float = 0
 ) -> int:
     return CreateActor(model_id, x, y, z, angle)
 
@@ -2586,19 +2594,19 @@ def get_actor_virtual_world(actor_id: int) -> int:
 
 def apply_actor_animation(
     actor_id: int,
-    animation_library: str,
-    animation_name: str,
-    delta: float,
-    loop: bool,
-    lock_x: bool,
-    lock_y: bool,
-    freeze: bool,
-    time: int
+    anim_lib: str,
+    anim_name: str,
+    delta: float = 4.1,
+    loop: bool = False,
+    lock_x: bool = True,
+    lock_y: bool = True,
+    freeze: bool = False,
+    time: int = 0
 ) -> bool:
     return ApplyActorAnimation(
         actor_id,
-        animation_library,
-        animation_name,
+        anim_lib,
+        anim_name,
         delta,
         loop,
         lock_x,
@@ -2636,8 +2644,8 @@ def get_actor_health(actor_id: int) -> float:
     return GetActorHealth(actor_id)
 
 
-def set_actor_invulnerable(actor_id: int, invulnerable: bool = True) -> bool:
-    return SetActorInvulnerable(actor_id, invulnerable)
+def set_actor_invulnerable(actor_id: int, enable: bool = True) -> bool:
+    return SetActorInvulnerable(actor_id, enable)
 
 
 def is_actor_invulnerable(actor_id: int) -> bool:

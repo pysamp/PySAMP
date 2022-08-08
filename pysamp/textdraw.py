@@ -27,8 +27,11 @@ from pysamp import (
 class TextDraw:
     """Textdraws that are global. For that are separate for
     individual players, check out :class:`PlayerTextDraw`.
+
     :param id: The ID that represents a textdraw.
+
     Max 2048 textdraws can be created globally.
+
     To create a new textdraw, use :meth:`TextDraw.create`.
     """
     def __init__(self, id: int) -> None:
@@ -37,10 +40,12 @@ class TextDraw:
     @classmethod
     def create(cls, x: float, y: float, text: str) -> "TextDraw":
         """Create a new global textdraw.
+
         :param float x: the x-position on the screen.
         :param float y: the y-position on the screen.
         :param str text: The text to show.
         :return: An instance of :class:`TextDraw`.
+
         .. note::
             - The (0,0) coordinate is the top left coordinate for the textdraw\
                 area based on a 640x448 "canvas" (irrespective of screen\
@@ -57,6 +62,7 @@ class TextDraw:
                 disconnects
             - Keyboard key mapping codes (such as ``~k~~VEHICLE_ENTER_EXIT~``)\
                 Doesn't work beyond 255th character.
+
         .. warning::
             - If you choose values for y that are less than 1, the first\
                 text row will be invisible and only the shadow is visible.
@@ -71,15 +77,18 @@ class TextDraw:
 
     def destroy(self) -> bool:
         """Destroy the textdraw.
+
         :return: Does not return anything.
         """
         return textdraw_destroy(self.id)
 
     def letter_size(self, x: float, y: float) -> bool:
         """Sets the width and height of the letters.
+
         :param float x: Width of a character.
         :param float y: Height of a character.
         :return: Does not return anything.
+
         .. note::
             - Fonts appear to look the best with an X to Y ratio of 1 to 4.\
                 (E.g. if ``x`` is 0.5 then ``y`` should be 2).
@@ -93,25 +102,31 @@ class TextDraw:
         """Change the size of the textdraw (box if :meth:`use_box`
         is enabled and/or clickable area for use with
         :meth:`set_selectable`).
+
         :param float x: The size on the X axis (left/right) following the same
             640x480 grid as :meth:`create`.
         :param float y: The size on the Y axis (up/down) following the same
             640x480 grid as :meth:`create`.
         :return: Does not return any value.
+
         .. note::
             The x and y have different meanings with different
             :meth:`alignment` values:
+
                 1. (left): they are the right-most corner of the box,\
                     absolute coordinates.
                 2. (center): they need to inverted (switch the two) and the\
                     x value is the overall width of the box.
                 3. (right): the x and y are the coordinates of the left-most\
                     corner of the box
+
             Using font type 4 (sprite) and 5 (model preview) converts X and
             Y of this function from corner coordinates to WIDTH and HEIGHT
             (offsets).
+
         The TextDraw box starts 10.0 units up and 5.0 to the left as the origin
         (:meth:`create`).
+
         This function defines the clickable area for use with
         :meth:`set_selectable`, whether a box is shown or not.
         """
@@ -119,8 +134,10 @@ class TextDraw:
 
     def alignment(self, alignment: int) -> bool:
         """Set the text-alignment of the textdraw.
+
         :param int alignment: Alignment can be 1: left, 2: center, 3: right.
         :return: This method does not return anything.
+
         .. note::
             For alignment 2 (center) the x and y values of :meth:`text_size`
             need to be swapped.
@@ -129,25 +146,30 @@ class TextDraw:
 
     def color(self, color: int) -> bool:
         """Sets the text color of the textdraw.
+
         :param int color: The color you want to give the textdraw, in a
             ``0xRRGGBBAA`` format.
+
         You can also use :meth:`~pysamp.player.game_text`
         colors (like ``~r~`` and ``~w~``) directly in
         the text if you want.
+
         .. note:: The textdraw must be re-shown to the player in order to
             update the color.
         """
         return textdraw_color(self.id, color)
 
-    def use_box(self, box: bool) -> bool:
+    def use_box(self, enable: bool) -> bool:
         """Toggle the box on the textdraw.
-        :param bool box: ``True`` to use a box, ``False`` to hide the box.
+
+        :param bool enable: ``True`` to use a box, ``False`` to hide the box.
         :return: This method does not return anything.
         """
-        return textdraw_use_box(self.id, box)
+        return textdraw_use_box(self.id, enable)
 
     def box_color(self, color: int) -> bool:
         """Sets the text color of a textdraw box.
+
         :param int color: Color in ``0xRRGGBBAA`` format.
         :return: This method does not return anything.
         """
@@ -156,8 +178,10 @@ class TextDraw:
     def set_shadow(self, shadow_size: int) -> bool:
         """Adds a shadow to the bottom-right side of the text in a
         textdraw. The shadow font matches the text font.
+
         :param int shadow_size: The size of the shadow. 0 will hide the shadow.
         :return: No value is returned.
+
         .. note::
             The shadow can be cut by the box area if the size is set too big
             for the area.
@@ -167,6 +191,7 @@ class TextDraw:
     def set_outline(self, outline_size: int) -> bool:
         """Set the outline of a textdraw. The outline colour cannot be
         changed unless :meth:`background_color` is used.
+
         :param int outline_size: The thickness of the outline.
         :return: This method does not return anything.
         """
@@ -174,8 +199,10 @@ class TextDraw:
 
     def background_color(self, color: int) -> bool:
         """Change the textdraw's background color.
+
         :param int color: The color that the textdraw should be set to.
         :return: This method does not return anything.
+
         .. note::
             - If :meth:`set_outline` is used with size > 0, the outline\
               color will match the color used in :meth:`background_color`.
@@ -186,60 +213,73 @@ class TextDraw:
 
     def font(self, font: int) -> bool:
         """Change the font of a textdraw.
+
         :param int font: A font ID to give the textdraw (0-3).
         :return: No value is returned.
+
         See all fonts here: https://sampwiki.blast.hk/wiki/TextDrawFont
+
         .. warning:: Setting the ``font`` above 3 may crash the client.
         """
         return textdraw_font(self.id, font)
 
-    def set_proportional(self, proportional: bool) -> bool:
+    def set_proportional(self, enable: bool) -> bool:
         """Appears to scale text spacing to a proportional ratio.
+
         Useful when using :meth:`letter_size` to ensure the text has an
         even character spacing.
-        :param bool proportional: ``True`` to enable proportionality,
+
+        :param bool enable: ``True`` to enable proportionality,
             ``False`` to disable.
         :return: Does not return anything.
         """
-        return textdraw_set_proportional(self.id, proportional)
+        return textdraw_set_proportional(self.id, enable)
 
-    def set_selectable(self, selectable: bool) -> bool:
+    def set_selectable(self, enable: bool) -> bool:
         """Set the textdraw selectable.
-        :param bool selectable: Toggle the textdraw selectable or not.
+
+        :param bool enable: Toggle the textdraw selectable or not.
         :return: No return value.
+
         .. warning:: This method _must_ be used before the textdraw is shown to
             the player.
+
         :meth:`text_size` defines the clickable area.
         """
-        return textdraw_set_selectable(self.id, selectable)
+        return textdraw_set_selectable(self.id, enable)
 
     def show_for_all(self) -> bool:
         """Use this method to show the textdraw for all online players.
+
         :return: This method does not return anything.
         """
         return textdraw_show_for_all(self.id)
 
     def hide_for_all(self) -> bool:
         """Use this method to hide the textdraw for everyone.
+
         :return: This method does not return anything.
         """
         return textdraw_hide_for_all(self.id)
 
     def set_string(self, string: str) -> bool:
         """Update the shown text in the textdraw.
+
         :param str string: The new string for the textdraw.
             Max length: 1024 characters.
         :return: This method does not return anything.
+
         You don't have to show the textdraw again in order to apply the changes
         """
         return textdraw_set_string(self.id, string)
 
-    def set_preview_model(self, model_index: int) -> bool:
+    def set_preview_model(self, model_id: int) -> bool:
         """Sets the textdraw 2D preview sprite of a specified model ID.
-        :param int model_index: The model to show.
+
+        :param int model_id: The model to show.
         :return: This method does not return anything.
         """
-        return textdraw_set_preview_model(self.id, model_index)
+        return textdraw_set_preview_model(self.id, model_id)
 
     def set_preview_rotation(
             self,
@@ -249,6 +289,7 @@ class TextDraw:
             zoom: float = 1.0
     ) -> bool:
         """Sets the rotation and zoom of a 3D model preview textdraw.
+
         :param float rotation_x: The X rotation value.
         :param float rotation_y: The Y rotation value.
         :param float rotation_z: The Z rotation value.
@@ -264,9 +305,11 @@ class TextDraw:
     def set_preview_vehicle_color(self, color1: int, color2: int) -> bool:
         """Set the color of a vehicle in a textdraw model preview
         (if a vehicle is shown).
+
         :param int color1: The color to set the vehicle's primary color to.
         :param int color2: The color to set the vehicle's secondary color to.
         :return: This method does not return anything.
+
         The textdraw must use the font ``TEXTDRAW_FONT_MODEL_PREVIEW`` and be
         showing a vehicle, in order for this method to have an effect.
         """
@@ -274,6 +317,7 @@ class TextDraw:
 
     def hide_for_player(self, player: "Player") -> bool:
         """This method hides a global textdraw for the player.
+
         :param Player player: The player to hide the textdraw for.
         :return: This method does not return anything.
         """
@@ -281,6 +325,7 @@ class TextDraw:
 
     def show_for_player(self, player: "Player") -> bool:
         """This method shows a global textdraw for the selected player.
+
         :param Player player: The player to show the textdraw for.
         :return: This method does not return anything.
         """

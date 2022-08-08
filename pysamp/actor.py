@@ -40,7 +40,7 @@ class Actor:
         x: float,
         y: float,
         z: float,
-        rotation: float = 0
+        angle: float = 0
     ) -> Optional["Actor"]:
         """Create a new actor.
 
@@ -48,12 +48,12 @@ class Actor:
         :param float x: The model of the actor.
         :param float y: The model of the actor.
         :param float z: The model of the actor.
-        :param float rotation: The model of the actor.
+        :param float angle: The model of the actor.
         :return: An :class:`Actor` object. Will return ``None`` if the actor
             limit is reached of 1000 actors.
         """
         return cls(
-            create_actor(model_id, x, y, z, rotation)
+            create_actor(model_id, x, y, z, angle)
         )
 
     def get_id(self) -> int:
@@ -71,26 +71,26 @@ class Actor:
         """Get which virtual world ID the actor is in."""
         return get_actor_virtual_world(self.id)
 
-    def virtual_world(self, virtual_world: int) -> bool:
+    def set_virtual_world(self, world_id: int) -> bool:
         """Set the actor to a specific virtual world id."""
-        return set_actor_virtual_world(self.id, virtual_world)
+        return set_actor_virtual_world(self.id, world_id)
 
     def apply_animation(
         self,
-        animation_library: str,
-        animation_name: str,
-        delta: float,
-        loop: bool,
-        lock_x: bool,
-        lock_y: bool,
-        freeze: bool,
-        time: int
+        anim_lib: str,
+        anim_name: str,
+        delta: float = 4.1,
+        loop: bool = False,
+        lock_x: bool = True,
+        lock_y: bool = True,
+        freeze: bool = False,
+        time: int = 0
     ) -> bool:
         """Set an animation on the actor."""
         return apply_actor_animation(
             self.id,
-            animation_library,
-            animation_name,
+            anim_lib,
+            anim_name,
             delta,
             loop,
             lock_x,
