@@ -70,11 +70,11 @@ class Vehicle:
         x: float,
         y: float,
         z: float,
-        angle: float,
-        color1: int,
-        color2: int,
-        respawn_delay: int,
-        siren: bool = False
+        angle: float = 0,
+        color1: int = 0,
+        color2: int = 0,
+        respawn_delay: int = -1,
+        add_siren: bool = False
     ) -> "Vehicle":
         """Create a new vehicle with the given model, position, colors and
         settings.
@@ -88,7 +88,7 @@ class Vehicle:
         :param int color2: Secondary color (if available) (0-255).
         :param int respawn_delay: How long it should take for it to
             automatically respawn.
-        :param optional bool siren: Set if the car should have
+        :param optional bool add_siren: Set if the car should have
             a siren. Defaults to False.
         :return: An instance of :class:`Vehicle`.
         """
@@ -102,7 +102,7 @@ class Vehicle:
                 color1,
                 color2,
                 respawn_delay,
-                siren
+                add_siren
             )
         )
 

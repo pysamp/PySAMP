@@ -2349,14 +2349,14 @@ def create_vehicle(
     x: float,
     y: float,
     z: float,
-    rotation: float = 0,
+    angle: float = 0,
     color1: int = 0,
     color2: int = 0,
     respawn_delay: int = -1,
-    siren: bool = False
+    add_siren: bool = False
 ) -> int:
     return CreateVehicle(
-        model_id, x, y, z, rotation, color1, color2, respawn_delay, siren)
+        model_id, x, y, z, angle, color1, color2, respawn_delay, add_siren)
 
 
 def destroy_vehicle(vehicle_id: int) -> bool:
