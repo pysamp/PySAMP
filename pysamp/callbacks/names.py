@@ -1,7 +1,6 @@
 names = [
     'OnGameModeInit',
     'OnGameModeExit',
-    'OnRconCommand',
     'OnActorStreamIn',
     'OnActorStreamOut',
     'OnClientCheckResponse',
