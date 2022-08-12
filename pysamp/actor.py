@@ -63,7 +63,7 @@ class Actor:
         """Remove a created actor from the world."""
         return destroy_actor(self.id)
 
-    def streamed_in(self, for_player: "Player") -> bool:
+    def is_streamed_in(self, for_player: "Player") -> bool:
         """Check if a player has streamed in the actor."""
         return is_actor_streamed_in(self.id, for_player.id)
 
@@ -71,7 +71,7 @@ class Actor:
         """Get which virtual world ID the actor is in."""
         return get_actor_virtual_world(self.id)
 
-    def set_virtual_world(self, world_id: int) -> bool:
+    def set_virtual_world(self, virtual_world: int) -> bool:
         """Set the actor to a specific virtual world id."""
         return set_actor_virtual_world(self.id, world_id)
 
