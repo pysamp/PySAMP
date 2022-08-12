@@ -974,8 +974,8 @@ def player_play_sound(
 
 def apply_animation(
     player_id: int,
-    anim_lib: str,
-    anim_name: str,
+    animation_lib: str,
+    animation_name: str,
     delta: float = 4.1,
     loop: bool = False,
     lock_x: bool = True,
@@ -986,8 +986,8 @@ def apply_animation(
 ) -> bool:
     return ApplyAnimation(
         player_id,
-        anim_lib,
-        anim_name,
+        animation_lib,
+        animation_name,
         delta,
         loop,
         lock_x,
@@ -2594,8 +2594,8 @@ def get_actor_virtual_world(actor_id: int) -> int:
 
 def apply_actor_animation(
     actor_id: int,
-    anim_lib: str,
-    anim_name: str,
+    animation_lib: str,
+    animation_name: str,
     delta: float = 4.1,
     loop: bool = False,
     lock_x: bool = True,
@@ -2605,8 +2605,8 @@ def apply_actor_animation(
 ) -> bool:
     return ApplyActorAnimation(
         actor_id,
-        anim_lib,
-        anim_name,
+        animation_lib,
+        animation_name,
         delta,
         loop,
         lock_x,

@@ -40,7 +40,7 @@ class Actor:
         x: float,
         y: float,
         z: float,
-        angle: float = 0
+        angle: float
     ) -> Optional["Actor"]:
         """Create a new actor.
 
@@ -73,30 +73,30 @@ class Actor:
 
     def set_virtual_world(self, virtual_world: int) -> bool:
         """Set the actor to a specific virtual world id."""
-        return set_actor_virtual_world(self.id, world_id)
+        return set_actor_virtual_world(self.id, virtual_world)
 
     def apply_animation(
         self,
-        anim_lib: str,
-        anim_name: str,
-        delta: float = 4.1,
-        loop: bool = False,
-        lock_x: bool = True,
-        lock_y: bool = True,
-        freeze: bool = False,
-        time: int = 0
+        animation_library: str,
+        animation_name: str,
+        delta: float,
+        loop: bool,
+        lock_x: bool,
+        lock_y: bool,
+        freeze: bool,
+        time: int,
     ) -> bool:
         """Set an animation on the actor."""
         return apply_actor_animation(
             self.id,
-            anim_lib,
-            anim_name,
+            animation_library,
+            animation_name,
             delta,
             loop,
             lock_x,
             lock_y,
             freeze,
-            time
+            time,
         )
 
     def clear_animations(self) -> bool:
@@ -111,10 +111,8 @@ class Actor:
         """Set a new position for the actor."""
         try:
             x, y, z = position
-
         except ValueError:
             raise ValueError("Expected position as tuple: (x, y, z)")
-
         else:
             return set_actor_pos(self.id, x, y, z)
 
@@ -139,7 +137,7 @@ class Actor:
         return is_actor_invulnerable(self.id)
 
     def set_invulnerable(self, invulnerable: bool = True) -> bool:
-        """Set the actor to be invulnerable to damage."""
+        """Set the actor to be invlunerable to damage."""
         return set_actor_invulnerable(self.id, invulnerable)
 
     def is_valid(self) -> bool:
@@ -147,11 +145,11 @@ class Actor:
         return is_valid_actor(self.id)
 
     @event("OnActorStreamIn")
-    def on_stream_in(cls, actor_id: int, for_player_id: int):
-        return (cls(actor_id), Player(for_player_id))
+    def on_stream_in(cls, actorid: int, forplayerid: int):
+        return (cls(actorid), Player(forplayerid))
 
     @event("OnActorStreamOut")
-    def on_stream_out(cls, actor_id: int, for_player_id: int):
-        return (cls(actor_id), Player(for_player_id))
+    def on_stream_out(cls, actorid: int, forplayerid: int):
+        return (cls(actorid), Player(forplayerid))
 
 from pysamp.player import Player  # noqa
