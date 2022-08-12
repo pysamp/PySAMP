@@ -42,6 +42,7 @@ class TextLabel:
 
     def delete(self) -> bool:
         """Deletes a 3D text label.
+
         :return: This method does not return any value.
         """
         return delete_3d_text_label(self.id)
@@ -54,6 +55,7 @@ class TextLabel:
         offset_z: float
     ) -> bool:
         """Attach a 3D Textlabel to a player.
+
         :param Player player: The player to attach to.
         :param float offset_x: The relative X coordinate offset on the player.
         :param float offset_y: The relative Y coordinate offset on the player.
@@ -72,6 +74,7 @@ class TextLabel:
         offset_z: float
     ) -> bool:
         """Attach a 3D Textlabel to a vehicle.
+
         :param Vehicle vehicle: The vehicle to attach to.
         :param float offset_x: The relative X coordinate offset on the vehicle.
         :param float offset_y: The relative Y coordinate offset on the vehicle.
@@ -84,6 +87,7 @@ class TextLabel:
 
     def update_text(self, color: int, text: str) -> bool:
         """Update the 3D Textlabel text.
+
         :param int color: The color you would like the text to have.
         :param str text: The text you want to show.
         :return: This method does not return anything.
