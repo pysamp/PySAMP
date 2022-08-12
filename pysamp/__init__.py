@@ -974,7 +974,7 @@ def player_play_sound(
 
 def apply_animation(
     player_id: int,
-    animation_lib: str,
+    animation_library: str,
     animation_name: str,
     delta: float = 4.1,
     loop: bool = False,
