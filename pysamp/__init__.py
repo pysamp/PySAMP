@@ -802,9 +802,9 @@ def player_textdraw_color(player_id: int, textdraw_id: int, color: int) -> bool:
 
 
 def player_textdraw_use_box(
-        player_id: int, textdraw_id: int, enable: bool
+        player_id: int, textdraw_id: int, use: bool
 ) -> bool:
-    return PlayerTextDrawUseBox(player_id, textdraw_id, enable)
+    return PlayerTextDrawUseBox(player_id, textdraw_id, use)
 
 
 def player_textdraw_box_color(
@@ -974,7 +974,7 @@ def player_play_sound(
 
 def apply_animation(
     player_id: int,
-    animation_library: str,
+    animation_lib: str,
     animation_name: str,
     delta: float = 4.1,
     loop: bool = False,
@@ -2749,7 +2749,7 @@ def set_timer(
     repeating: bool,
     *args: Tuple
 ) -> int:
-    return SetTimer(function, interval_ms, repeating, *args)
+    return SetTimer(function, interval_ms, repeating, args)
 
 
 def call_native_function(name: str, *arguments):

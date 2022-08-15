@@ -137,17 +137,17 @@ class PlayerTextDraw:
         """
         return player_textdraw_text_size(self.player.id, self.id, x, y)
 
-    def alignment(self, alignment: int) -> bool:
+    def alignment(self, enable: int) -> bool:
         """Set the text-alignment of the player-textdraw.
 
-        :param int alignment: Alignment can be 1: left, 2: center, 3: right.
+        :param int enable: Alignment can be 1: left, 2: center, 3: right.
         :return: This method does not return anything.
 
         .. note::
             For alignment 2 (center) the x and y values of :meth:`text_size`
             need to be swapped.
         """
-        return player_textdraw_alignment(self.player.id, self.id, alignment)
+        return player_textdraw_alignment(self.player.id, self.id, enable)
 
     def color(self, color: int) -> bool:
         """Sets the text color of the player-textdraw.
@@ -164,13 +164,13 @@ class PlayerTextDraw:
         """
         return player_textdraw_color(self.player.id, self.id, color)
 
-    def use_box(self, box: bool) -> bool:
+    def use_box(self, use: bool) -> bool:
         """Toggle the box on the textdraw.
 
-        :param bool box: ``True`` to use a box, ``False`` to hide the box.
+        :param bool use: ``True`` to use a box, ``False`` to hide the box.
         :return: This method does not return anything.
         """
-        return player_textdraw_use_box(self.player.id, self.id, box)
+        return player_textdraw_use_box(self.player.id, self.id, use)
 
     def box_color(self, color: int) -> bool:
         """Sets the text color of a player-textdraw box.
@@ -233,23 +233,23 @@ class PlayerTextDraw:
         """
         return player_textdraw_font(self.player.id, self.id, font)
 
-    def set_proportional(self, proportional: bool) -> bool:
+    def set_proportional(self, enable: bool) -> bool:
         """Appears to scale text spacing to a proportional ratio.
         Useful when using :meth:`letter_size` to ensure the text has an
         even character spacing.
 
-        :param bool proportional: ``True`` to enable proportionality,
+        :param bool enable: ``True`` to enable proportionality,
             ``False`` to disable.
         :return: Does not return anything.
         """
         return player_textdraw_set_proportional(
-            self.player.id, self.id, proportional
+            self.player.id, self.id, enable
         )
 
-    def set_selectable(self, selectable: bool) -> bool:
+    def set_selectable(self, enable: bool) -> bool:
         """Set the textdraw selectable.
 
-        :param bool selectable: Toggle the textdraw selectable or not.
+        :param bool enable: Toggle the textdraw selectable or not.
         :return: No return value.
 
         .. warning:: This method _must_ be used before the textdraw is shown to
@@ -258,7 +258,7 @@ class PlayerTextDraw:
         :meth:`text_size` defines the clickable area.
         """
         return player_textdraw_set_selectable(
-            self.player.id, self.id, selectable
+            self.player.id, self.id, enable
         )
 
     def show(self) -> bool:
@@ -286,16 +286,16 @@ class PlayerTextDraw:
         """
         return player_textdraw_set_string(self.player.id, self.id, string)
 
-    def set_preview_model(self, model_index: int) -> bool:
+    def set_preview_model(self, model_id: int) -> bool:
         """Sets a player textdraw 2D preview sprite of a specified model ID.
 
-        :param int model_index: The model to show.
+        :param int model_id: The model to show.
         :return: This method does not return anything.
         """
         return player_textdraw_set_preview_model(
             self.player.id,
             self.id,
-            model_index
+            model_id
         )
 
     def set_preview_rotation(
