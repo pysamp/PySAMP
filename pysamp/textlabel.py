@@ -13,35 +13,32 @@ class TextLabel:
     vehicles, players or world coordinates.
     """
 
-    def __init__(
-        self,
+    def __init__(self, id: int) -> None:
+        self.id: int = id
+
+    @classmethod
+    def create(
+        cls,
         text: str,
         color: int,
         x: float,
         y: float,
         z: float,
-        drawDistance: float,
-        virtualworld: int,
+        draw_distance: float,
+        virtual_world: int,
         testLOS: bool = False,
-    ) -> None:
-        self.text = text
-        self.color = color
-        self.x = x
-        self.y = y
-        self.z = z
-        self.draw_distance = drawDistance
-        self.virtual_world = virtualworld
-        self.test_los = testLOS
-        self.id = create_3d_text_label(
-            self.text,
-            self.color,
-            self.x,
-            self.y,
-            self.z,
-            self.draw_distance,
-            self.virtual_world,
-            self.test_los,
-        )
+    ) -> "TextLabel":
+
+        return cls(create_3d_text_label(
+            text,
+            color,
+            x,
+            y,
+            z,
+            draw_distance,
+            virtual_world,
+            testLOS,
+        ))
 
     def delete(self) -> bool:
         """Deletes a 3D text label.

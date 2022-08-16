@@ -2720,7 +2720,7 @@ def set_timer(
     repeating: bool,
     *args: Tuple
 ) -> int:
-    return SetTimer(function, interval_ms, repeating, args)
+    return SetTimer(function, interval_ms, repeating, *args)
 
 
 def call_native_function(name: str, *arguments):
