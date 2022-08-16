@@ -2724,7 +2724,7 @@ def set_timer(
     return SetTimer(function, interval_ms, repeating, *args)
 
 
-def kill_timer(timer_id: int) -> int:
+def kill_timer(timer_id: int) -> None:
     return KillTimer(timer_id)
 
 
