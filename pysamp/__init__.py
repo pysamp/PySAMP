@@ -340,6 +340,7 @@ from samp import (
     SetSVarString,
     SetTeamCount,
     SetTimer,
+    KillTimer,
     SetVehicleAngularVelocity,
     SetVehicleHealth,
     SetVehicleNumberPlate,
@@ -2721,6 +2722,10 @@ def set_timer(
     *args: Tuple
 ) -> int:
     return SetTimer(function, interval_ms, repeating, *args)
+
+
+def kill_timer(timer_id: int) -> None:
+    return KillTimer(timer_id)
 
 
 def call_native_function(name: str, *arguments):
