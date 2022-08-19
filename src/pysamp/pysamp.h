@@ -33,8 +33,6 @@ public:
 	static bool onPlayerCommandText(int playerid, const char* cmdtext);
 	static std::string getEncoding();
 	static void registerCallback(const std::string& name, const std::string& format);
-	static const std::string* getCallbackFormat(const std::string& callback_name);
-	static int getConstant(const std::string&);
 	static PyObject* pyConfig(PyObject *self, PyObject *args, PyObject *kwargs);
 	static PyObject* amxParamsToTuple(AMX *amx, const std::string& callback_name, cell *params);
 	static cell* tupleToAmxParams(PyObject *tuple, bool asReference = false);
