@@ -34,7 +34,7 @@ RUN \
         --depth 1 \
         --recursive \
         --branch ${pysamp_branch} \
-        https://github.com/habecker/PySAMP \
+        https://github.com/pysamp/PySAMP \
     && \
     mkdir sampgdk/build && \
     ( \
@@ -55,37 +55,4 @@ RUN \
             /usr/local/bin/* \
             /usr/local/lib/python2.7 \
     ) && \
-    mkdir PySAMP/build && \
-    ( \
-        cd PySAMP/build && \
-        apt-get install -y --no-install-recommends python3-dev:i386 && \
-        cmake \
-            ../src \
-            -DCMAKE_BUILD_TYPE=${build_type} \
-            -DSAMPSDK_DIR=../../samp-plugin-sdk \
-            -DSAMPGDK_DIR=../../sampgdk \
-            -DSAMPGDK_LIBRARY=../../sampgdk/build/libsampgdk.so \
-            -DPython3_ROOT_DIR=$(python3-config --configdir) \
-        && \
-        make -j${job_count} && \
-        mv PySAMP.so ../.. && \
-        apt-get remove -y --purge python3-dev:i386 \
-    ) && \
-    apt-get remove -y --allow-remove-essential --purge \
-        build-essential \
-        g++-multilib \
-        cmake \
-        git \
-        ca-certificates \
-        wget \
-        $(apt-mark showauto) \
-    && \
-    dpkg --remove-architecture i386 && \
-    rm -rf \
-        samp-plugin-sdk \
-        sampgdk \
-        PySAMP \
-        /root/.cache \
-        /root/.local \
-        /var/lib/apt \
-    ;
+    apt-get install -y --no-install-recommends python3-dev:i386

@@ -1,4 +1,4 @@
-names = [
+names = set((
     'OnGameModeInit',
     'OnGameModeExit',
     'OnActorStreamIn',
@@ -56,4 +56,4 @@ names = [
     'OnVehicleSpawn',
     'OnVehicleStreamIn',
     'OnVehicleStreamOut',
-]
+))
