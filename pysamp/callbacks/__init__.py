@@ -3,7 +3,7 @@ from dataclasses import dataclass, field
 from types import ModuleType
 from typing import Any, Callable, Optional
 
-from .names import names as callback_names
+from .names import names as builtin_callback_names
 
 
 @dataclass
@@ -56,7 +56,7 @@ class CallbackRegistry:
         """Register all callbacks in a module, called on import."""
         module = _path_hook._module_being_imported
 
-        for name in callback_names:
+        for name in builtin_callback_names:
             callback = getattr(module, name, None)
 
             if not callback:
@@ -76,6 +76,12 @@ class CallbackRegistry:
         specified, it will default to the name of the module currently being
         imported, or raise a ValueError if no import is taking place.
         """
+        import python
+        original = getattr(python, name, None)
+
+        if not isinstance(original, HookedCallback):
+            hook_callback(python, name)
+
         if not group:
             module = _path_hook._module_being_imported
 
@@ -125,6 +131,10 @@ def hook_callback(module: ModuleType, name: str) -> None:
     Makes top level callbacks in the module use callbacks registry.
     """
     original = getattr(module, name, None)
+
+    if isinstance(original, HookedCallback):
+        return
+
     setattr(module, name, HookedCallback(name, original))
 
 
@@ -135,7 +145,7 @@ def hook() -> None:
     """
     import python
 
-    for name in callback_names:
+    for name in builtin_callback_names:
         hook_callback(python, name)
 
 
