@@ -1,6 +1,5 @@
 #!/bin/sh
 docker build \
-    --no-cache \
     --platform linux/amd64 \
     -t pysamp/build \
     . \
@@ -10,4 +9,16 @@ docker run \
     --platform linux/amd64 \
     -v $PWD:/destination \
     pysamp/build \
-    cp PySAMP.so /destination
+    sh -c '
+    cd PySAMP &&
+    cmake \
+        -S src \
+        -B build \
+        -DCMAKE_BUILD_TYPE=${build_type} \
+        -DSAMPSDK_DIR=../samp-plugin-sdk \
+        -DSAMPGDK_DIR=../sampgdk \
+        -DPython3_ROOT_DIR=$(python3-config --configdir) \
+    && \
+    cmake --build build --parallel ${job_count} &&
+    cp build/PySAMP.so /destination
+    '
