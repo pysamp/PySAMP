@@ -159,7 +159,7 @@ bool PySAMP::onPlayerCommandText(int playerid, const char* cmdtext)
 
 void PySAMP::registerCallback(const std::string& name, const std::string& format)
 {
-	if(!PySAMP::isLoaded())
+	if(!PySAMP::isInitialized())
 		return;
 
 	PySAMP::callbacks->addFormat(name, format);
