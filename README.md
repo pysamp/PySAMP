@@ -9,7 +9,7 @@ public OnPlayerConnect(playerid)
   new name[MAX_PLAYER_NAME], string[MAX_PLAYER_NAME + 24];
   GetPlayerName(playerid, name, MAX_PLAYER_NAME);
   format(string, sizeof(string), "%s has joined the server.", name);
-  SendClientMessageToAll(0x000000FF, string);
+  SendClientMessageToAll(0xFFFFFFFF, string);
 }
 ```
 
@@ -23,7 +23,7 @@ from pysamp import (
 @Player.on_connect
 def when_player_connects(player: Player):
     name = player.get_name()
-    send_client_message_to_all(0x000000FF,  f'{name} has joined the server.')
+    send_client_message_to_all(0xFFFFFFFF,  f'{name} has joined the server.')
 ```
  
 As you can see, all referenced return values are removed and instead the method returns either a value or a tuple.
