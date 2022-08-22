@@ -99,6 +99,7 @@ const std::unordered_map<std::string, bool> CallbacksManager::badrets = {
 	{"OnPlayerEditObject", true},
 	{"OnPlayerGiveDamage", true},
 	{"OnPlayerGiveDamageActor", true},
+	{"OnPlayerRequestClass", false},
 	{"OnPlayerRequestSpawn", false},
 	{"OnPlayerSelectObject", true},
 	{"OnPlayerSpawn", false},
