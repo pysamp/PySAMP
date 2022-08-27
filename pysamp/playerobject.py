@@ -217,15 +217,14 @@ class PlayerObject:
             text_alignment,
         )
 
-    def set_position(self, x: float, y: float, z: float) -> bool:
-        """Set the world coordinates of the player object
-
-        :param float x: The world x coordinate to set.
-        :param float y: The world y coordinate to set.
-        :param float z: The world z coordinate to set.
-        :returns: No return value.
-        """
-        return set_player_object_pos(self._player_id, self.id, x, y, z)
+    def set_position(self, position: Tuple[float, float, float]) -> bool:
+        """Set the world coordinates of the player object"""
+        try:
+            x, y, z = position
+        except ValueError:
+            raise ValueError("Expected a tuple for position. (x, y, z)")
+        else:
+            return set_player_object_pos(self._player_id, self.id, x, y, z)
 
     def set_rotation(
         self, rotation_x: float, rotation_y: float, rotation_z: float

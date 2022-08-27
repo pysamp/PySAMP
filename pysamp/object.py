@@ -68,12 +68,17 @@ class Object:
             model, x, y, z, rotation_x, rotation_y, rotation_z, draw_distance
         ))
 
-    def set_postition(self, x: float, y: float, z: float) -> bool:
+    def set_postition(self, position: Tuple[float, float, float]) -> bool:
         """Set a new position for the object using world coordinates.
 
         For rotation, check out ``Object.set_rotation``.
         """
-        return set_object_pos(self.id, x, y, z)
+        try:
+            x, y, z = position
+        except ValueError:
+            raise ValueError("Expected a tuple for position. (x, y, z)")
+        else:
+            return set_object_pos(self.id, x, y, z)
 
     def get_position(self) -> Tuple[float, float, float]:
         """Retrieve the coordinates for where the object is right now."""
