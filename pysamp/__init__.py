@@ -31,6 +31,7 @@ from samp import (
     BanEx,
     BlockIpAddress,
     CallNativeFunction,
+    RegisterCallback,
     CancelEdit,
     CancelSelectTextDraw,
     ChangeVehicleColor,
@@ -2732,6 +2733,10 @@ def call_native_function(name: str, *arguments):
     return CallNativeFunction(name, *arguments)
 
 
+def register_callback(name: str, arguments: str):
+    return RegisterCallback(name, arguments)
+
+
 on_gamemode_init = functools.partial(
     registry.register_callback,
     'OnGameModeInit',
@@ -2755,3 +2760,4 @@ on_incoming_connection = functools.partial(
     'OnIncomingConnection',
     group='pysamp.on_incoming_connection',
 )
+
