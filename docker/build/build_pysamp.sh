@@ -15,10 +15,10 @@ docker run \
         -S src \
         -B build \
         -DCMAKE_BUILD_TYPE=${build_type} \
-        -DSAMPSDK_DIR=../samp-plugin-sdk \
-        -DSAMPGDK_DIR=../sampgdk \
+        -DSAMPSDK_DIR=$PWD/../samp-plugin-sdk \
+        -DSAMPGDK_DIR=$PWD/../sampgdk \
         -DPython3_ROOT_DIR=$(python3-config --configdir) \
-    && \
+    &&
     cmake --build build --parallel ${job_count} &&
     cp build/PySAMP.so /destination
     '

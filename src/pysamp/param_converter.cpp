@@ -130,15 +130,16 @@ PyObject* ParamConverter::to_tuple(cell* params, const std::string format, AMX* 
 		switch(type)
 		{
 			case 'i':
+			case 'd':
 				argument = PyLong_FromLong((int) param);
 				break;
-			case 'O':
+			case 'b':
 				argument = param ? Py_True : Py_False;
 				break;
 			case 'f':
 				argument = PyFloat_FromDouble((double) amx_ctof(param));
 				break;
-			case 'y':
+			case 's':
 			{
 				int length = -1;
 				char *string_value = NULL;
