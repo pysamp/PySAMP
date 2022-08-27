@@ -2084,7 +2084,7 @@ WITH_GIL(pysamp_setpvarstring, PyObject *self, PyObject *args)
 
 WITH_GIL(pysamp_getpvarstring, PyObject *self, PyObject *args)
 {
-	int arg3 = PySAMP::getConstant("MAX_CLIENT_MESSAGE");
+	int arg3 = MAX_CLIENT_MESSAGE;
 	const char* arg1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ies|i:GetPVarString", &arg0, PySAMP::getEncoding().c_str(), &arg1, &arg3))
@@ -2161,7 +2161,7 @@ WITH_GIL(pysamp_getpvarsupperindex, PyObject *self, PyObject *args)
 
 WITH_GIL(pysamp_getpvarnameatindex, PyObject *self, PyObject *args)
 {
-	int arg3 = PySAMP::getConstant("MAX_CLIENT_MESSAGE");
+	int arg3 = MAX_CLIENT_MESSAGE;
 	int arg1 = -1;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "ii|i:GetPVarNameAtIndex", &arg0, &arg1, &arg3))
@@ -2338,8 +2338,8 @@ WITH_GIL(pysamp_getplayeranimationindex, PyObject *self, PyObject *args)
 
 WITH_GIL(pysamp_getanimationname, PyObject *self, PyObject *args)
 {
-	int arg4 = PySAMP::getConstant("MAX_CLIENT_MESSAGE");
-	int arg2 = PySAMP::getConstant("MAX_CLIENT_MESSAGE");
+	int arg4 = MAX_CLIENT_MESSAGE;
+	int arg2 = MAX_CLIENT_MESSAGE;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i|ii:GetAnimationName", &arg0, &arg2, &arg4))
 		return NULL;
@@ -3203,7 +3203,7 @@ WITH_GIL(pysamp_setsvarstring, PyObject *self, PyObject *args)
 
 WITH_GIL(pysamp_getsvarstring, PyObject *self, PyObject *args)
 {
-	int arg2 = PySAMP::getConstant("MAX_CLIENT_MESSAGE");
+	int arg2 = MAX_CLIENT_MESSAGE;
 	const char* arg0;
 	if (!PyArg_ParseTuple(args, "es|i:GetSVarString", PySAMP::getEncoding().c_str(), &arg0, &arg2))
 		return NULL;
@@ -3275,7 +3275,7 @@ WITH_GIL(pysamp_getsvarsupperindex, PyObject *self, PyObject *args)
 
 WITH_GIL(pysamp_getsvarnameatindex, PyObject *self, PyObject *args)
 {
-	int arg2 = PySAMP::getConstant("MAX_CLIENT_MESSAGE");
+	int arg2 = MAX_CLIENT_MESSAGE;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i|i:GetSVarNameAtIndex", &arg0, &arg2))
 		return NULL;
@@ -3504,7 +3504,7 @@ WITH_GIL(pysamp_setworldtime, PyObject *self, PyObject *args)
 
 WITH_GIL(pysamp_getweaponname, PyObject *self, PyObject *args)
 {
-	int arg2 = PySAMP::getConstant("MAX_CLIENT_MESSAGE");
+	int arg2 = MAX_CLIENT_MESSAGE;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i|i:GetWeaponName", &arg0, &arg2))
 		return NULL;
@@ -3806,7 +3806,7 @@ WITH_GIL(pysamp_sendrconcommand, PyObject *self, PyObject *args)
 
 WITH_GIL(pysamp_getplayernetworkstats, PyObject *self, PyObject *args)
 {
-	int arg2 = PySAMP::getConstant("MAX_CLIENT_MESSAGE");
+	int arg2 = MAX_CLIENT_MESSAGE;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i|i:GetPlayerNetworkStats", &arg0, &arg2))
 		return NULL;
@@ -3825,7 +3825,7 @@ WITH_GIL(pysamp_getplayernetworkstats, PyObject *self, PyObject *args)
 
 WITH_GIL(pysamp_getnetworkstats, PyObject *self, PyObject *args)
 {
-	int arg1 = PySAMP::getConstant("MAX_CLIENT_MESSAGE");
+	int arg1 = MAX_CLIENT_MESSAGE;
 	if (!PyArg_ParseTuple(args, "|i:GetNetworkStats", &arg1))
 		return NULL;
 
@@ -3843,7 +3843,7 @@ WITH_GIL(pysamp_getnetworkstats, PyObject *self, PyObject *args)
 
 WITH_GIL(pysamp_getplayerversion, PyObject *self, PyObject *args)
 {
-	int arg2 = PySAMP::getConstant("MAX_CLIENT_MESSAGE");
+	int arg2 = MAX_CLIENT_MESSAGE;
 	int arg0 = -1;
 	if (!PyArg_ParseTuple(args, "i|i:GetPlayerVersion", &arg0, &arg2))
 		return NULL;
@@ -3891,7 +3891,7 @@ WITH_GIL(pysamp_unblockipaddress, PyObject *self, PyObject *args)
 
 WITH_GIL(pysamp_getservervarasstring, PyObject *self, PyObject *args)
 {
-	int arg2 = PySAMP::getConstant("MAX_CLIENT_MESSAGE");
+	int arg2 = MAX_CLIENT_MESSAGE;
 	const char* arg0;
 	if (!PyArg_ParseTuple(args, "es|i:GetServerVarAsString", PySAMP::getEncoding().c_str(), &arg0, &arg2))
 		return NULL;
@@ -3938,7 +3938,7 @@ WITH_GIL(pysamp_getservervarasbool, PyObject *self, PyObject *args)
 
 WITH_GIL(pysamp_getconsolevarasstring, PyObject *self, PyObject *args)
 {
-	int arg2 = PySAMP::getConstant("MAX_CLIENT_MESSAGE");
+	int arg2 = MAX_CLIENT_MESSAGE;
 	const char* arg0;
 	if (!PyArg_ParseTuple(args, "es|i:GetConsoleVarAsString", PySAMP::getEncoding().c_str(), &arg0, &arg2))
 		return NULL;

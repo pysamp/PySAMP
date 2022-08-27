@@ -159,26 +159,10 @@ bool PySAMP::onPlayerCommandText(int playerid, const char* cmdtext)
 
 void PySAMP::registerCallback(const std::string& name, const std::string& format)
 {
-	if(!PySAMP::isLoaded())
+	if(!PySAMP::isInitialized())
 		return;
 
 	PySAMP::callbacks->addFormat(name, format);
-}
-
-const std::string* PySAMP::getCallbackFormat(const std::string& callback_name)
-{
-	if(!PySAMP::isLoaded())
-		return nullptr;
-
-	return PySAMP::callbacks->getFormat(callback_name);
-}
-
-int PySAMP::getConstant(const std::string& constant_name)
-{
-	if(!PySAMP::isLoaded())
-		return -1;
-
-	return PySAMP::gamemode->constants.at(constant_name);
 }
 
 PyObject* PySAMP::pyConfig(PyObject *self, PyObject *args, PyObject *kwargs)
