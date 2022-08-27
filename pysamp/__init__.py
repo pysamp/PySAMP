@@ -2760,4 +2760,3 @@ on_incoming_connection = functools.partial(
     'OnIncomingConnection',
     group='pysamp.on_incoming_connection',
 )
-
