@@ -68,7 +68,7 @@ class Object:
             model, x, y, z, rotation_x, rotation_y, rotation_z, draw_distance
         ))
 
-    def set_postition(self, x: float, y: float, z: float) -> bool:
+    def set_position(self, x: float, y: float, z: float) -> bool:
         """Set a new position for the object using world coordinates.
 
         For rotation, check out ``Object.set_rotation``.
