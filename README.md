@@ -41,7 +41,7 @@ There are three different ways to install the plugin depending on your system. R
 Using PySAMP on a Windows machine is possible! Just make sure you have <b>32-bit Python</b> and the correct version that the plugin requires.
 
 ## Install correct python version
-Install the correct version (written in the DLL name you downloaded). As of PySAMP `2.1.0`, this should be python version `3.10.4`. 64-bit or any other version will not work, and the plugin will not load.<br>
+Install the correct version (written in the DLL name you downloaded). As of PySAMP `2.1.0`, this should be python version [`3.9.7`](https://www.python.org/ftp/python/3.9.7/python-3.9.7.exe.). 64-bit or any other version will not work, and the plugin will not load.<br>
 
 ## Make a python module
 The plugin will look for a module named `python` in your server root. That means you can either create `python.py` or `python/__init__.py`.
