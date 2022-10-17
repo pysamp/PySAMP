@@ -32,12 +32,35 @@ class Gangzone:
                          MaxY
     ```
     """
-    def __init__(self, min_x: float, min_y: float, max_x: float, max_y: float):
+
+    def __init__(
+        self, id: int, min_x: float, min_y: float, max_x: float, max_y: float
+    ) -> None:
+        self.id = id
         self.min_x = min_x
         self.min_y = min_y
         self.max_x = max_x
         self.max_y = max_y
-        self.id: int = gang_zone_create(min_x, min_y, max_x, max_y)
+
+    @classmethod
+    def create(
+        cls, min_x: float, min_y: float, max_x: float, max_y: float
+    ) -> "Gangzone":
+        """Create a new gangzone (colored radar area).
+
+        :param min_x: The X coordinate for the west side of the gangzone.
+        :param min_y: The Y coordinate for the south side of the gangzone.
+        :param max_x: The X coordinate for the east side of the gangzone.
+        :param max_y: The Y coordinate for the north side of the gangzone.
+        :return: An instance of :class:`Gangzone`.
+        """
+        return cls(
+            gang_zone_create(min_x, min_y, max_x, max_y),
+            min_x,
+            min_y,
+            max_x,
+            max_y,
+        )
 
     def get_id(self) -> int:
         """Get the gangzone id."""
@@ -47,9 +70,7 @@ class Gangzone:
         """Destroy the gangzone."""
         return gang_zone_destroy(self.id)
 
-    def show_for_player(
-        self, player: "Player", color: int
-    ) -> bool:
+    def show_for_player(self, player: "Player", color: int) -> bool:
         """Show the gangzone for a player."""
         return gang_zone_show_for_player(player.id, self.id, color)
 
@@ -65,9 +86,7 @@ class Gangzone:
         """Hide the gangzone for everyone."""
         return gang_zone_hide_for_all(self.id)
 
-    def flash_for_player(
-        self, player: "Player", flash_color: int
-    ) -> bool:
+    def flash_for_player(self, player: "Player", flash_color: int) -> bool:
         """Make the gangzone flash for the given player,
         with the desired color.
         """
