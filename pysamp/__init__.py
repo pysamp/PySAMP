@@ -1301,25 +1301,25 @@ def attach_object_to_vehicle(
 
 def attach_object_to_object(
     object_id: int,
-    attachtoid: int,
-    fOffsetX: float,
-    fOffsetY: float,
-    fOffsetZ: float,
-    fRotX: float,
-    fRotY: float,
-    fRotZ: float,
-    SyncRotation: bool,
+    attach_to_id: int,
+    offset_x: float,
+    offset_y: float,
+    offset_z: float,
+    rotation_x: float,
+    rotation_y: float,
+    rotation_z: float,
+    sync_rotation: bool,
 ) -> bool:
     return AttachObjectToObject(
         object_id,
-        attachtoid,
-        fOffsetX,
-        fOffsetY,
-        fOffsetZ,
-        fRotX,
-        fRotY,
-        fRotZ,
-        SyncRotation,
+        attach_to_id,
+        offset_x,
+        offset_y,
+        offset_z,
+        rotation_x,
+        rotation_y,
+        rotation_z,
+        sync_rotation,
     )
 
 
