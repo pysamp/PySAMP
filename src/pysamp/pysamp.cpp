@@ -190,6 +190,13 @@ PyObject* PySAMP::amxParamsToTuple(AMX *amx, const std::string& callback_name, c
 		amx
 	);
 
+	if(tuple == NULL)
+	{
+		PyObject* name = PyUnicode_FromString(callback_name.c_str());
+		PyErr_WriteUnraisable(name);
+		Py_DECREF(name);
+	}
+
 	return tuple;
 }
 

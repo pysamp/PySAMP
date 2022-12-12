@@ -74,9 +74,14 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPublicCall2(
 	)
 		return false;
 
+	PyObject* args = PySAMP::amxParamsToTuple(amx, name, params);
+
+	if(args == NULL)
+		return false;
+
 	return PySAMP::callback(
 		name,
-		PySAMP::amxParamsToTuple(amx, name, params),
+		args,
 		retval,
 		stop
 	);
