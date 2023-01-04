@@ -1,6 +1,15 @@
-from pysamp import show_player_dialog
 from typing import Callable, Dict, Optional
+
+from pysamp import show_player_dialog
 from pysamp.event import registry
+from samp import (
+    DIALOG_STYLE_INPUT,
+    DIALOG_STYLE_LIST,
+    DIALOG_STYLE_MSGBOX,
+    DIALOG_STYLE_PASSWORD,
+    DIALOG_STYLE_TABLIST,
+    DIALOG_STYLE_TABLIST_HEADERS,
+)
 
 
 class Dialog:
@@ -62,7 +71,7 @@ class Dialog:
         """
         return cls(type, title, content, button_1, button_2, on_response)
 
-    def show(self, for_player: "Player") -> None:
+    def show(self, for_player: "Player", *args, **kwargs) -> None:
         """Show the dialog created with :meth:`create` to a specific player.
 
         :param Player for_player: The player you want to show
@@ -78,7 +87,7 @@ class Dialog:
             Dialog._ID,  # we only occupy one ID on SA-MP side.
             self.type,
             self.title,
-            self.content,
+            self.content.format(*args, **kwargs),
             self.button_1,
             self.button_2,
         )

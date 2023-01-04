@@ -113,8 +113,8 @@ PyObject* ParamConverter::to_tuple(cell* params, const std::string format, AMX* 
 		PyErr_Format(
 			PyExc_ValueError,
 			"Invalid argument count for callback: expected %d, got %d",
-			params[0] / sizeof(cell),
-			number_of_arguments
+			number_of_arguments,
+			params[0] / sizeof(cell)
 		);
 		return NULL;
 	}

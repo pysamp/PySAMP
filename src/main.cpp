@@ -17,11 +17,14 @@ PLUGIN_EXPORT bool PLUGIN_CALL Load(void **ppData)
 	dlopen(PYTHON_LIBRARY, RTLD_GLOBAL | RTLD_LAZY);
 #endif
 
-	sampgdk::logprintf("\n\n%s", PYSAMP_LOADING_SCREEN_1);
-	sampgdk::logprintf("%s", PYSAMP_LOADING_SCREEN_2);
-	sampgdk::logprintf("%s", PYSAMP_LOADING_SCREEN_3);
-	sampgdk::logprintf("%s\n\n", PYSAMP_LOADING_SCREEN_4);
-	sampgdk::logprintf("PySAMP %s for Python %s\n", PYSAMP_VERSION_STR, PYTHON_VERSION_STR);
+	std::stringstream stream{PYSAMP_LOADING_SCREEN};
+	std::string line;
+	sampgdk::logprintf("");
+
+	while(std::getline(stream, line, '\n'))
+		sampgdk::logprintf(line.c_str());
+
+	sampgdk::logprintf("\nPySAMP %s for Python %s\n", PYSAMP_VERSION_STR, PYTHON_VERSION_STR);
 
 	return ret;
 }
@@ -74,9 +77,14 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPublicCall2(
 	)
 		return false;
 
+	PyObject* args = PySAMP::amxParamsToTuple(amx, name, params);
+
+	if(args == NULL)
+		return false;
+
 	return PySAMP::callback(
 		name,
-		PySAMP::amxParamsToTuple(amx, name, params),
+		args,
 		retval,
 		stop
 	);

@@ -3,6 +3,7 @@
 
 #include <string>
 #include <unordered_map>
+#define Py_LIMITED_API 0x030600F0
 #include <Python.h>
 
 #ifdef DEBUG

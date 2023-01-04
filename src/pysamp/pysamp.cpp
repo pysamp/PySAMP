@@ -167,15 +167,12 @@ void PySAMP::registerCallback(const std::string& name, const std::string& format
 
 PyObject* PySAMP::pyConfig(PyObject *self, PyObject *args, PyObject *kwargs)
 {
-	if(!PySAMP::isLoaded())
-		return NULL;
-
 	return PySAMP::gamemode->pyConfig(self, args, kwargs);
 }
 
 PyObject* PySAMP::amxParamsToTuple(AMX *amx, const std::string& callback_name, cell *params)
 {
-	if(!PySAMP::isLoaded())
+	if(!PySAMP::isInitialized())
 		return NULL;
 
 	const std::string* format = PySAMP::callbacks->getFormat(callback_name);
@@ -190,12 +187,19 @@ PyObject* PySAMP::amxParamsToTuple(AMX *amx, const std::string& callback_name, c
 		amx
 	);
 
+	if(tuple == NULL)
+	{
+		PyObject* name = PyUnicode_FromString(callback_name.c_str());
+		PyErr_WriteUnraisable(name);
+		Py_DECREF(name);
+	}
+
 	return tuple;
 }
 
 cell* PySAMP::tupleToAmxParams(PyObject *tuple, bool asReference)
 {
-	if(!PySAMP::isLoaded())
+	if(!PySAMP::isInitialized())
 		return NULL;
 
 	PySAMP::GIL gil;
