@@ -8,13 +8,6 @@ from samp import SendClientMessage  # type: ignore
 from .callbacks import registry
 
 
-class ArgumentConversionError(ValueError):
-    def __init__(self, arg_type, arg_name, arg_input):
-        self.arg_type = arg_type
-        self.arg_name = arg_name
-        self.arg_input = arg_input
-
-
 class CommandHandler(Protocol):
     def __call__(self, playerid: int, *args: str) -> None: ...
 
@@ -35,6 +28,7 @@ class Message(Protocol):
 class Command:
     triggers: set[str]
     handler: CommandHandler
+    split_args: bool
     requires: tuple[Validator, ...]
     error_message: Message
 
@@ -49,8 +43,7 @@ class Command:
         self._max_params = len(parameters) if not any(
             parameter.kind == inspect.Parameter.VAR_POSITIONAL
             for parameter in parameters
-        ) else 1e3
-        self._parameters = parameters
+        ) else None
         self._usage_message = BaseMessage(
             text=f'USAGE: {list(self.triggers)[0]} ' + ' '.join(
                 parameter.name
@@ -63,55 +56,30 @@ class Command:
         )
 
     def handle(self, playerid: int, args_text: str) -> None:
-        """Call handler, doing validation and argument conversion."""
+        """Call handler, doing validation and argument splitting."""
         for validator in self.requires:
             if not validator(playerid):
                 self.error_message.send(playerid)
-                return True
+                return
 
-        args = [playerid] + [arg for arg in args_text.split(' ') if arg]
+        if not self.split_args:
+            args = [args_text]
+        else:
+            args = [arg for arg in args_text.split(' ') if arg]
 
-        if not (self._min_params <= len(args) <= self._max_params):
+        # +1 because of playerid
+        arg_count = len(args) + 1
+        max_params = (
+            self._max_params
+            if self._max_params is not None
+            else arg_count
+        )
+
+        if not (self._min_params <= arg_count <= max_params):
             self._usage_message.send(playerid)
-            return True
+            return
 
-        try:
-            self.handler(*self._convert_args(args))
-        except ArgumentConversionError as exception:
-            BaseMessage(
-                text=(
-                    f'ERROR: Invalid {exception.arg_type} '
-                    f'for argument {exception.arg_name}: '
-                    f'"{exception.arg_input}"'
-                ),
-                color=0xFF0000FF,
-            ).send(playerid)
-
-        return True
-
-    def _convert_args(self, args):
-        new_args = []
-
-        for index, (arg, parameter) in enumerate(zip(args, self._parameters)):
-            if parameter.kind == inspect.Parameter.VAR_POSITIONAL:
-                new_args.extend(args[index:])
-                break
-
-            annotation = parameter.annotation
-
-            if annotation is not inspect._empty:
-                try:
-                    arg = annotation(arg)
-                except (ValueError, TypeError):
-                    raise ArgumentConversionError(
-                        arg_type=annotation.__name__,
-                        arg_name=parameter.name,
-                        arg_input=arg,
-                    )
-
-            new_args.append(arg)
-
-        return new_args
+        self.handler(playerid, *args)
 
 
 @dataclass
@@ -172,6 +140,7 @@ def cmd(
     *,
     aliases: tuple[str, ...] = (),
     use_function_name: bool = True,
+    split_args: bool = True,
     requires: tuple[Validator, ...] = (),
     error_message: Message = DEFAULT_ERROR_MESSAGE,
 ) -> Callable[[Any], Any]:
@@ -184,6 +153,11 @@ def cmd(
     use_function_name: Whether to use the function name as a command name to
         trigger the handler with. If this is False and aliases is empty, a
         ValueError is raised.
+    split_args: Whether command arguments should be passed to the function as
+        individual string arguments (split by whitespace) or as a single
+        string argument (all text after the issued command). Prefer to use
+        *args instead if possible, which does the same thing but collapses
+        contiguous whitespace.
     requires: Tuple of callables implementing the Validator protocol. If
         specified, they will be called in order with a playerid as argument
         and should return False if the player is not allowed to use this
@@ -196,6 +170,7 @@ def cmd(
             cmd,
             aliases=aliases,
             use_function_name=use_function_name,
+            split_args=split_args,
             requires=requires,
             error_message=error_message,
         )
@@ -214,6 +189,7 @@ def cmd(
     dispatcher._register(Command(
         triggers={f'/{trigger}' for trigger in triggers},
         handler=function,
+        split_args=split_args,
         requires=requires,
         error_message=error_message,
     ))
