@@ -35,6 +35,6 @@ def load_from_file(filename):
                 add_static_vehicle_ex(vehicletype, spawn_x, spawn_y, spawn_z, spawn_rot, color_1, color_2, 1800)
                 vehicles_loaded +=1
             f.close()
-            print("Loaded {} vehicles from: {}".format(int(vehicles_loaded),filename))
+            print(f"Loaded {int(vehicles_loaded)} vehicles from: {filename}")
     except IOError as error:
         print(error)
