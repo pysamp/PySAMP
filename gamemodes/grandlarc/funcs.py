@@ -15,8 +15,8 @@ def load_from_file(filename):
                 
                 vehicletype = int(index[0])
                 spawn_x = float(index[1])
-                spaw_y = float(index[2]) 
-                spaw_z = float(index[3])
+                spawn_y = float(index[2]) 
+                spawn_z = float(index[3])
                 spawn_rot = float(index[4])
                 color_1 = int(index[5])
                 color_2 = int(index[6].split(";")[0]) 
@@ -35,6 +35,6 @@ def load_from_file(filename):
                 add_static_vehicle_ex(vehicletype, spawn_x, spawn_y, spawn_z, spawn_rot, color_1, color_2, 1800)
                 vehicles_loaded +=1
             f.close()
-            print("Loaded {} vehicles from: {}".format(int(vehicles_loaded),filename))
+            print(f"Loaded {int(vehicles_loaded)} vehicles from: {filename}")
     except IOError as error:
         print(error)
