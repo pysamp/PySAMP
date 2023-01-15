@@ -2737,7 +2737,7 @@ class Player:
         return (
             cls(playerid),
             weaponid,
-            hit_cls[hittype](hitid),
+            hit_cls[hittype](hit_id),
             hit_id,
             x,
             y,
