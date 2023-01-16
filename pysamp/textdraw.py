@@ -21,6 +21,8 @@ from pysamp import (
     text_draw_show_for_all,
     text_draw_text_size,
     text_draw_use_box,
+    select_text_draw,
+    cancel_select_text_draw
 )
 
 
@@ -331,6 +333,23 @@ class TextDraw:
         :return: This method does not return anything.
         """
         return text_draw_show_for_player(player.id, self.id)
+
+    def select(self, player: "Player", hover_color: int) -> bool:
+        """Display the cursor and allow the player to select a textdraw.
+
+        :param Player player: The player that should be able to select a textdraw.
+        :param int hover_color: The color of the textdraw when hovering over with mouse (RGBA).
+        :return: This method does not return anything.
+        """
+        return select_text_draw(player.id, hover_color)
+
+    def cancel_select(self, player: "Player") -> bool:
+        """Cancel textdraw selection with the mouse.
+
+        :param Player player: The player that should be the textdraw selection disabled.
+        :return: This method does not return anything. 
+        """
+        return cancel_select_text_draw(player.id)
 
 
 from .player import Player  # noqa
