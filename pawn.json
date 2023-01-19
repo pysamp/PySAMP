@@ -1,0 +1,21 @@
+{
+    "user": "pysamp",
+    "repo": "PySAMP",
+    "resources": [
+        {
+            "name": "^PySAMP-(.*).zip$",
+            "platform": "linux",
+            "archive": true,
+            "plugins": ["plugins/PySAMP.so"]
+        },
+        {
+            "name": "^PySAMP-(.*).zip$",
+            "platform": "windows",
+            "archive": true,
+            "plugins": ["plugins/PySAMP.dll"]
+        }
+    ],
+    "runtime": {
+        "plugins": ["pysamp/PySAMP"]
+    }
+}
