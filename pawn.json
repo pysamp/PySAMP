@@ -1,0 +1,23 @@
+{
+    "user": "pysamp",
+    "repo": "PySAMP",
+    "resources": [
+        {
+            "name": "^ubuntu-21.10.py(.*).PySAMP.so$",
+            "platform": "linux",
+            "archive": true,
+            "includes": ["pawno/include"],
+            "plugins": ["plugins/PySAMP.so"]
+        },
+        {
+            "name": "^windows.py(.*).PySAMP.dll$",
+            "platform": "windows",
+            "archive": true,
+            "includes": ["pawno/include"],
+            "plugins": ["plugins/PySAMP.dll"]
+        }
+    ],
+    "runtime": {
+        "plugins": ["pysamp/PySAMP"]
+    }
+}
