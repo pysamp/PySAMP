@@ -30,6 +30,7 @@ class Command:
     handler: CommandHandler
     split_args: bool
     requires: tuple[Validator, ...]
+    usage_prefix: Message
     error_message: Message
 
     def __post_init__(self):
@@ -45,14 +46,14 @@ class Command:
             for parameter in parameters
         ) else None
         self._usage_message = BaseMessage(
-            text=f'USAGE: {list(self.triggers)[0]} ' + ' '.join(
+            text=f'{self.usage_prefix.text} {list(self.triggers)[0]} ' + ' '.join(
                 parameter.name
                 if parameter.default is inspect._empty
                 and parameter.kind != inspect.Parameter.VAR_POSITIONAL
                 else f'[{parameter.name}]'
                 for parameter in parameters[1:]
             ),
-            color=0xFF0000FF,
+            color=self.usage_prefix.color,
         )
 
     def handle(self, playerid: int, args_text: str) -> None:
@@ -127,6 +128,10 @@ class BaseMessage:
 
 def _NO_FUNCTION(playerid: int, *args: str) -> None: ...
 
+DEFAULT_USAGE_PREFIX = BaseMessage(
+    text='USAGE:',
+    color=0xFF0000FF
+)
 
 DEFAULT_ERROR_MESSAGE = BaseMessage(
     text='You are not allowed to use this command.',
@@ -142,6 +147,7 @@ def cmd(
     use_function_name: bool = True,
     split_args: bool = True,
     requires: tuple[Validator, ...] = (),
+    usage_prefix: Message = DEFAULT_USAGE_PREFIX,
     error_message: Message = DEFAULT_ERROR_MESSAGE,
 ) -> Callable[[Any], Any]:
     """Decorate a command handler to register it with the given options.
@@ -162,6 +168,8 @@ def cmd(
         specified, they will be called in order with a playerid as argument
         and should return False if the player is not allowed to use this
         command, in which case error_message will be issued.
+    usage_prefix: An object implementing the Message protocol. It will be used
+        to set the prefix for the command usage message and color.
     error_message: An object implementing the Message protocol. It will be sent
         to the player in case they are not allowed to use this command.
     """
@@ -172,16 +180,17 @@ def cmd(
             use_function_name=use_function_name,
             split_args=split_args,
             requires=requires,
+            usage_prefix=usage_prefix,
             error_message=error_message,
         )
 
-    triggers = set()
+    triggers = ()
 
     if use_function_name:
         # See https://github.com/python/mypy/issues/12795
-        triggers.add(function.__name__)  # type: ignore
-
-    triggers.update(aliases)
+        triggers = tuple((function.__name__, *aliases))  # type: ignore
+    else:
+        triggers = aliases
 
     if not triggers:
         raise ValueError('Unable to register a command without triggers.')
@@ -191,6 +200,7 @@ def cmd(
         handler=function,
         split_args=split_args,
         requires=requires,
+        usage_prefix=usage_prefix,
         error_message=error_message,
     ))
 
