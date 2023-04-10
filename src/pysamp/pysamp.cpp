@@ -104,9 +104,9 @@ std::string PySAMP::getEncoding()
 	if(!PySAMP::isLoaded())
 		return std::string("cp1252");
 
-	return std::string(
-		PyUnicode_AsUTF8(PySAMP::gamemode->getConfig()["encoding"])
-	);
+	return std::string(PyBytes_AsString(PyUnicode_AsUTF8String(
+		PySAMP::gamemode->getConfig()["encoding"]
+	)));
 }
 
 int PySAMP::callback(const std::string& name)

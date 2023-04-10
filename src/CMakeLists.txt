@@ -10,11 +10,25 @@ set(PYSAMP_REVISION 0)
 set(PYSAMP_VERSION "${PYSAMP_MAJOR_VERSION}.${PYSAMP_MINOR_VERSION}.${PYSAMP_REVISION}")
 add_definitions(-DPYSAMP_VERSION=${PYSAMP_VERSION})
 
-find_package(
-    Python3
-    COMPONENTS Development
-    REQUIRED
-)
+if(MSVC AND !DEBUG)
+    find_package(
+        Python3
+        COMPONENTS Development.SABIModule
+        REQUIRED
+    )
+    message(STATUS "Python3_INCLUDE_DIRS = ${Python3_INCLUDE_DIRS}")
+    message(STATUS "Python3_SABI_LIBRARIES = ${Python3_SABI_LIBRARIES}")
+    target_link_libraries(PySAMP Python3::SABIModule)
+else()
+    find_package(
+        Python3
+        COMPONENTS Development.Module
+        REQUIRED
+    )
+    message(STATUS "Python3_INCLUDE_DIRS = ${Python3_INCLUDE_DIRS}")
+    message(STATUS "Python3_LIBRARIES = ${Python3_LIBRARIES}")
+    target_link_libraries(PySAMP Python3::Module)
+endif()
 
 include(AMXConfig)
 include(AddSAMPPlugin)
@@ -30,9 +44,6 @@ include_directories(
     ${Python3_INCLUDE_DIRS}
     ${CMAKE_BINARY_DIR}/generated/
 )
-
-message(STATUS "Python3_LIBRARIES = ${Python3_LIBRARIES}")
-message(STATUS "Python3_INCLUDE_DIRS = ${Python3_INCLUDE_DIRS}")
 
 add_definitions(-DSAMPGDK_AMALGAMATION)
 
@@ -67,8 +78,6 @@ add_samp_plugin(PySAMP
     bindings/logprintf.cpp
     bindings/logprintf.h
 )
-
-target_link_libraries(PySAMP ${Python3_LIBRARIES})
 
 find_package(Doxygen)
 if(DOXYGEN_FOUND)

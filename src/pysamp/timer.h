@@ -1,9 +1,8 @@
 #ifndef PYTIMER_H
 #define PYTIMER_H
 
-#include <Python.h>
 #include <list>
-
+#include "limited_api_python.h"
 #include "sampgdk.h"
 
 

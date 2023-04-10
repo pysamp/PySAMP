@@ -10,7 +10,7 @@ typedef struct
 static PyObject* LogPrintf_new(PyTypeObject *type, PyObject *args, PyObject *kwds)
 {
 	LogPrintfObject *self;
-	self = (LogPrintfObject*)type->tp_alloc(type, 0);
+	self = (LogPrintfObject*)PyType_GenericAlloc(type, 0);
 
 	if(self != NULL)
 	{
@@ -23,7 +23,7 @@ static PyObject* LogPrintf_new(PyTypeObject *type, PyObject *args, PyObject *kwd
 static void LogPrintf_dealloc(LogPrintfObject *self)
 {
 	delete self->line_buffer;
-	Py_TYPE(self)->tp_free((PyObject *) self);
+	PyObject_Free(self);
 }
 
 static PyObject* LogPrintf_write(LogPrintfObject *self, PyObject *args)
@@ -73,43 +73,18 @@ static PyMethodDef LogPrintf_methods[] = {
 	{NULL},
 };
 
-PyTypeObject LogPrintfType = {
-	PyVarObject_HEAD_INIT(NULL, 0)
-	"samp.LogPrintf",
-	sizeof(LogPrintfObject),
-	0,
-	(destructor)LogPrintf_dealloc,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	Py_TPFLAGS_DEFAULT,
-	"Standard output to logprintf adapter",
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	LogPrintf_methods,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	0,
-	LogPrintf_new,
+static PyType_Slot LogPrintfType_Slots[] = {
+	{Py_tp_doc, (void *)PyDoc_STR("Standard output to logprintf adapter")},
+	{Py_tp_methods, LogPrintf_methods},
+	{Py_tp_new, LogPrintf_new},
+	{Py_tp_dealloc, LogPrintf_dealloc},
+	{0, NULL},
+};
+
+PyType_Spec LogPrintfType_Spec = {
+	.name = "samp.LogPrintf",
+	.basicsize = sizeof(LogPrintfObject),
+	.itemsize = 0,
+	.flags = Py_TPFLAGS_DEFAULT,
+	.slots = LogPrintfType_Slots,
 };

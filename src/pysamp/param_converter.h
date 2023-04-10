@@ -2,7 +2,7 @@
 #define PARAMCONVERTER_H
 
 #include <string>
-#include <Python.h>
+#include "limited_api_python.h"
 #include "sampgdk.h"
 #include "pysamp.h"
 
