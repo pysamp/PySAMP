@@ -1,6 +1,7 @@
 #ifndef PYSAMP_H
 #define PYSAMP_H
 
+#include "limited_api_python.h"
 #include "timer.h"
 #include "callbacks.h"
 #include "param_converter.h"

@@ -1,26 +1,44 @@
 #include "samp.h"
 
+typedef struct
+{
+	PyObject* LogPrintfType;
+} PySAMPModuleState;
+
+
+static inline PySAMPModuleState* get_module_state(PyObject* module)
+{
+	void* state = PyModule_GetState(module);
+	return (PySAMPModuleState*)state;
+}
 
 extern "C"
 {
 	PyMODINIT_FUNC PyInit_samp()
 	{
-		PyObject *logprintf;
-
-		if(PyType_Ready(&LogPrintfType) < 0)
-			return NULL;
-
-		logprintf = PyObject_CallObject((PyObject*)&LogPrintfType, NULL);
-
-		if(logprintf == NULL)
-			return NULL;
-
-		PySys_SetObject("stdout", logprintf);
-		PySys_SetObject("stderr", logprintf);
-		Py_DECREF(logprintf);
-
-		return PyModule_Create(&PySAMPModule);
+		return PyModuleDef_Init(&PySAMPModule);
 	}
+}
+
+static int PySAMP_exec(PyObject* module)
+{
+	PyObject* logprintf;
+	PySAMPModuleState* state = get_module_state(module);
+
+	state->LogPrintfType = PyType_FromSpec(&LogPrintfType_Spec);
+	if(state->LogPrintfType == NULL)
+		return -1;
+
+	logprintf = PyObject_CallObject(state->LogPrintfType, NULL);
+
+	if(logprintf == NULL)
+		return -1;
+
+	PySys_SetObject("stdout", logprintf);
+	PySys_SetObject("stderr", logprintf);
+	Py_DECREF(logprintf);
+
+	return 0;
 }
 
 WITH_GIL(pysamp_createactor, PyObject *self, PyObject *args)
@@ -731,13 +749,13 @@ WITH_GIL(pysamp_isplayerobjectmoving, PyObject *self, PyObject *args)
 
 WITH_GIL(pysamp_setobjectmaterial, PyObject *self, PyObject *args)
 {
-	int arg5 = 0;
+	unsigned long arg5 = 0;
 	const char* arg4;
 	const char* arg3;
 	int arg2 = -1;
 	int arg1 = -1;
 	int arg0 = -1;
-	if (!PyArg_ParseTuple(args, "iiieses|i:SetObjectMaterial", &arg0, &arg1, &arg2, PySAMP::getEncoding().c_str(), &arg3, PySAMP::getEncoding().c_str(), &arg4, &arg5))
+	if (!PyArg_ParseTuple(args, "iiieses|k:SetObjectMaterial", &arg0, &arg1, &arg2, PySAMP::getEncoding().c_str(), &arg3, PySAMP::getEncoding().c_str(), &arg4, &arg5))
 		return NULL;
 
 	bool ret = SetObjectMaterial(arg0, arg1, arg2, arg3, arg4, arg5);
@@ -752,14 +770,14 @@ WITH_GIL(pysamp_setobjectmaterial, PyObject *self, PyObject *args)
 
 WITH_GIL(pysamp_setplayerobjectmaterial, PyObject *self, PyObject *args)
 {
-	int arg6 = 0;
+	unsigned long arg6 = 0;
 	const char* arg5;
 	const char* arg4;
 	int arg3 = -1;
 	int arg2 = -1;
 	int arg1 = -1;
 	int arg0 = -1;
-	if (!PyArg_ParseTuple(args, "iiiieses|i:SetPlayerObjectMaterial", &arg0, &arg1, &arg2, &arg3, PySAMP::getEncoding().c_str(), &arg4, PySAMP::getEncoding().c_str(), &arg5, &arg6))
+	if (!PyArg_ParseTuple(args, "iiiieses|k:SetPlayerObjectMaterial", &arg0, &arg1, &arg2, &arg3, PySAMP::getEncoding().c_str(), &arg4, PySAMP::getEncoding().c_str(), &arg5, &arg6))
 		return NULL;
 
 	bool ret = SetPlayerObjectMaterial(arg0, arg1, arg2, arg3, arg4, arg5, arg6);
@@ -775,8 +793,8 @@ WITH_GIL(pysamp_setplayerobjectmaterial, PyObject *self, PyObject *args)
 WITH_GIL(pysamp_setobjectmaterialtext, PyObject *self, PyObject *args)
 {
 	int arg9 = 0;
-	int arg8 = 0;
-	int arg7 = 0xFFFFFFFF;
+	unsigned long arg8 = 0;
+	unsigned long arg7 = 0xFFFFFFFF;
 	int arg6 = true;
 	int arg5 = 24;
 	const char* arg4 = NULL;
@@ -784,7 +802,7 @@ WITH_GIL(pysamp_setobjectmaterialtext, PyObject *self, PyObject *args)
 	int arg2 = 0;
 	const char* arg1;
 	int arg0 = -1;
-	if (!PyArg_ParseTuple(args, "ies|iiesipiii:SetObjectMaterialText", &arg0, PySAMP::getEncoding().c_str(), &arg1, &arg2, &arg3, PySAMP::getEncoding().c_str(), &arg4, &arg5, &arg6, &arg7, &arg8, &arg9))
+	if (!PyArg_ParseTuple(args, "ies|iiesipkki:SetObjectMaterialText", &arg0, PySAMP::getEncoding().c_str(), &arg1, &arg2, &arg3, PySAMP::getEncoding().c_str(), &arg4, &arg5, &arg6, &arg7, &arg8, &arg9))
 		return NULL;
 
 	bool ret = SetObjectMaterialText(arg0, arg1, arg2, arg3, arg4 != NULL ? arg4 : "Arial", arg5, arg6, arg7, arg8, arg9);
@@ -800,8 +818,8 @@ WITH_GIL(pysamp_setobjectmaterialtext, PyObject *self, PyObject *args)
 WITH_GIL(pysamp_setplayerobjectmaterialtext, PyObject *self, PyObject *args)
 {
 	int arg10 = 0;
-	int arg9 = 0;
-	int arg8 = 0xFFFFFFFF;
+	unsigned long arg9 = 0;
+	unsigned long arg8 = 0xFFFFFFFF;
 	int arg7 = true;
 	int arg6 = 24;
 	const char* arg5 = NULL;
@@ -810,7 +828,7 @@ WITH_GIL(pysamp_setplayerobjectmaterialtext, PyObject *self, PyObject *args)
 	const char* arg2;
 	int arg1 = -1;
 	int arg0 = -1;
-	if (!PyArg_ParseTuple(args, "iies|iiesipiii:SetPlayerObjectMaterialText", &arg0, &arg1, PySAMP::getEncoding().c_str(), &arg2, &arg3, &arg4, PySAMP::getEncoding().c_str(), &arg5, &arg6, &arg7, &arg8, &arg9, &arg10))
+	if (!PyArg_ParseTuple(args, "iies|iiesipkki:SetPlayerObjectMaterialText", &arg0, &arg1, PySAMP::getEncoding().c_str(), &arg2, &arg3, &arg4, PySAMP::getEncoding().c_str(), &arg5, &arg6, &arg7, &arg8, &arg9, &arg10))
 		return NULL;
 
 	bool ret = SetPlayerObjectMaterialText(arg0, arg1, arg2, arg3, arg4, arg5 != NULL ? arg5 : "Arial", arg6, arg7, arg8, arg9, arg10);
@@ -1685,8 +1703,8 @@ WITH_GIL(pysamp_getplayerlastshotvectors, PyObject *self, PyObject *args)
 
 WITH_GIL(pysamp_setplayerattachedobject, PyObject *self, PyObject *args)
 {
-	int arg14 = -1;
-	int arg13 = -1;
+	unsigned long arg14 = -1;
+	unsigned long arg13 = -1;
 	float arg12 = 1.0;
 	float arg11 = 1.0;
 	float arg10 = 1.0;
@@ -1700,7 +1718,7 @@ WITH_GIL(pysamp_setplayerattachedobject, PyObject *self, PyObject *args)
 	int arg2 = -1;
 	int arg1 = -1;
 	int arg0 = -1;
-	if (!PyArg_ParseTuple(args, "iiii|fffffffffii:SetPlayerAttachedObject", &arg0, &arg1, &arg2, &arg3, &arg4, &arg5, &arg6, &arg7, &arg8, &arg9, &arg10, &arg11, &arg12, &arg13, &arg14))
+	if (!PyArg_ParseTuple(args, "iiii|fffffffffkk:SetPlayerAttachedObject", &arg0, &arg1, &arg2, &arg3, &arg4, &arg5, &arg6, &arg7, &arg8, &arg9, &arg10, &arg11, &arg12, &arg13, &arg14))
 		return NULL;
 
 	bool ret = SetPlayerAttachedObject(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14);
@@ -4627,10 +4645,10 @@ WITH_GIL(pysamp_gangzonehideforall, PyObject *self, PyObject *args)
 
 WITH_GIL(pysamp_gangzoneflashforplayer, PyObject *self, PyObject *args)
 {
-	int arg2 = -1;
+	unsigned long arg2 = -1;
 	int arg1 = -1;
 	int arg0 = -1;
-	if (!PyArg_ParseTuple(args, "iii:GangZoneFlashForPlayer", &arg0, &arg1, &arg2))
+	if (!PyArg_ParseTuple(args, "iik:GangZoneFlashForPlayer", &arg0, &arg1, &arg2))
 		return NULL;
 
 	bool ret = GangZoneFlashForPlayer(arg0, arg1, arg2);
@@ -4641,9 +4659,9 @@ WITH_GIL(pysamp_gangzoneflashforplayer, PyObject *self, PyObject *args)
 
 WITH_GIL(pysamp_gangzoneflashforall, PyObject *self, PyObject *args)
 {
-	int arg1 = -1;
+	unsigned long arg1 = -1;
 	int arg0 = -1;
-	if (!PyArg_ParseTuple(args, "ii:GangZoneFlashForAll", &arg0, &arg1))
+	if (!PyArg_ParseTuple(args, "ik:GangZoneFlashForAll", &arg0, &arg1))
 		return NULL;
 
 	bool ret = GangZoneFlashForAll(arg0, arg1);
@@ -5992,10 +6010,37 @@ static PyMethodDef PySAMPMethods[] = {
 	{ NULL, NULL, 0, NULL }
 };
 
+static int PySAMP_traverse(PyObject *module, visitproc visit, void *arg)
+{
+	PySAMPModuleState *state = get_module_state(module);
+
+	// Pre-3.9 compat (SABI 3.6)
+	if(state == NULL)
+		return 0;
+
+	Py_VISIT(state->LogPrintfType);
+	return 0;
+}
+
+static int PySAMP_clear(PyObject *module)
+{
+	PySAMPModuleState *state = get_module_state(module);
+	Py_CLEAR(state->LogPrintfType);
+	return 0;
+}
+
+PyModuleDef_Slot PySAMPSlots[] = {
+	{Py_mod_exec, PySAMP_exec},
+	{0, NULL},
+};
+
 struct PyModuleDef PySAMPModule = {
 	.m_base = PyModuleDef_HEAD_INIT,
 	.m_name = "samp",
-	.m_doc = "PySAMP native functions",
-	.m_size = -1,
+	.m_doc = PyDoc_STR("PySAMP native functions"),
+	.m_size = sizeof(PySAMPModuleState),
 	.m_methods = PySAMPMethods,
+	.m_slots = PySAMPSlots,
+	.m_traverse = PySAMP_traverse,
+	.m_clear = PySAMP_clear,
 };

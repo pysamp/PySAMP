@@ -26,15 +26,19 @@ cell* ParamConverter::from_tuple(PyObject* tuple, bool asReference)
 		// This check is mostly here to prevent future misuse
 		if(!PyUnicode_Check(function_name))
 		{
+			const char* name = PyBytes_AsString(PyUnicode_AsUTF8String(PyObject_GetAttrString(
+				(PyObject*)Py_TYPE(function_name),
+				"__name__"
+			)));
 			PyErr_Format(
 				PyExc_ValueError,
 				"ParamConverter::from_tuple(asReference=true) argument 1 must be str, not %s",
-				Py_TYPE(function_name)->tp_name
+				name
 			);
 			return NULL;
 		}
 
-		const char *value = PyUnicode_AsUTF8(function_name);
+		const char *value = PyBytes_AsString(PyUnicode_AsUTF8String(function_name));
 		sampgdk_fakeamx_push_string(value, NULL, &amx_params[1]);
 	}
 
@@ -70,7 +74,7 @@ cell* ParamConverter::from_tuple(PyObject* tuple, bool asReference)
 		}
 		else if(PyFloat_Check(current_argument))
 		{
-			float value = PyFloat_AsDouble(current_argument);
+			float value = (float)PyFloat_AsDouble(current_argument);
 
 			if(!asReference)
 				amx_params[i + offset] = amx_ftoc(value);
@@ -81,7 +85,9 @@ cell* ParamConverter::from_tuple(PyObject* tuple, bool asReference)
 		}
 		else if(PyUnicode_Check(current_argument))
 		{
-			const char* value = PyUnicode_AsUTF8(current_argument);
+			const char* value = PyBytes_AsString(
+				PyUnicode_AsUTF8String(current_argument)
+			);
 			sampgdk_fakeamx_push_string(value, NULL, &amx_params[i + offset]);
 
 			_format += "s";

@@ -1,7 +1,7 @@
 #ifndef SAMP_H
 #define SAMP_H
 
-#include <Python.h>
+#include "limited_api_python.h"
 #include "sampgdk.h"
 #include "pysamp.h"
 #include "timer.h"

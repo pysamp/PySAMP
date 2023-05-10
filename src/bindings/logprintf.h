@@ -5,9 +5,9 @@
 #include <string>
 #include <sstream>
 #include <iostream>
-#include <Python.h>
+#include "limited_api_python.h"
 #include "sampgdk.h"
 
-extern PyTypeObject LogPrintfType;
+extern PyType_Spec LogPrintfType_Spec;
 
 #endif

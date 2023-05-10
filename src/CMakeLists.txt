@@ -1,7 +1,10 @@
+cmake_minimum_required(VERSION 3.15)
 project(PySAMP)
 
-cmake_minimum_required(VERSION 3.15)
 list(APPEND CMAKE_MODULE_PATH ${SAMPGDK_DIR}/cmake)
+include(AMXConfig)
+include(AddSAMPPlugin)
+include(FindSAMPSDK)
 
 set(PYSAMP_MAJOR_VERSION 2)
 set(PYSAMP_MINOR_VERSION 1)
@@ -9,34 +12,6 @@ set(PYSAMP_REVISION 0)
 
 set(PYSAMP_VERSION "${PYSAMP_MAJOR_VERSION}.${PYSAMP_MINOR_VERSION}.${PYSAMP_REVISION}")
 add_definitions(-DPYSAMP_VERSION=${PYSAMP_VERSION})
-
-find_package(
-    Python3
-    COMPONENTS Development
-    REQUIRED
-)
-
-include(AMXConfig)
-include(AddSAMPPlugin)
-include(FindSAMPSDK)
-
-include_directories(
-    ${CMAKE_CURRENT_SOURCE_DIR}
-    ${SAMPSDK_DIR}/amx
-    ${SAMPGDK_DIR}/build/lib/sampgdk/
-    ${SAMPSDK_INCLUDE_DIR}
-    ${CMAKE_CURRENT_SOURCE_DIR}/bindings
-    ${CMAKE_CURRENT_SOURCE_DIR}/pysamp
-    ${Python3_INCLUDE_DIRS}
-    ${CMAKE_BINARY_DIR}/generated/
-)
-
-message(STATUS "Python3_LIBRARIES = ${Python3_LIBRARIES}")
-message(STATUS "Python3_INCLUDE_DIRS = ${Python3_INCLUDE_DIRS}")
-
-add_definitions(-DSAMPGDK_AMALGAMATION)
-
-configure_file(config.h.in ${CMAKE_BINARY_DIR}/generated/config.h)
 
 if(MSVC)
     set(CMAKE_CXX_STANDARD 20)
@@ -68,7 +43,40 @@ add_samp_plugin(PySAMP
     bindings/logprintf.h
 )
 
-target_link_libraries(PySAMP ${Python3_LIBRARIES})
+if(MSVC AND NOT CMAKE_BUILD_TYPE MATCHES "Debug")
+    find_package(
+        Python3
+        COMPONENTS Development.SABIModule
+        REQUIRED
+    )
+    message(STATUS "Python3_INCLUDE_DIRS = ${Python3_INCLUDE_DIRS}")
+    message(STATUS "Python3_SABI_LIBRARIES = ${Python3_SABI_LIBRARIES}")
+    target_link_libraries(PySAMP Python3::SABIModule)
+else()
+    find_package(
+        Python3
+        COMPONENTS Development.Embed
+        REQUIRED
+    )
+    message(STATUS "Python3_INCLUDE_DIRS = ${Python3_INCLUDE_DIRS}")
+    message(STATUS "Python3_LIBRARIES = ${Python3_LIBRARIES}")
+    target_link_libraries(PySAMP Python3::Python)
+endif()
+
+include_directories(
+    ${CMAKE_CURRENT_SOURCE_DIR}
+    ${SAMPSDK_DIR}/amx
+    ${SAMPGDK_DIR}/build/lib/sampgdk/
+    ${SAMPSDK_INCLUDE_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}/bindings
+    ${CMAKE_CURRENT_SOURCE_DIR}/pysamp
+    ${Python3_INCLUDE_DIRS}
+    ${CMAKE_BINARY_DIR}/generated/
+)
+
+add_definitions(-DSAMPGDK_AMALGAMATION)
+
+configure_file(config.h.in ${CMAKE_BINARY_DIR}/generated/config.h)
 
 find_package(Doxygen)
 if(DOXYGEN_FOUND)
