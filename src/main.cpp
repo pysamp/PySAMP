@@ -13,10 +13,6 @@ PLUGIN_EXPORT bool PLUGIN_CALL Load(void **ppData)
 	pAMXFunctions = ppData[PLUGIN_DATA_AMX_EXPORTS];
 	bool ret = sampgdk::Load(ppData);
 
-#ifndef WIN32
-	dlopen(PYTHON_LIBRARY, RTLD_GLOBAL | RTLD_LAZY);
-#endif
-
 	std::stringstream stream{PYSAMP_LOADING_SCREEN};
 	std::string line;
 	sampgdk::logprintf("");
@@ -25,6 +21,11 @@ PLUGIN_EXPORT bool PLUGIN_CALL Load(void **ppData)
 		sampgdk::logprintf(line.c_str());
 
 	sampgdk::logprintf("\nPySAMP %s for Python %s\n", PYSAMP_VERSION_STR, PYTHON_VERSION_STR);
+
+#ifndef WIN32
+	dlopen(PYTHON_LIBRARY, RTLD_GLOBAL | RTLD_LAZY);
+	sampgdk::logprintf("\nLoading Python library: %s\n", PYTHON_LIBRARY);
+#endif
 
 	return ret;
 }
