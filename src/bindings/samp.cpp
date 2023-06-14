@@ -6030,7 +6030,7 @@ static int PySAMP_clear(PyObject *module)
 }
 
 PyModuleDef_Slot PySAMPSlots[] = {
-	{Py_mod_exec, PySAMP_exec},
+	{Py_mod_exec, (void*)PySAMP_exec},
 	{0, NULL},
 };
 

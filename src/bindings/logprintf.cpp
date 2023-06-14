@@ -74,10 +74,10 @@ static PyMethodDef LogPrintf_methods[] = {
 };
 
 static PyType_Slot LogPrintfType_Slots[] = {
-	{Py_tp_doc, (void *)PyDoc_STR("Standard output to logprintf adapter")},
-	{Py_tp_methods, LogPrintf_methods},
-	{Py_tp_new, LogPrintf_new},
-	{Py_tp_dealloc, LogPrintf_dealloc},
+	{Py_tp_doc, (void*)PyDoc_STR("Standard output to logprintf adapter")},
+	{Py_tp_methods, (void*)LogPrintf_methods},
+	{Py_tp_new, (void*)LogPrintf_new},
+	{Py_tp_dealloc, (void*)LogPrintf_dealloc},
 	{0, NULL},
 };
 
