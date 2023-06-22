@@ -1,16 +1,8 @@
 from typing import Optional
-from pysamp import (
-    create_menu,
-    destroy_menu,
-    add_menu_item,
-    set_menu_column_header,
-    show_menu_for_player,
-    hide_menu_for_player,
-    is_valid_menu,
-    disable_menu,
-    disable_menu_row,
-    get_player_menu
-)
+from pysamp import (add_menu_item, create_menu, destroy_menu, disable_menu,
+                    disable_menu_row, get_player_menu, hide_menu_for_player,
+                    is_valid_menu, set_menu_column_header,
+                    show_menu_for_player)
 from samp import INVALID_MENU
 
 
