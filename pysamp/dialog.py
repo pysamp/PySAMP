@@ -2,14 +2,6 @@ from typing import Callable, Dict, Optional
 
 from pysamp import show_player_dialog
 from pysamp.event import registry
-from samp import (
-    DIALOG_STYLE_INPUT,
-    DIALOG_STYLE_LIST,
-    DIALOG_STYLE_MSGBOX,
-    DIALOG_STYLE_PASSWORD,
-    DIALOG_STYLE_TABLIST,
-    DIALOG_STYLE_TABLIST_HEADERS,
-)
 
 
 class Dialog:
