@@ -126,9 +126,17 @@ class Vehicle:
         """Get the vehicle's current position."""
         return get_vehicle_pos(self.id)
 
-    def set_position(self, x: float, y: float, z: float) -> bool:
+    def set_position(self, position: Tuple[float, float, float]) -> bool:
         """Sets the vehicle position directly on the passed position."""
-        return set_vehicle_pos(self.id, x, y, z)
+        try:
+            x, y, z = position
+        except ValueError:
+            raise ValueError(
+                "Method set_pos() expects the position to be a tuple = \
+                    (x: float, y: float, z: float)"
+            )
+        else:
+            return set_vehicle_pos(self.id, x, y, z)
 
     def get_z_angle(self) -> float:
         """Returns the heading the vehicle has. Can be >= 0.0 and < 360."""
@@ -155,12 +163,20 @@ class Vehicle:
         return get_vehicle_params_ex(self.id)
 
     def set_params_ex(
-        self, engine: int, lights: int, alarm: int, doors: int, bonnet: int, boot: int, objective: int
+        self, param: Tuple[int, int, int, int, int, int, int]
     ) -> bool:
         """Set additional parameters on the vehicle."""
-        return set_vehicle_params_ex(
-            self.id, engine, lights, alarm, doors, bonnet, boot, objective
-        )
+        try:
+            engine, lights, alarm, doors, bonnet, boot, objective = param
+        except ValueError:
+            raise ValueError(
+                "A tuple was expected: \
+                    (engine, lights, alarm, doors, bonnet, boot, objective)"
+            )
+        else:
+            return set_vehicle_params_ex(
+                self.id, engine, lights, alarm, doors, bonnet, boot, objective
+            )
 
     def get_params_siren_state(self) -> int:
         """Check if the sirens are on or off.
@@ -181,7 +197,7 @@ class Vehicle:
         """
         return get_vehicle_params_car_doors(self.id)
 
-    def set_params_car_doors(self, driver: int, passenger: int, backleft: int, backright: int) -> bool:
+    def set_params_car_doors(self, doors: Tuple[int, int, int, int]) -> bool:
         """Open and close vehicle doors.
 
         The doors tuple should be in this order:
@@ -189,21 +205,37 @@ class Vehicle:
 
         Setting an unavailable door to 0 or 1, has no effect.
         """
-        return set_vehicle_params_car_doors(
-            self.id, driver, passenger, backleft, backright
-        )
+        try:
+            driver, passenger, backleft, backright = doors
+        except ValueError:
+            raise ValueError(
+                "A tuple was expected: \
+                    (driver, passenger, backleft, backright)"
+            )
+        else:
+            return set_vehicle_params_car_doors(
+                self.id, driver, passenger, backleft, backright
+            )
 
     def get_params_car_windows(self) -> Tuple[int, int, int, int]:
         """Check if windows are available and if they are closed / open."""
         return get_vehicle_params_car_windows(self.id)
 
     def set_params_car_windows(
-        self, driver: int, passenger: int, backleft: int, backright: int
+        self, windows: Tuple[int, int, int, int]
     ) -> bool:
         """Allows you to open and close the windows of a vehicle."""
-        return set_vehicle_params_car_windows(
-            self.id, driver, passenger, backleft, backright
-        )
+        try:
+            driver, passenger, backleft, backright = windows
+        except ValueError:
+            raise ValueError(
+                "A tuple was expected: \
+                    (driver, passenger, backleft, backright)"
+            )
+        else:
+            return set_vehicle_params_car_windows(
+                self.id, driver, passenger, backleft, backright
+            )
 
     def set_to_respawn(self) -> bool:
         """Respawn the vehicle. It will spawn at its created coordinates."""
@@ -315,16 +347,26 @@ class Vehicle:
         """Get the vehicle velocity. Vector is relative to the car axis"""
         return get_vehicle_velocity(self.id)
 
-    def set_velocity(self, x: float, y: float, z: float) -> bool:
+    def set_velocity(self, vector: Tuple[float, float, float]) -> bool:
         """Set the car velocity. Relative to the car axis."""
-        return set_vehicle_velocity(self.id, x, y, z)
+        try:
+            x, y, z = vector
+        except ValueError:
+            raise ValueError("Expected a tuple for vector (x,y,z)")
+        else:
+            return set_vehicle_velocity(self.id, x, y, z)
 
-    def set_angular_velocity(self, x: float, y: float, z: float) -> bool:
+    def set_angular_velocity(self, vector: Tuple[float, float, float]) -> bool:
         """Set the angular velocity of a vehicle.
 
         This is set relative to world space and not vehicle's local space.
         """
-        return set_vehicle_angular_velocity(self.id, x, y, z)
+        try:
+            x, y, z = vector
+        except ValueError:
+            raise ValueError("Expected a tuple for vector (x,y,z)")
+        else:
+            return set_vehicle_angular_velocity(self.id, x, y, z)
 
     def get_damage_status(self) -> Tuple[int, int, int, int]:
         """This method returns information to you about if parts of the
@@ -339,15 +381,23 @@ class Vehicle:
         """
         return get_vehicle_damage_status(self.id)
 
-    def set_damage_status(self, panels: int, doors: int, lights: int, tires: int) -> bool:
+    def set_damage_status(self, param: Tuple[int, int, int, int]) -> bool:
         """Set vehicle damage status.
 
         Please refer to:
         https://open.mp/docs/scripting/resources/damagestatus
         """
-        return update_vehicle_damage_status(
-            self.id, panels, doors, lights, tires
-        )
+        try:
+            panels, doors, lights, tires = param
+        except ValueError:
+            raise ValueError(
+                "Expected a tuple for damage_status: \
+                    (panels, doors, lights, tires)"
+            )
+        else:
+            return update_vehicle_damage_status(
+                self.id, panels, doors, lights, tires
+            )
 
     def get_virtual_world(self) -> int:
         """Find out which virtual world ID the vehicle is currently in."""
