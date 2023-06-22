@@ -321,8 +321,8 @@ class Player:
     def set_ammo(self, weaponid: int, ammo: int) -> bool:
         """Set ammo for a weapon id.
 
-        :param tuple conf: A tuple containing the weapon id and ammo.
-            Ammo value should be an int between 0-32766.
+        :param int weaponid: The ID of the weapon to set the ammo of.
+        :param int ammo: The amount of ammo to set.
         :return: No return value.
         """
         return set_player_ammo(self.id, weaponid, ammo)
@@ -655,7 +655,8 @@ class Player:
     def set_time(self, hour: int, minute: int) -> bool:
         """Set the time for the player.
 
-        :param tuple time: (Hour, Minute) is how the tuple looks like.
+        :param int hour: Hour to set (0-23).
+        :param int minute: 	Minutes to set (0-59).
         """
         return set_player_time(self.id, hour, minute)
 
@@ -1859,8 +1860,9 @@ class Player:
     def set_camera_position(self, x: float, y: float, z: float) -> bool:
         """Set the camera position to a given coordinate.
 
-        :param pos: A tuple with 3 values, representing the x, y and z
-            coordinate.
+        :param float x: The X coordinate to place the camera at.
+        :param float y: The Y coordinate to place the camera at.
+        :param float z: The Z coordinate to place the camera at.
         :return: This method does not return anything.
         """
         return set_player_camera_pos(self.id, x, y, z)
