@@ -107,14 +107,9 @@ class Actor:
         """Gets the current world coordinates of where the actor is located."""
         return get_actor_pos(self.id)
 
-    def set_position(self, position: Tuple[float, float, float]) -> bool:
+    def set_position(self, x: float, y: float, z: float) -> bool:
         """Set a new position for the actor."""
-        try:
-            x, y, z = position
-        except ValueError:
-            raise ValueError("Expected position as tuple: (x, y, z)")
-        else:
-            return set_actor_pos(self.id, x, y, z)
+        return set_actor_pos(self.id, x, y, z)
 
     def get_facing_angle(self) -> float:
         """Get the actor's facing angle."""

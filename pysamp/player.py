@@ -230,7 +230,7 @@ class Player:
         """
         return spawn_player(self.id)
 
-    def set_pos_find_z(self, position: Tuple[float, float, float]) -> bool:
+    def set_pos_find_z(self, x: float, y: float, z: float) -> bool:
         """This sets the players position then adjusts the players
         z-coordinate to the nearest solid ground under the position.
 
@@ -238,25 +238,15 @@ class Player:
         from where the player currently is. The Z height will then be 0,
         which will likely put them underground.
         """
-        try:
-            x, y, z = position
-        except ValueError:
-            raise ValueError("Expected a tuple for pos. (x, y, z)")
-        else:
-            return set_player_pos_find_z(self.id, x, y, z)
+        return set_player_pos_find_z(self.id, x, y, z)
 
     def get_pos(self) -> Tuple[float, float, float]:
         """Get the position of the player."""
         return get_player_pos(self.id)
 
-    def set_pos(self, pos: Tuple[float, float, float]) -> bool:
+    def set_pos(self, x: float, y: float, z: float) -> bool:
         """Set the player's position"""
-        try:
-            x, y, z = pos
-        except ValueError:
-            raise ValueError("Expected a tuple for pos. (x, y, z)")
-        else:
-            return set_player_pos(self.id, x, y, z)
+        return set_player_pos(self.id, x, y, z)
 
     def get_facing_angle(self) -> float:
         """Get the player's facing angle."""
@@ -328,19 +318,14 @@ class Player:
         """Get the amount of ammo in the player's current weapon."""
         return get_player_ammo(self.id)
 
-    def set_ammo(self, conf: Tuple[int, int]) -> bool:
+    def set_ammo(self, weaponid: int, ammo: int) -> bool:
         """Set ammo for a weapon id.
 
-        :param tuple conf: A tuple containing the weapon id and ammo.
-            Ammo value should be an int between 0-32766.
+        :param int weaponid: The ID of the weapon to set the ammo of.
+        :param int ammo: The amount of ammo to set.
         :return: No return value.
         """
-        try:
-            weaponid, ammo = conf
-        except ValueError:
-            raise ValueError("Expected a tuple for ammo: (weaponid, ammo)")
-        else:
-            return set_player_ammo(self.id, weaponid, ammo)
+        return set_player_ammo(self.id, weaponid, ammo)
 
     def get_weapon_state(self) -> int:  # PS - this is a test docstring w/rst!
         """Check the state of the player's weapon.
@@ -667,17 +652,13 @@ class Player:
         """
         return get_player_time(self.id)
 
-    def set_time(self, time: Tuple[int, int]) -> bool:
+    def set_time(self, hour: int, minute: int) -> bool:
         """Set the time for the player.
 
-        :param tuple time: (Hour, Minute) is how the tuple looks like.
+        :param int hour: Hour to set (0-23).
+        :param int minute: 	Minutes to set (0-59).
         """
-        try:
-            hour, minute = time
-        except ValueError:
-            raise ValueError("Expected a tuple for time: (hour, minute)")
-        else:
-            return set_player_time(self.id, hour, minute)
+        return set_player_time(self.id, hour, minute)
 
     def toggle_clock(self, toggle: bool) -> bool:
         """Toggle the in-game clock (top-right corner) for a specific player.
@@ -848,14 +829,9 @@ class Player:
         """
         return get_player_velocity(self.id)
 
-    def set_velocity(self, pos: Tuple[float, float, float]) -> bool:
+    def set_velocity(self, x: float, y: float, z: float) -> bool:
         """Set the velocity of a player in X,Y,Z direction."""
-        try:
-            x, y, z = pos
-        except ValueError:
-            raise ValueError("Expected a tuple for velocity: (x, y, z).")
-        else:
-            return set_player_velocity(self.id, x, y, z)
+        return set_player_velocity(self.id, x, y, z)
 
     def play_crime_report(self, suspect: "Player", crime: int) -> bool:
         """Plays a crime report for the player.
@@ -1881,19 +1857,15 @@ class Player:
         """
         return get_player_camera_pos(self.id)
 
-    def set_camera_position(self, pos: Tuple[float, float, float]) -> bool:
+    def set_camera_position(self, x: float, y: float, z: float) -> bool:
         """Set the camera position to a given coordinate.
 
-        :param pos: A tuple with 3 values, representing the x, y and z
-            coordinate.
+        :param float x: The X coordinate to place the camera at.
+        :param float y: The Y coordinate to place the camera at.
+        :param float z: The Z coordinate to place the camera at.
         :return: This method does not return anything.
         """
-        try:
-            x, y, z = pos
-        except ValueError:
-            raise ValueError("Expected x, y, z as a tuple (x, y, z)")
-        else:
-            return set_player_camera_pos(self.id, x, y, z)
+        return set_player_camera_pos(self.id, x, y, z)
 
     def get_camera_front_vector(self) -> Tuple[float, float, float]:
         """This function will return the current direction of player's aiming
