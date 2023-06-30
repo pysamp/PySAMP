@@ -5,7 +5,7 @@
 #define PYTHON_VERSION_STR "@Python3_VERSION@"
 
 #ifndef WIN32
-	#define PYTHON_LIBRARY "@Python3_LIBRARIES@"
+	#define PYTHON_LIBRARY "@LIBPYTHON3_PATH@"
 #endif
 
 #endif

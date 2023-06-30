@@ -58,8 +58,11 @@ else()
         COMPONENTS Development.Embed
         REQUIRED
     )
+    cmake_path(GET Python3_LIBRARIES STEM LAST_ONLY LIBPYTHON3_PATH)
+    string(APPEND LIBPYTHON3_PATH ".so")
     message(STATUS "Python3_INCLUDE_DIRS = ${Python3_INCLUDE_DIRS}")
     message(STATUS "Python3_LIBRARIES = ${Python3_LIBRARIES}")
+    message(STATUS "LIBPYTHON3_PATH = ${LIBPYTHON3_PATH}")
     target_link_libraries(PySAMP Python3::Python)
 endif()
 
