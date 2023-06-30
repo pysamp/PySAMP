@@ -1,4 +1,5 @@
 from pysamp.player import Player as BasePlayer
+from functools import wraps
 
 class Player(BasePlayer):
     _registry = {}
@@ -11,25 +12,21 @@ class Player(BasePlayer):
         self.has_city_selected = False
         self.last_city_selection_tick = 0
 
-    @classmethod
-    def from_registry(cls, player):
+
+    def using_registry(func):
         """
         This should be used to make sure that our callback takes an instance of the class from the dictionary
         """
-        if isinstance(player, int):
-            playerid = player
-        
-        if isinstance(player, BasePlayer):
-            playerid = player.id
-            
-        player = cls._registry.get(playerid)
+        @wraps(func)
+        def from_registry(*args, **kwargs):
+            args = list(args)
+            args[0] = Player.from_registry(args[0])
+            return func(*args, **kwargs)
 
-        if not player:
-            cls._registry[playerid] = player = cls(playerid)
+        return from_registry
 
-        return player
 
-    @classmethod 
+    @classmethod
     def delete_registry(cls, player: BasePlayer):
         """
         Removes an instance from the registry
