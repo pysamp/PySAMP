@@ -60,3 +60,6 @@ html_static_path = ['_static']
 
 # Since contents.rst is not the main file, we override it to index.
 master_doc = 'index'
+
+# Sphinx will try to import python, but it will not exist. We need to mock it
+autodoc_mock_imports = ['python']
