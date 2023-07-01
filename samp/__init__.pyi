@@ -2025,8 +2025,13 @@ def SetTimer(
 ) -> int:
     pass
 
+def KillTimer(timer_id: int) -> None:
+    pass
 
 def CallNativeFunction(name: str, *arguments) -> Any:
+    pass
+
+def RegisterCallback(name: str, parameter_types: str) -> Any:
     pass
 
 
