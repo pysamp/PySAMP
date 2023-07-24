@@ -24,6 +24,7 @@ from pysamp import (
     attach_camera_to_player_object,
     ban,
     ban_ex,
+    cancel_edit,
     clear_animations,
     create_explosion_for_player,
     delete_pvar,
@@ -1280,6 +1281,10 @@ class Player:
             ``on_player_edit_attached_object`` to abort the edit.
         """
         return edit_attached_object(self.id, index)
+    
+    def cancel_edit(self):
+        """Cancel object edition mode for a player"""
+        return cancel_edit(self.id)
 
     def get_pvar_int(self, var_name: str) -> int:
         """Get a player variable containing an integer.

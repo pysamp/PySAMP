@@ -29,3 +29,4 @@ venv/
 _static/
 _templates/
 _build/
+compose-dev.yaml
