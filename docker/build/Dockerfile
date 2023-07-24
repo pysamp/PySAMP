@@ -1,4 +1,4 @@
-FROM quay.io/pypa/manylinux2014_i686
+FROM quay.io/pypa/manylinux2014_i686:2023-04-09-db9a92f
 
 ARG sampgdk_ref=v4.6.2
 ARG pysamp_ref=v2.1.0-rc2

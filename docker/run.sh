@@ -1,14 +1,14 @@
 #!/bin/sh
 
 cd $(dirname $0)/server
-pysamp_path='../build/PySAMP.so'
+pysamp_path='../build/python3.10/PySAMP.so'
 pysamp_module_path='../../pysamp'
 
 if [ ! -e "$pysamp_path" ]
 then
     (
         cd ../build
-        ./build_pysamp.sh
+        ./build.sh
     ) || exit 1
     cp "$pysamp_path" ./ &&
     cp -r "$pysamp_module_path" ./ &&
