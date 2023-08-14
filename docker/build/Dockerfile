@@ -24,19 +24,21 @@ RUN \
         --branch ${pysamp_ref} \
         https://github.com/pysamp/PySAMP \
     && \
-    mkdir sampgdk/build && \
     ( \
-        cd sampgdk/build && \
+        cd sampgdk && \
         curl https://bootstrap.pypa.io/pip/2.7/get-pip.py | python2 && \
-        python2 -mpip install --user ply==3.10 && \
+        python2 -mpip install --user ply==3.4 && \
         cmake \
-            .. \
+            -S . \
+            -B build \
             -G 'Unix Makefiles' \
             -DCMAKE_BUILD_TYPE=${build_type} \
-            -DSAMPSDK_DIR=../../samp-plugin-sdk \
+            -DSAMPSDK_DIR=../samp-plugin-sdk \
             -DSAMPGDK_BUILD_AMALGAMATION=ON \
         && \
-        make -j$(nproc) \
+        cmake \
+            --build build \
+            --parallel $(nproc) \
     )
 
 WORKDIR /root/PySAMP
