@@ -1,7 +1,19 @@
+import string
 from typing import Callable, Dict, Optional
 
 from pysamp import show_player_dialog
 from pysamp.event import registry
+
+
+class ColorCompatibleFormatter(string.Formatter):
+    def get_value(self, key, args, kwargs):
+        # Allow color escapes like {FF0000} or {808080}
+        if key not in kwargs:
+            return '{%s}' % key
+        return kwargs[key]
+
+
+dialog_formatter = ColorCompatibleFormatter()
 
 
 class Dialog:
@@ -63,7 +75,12 @@ class Dialog:
         """
         return cls(type, title, content, button_1, button_2, on_response)
 
-    def show(self, for_player: "Player", *args, **kwargs) -> None:
+    def show(
+        self,
+        for_player: "Player",
+        title_format=None,
+        content_format=None,
+    ) -> None:
         """Show the dialog created with :meth:`create` to a specific player.
 
         :param Player for_player: The player you want to show
@@ -73,13 +90,20 @@ class Dialog:
         .. note:: You can only show one dialog to a player at a time. Showing
             a new dialog will close the old one, if shown.
         """
+        title, content = self.title, self.content
+
+        if title_format:
+            title = dialog_formatter.vformat(title, (), title_format)
+
+        if content_format:
+            content = dialog_formatter.vformat(content, (), content_format)
 
         show_player_dialog(
             for_player.id,
             Dialog._ID,  # we only occupy one ID on SA-MP side.
             self.type,
-            self.title,
-            self.content.format(*args, **kwargs),
+            title,
+            content,
             self.button_1,
             self.button_2,
         )
