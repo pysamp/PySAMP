@@ -2602,7 +2602,7 @@ class Player:
 
     @event("OnPlayerClickPlayerTextDraw")
     def on_click_playertextdraw(cls, playerid: int, playertextid: int):
-        return (cls(playerid), PlayerTextDraw(playertextid))
+        return (cls(playerid), PlayerTextDraw(playertextid, cls(playerid)))
 
     @event("OnPlayerClickPlayer")
     def on_click_player(cls, playerid: int, clickedplayerid: int, source: int):
