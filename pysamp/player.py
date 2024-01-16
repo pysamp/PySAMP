@@ -551,7 +551,7 @@ class Player:
         return give_player_money(self.id, money)
 
     def reset_money(self) -> bool:
-        """Use this method to reset player money to 0`."""
+        """Use this method to reset player money to 0."""
         return reset_player_money(self.id)
 
     def get_name(self) -> str:

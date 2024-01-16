@@ -1,6 +1,6 @@
 FROM ubuntu:22.04
 
-ARG samp_url=http://files.sa-mp.com/samp037svr_R2-1.tar.gz
+ARG samp_url=https://gta-multiplayer.cz/downloads/samp037svr_R2-2-1.tar.gz
 ARG crashdetect_version=4.20
 
 ENV DEBIAN_FRONTEND=noninteractive

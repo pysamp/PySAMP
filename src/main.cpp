@@ -23,7 +23,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL Load(void **ppData)
 	sampgdk::logprintf("\nPySAMP %s for Python %s\n", PYSAMP_VERSION_STR, PYTHON_VERSION_STR);
 
 #ifndef WIN32
-	dlopen(PYTHON_LIBRARY, RTLD_GLOBAL | RTLD_LAZY);
+	dlopen(PYTHON_LIBRARY, RTLD_GLOBAL | RTLD_NOW);
 	sampgdk::logprintf("\nLoading Python library: %s\n", PYTHON_LIBRARY);
 #endif
 
