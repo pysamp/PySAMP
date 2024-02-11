@@ -1744,7 +1744,8 @@ class Player:
         another player on the server.
 
         :param showplayer: The player that should see the change.
-        :param color: The desired color in RGBA format.
+        :param color: The desired color in RGBA/Hex/Int format.
+        This should only be used with the square icon (ID: 0).
         :return: Returns nothing.
 
         .. code-block:: python
@@ -2602,7 +2603,7 @@ class Player:
 
     @event("OnPlayerClickPlayerTextDraw")
     def on_click_playertextdraw(cls, playerid: int, playertextid: int):
-        return (cls(playerid), PlayerTextDraw(playertextid))
+        return (cls(playerid), PlayerTextDraw(playertextid, cls(playerid)))
 
     @event("OnPlayerClickPlayer")
     def on_click_player(cls, playerid: int, clickedplayerid: int, source: int):
