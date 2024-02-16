@@ -225,7 +225,8 @@ class PlayerTextDraw:
         :param int font: A font ID to give the textdraw (0-3).
         :return: No value is returned.
 
-        See all fonts here: https://sampwiki.blast.hk/wiki/PlayerTextDrawFont
+        See all fonts here:
+        https://www.open.mp/docs/scripting/functions/PlayerTextDrawFont
 
         .. warning:: Setting the ``font`` above 3 may crash the client.
         """

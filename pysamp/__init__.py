@@ -31,6 +31,7 @@ from samp import (
     BanEx,
     BlockIpAddress,
     CallNativeFunction,
+    CallRemoteFunction,
     RegisterCallback,
     CancelEdit,
     CancelSelectTextDraw,
@@ -2731,6 +2732,10 @@ def kill_timer(timer_id: int) -> None:
 
 def call_native_function(name: str, *arguments):
     return CallNativeFunction(name, *arguments)
+
+
+def call_remote_function(name: str, *arguments):
+    return CallRemoteFunction(name, *arguments)
 
 
 def register_callback(name: str, arguments: str):

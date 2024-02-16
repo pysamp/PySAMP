@@ -221,7 +221,8 @@ class TextDraw:
         :param int font: A font ID to give the textdraw (0-3).
         :return: No value is returned.
 
-        See all fonts here: https://sampwiki.blast.hk/wiki/TextDrawFont
+        See all fonts here:
+        https://www.open.mp/docs/scripting/functions/TextDrawFont
 
         .. warning:: Setting the ``font`` above 3 may crash the client.
         """
@@ -347,7 +348,7 @@ class TextDraw:
         """Cancel textdraw selection with the mouse.
 
         :param Player player: The player that should be the textdraw selection disabled.
-        :return: This method does not return anything. 
+        :return: This method does not return anything.
         """
         return cancel_select_text_draw(player.id)
 
