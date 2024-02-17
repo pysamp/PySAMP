@@ -2031,6 +2031,9 @@ def KillTimer(timer_id: int) -> None:
 def CallNativeFunction(name: str, *arguments) -> Any:
     pass
 
+def CallRemoteFunction(name: str, *arguments) -> Any:
+    pass
+
 def RegisterCallback(name: str, parameter_types: str) -> Any:
     pass
 

@@ -631,7 +631,8 @@ class Player:
             :up_down: Up/Down state
             :left_right: left/right state
 
-        See all keys here: https://sampwiki.blast.hk/wiki/Keys
+        See all keys here:
+        https://www.open.mp/docs/scripting/resources/keys
 
         .. note:: Only the FUNCTION of keys can be detected; not the actual
             keys.
@@ -940,7 +941,7 @@ class Player:
         ammunition interior.
 
         Learn more here:
-        https://sampwiki.blast.hk/wiki/ShopNames
+        https://www.open.mp/docs/scripting/resources/shopnames
         """
         return set_player_shop_name(self.id, shop_name)
 
@@ -992,7 +993,7 @@ class Player:
             surfed.
         """
         veh_id = get_player_surfing_vehicle_id(self.id)
-        if(veh_id == INVALID_VEHICLE_ID):
+        if (veh_id == INVALID_VEHICLE_ID):
             return None
         return Vehicle(veh_id)
 
@@ -1003,7 +1004,7 @@ class Player:
             standing on, or ``None`` if there's no moving object found.
         """
         obj_id = get_player_surfing_object_id(self.id)
-        if(obj_id == INVALID_OBJECT_ID):
+        if (obj_id == INVALID_OBJECT_ID):
             return None
         return Object(obj_id)
 
@@ -1281,7 +1282,7 @@ class Player:
             ``on_player_edit_attached_object`` to abort the edit.
         """
         return edit_attached_object(self.id, index)
-    
+
     def cancel_edit(self):
         """Cancel object edition mode for a player"""
         return cancel_edit(self.id)
@@ -1522,7 +1523,7 @@ class Player:
             and to play it no matter where the player is at.
 
         A list with available sound id's can be found here:
-        https://sampwiki.blast.hk/wiki/SoundID
+        https://www.open.mp/docs/scripting/resources/sound-ids
         """
         return player_play_sound(self.id, soundid, x, y, z)
 

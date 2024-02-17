@@ -9,7 +9,7 @@ public OnPlayerConnect(playerid)
   new name[MAX_PLAYER_NAME], string[MAX_PLAYER_NAME + 24];
   GetPlayerName(playerid, name, MAX_PLAYER_NAME);
   format(string, sizeof(string), "%s has joined the server.", name);
-  SendClientMessageToAll(0x000000FF, string);
+  SendClientMessageToAll(0xFFFFFFFF, string);
 }
 ```
 
@@ -23,11 +23,11 @@ from pysamp import (
 @Player.on_connect
 def when_player_connects(player: Player):
     name = player.get_name()
-    send_client_message_to_all(0x000000FF,  f'{name} has joined the server.')
+    send_client_message_to_all(0xFFFFFFFF,  f'{name} has joined the server.')
 ```
- 
+
 As you can see, all referenced return values are removed and instead the method returns either a value or a tuple.
-The corresponding python gamemode has to be saved as `python.py` module or a `python/` package of your server directory. For a more complete python gamemode example, please check `/docker/server/empty.py`.
+The corresponding python gamemode has to be saved as `python.py` module or a `python/` package of your server directory. For a more complete python gamemode example, please check `/gamemodes/grandlarc/`.
 
 
 # Getting Started
@@ -93,7 +93,7 @@ With our docker setup, you can run your entire SA-MP server inside a docker cont
   3. Copy `/docker/server/empty.py` to your server root directory, renamed as `python.py`
   4. Copy `pysamp` folder/module to your server root directory.
   5. Run the server and verify that the plugin has loaded in your logs. If not, make sure step 1-4. is done correctly. You need exact versions of python.
-  
+
   <hr>
 </details>
 
