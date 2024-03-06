@@ -5,13 +5,6 @@ ARG crashdetect_version=4.20
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-COPY PySAMP.so /root
-COPY empty.amx /root
-COPY empty.py /root
-COPY server.cfg.template /root
-COPY docker-entrypoint.sh /
-COPY pysamp/ /root/pysamp
-
 RUN \
     dpkg --add-architecture i386 && \
     apt-get update && \
@@ -40,15 +33,21 @@ RUN \
         rm crashdetect-${crashdetect_version}-linux.tar.gz && \
         mv crashdetect-${crashdetect_version}-linux/crashdetect.so plugins/ && \
         rm -rf crashdetect-${crashdetect_version}-linux && \
-        mv /root/empty.amx gamemodes/ && \
-        mv /root/PySAMP.so plugins/ && \
-        export generated_password=$(python3 -c 'import os;print(os.urandom(24).hex())') && \
-        envsubst < /root/server.cfg.template > server.cfg && \
-        rm /root/server.cfg.template && \
-        mv /root/empty.py python.py && \
-        mv /root/pysamp . && \
         touch requirements.txt \
     )
+
+COPY server.cfg.template /root
+RUN \
+    cd /default_server && \
+    export generated_password=$(python3 -c 'import os;print(os.urandom(24).hex())') && \
+    envsubst < /root/server.cfg.template > server.cfg && \
+    rm /root/server.cfg.template && \
+
+COPY empty.amx /default_server/gamemodes
+COPY empty.py /default_server/python.py
+COPY docker-entrypoint.sh /
+COPY pysamp/ /default_server/pysamp
+COPY PySAMP.so /default_server/plugins
 
 VOLUME /server
 WORKDIR /server

@@ -1,8 +1,8 @@
-FROM quay.io/pypa/manylinux2014_i686:2023-04-09-db9a92f
+FROM cheaterman/manylinux2014_i686:latest
 
-ARG sampgdk_ref=v4.6.2
-ARG pysamp_ref=v2.1.0-rc2
-ARG build_type=Release
+ARG sampgdk_ref=v4.6.4
+ARG pysamp_ref=v2.1.0-rc3
+ARG build_type=RelWithDebInfo
 
 WORKDIR /root
 
@@ -26,8 +26,9 @@ RUN \
     && \
     ( \
         cd sampgdk && \
-        curl https://bootstrap.pypa.io/pip/2.7/get-pip.py | python2 && \
-        python2 -mpip install --user ply==3.4 && \
+        export PATH="/opt/python/cp311-cp311/bin:${PATH}" && \
+        sed -i s/2.7/3.11/ CMakeLists.txt && \
+        pip install --user ply==3.4 && \
         cmake \
             -S . \
             -B build \
