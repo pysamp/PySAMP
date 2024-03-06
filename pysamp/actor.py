@@ -141,10 +141,30 @@ class Actor:
 
     @event("OnActorStreamIn")
     def on_stream_in(cls, actorid: int, forplayerid: int):
+        """This callbackis called when an actor is streamed in\
+        by a player's client.
+
+        :param int actorid: The ID of the actor.
+        :param int forplayerid: The ID of the player\
+        that streamed the actor in.
+        :returns: No return value.
+
+        .. note:: This callbackcan also be called by NPC.
+        """
         return (cls(actorid), Player(forplayerid))
 
     @event("OnActorStreamOut")
     def on_stream_out(cls, actorid: int, forplayerid: int):
+        """This callbackis called when an actor is streamed\
+        out by a player's client.
+
+        :param int actorid: The ID of the actor.
+        :param int forplayerid: The ID of the player\
+        that streamed the actor out.
+        :returns: No return value.
+
+        .. note:: This callbackcan also be called by NPC.
+        """
         return (cls(actorid), Player(forplayerid))
 
 from pysamp.player import Player  # noqa

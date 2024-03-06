@@ -359,14 +359,49 @@ class Vehicle:
 
     @event("OnTrailerUpdate")
     def on_trailer_update(cls, playerid: int, trailerid: int):
+        """This callback is called when a player sent a trailer update.
+
+        :param int playerid: The ID of the player who sent a trailer updat.
+        :param int trailerid: The trailer being updated.
+        :returns: No return value.
+
+        .. warning::
+            This callback is called very frequently per second per trailer.
+            You should refrain from implementing intensive calculations\
+            or intensive file writing/reading operations in this callback.
+        """
         return (Player(playerid), cls(trailerid))
 
     @event("OnVehicleDamageStatusUpdate")
     def on_damage_status_update(cls, vehicleid: int, playerid: int):
+        """This callback is called when a vehicle element such as\
+        doors, tyres, panels, or lights change their damage status.
+
+        :param int vehicleid: The ID of the vehicle that was changed its damage status.
+        :param int playerid: The ID of the player who synced the change in the damage status\
+        (who had the car damaged or repaired)
+        :returns: No return value.
+
+        .. note:: This does not include vehicle health changes.
+        """
         return (cls(vehicleid), Player(playerid))
 
     @event("OnVehicleDeath")
     def on_death(cls, vehicleid: int, killerid: int):
+        """This callback is called when a vehicle\
+        is destroyed - either by exploding or becoming submerged in water.
+
+        :param int vehicleid: The ID of the vehicle that was destroyed.
+        :param int killerid: The ID of the player that reported the vehicle's destruction (name is misleading).\
+        Generally the driver or a passenger (if any) or the closest player.
+        :returns: No return value.
+
+        .. note::
+            This callback will also be called when a vehicle enters water,\
+            but the vehicle can be saved from destruction by teleportation or driving out.
+            The callback won't be called a second time,\
+            and the vehicle may disappear when the driver exits, or after a short time.
+        """
         return (
             cls(vehicleid),
             Player(killerid) if killerid != INVALID_PLAYER_ID else killerid,
@@ -374,35 +409,105 @@ class Vehicle:
 
     @event("OnVehicleMod")
     def on_mod(cls, playerid: int, vehicleid: int, componentid: int):
+        """This callback is called when a vehicle is modded.
+
+        :param int playerid: The ID of the driver of the vehicle.
+        :param int vehicleid: The ID of the vehicle which is modded.
+        :param int componentid: The ID of the component which was added to the vehicle.
+        :returns: No return value.
+
+        .. note:: This callback is NOT called by :meth:`Vehicle.add_component()`.
+        """
         return (Player(playerid), cls(vehicleid), componentid)
 
     @event("OnVehiclePaintjob")
     def on_paintjob(cls, playerid: int, vehicleid: int, paintjobid: int):
+        """This callback is called when a player previews a vehicle paintjob inside a mod shop.
+        Watch out, this callback is not called when the player buys the paintjob.
+
+        :param int playerid: The ID of the player that changed the paintjob of their vehicle.
+        :param int vehicleid: The ID of the vehicle that had its paintjob changed.
+        :param int paintjobid: The ID of the new paintjob.
+        :returns: No return value.
+
+        .. note:: This callback is not called by :meth:`Vehicle.change_paintjob()`.
+        """
         return (Player(playerid), cls(vehicleid), paintjobid)
 
     @event("OnVehicleRespray")
     def on_respray(
         cls, playerid: int, vehicleid: int, color1: int, color2: int
     ):
+        """This callback is called when a player exits a mod shop,\
+        even if the colors weren't changed.
+        Watch out, the name is ambiguous, Pay 'n' Spray shops don't call this callback.
+
+        :param int playerid: The ID of the player that is driving the vehicle.
+        :param int vehicleid: The ID of the vehicle that was resprayed.
+        :param int color1: The color that the vehicle's primary color was changed to.
+        :param int color2: The color that the vehicle's primary color was changed to.
+        :returns: No return value.
+
+        .. note::
+            This callback is not called by :meth:`Vehicle.change_color()`.
+            Misleadingly, this callback is not called for pay 'n' spray (only modshops).
+
+        .. warning::
+            Known Bug(s): previewing a component inside a mod shop might call this callback.
+        """
         return (Player(playerid), cls(vehicleid), color1, color2)
 
     @event("OnVehicleSirenStateChange")
     def on_siren_state_change(
         cls, playerid: int, vehicleid: int, newstate: int
     ):
+        """This callback is called when a vehicle's siren is toggled.
+
+        :param int playerid: The ID of the player that toggled the siren (driver).
+        :param int vehicleid: The ID of the vehicle of which the siren was toggled for.
+        :param int newstate: ``0`` if siren was turned off, ``1`` if siren was turned on.
+        :returns: No return value.
+
+        .. note::
+            This callback is only called when a vehicle's siren is toggled on or off,\
+            NOT when the alternate siren is in use (holding horn).
+
+        """
         return (Player(playerid), cls(vehicleid), newstate)
 
     @event("OnVehicleSpawn")
     def on_spawn(cls, vehicleid: int):
-        """When a vehicle is respawning only."""
+        """This callback is called when a vehicle respawns.
+
+        :param int vehicleid: The ID of the vehicle that spawned.
+        :returns: No return value.
+
+        .. warning::
+            This callback is called only when vehicle respawns!
+            :meth:`Vehicle.create()` and :meth:`add_static_vehicle/ex` won't trigger this callback.
+        """
         return (cls(vehicleid),)
 
     @event("OnVehicleStreamIn")
     def on_stream_in(cls, vehicleid: int, forplayerid: int):
+        """This callback is called when a vehicle\
+        is streamed to a player's client.
+
+        :param int vehicleid: The ID of the vehicle that streamed in for the player.
+        :param int forplayerid: The ID of the player who the vehicle streamed in for.
+        :returns: No return value.
+        """
         return (cls(vehicleid), Player(forplayerid))
 
     @event("OnVehicleStreamOut")
     def on_stream_out(cls, vehicleid: int, forplayerid: int):
+        """This callback is called when a vehicle\
+        is streamed out for a player's client
+
+        :param int vehicleid: The ID of the vehicle that streamed out.
+        :param int forplayerid: The ID of the player who is no longer streaming the vehicle.
+        :returns: No return value.
+        """
         return (cls(vehicleid), Player(forplayerid))
 
     @event("OnUnoccupiedVehicleUpdate")
@@ -418,6 +523,44 @@ class Vehicle:
         vel_y: float,
         vel_z: float,
     ):
+        """This callback is called when a player's client\
+        updates/syncs the position of a vehicle they're not driving.
+        This can happen outside of the vehicle or when the player\
+        is a passenger of a vehicle that has no driver.
+
+        :param int vehicleid: The ID of the vehicle that's position was updated.
+        :param int playerid: The ID of the player that sent a vehicle position sync update.
+        :param int passenget_seat: The ID of the seat if the player is a passenger.
+        :param float new_x: The new X coordinate of the vehicle.
+        :param float new_y: The new Y coordinate of the vehicle.
+        :param float new_z: The new Z coordinate of the vehicle.
+        :param float vel_x: The new X velocity of the vehicle.
+        :param float vel_y: The new Y velocity of the vehicle.
+        :param float vel_z: The new Z velocity of the vehicle.
+        :returns: No return value.
+
+        .. list-table:: Seats
+            :header-rows: 1
+
+            * - ID
+              - Definition
+            * - 0
+              - Not in vehicle
+            * - 1
+              - Front passenger
+            * - 2
+              - Backleft
+            * - 3
+              - Backright
+            * - 4+
+              - Coach/Bus etc.
+
+        .. warning::
+            This callback is called very frequently per second per unoccupied vehicle.
+            You should refrain from implementing intensive calculations or intensive file\
+            writing/reading operations in this callback.
+            :meth:`Vehicle.get_pos()` will return the old coordinates of the vehicle before this update.
+        """
         return (
             cls(vehicleid),
             Player(playerid),
