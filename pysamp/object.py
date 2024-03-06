@@ -240,4 +240,12 @@ class Object:
 
     @event("OnObjectMoved")
     def on_moved(cls, objectid: int):
+        """This callbackis called when an object stops moving after :meth:`move`.
+
+        :param int objectid: The ID of the object that was moved.
+        :returns: No return value.
+
+        .. note:: :meth:`set_position` does not work when used in this
+        event. To fix it, recreate the object.
+        """
         return (cls(objectid),)

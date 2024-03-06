@@ -1848,7 +1848,7 @@ class Player:
 
     def set_camera_behind(self) -> bool:
         """Restore the camera to a place behind the player, after using ex.
-        :py:meth:`Player.set_camera_pos`.
+        :meth:`Player.set_camera_pos`.
 
         :returns: This method does not return anything.
         """
@@ -2435,22 +2435,99 @@ class Player:
     def on_enter_exit_mod_shop(
         cls, playerid: int, enterexit: int, interiorid: int
     ):
+        """This callbackis called when a player enters or exits a mod shop.
+
+        :param int playerid: The ID of the player that entered/exited the modshop.
+        :param int enterexit: 1 if the player entered or 0 if they exited.
+        :param int interiorid: The interior ID of the modshop that the player is
+            entering (or 0 if exiting).
+        :returns: No return value.
+
+        .. warning:: Players collide when they get into the same mod shop.
+        """
         return (cls(playerid), enterexit, interiorid)
 
     @event("OnPlayerConnect")
     def on_connect(cls, playerid: int):
+        """This callbackis called when a player connects to the server.
+
+        :param int playerid: The ID of the player that connected.
+        :returns: No return value.
+
+        ..note:: This callback can also be called by NPC.
+        """
         return (cls(playerid),)
 
     @event("OnPlayerDisconnect")
     def on_disconnect(cls, playerid: int, reason: int):
+        """This callbackis called when a player disconnects from the server.
+
+        :param int playerid: The ID of the player that disconnected.
+        :param int reason: The reason for the disconnection.
+        :returns: No return value.
+
+        .. list-table:: Reasons for the disconnecting
+            :header-rows: 1
+
+            * - ID
+              - Reason
+              - Description
+            * - 0
+              - Timeout/Crash
+              - The player's connection was lost.\
+                Either their game crashed or their network had a fault.
+            * - 1
+              - Quit
+              - The player purposefully quit, either using the /quit (/q)\
+                command or via the pause menu.
+            * - 2
+              - Kick/Ban
+              - The player was kicked or banned by the server.
+            * - 3
+              - Custom
+              - Used by some libraries. Reserved for modes' private uses.
+            * - 4
+              - Mode End
+              - The current mode is ending so disconnecting all players from it\
+                (they are still on the server).
+
+        .. warning:: Reasons 3 and 4 were added by the open.mp server.
+        """
         return (cls(playerid), reason)
 
     @event("OnPlayerSpawn")
     def on_spawn(cls, playerid: int):
+        """This callbackis called when a player spawns.
+        (i.e. after caling :meth:`spawn`)
+
+        :param int playerid: The ID of the player that spawned.
+        :returns: No return value.
+
+        .. note:: The game sometimes deducts $100 from players after spawn.
+        """
         return (cls(playerid),)
 
     @event("OnPlayerDeath")
     def on_death(cls, playerid: int, killerid: int, reason: int):
+        """This callbackis called when a player dies.
+
+        :param int playerid: The ID of the player that died.
+        :param int killerid: The ID of the player that killed
+            the player who died, or ``INVALID_PLAYER_ID`` if there was none.
+        :param int reason: The ID of the reason (weapon id) for the player's death.
+        :returns: No return value.
+
+        Weapon IDs: https://www.open.mp/docs/scripting/resources/weaponids
+
+        .. note:: The reason will return 37 from any fire sources.
+            The reason will return 51 from any weapon that creates an explosion (e.g. RPG, grenade).
+            You do not need to check whether killerid is valid before using it in :meth:`send_death_message`.
+            ``INVALID_PLAYER_ID`` is a valid killerid ID parameter in that function.
+            playerid is the only one who can call the event. (good to know for anti fake death)
+
+        .. warning:: You MUST check whether ``killerid`` is valid (not ``INVALID_PLAYER_ID``)
+            before using it anywhere.
+        """
         return (
             cls(playerid),
             killerid if killerid == INVALID_PLAYER_ID else cls(killerid),
@@ -2459,14 +2536,57 @@ class Player:
 
     @event("OnPlayerText")
     def on_text(cls, playerid: int, text: str):
+        """This callbackis called when a player sends a chat message.
+
+        :param int playerid: The ID of the player who typed the text.
+        :param str text: The text the player typed.
+        :returns: No return value.
+
+        .. note:: This callbackcan also be called by NPC.
+
+        Example:
+
+        .. code-block:: python
+            @Player.on_text
+            def on_player_text(player: Player, text: str):
+                send_client_message_to_all(-1, f"[Text] {text}")
+                return False # Ignore the default text and send the custom one.
+        """
         return (cls(playerid), text)
 
     @event("OnPlayerCommandText")
     def on_command_text(cls, playerid: int, command_text: str):
+        """This callback is called when a player enters a command into the client chat window.
+        Commands are anything that start with a forward slash, e.g. /help.
+
+        :param int playerid: The ID of the player that entered a command.
+        :param str command_text: The command that was entered (including the forward slash).
+        :returns: No return value.
+
+        .. note:: This callbackcan also be called by NPC.
+
+        Example:
+
+        .. code-block:: python
+            @Player.on_command_text
+            def on_player_command_text(player: Player, cmdtext: str):
+                if cmdtext == "/help":
+                    return player.send_client_message(-1, "SERVER: This is the /help command!")
+        """
         return (cls(playerid), command_text)
 
     @event("OnPlayerRequestClass")
     def on_request_class(cls, playerid: int, classid: int):
+        """This callbackis called when a player changes class at class selection
+        (and when class selection first appears).
+
+        :param int playerid: The ID of the player that changed class.
+        :param int classid: The ID of the current class being viewed
+            (returned by :meth:`add_player_class`).
+        :returns: No return value.
+
+        .. note:: This callbackis also called when a player presses F4.
+        """
         return (cls(playerid), classid)
 
     @event("OnPlayerEnterVehicle")
@@ -2476,22 +2596,73 @@ class Player:
         vehicleid: int,
         is_passenger: bool,
     ):
+        """This callback is called when a player starts to enter a vehicle,
+        meaning the player is not in vehicle yet at the time this callback is called.
+
+        :param int playerid: ID of the player who attempts to enter a vehicle.
+        :param int vehicleid: ID of the vehicle the player is attempting to enter.
+        :param bool is_passenger: ``False`` if entering as driver. ``True`` if entering as passenger.
+        :returns: No return value.
+
+        .. note:: This callback is called when a player BEGINS to enter a vehicle,
+            not when they HAVE entered it. See :meth:`Player.on_state_change`.
+            This callback is still called if the player is denied entry to the vehicle
+            (e.g. it is locked or full).
+        """
         return (cls(playerid), Vehicle(vehicleid), is_passenger)
 
     @event("OnPlayerExitVehicle")
     def on_exit_vehicle(cls, playerid: int, vehicleid: int):
+        """This callback is called when a player starts to exit a vehicle.
+
+        :param int playerid: The ID of the player that is exiting a vehicle.
+        :param int vehicleid: The ID of the vehicle the player is exiting.
+        :returns: No return value.
+
+        .. warning:: Not called if the player falls off a bike or is removed from a vehicle
+            by other means such as using :meth:`set_pos`.
+            You must use :meth:`Player.on_state_change` and check if their old state is
+            ``PLAYER_STATE_DRIVER`` or ``PLAYER_STATE_PASSENGER`` and their new state is ``PLAYER_STATE_ONFOOT``.
+        """
         return (cls(playerid), Vehicle(vehicleid))
 
     @event("OnPlayerStateChange")
     def on_state_change(cls, playerid, newstate: int, oldstate: int):
+        """This callback is called when a player changes state.
+        For example, when a player changes from being the driver of a vehicle to being on-foot.
+
+        :param int playerid: The ID of the player that changed state.
+        :param int newstate: The player's new state.
+        :param int oldstate: The player's previous state.
+        :returns: No return value.
+
+        List of all available player states: https://www.open.mp/docs/scripting/resources/playerstates
+
+        .. note:: This callbackcan also be called by NPC.
+        """
         return (cls(playerid), newstate, oldstate)
 
     @event("OnPlayerEnterCheckpoint")
     def on_enter_checkpoint(cls, playerid: int):
+        """This callback is called when a player enters the checkpoint set for that player.
+
+        :param int playerid: The player who entered the checkpoint.
+        :returns: No return value.
+
+        .. note:: This callbackcan also be called by NPC.
+        """
         return (cls(playerid),)
 
     @event("OnPlayerLeaveCheckpoint")
     def on_leave_checkpoint(cls, playerid: int):
+        """This callback is called when a player leaves the checkpoint set for them
+        by :meth:`set_checkpoint`. Only one checkpoint can be set at a time.
+
+        :param int playerid: The ID of the player that left their checkpoint.
+        :returns: No return value.
+
+        .. note:: This callbackcan also be called by NPC.
+        """
         return (cls(playerid),)
 
     @event("OnPlayerEnterRaceCheckpoint")
@@ -2596,18 +2767,68 @@ class Player:
 
     @event("OnPlayerClickMap")
     def on_click_map(cls, playerid: int, x: float, y: float, z: float):
+        """This callbackis called when a player places a target/waypoint
+        on the pause menu map (by right-clicking).
+
+        :param int playerid: The ID of the player that placed a target/waypoint.
+        :param float x: The X float coordinate where the player clicked.
+        :param float y:	The Y float coordinate where the player clicked.
+        :param float z:	The Z float coordinate where the player clicked.
+        :returns: No return value.
+        """
         return (cls(playerid), x, y, z)
 
     @event("OnPlayerClickTextDraw")
     def on_click_textdraw(cls, playerid: int, clickedid: int):
+        """This callback is called when a player clicks on a textdraw\
+        or cancels the select mode with the Escape key.
+
+        :param int playerid: The ID of the player that clicked on the textdraw.
+        :param int clickedid: The ID of the clicked textdraw.\
+        ``INVALID_TEXT_DRAW`` if selection was cancelled.
+        :returns: No return value.
+
+        .. warning::
+            The clickable area is defined by :meth:`TextDraw.text_size()`.
+            The x and y parameters passed to that function must not be zero or negative.
+            Do not use :meth:`TextDraw.cancel_select()` unconditionally within this callback.
+            This results in an infinite loop.
+        """
         return (cls(playerid), TextDraw(clickedid))
 
     @event("OnPlayerClickPlayerTextDraw")
     def on_click_playertextdraw(cls, playerid: int, playertextid: int):
+        """This callback is called when a player clicks on a player-textdraw.\
+        It is not called when player cancels the select mode (ESC)\
+        however, :meth:`Player.on_click_textdraw()` is.
+
+        :param int playerid: The ID of the player that selected a textdraw.
+        :param int playertextid: The ID of the player-textdraw\
+        that the player selected.
+        :returns: No return value.
+
+        .. warning::
+            When a player presses ESC to cancel selecting a textdraw,\
+            :meth:`Player.on_click_textdraw()` is called with a textdraw ID of ``INVALID_TEXT_DRAW``.\
+            :meth:`Player.on_click_playertextdraw()` won't be called also.
+        """
         return (cls(playerid), PlayerTextDraw(playertextid, cls(playerid)))
 
     @event("OnPlayerClickPlayer")
     def on_click_player(cls, playerid: int, clickedplayerid: int, source: int):
+        """This callback is called when a player double-clicks\
+        on a player on the scoreboard.
+
+        :param int playerid: The ID of the player\
+        that clicked on a player on the scoreboard.
+        :param int clickedplayerid: The ID of the player that was clicked on.
+        :param int source: The source of the player's click.
+        :returns: No return value.
+
+        .. note::
+            There is currently only one source (0 - ``CLICK_SOURCE_SCOREBOARD``).
+            The existence of this argument suggests that more sources may be supported in the future.
+        """
         return (cls(playerid), cls(clickedplayerid), source)
 
     @event("OnPlayerEditObject")
@@ -2624,6 +2845,25 @@ class Player:
         rot_y: float,
         rot_z: float,
     ):
+        """This callback is called when a player finishes editing an object.
+
+        :param int playerid: The ID of the player that edited an object.
+        :param bool is_playerobject: `False` if it is a global object or `True` if it is a playerobject.
+        :param int objectid: The ID of the edited object.
+        :param int response: The type of response.
+        :param float x: The X offset for the object that was edited.
+        :param float y: The Y offset for the object that was edited.
+        :param float z: The Z offset for the object that was edited.
+        :param float rot_x: The X rotation for the object that was edited.
+        :param float rot_y: The Y rotation for the object that was edited.
+        :param float rot_z: The Z rotation for the object that was edited.
+        :returns: No return value.
+
+        .. warning::
+            When using ``EDIT_RESPONSE_UPDATE`` be aware that this callback will not be called\
+            when releasing an edit in progress resulting in the last update of ``EDIT_RESPONSE_UPDATE``\
+            being out of sync of the objects current position.
+        """
         return (
             cls(playerid),
             PlayerObject(objectid) if is_playerobject else Object(objectid),
@@ -2654,6 +2894,28 @@ class Player:
         scale_y: float,
         scale_z: float,
     ):
+        """This callback is called when a player ends attached object edition mode.
+
+        :param int playerid: The ID of the player that ended edition mode.
+        :param int response: 0 if cancelled (ESC) or 1 if clicked the save icon.
+        :param int index: The index of the attached object (0-9).
+        :param int modelid: The model of the attached object that was edited.
+        :param int boneid: The bone of the attached object that was edited.
+        :param float offset_x: The X offset for the attached object that was edited.
+        :param float offset_y: The Y offset for the attached object that was edited.
+        :param float offset_z: The Z offset for the attached object that was edited.
+        :param float rot_x: The X rotation for the attached object that was edited.
+        :param float rot_y: The Y rotation for the attached object that was edited.
+        :param float rot_z: The Z rotation for the attached object that was edited.
+        :param float scale_x: The X scale for the attached object that was edited.
+        :param float scale_y: The Y scale for the attached object that was edited.
+        :param float scale_z: The Z scale for the attached object that was edited.
+        :returns: No return value.
+
+        .. warning::
+            Editions should be discarded if response was ``0``' (cancelled).
+            This must be done by storing the offsets etc. BEFORE using :meth:`Player.edit_attached_object()`.
+        """
         return (
             cls(playerid),
             response,
@@ -2682,6 +2944,27 @@ class Player:
         y: float,
         z: float,
     ):
+        """This callback is called when a player selects an object.
+
+        :param int playerid: The ID of the player that selected an object.
+        :param int type: The type of selection.
+        :param int objectid: The ID of the selected object.
+        :param int modelid: The model of the selected object.
+        :param float x: The X position of the selected object.
+        :param float y: The Y position of the selected object.
+        :param float z: The Z position of the selected object.
+        :returns: No return value.
+
+        .. list-table:: Select Object Types
+            :header-rows: 1
+
+            * - Value
+              - Definition
+            * - 1
+              - ``SELECT_OBJECT_GLOBAL_OBJECT``
+            * - 2
+              - ``SELECT_OBJECT_PLAYER_OBJECT``
+        """
         object_cls = {
             SELECT_OBJECT_GLOBAL_OBJECT: Object,
             SELECT_OBJECT_PLAYER_OBJECT: PlayerObject,
@@ -2706,6 +2989,59 @@ class Player:
         y: float,
         z: float,
     ):
+        """This callback is called when a player fires a shot from a weapon.\
+        Only bullet weapons are supported.\
+        Only passenger drive-by is supported (not driver drive-by, and not sea sparrow / hunter shots).
+
+        :param int playerid: The ID of the player that shot a weapon.
+        :param int weaponid: The ID of the weapon shot by the player.
+        :param int hittype: The type of thing the shot hit.
+        :param int hitid: The ID of the player, vehicle or object that was hit.
+        :param float x: The X coordinate that the shot hit.
+        :param float y: The X coordinate that the shot hit.
+        :param float z: The X coordinate that the shot hit.
+        :returns: No return value.
+
+        See all weapon ID's here:
+        https://open.mp/docs/scripting/resources/weaponids
+
+        .. list-table:: Bullet Hit Types
+            :header-rows: 1
+
+            * - Value
+              - Definition
+            * - 0
+              - ``BULLET_HIT_TYPE_NONE``
+            * - 1
+              - ``BULLET_HIT_TYPE_PLAYER``
+            * - 2
+              - ``BULLET_HIT_TYPE_VEHICLE``
+            * - 3
+              - ``BULLET_HIT_TYPE_OBJECT``
+            * - 4
+              - ``BULLET_HIT_TYPE_PLAYER_OBJECT``
+
+        .. note::
+            This callback is only called when lag compensation is enabled. If hittype is:
+            ``BULLET_HIT_TYPE_NONE``: the x, y and z parameters are normal coordinates,\
+            will give 0.0 for coordinates if nothing was hit (e.g. far object that the bullet can't reach).
+            Others: the x, y and z are offsets relative to the hitid.
+
+        .. note::
+            :meth:`Player.get_last_shot_vectors()`\
+            can be used in this callback for more detailed bullet vector information.
+
+        .. warning::
+            Known Bug(s):
+                Isn't called if you fired in vehicle as driver\
+                or if you are looking behind with the aim enabled (shooting in air).
+                It is called as ``BULLET_HIT_TYPE_VEHICLE`` with the correct hitid (the hit player's vehicleid)\
+                if you are shooting a player which is in a vehicle.
+                It won't be called as BULLET_HIT_TYPE_PLAYER at all.
+                Partially fixed in SA-MP 0.3.7: If fake weapon data is sent by a malicious user,\
+                other player clients may freeze or crash.
+                To combat this, check if the reported weaponid can actually fire bullets.
+        """
         hit_cls = {
             BULLET_HIT_TYPE_NONE: lambda _: None,
             BULLET_HIT_TYPE_PLAYER: cls,
