@@ -6,18 +6,10 @@ targets=(
     cp39-cp39
     cp310-cp310
     cp311-cp311
+    cp312-cp312
 )
-libs_archive=/opt/_internal/static-libs-for-embedding-only.tar.xz
 libcrypt_path=/usr/local/lib/libcrypt.so
-config="${CONFIG:-Release}"
-
-if [[ -e "${libs_archive}" ]]; then
-    (
-        cd /opt/_internal
-        tar xf "${libs_archive}"
-        rm "${libs_archive}"
-    )
-fi
+config="${CONFIG:-RelWithDebInfo}"
 
 if grep '.so.2' "${libcrypt_path}"; then
     # Force linking against libcrypt.so.1
@@ -42,6 +34,7 @@ for target in "${targets[@]}"; do
             --build ${build_dir} \
             --config "${config}" \
             --parallel $(nproc) \
+            --verbose \
         &&
         mkdir -p ${target_dir} &&
         cp "${build_dir}/PySAMP.so" ${target_dir}
