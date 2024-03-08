@@ -24,6 +24,7 @@ add_samp_plugin(PySAMP
     ${SAMPSDK_DIR}/amxplugin.cpp
     ${SAMPGDK_DIR}/dist/sampgdk.c
     main.cpp
+    main.def
     pysamp/pysamp.cpp
     pysamp/pygamemode.cpp
     pysamp/timer.cpp
