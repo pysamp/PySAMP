@@ -1,10 +1,10 @@
 #include "pysamp.h"
+#include "param_converter.h"
 #include "pygamemode.h"
 
 PyGamemode* PySAMP::gamemode = nullptr;
 TimerManager* PySAMP::timer_manager = nullptr;
 CallbacksManager* PySAMP::callbacks = nullptr;
-ParamConverter* PySAMP::param_converter = nullptr;
 
 
 void PySAMP::load()
@@ -12,7 +12,6 @@ void PySAMP::load()
 	sampgdk::logprintf("Loading PySAMP...");
 	PySAMP::callbacks = new CallbacksManager();
 	PySAMP::timer_manager = new TimerManager();
-	PySAMP::param_converter = new ParamConverter();
 	PySAMP::gamemode = new PyGamemode(PySAMP::callbacks);
 	gamemode->load();
 }
@@ -51,8 +50,6 @@ void PySAMP::unload()
 	PySAMP::callbacks = nullptr;
 	delete PySAMP::timer_manager;
 	PySAMP::timer_manager = nullptr;
-	delete PySAMP::param_converter;
-	PySAMP::param_converter = nullptr;
 	delete PySAMP::gamemode;
 	PySAMP::gamemode = nullptr;
 }
@@ -181,7 +178,7 @@ PyObject* PySAMP::amxParamsToTuple(AMX *amx, const std::string& callback_name, c
 		return NULL;
 
 	PySAMP::GIL gil;
-	PyObject* tuple = PySAMP::param_converter->to_tuple(
+	PyObject* tuple = ParamConverter::to_tuple(
 		params,
 		*format,
 		amx
@@ -203,7 +200,7 @@ cell* PySAMP::tupleToAmxParams(PyObject *tuple, bool asReference)
 		return NULL;
 
 	PySAMP::GIL gil;
-	cell* params = PySAMP::param_converter->from_tuple(tuple, asReference);
+	cell* params = ParamConverter::from_tuple(tuple);
 
 	return params;
 }

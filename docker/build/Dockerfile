@@ -26,20 +26,24 @@ RUN \
     && \
     ( \
         cd sampgdk && \
-        export PATH="/opt/python/cp311-cp311/bin:${PATH}" && \
-        sed -i s/2.7/3.11/ CMakeLists.txt && \
-        pip install --user ply==3.4 && \
+        export PATH="/opt/python/cp312-cp312/bin:${PATH}" && \
+        sed -i 's/PythonInterp 2\.7/Python3 3.12/' CMakeLists.txt && \
+        pip3.12 install --user ply && \
+        chmod +x scripts/*.py{,.in} && \
         cmake \
             -S . \
             -B build \
-            -G 'Unix Makefiles' \
             -DCMAKE_BUILD_TYPE=${build_type} \
             -DSAMPSDK_DIR=../samp-plugin-sdk \
             -DSAMPGDK_BUILD_AMALGAMATION=ON \
         && \
         cmake \
             --build build \
-            --parallel $(nproc) \
+            --verbose \
+        && \
+        mkdir dist && \
+        cd dist && \
+        unzip ../build/sampgdk-*-amalgamation.zip \
     )
 
 WORKDIR /root/PySAMP

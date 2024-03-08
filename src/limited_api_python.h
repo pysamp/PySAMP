@@ -4,6 +4,6 @@
 #ifndef _DEBUG
 	#define Py_LIMITED_API 0x030600F0
 #endif
-#include <Python.h>
+#include <Python.h>  // IWYU pragma: export
 
 #endif

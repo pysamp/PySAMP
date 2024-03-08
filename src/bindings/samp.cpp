@@ -1,4 +1,5 @@
 #include "samp.h"
+#include "param_converter.h"
 
 typedef struct
 {
@@ -5519,7 +5520,8 @@ WITH_GIL(pysamp_callnativefunction, PyObject *self, PyObject *args)
 	const char *name = NULL;
 	PyObject* arguments = PyTuple_GetSlice(args, 0, 1);
 
-	bool success = PyArg_ParseTuple(arguments, "s:CallNativeFunction", &name);
+	// Unused "O" format for error message: "takes at least 1 argument"
+	bool success = PyArg_ParseTuple(arguments, "s|O:CallNativeFunction", &name);
 	Py_DECREF(arguments);
 
 	if(!success)
@@ -5541,14 +5543,19 @@ WITH_GIL(pysamp_callnativefunction, PyObject *self, PyObject *args)
 	arguments = PyTuple_GetSlice(args, 1, len_args);
 
 	cell *amx_params = PySAMP::tupleToAmxParams(arguments);
-	Py_DECREF(arguments);
 
 	if(amx_params == NULL)
+	{
+		Py_DECREF(arguments);
 		return NULL;
+	}
 
 	cell return_value = sampgdk::CallNative(amx_function, amx_params);
 
+	ParamConverter::amx_pop_params(amx_params, arguments);
+	Py_DECREF(arguments);
 	delete[] amx_params;
+
 	return Py_BuildValue("i", return_value);
 }
 
@@ -5599,15 +5606,32 @@ WITH_GIL(pysamp_callremotefunction, PyObject *self, PyObject *args)
 		return NULL;
 	}
 
-	cell *amx_params = PySAMP::tupleToAmxParams(args, true);
+	std::string format = ParamConverter::get_format(args);
+
+	// arguments = args[0], format, args[1:]
+	PyObject *one = PyLong_FromLong(1);
+	PyObject *slice = PySlice_New(one, NULL, NULL);
+	Py_DECREF(one);
+	PyObject *tail = PyObject_GetItem(args, slice);
+	Py_DECREF(slice);
+	arguments = Py_BuildValue("ssO", name, format.c_str(), tail);
+	Py_DECREF(tail);
+
+	cell *amx_params = PySAMP::tupleToAmxParams(arguments);
 
 	if(amx_params == NULL)
+	{
+		Py_DECREF(arguments);
 		return NULL;
+	}
 
 	AMX_NATIVE amx_function = sampgdk::FindNative("CallRemoteFunction");
 	cell return_value = sampgdk::CallNative(amx_function, amx_params);
 
+	ParamConverter::amx_pop_params(amx_params, arguments);
+	Py_DECREF(arguments);
 	delete[] amx_params;
+
 	return Py_BuildValue("i", return_value);
 }
 

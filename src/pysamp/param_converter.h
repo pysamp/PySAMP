@@ -2,24 +2,19 @@
 #define PARAMCONVERTER_H
 
 #include <string>
-#include "limited_api_python.h"
+
 #include "sampgdk.h"
-#include "pysamp.h"
+#include "amx/amx.h"
+
+#include "limited_api_python.h"  // IWYU pragma: keep
 
 
-// From sampgdk
-extern "C"
+namespace ParamConverter
 {
-	int sampgdk_fakeamx_push_cell(cell value, cell *address);
-	int sampgdk_fakeamx_push_float(float value, cell *address);
-	int sampgdk_fakeamx_push_string(const char *src, int *size, cell *address);
-}
-
-class ParamConverter
-{
-public:
-	cell* from_tuple(PyObject* tuple, bool asReference = false);
-	PyObject* to_tuple(cell* params, const std::string format, AMX* amx);
+	std::string get_format(PyObject *tuple);
+	void amx_pop_params(cell *params, PyObject *tuple);
+	cell* from_tuple(PyObject *tuple);
+	PyObject* to_tuple(cell *params, const std::string format, AMX *amx);
 };
 
 #endif

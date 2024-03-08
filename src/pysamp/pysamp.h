@@ -4,11 +4,9 @@
 #include "limited_api_python.h"
 #include "timer.h"
 #include "callbacks.h"
-#include "param_converter.h"
 
 
 class PyGamemode;
-class ParamConverter;
 
 class PySAMP
 {
@@ -16,7 +14,6 @@ private:
 	static PyGamemode* gamemode;
 	static TimerManager* timer_manager;
 	static CallbacksManager* callbacks;
-	static ParamConverter* param_converter;
 public:
 	static void load();
 	static void reload();

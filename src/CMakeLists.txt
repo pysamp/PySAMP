@@ -17,30 +17,20 @@ if(MSVC)
     set(CMAKE_CXX_STANDARD 20)
 else()
     set(CMAKE_CXX_STANDARD 11)
+    set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 endif()
 
 add_samp_plugin(PySAMP
-    ${SAMPGDK_DIR}/build/lib/sampgdk/sampgdk.c
-    ${SAMPGDK_DIR}/build/lib/sampgdk/sampgdk.h
     ${SAMPSDK_DIR}/amxplugin.cpp
-    ${CMAKE_BINARY_DIR}/generated/config.h
-    main.h
+    ${SAMPGDK_DIR}/dist/sampgdk.c
     main.cpp
-    main.def
     pysamp/pysamp.cpp
-    pysamp/pysamp.h
     pysamp/pygamemode.cpp
-    pysamp/pygamemode.h
     pysamp/timer.cpp
-    pysamp/timer.h
     pysamp/callbacks.cpp
-    pysamp/callbacks.h
     pysamp/param_converter.cpp
-    pysamp/param_converter.h
     bindings/samp.cpp
-    bindings/samp.h
     bindings/logprintf.cpp
-    bindings/logprintf.h
 )
 
 if(MSVC AND NOT CMAKE_BUILD_TYPE MATCHES "Debug")
@@ -67,14 +57,16 @@ else()
 endif()
 
 include_directories(
-    ${CMAKE_CURRENT_SOURCE_DIR}
-    ${SAMPSDK_DIR}/amx
-    ${SAMPGDK_DIR}/build/lib/sampgdk/
     ${SAMPSDK_INCLUDE_DIR}
+    ${SAMPSDK_DIR}/amx
+    ${SAMPGDK_DIR}/dist
+    ${SAMPGDK_DIR}/include
+    ${SAMPGDK_DIR}/lib/sampgdk
+    ${Python3_INCLUDE_DIRS}
+    ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}/bindings
     ${CMAKE_CURRENT_SOURCE_DIR}/pysamp
-    ${Python3_INCLUDE_DIRS}
-    ${CMAKE_BINARY_DIR}/generated/
+    ${CMAKE_BINARY_DIR}/generated
 )
 
 add_definitions(-DSAMPGDK_AMALGAMATION)

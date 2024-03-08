@@ -1,96 +1,165 @@
-#include "param_converter.h"
+#include <functional>
+#include <unordered_map>
 
-
-cell* ParamConverter::from_tuple(PyObject* tuple, bool asReference)
+extern "C"
 {
-	Py_ssize_t len_tuple = PyTuple_Size(tuple);
-	int offset = (asReference ? 2 : 1);  // 2 - argc, format
-	cell *amx_params = new cell[
-		len_tuple
-		+ offset
-	];
-	PyObject *current_argument = NULL;
-	std::string _format;
+	#include "internal/fakeamx.h"
+}
 
-	amx_params[0] = (
-		len_tuple
-		+ (offset - 1)
-	) * sizeof(cell);
+#include "param_converter.h"
+#include "pysamp.h"
 
-	// XXX: I know this is all a bit static, but we only ever need it once...
-	// I'd rather have this bit of the code be complex than the actual native
-	if(asReference)
+
+std::unordered_map<char, std::function<bool (PyObject*)>> format_map = {
+	{'b', [](PyObject *object) -> bool { return PyBool_Check(object); }},
+	{'d', [](PyObject *object) -> bool { return PyLong_Check(object); }},
+	{'f', [](PyObject *object) -> bool { return PyFloat_Check(object); }},
+	{'s', [](PyObject *object) -> bool { return PyUnicode_Check(object); }},
+};
+
+
+std::string ParamConverter::get_format(PyObject *tuple)
+{
+	std::string format;
+
+	for(Py_ssize_t i = 0; i < PyTuple_Size(tuple); ++i)
 	{
-		PyObject *function_name = PyTuple_GetItem(tuple, 0);
+		PyObject *current_argument = PyTuple_GetItem(tuple, i);
 
-		// This check is mostly here to prevent future misuse
-		if(!PyUnicode_Check(function_name))
+		for(const auto& item : format_map)
 		{
-			const char* name = PyBytes_AsString(PyUnicode_AsUTF8String(PyObject_GetAttrString(
-				(PyObject*)Py_TYPE(function_name),
-				"__name__"
-			)));
-			PyErr_Format(
-				PyExc_ValueError,
-				"ParamConverter::from_tuple(asReference=true) argument 1 must be str, not %s",
-				name
-			);
-			return NULL;
+			if(item.second(current_argument))
+			{
+				format += item.first;
+				break;
+			}
 		}
-
-		const char *value = PyBytes_AsString(PyUnicode_AsUTF8String(function_name));
-		sampgdk_fakeamx_push_string(value, NULL, &amx_params[1]);
 	}
 
-	for(
-		Py_ssize_t i = (asReference ? 1 : 0);  // We just consumed function name above
-		i < len_tuple;
-		i++
-	)
+	return format;
+}
+
+
+Py_ssize_t count_args(PyObject* tuple)
+{
+	Py_ssize_t count = 0;
+
+	for(Py_ssize_t i = 0; i < PyTuple_Size(tuple); ++i)
 	{
-		current_argument = PyTuple_GetItem(tuple, i);
+		PyObject *item = PyTuple_GetItem(tuple, i);
+
+		if(!PyTuple_Check(item))
+		{
+			++count;
+			continue;
+		}
+
+		count += PyTuple_Size(item);
+	}
+
+	return count;
+}
+
+
+void ParamConverter::amx_pop_params(cell *amx_params, PyObject *tuple)
+{
+	for(Py_ssize_t index = 0; index < PyTuple_Size(tuple); ++index)
+	{
+		PyObject *current_argument = PyTuple_GetItem(tuple, index);
+
+		if(PyUnicode_Check(current_argument))
+		{
+			sampgdk_fakeamx_pop(amx_params[index + 1]);
+		}
+		else if(PyTuple_Check(current_argument))
+		{
+			Py_ssize_t tuple_size = PyTuple_Size(current_argument);
+
+			for(
+				Py_ssize_t tuple_index = 0;
+				tuple_index < tuple_size;
+				++tuple_index
+			) {
+				sampgdk_fakeamx_pop(amx_params[index + tuple_index + 1]);
+			}
+			index += tuple_size - 1;
+		}
+	}
+}
+
+
+void append_by_reference(PyObject *tuple, cell *amx_params, Py_ssize_t start_index)
+{
+	Py_ssize_t max_index = PyTuple_Size(tuple) + start_index;
+
+	for(Py_ssize_t amx_index = start_index; amx_index < max_index; ++amx_index)
+	{
+		PyObject *current_argument = PyTuple_GetItem(tuple, amx_index - start_index);
 
 		if(PyBool_Check(current_argument))
 		{
 			bool value = PyObject_IsTrue(current_argument);
-
-			if(!asReference)
-				amx_params[i + offset] = value;
-			else
-				sampgdk_fakeamx_push_cell(value, &amx_params[i + offset]);
-
-			_format += "b";
+			sampgdk_fakeamx_push_cell(value, &amx_params[amx_index]);
 		}
 		else if(PyLong_Check(current_argument))
 		{
 			unsigned int value = PyLong_AsUnsignedLongMask(current_argument);
-
-			if(!asReference)
-				amx_params[i + offset] = value;
-			else
-				sampgdk_fakeamx_push_cell(value, &amx_params[i + offset]);
-
-			_format += "d";
+			sampgdk_fakeamx_push_cell(value, &amx_params[amx_index]);
 		}
 		else if(PyFloat_Check(current_argument))
 		{
 			float value = (float)PyFloat_AsDouble(current_argument);
-
-			if(!asReference)
-				amx_params[i + offset] = amx_ftoc(value);
-			else
-				sampgdk_fakeamx_push_float(value, &amx_params[i + offset]);
-
-			_format += "f";
+			sampgdk_fakeamx_push_float(value, &amx_params[amx_index]);
 		}
 		else if(PyUnicode_Check(current_argument))
 		{
 			const char* value = PyBytes_AsString(
 				PyUnicode_AsUTF8String(current_argument)
 			);
-			sampgdk_fakeamx_push_string(value, NULL, &amx_params[i + offset]);
+			sampgdk_fakeamx_push_string(value, NULL, &amx_params[amx_index]);
+		}
+	}
+}
 
-			_format += "s";
+
+cell* ParamConverter::from_tuple(PyObject *tuple)
+{
+	Py_ssize_t len_tuple = count_args(tuple);
+	cell *amx_params = new cell[len_tuple + 1];
+	PyObject *current_argument = NULL;
+
+	amx_params[0] = len_tuple * sizeof(cell);
+
+	for(Py_ssize_t amx_index = 1; amx_index < len_tuple + 1; ++amx_index)
+	{
+		current_argument = PyTuple_GetItem(tuple, amx_index - 1);
+
+		if(PyBool_Check(current_argument))
+		{
+			bool value = PyObject_IsTrue(current_argument);
+			amx_params[amx_index] = value;
+		}
+		else if(PyLong_Check(current_argument))
+		{
+			unsigned int value = PyLong_AsUnsignedLongMask(current_argument);
+			amx_params[amx_index] = value;
+		}
+		else if(PyFloat_Check(current_argument))
+		{
+			float value = (float)PyFloat_AsDouble(current_argument);
+			amx_params[amx_index] = amx_ftoc(value);
+		}
+		else if(PyUnicode_Check(current_argument))
+		{
+			const char* value = PyBytes_AsString(
+				PyUnicode_AsUTF8String(current_argument)
+			);
+			sampgdk_fakeamx_push_string(value, NULL, &amx_params[amx_index]);
+		}
+		else if(PyTuple_Check(current_argument))
+		{
+			append_by_reference(current_argument, amx_params, amx_index);
+			amx_index += PyTuple_Size(current_argument) - 1;
 		}
 		else
 		{
@@ -98,14 +167,12 @@ cell* ParamConverter::from_tuple(PyObject* tuple, bool asReference)
 				PyExc_TypeError,
 				"Could not convert argument %R in position %d",
 				current_argument,
-				i + 1
+				amx_index
 			);
+			ParamConverter::amx_pop_params(amx_params, tuple);
 			return NULL;
 		}
 	}
-
-	if(asReference)
-		sampgdk_fakeamx_push_string(_format.c_str(), NULL, &amx_params[2]);  // First param being function name
 
 	return amx_params;
 }
