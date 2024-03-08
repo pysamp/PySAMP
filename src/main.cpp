@@ -13,12 +13,15 @@ PLUGIN_EXPORT bool PLUGIN_CALL Load(void **ppData)
 	pAMXFunctions = ppData[PLUGIN_DATA_AMX_EXPORTS];
 	bool ret = sampgdk::Load(ppData);
 
-	std::stringstream stream{PYSAMP_LOADING_SCREEN};
-	std::string line;
-	sampgdk::logprintf("");
+	if(!getenv("PYSAMP_DISABLE_LOADING_SCREEN"))
+	{
+		std::stringstream stream{PYSAMP_LOADING_SCREEN};
+		std::string line;
+		sampgdk::logprintf("");
 
-	while(std::getline(stream, line, '\n'))
-		sampgdk::logprintf(line.c_str());
+		while(std::getline(stream, line, '\n'))
+			sampgdk::logprintf(line.c_str());
+	}
 
 	sampgdk::logprintf("\nPySAMP %s for Python %s\n", PYSAMP_VERSION_STR, PYTHON_VERSION_STR);
 
