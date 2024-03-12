@@ -41,7 +41,7 @@ RUN \
     cd /default_server && \
     export generated_password=$(python3 -c 'import os;print(os.urandom(24).hex())') && \
     envsubst < /root/server.cfg.template > server.cfg && \
-    rm /root/server.cfg.template && \
+    rm /root/server.cfg.template
 
 COPY empty.amx /default_server/gamemodes
 COPY empty.py /default_server/python.py
