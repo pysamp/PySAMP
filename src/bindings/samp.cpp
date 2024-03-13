@@ -5606,14 +5606,14 @@ WITH_GIL(pysamp_callremotefunction, PyObject *self, PyObject *args)
 		return NULL;
 	}
 
-	std::string format = ParamConverter::get_format(args);
-
 	// arguments = args[0], format, args[1:]
 	PyObject *one = PyLong_FromLong(1);
 	PyObject *slice = PySlice_New(one, NULL, NULL);
 	Py_DECREF(one);
 	PyObject *tail = PyObject_GetItem(args, slice);
 	Py_DECREF(slice);
+
+	std::string format = ParamConverter::get_format(tail);
 	arguments = Py_BuildValue("ssO", name, format.c_str(), tail);
 	Py_DECREF(tail);
 
