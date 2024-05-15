@@ -2720,7 +2720,7 @@ def gpci(playerid: int) -> str:
 def set_timer(
     function: Callable,
     interval_ms: int,
-    repeating: bool,
+    repeating: bool = False,
     *args: Tuple
 ) -> int:
     return SetTimer(function, interval_ms, repeating, *args)
