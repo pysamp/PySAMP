@@ -245,7 +245,7 @@ class Object:
         :param int objectid: The ID of the object that was moved.
         :returns: No return value.
 
-        .. note:: :meth:`set_position` does not work when used in this
-        event. To fix it, recreate the object.
+        .. note:: :meth:`set_position` does not work when used in this\
+            event. To fix it, recreate the object.
         """
         return (cls(objectid),)

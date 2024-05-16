@@ -1747,6 +1747,7 @@ class Player:
         :param showplayer: The player that should see the change.
         :param color: The desired color in RGBA/Hex/Int format.
         This should only be used with the square icon (ID: 0).
+
         :return: Returns nothing.
 
         .. code-block:: python
@@ -2547,6 +2548,7 @@ class Player:
         Example:
 
         .. code-block:: python
+
             @Player.on_text
             def on_player_text(player: Player, text: str):
                 send_client_message_to_all(-1, f"[Text] {text}")
@@ -2568,6 +2570,7 @@ class Player:
         Example:
 
         .. code-block:: python
+
             @Player.on_command_text
             def on_player_command_text(player: Player, cmdtext: str):
                 if cmdtext == "/help":
