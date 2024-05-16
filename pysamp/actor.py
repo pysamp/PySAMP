@@ -149,7 +149,7 @@ class Actor:
         that streamed the actor in.
         :returns: No return value.
 
-        .. note:: This callbackcan also be called by NPC.
+        .. note:: This callback can also be called by NPC.
         """
         return (cls(actorid), Player(forplayerid))
 
@@ -163,7 +163,7 @@ class Actor:
         that streamed the actor out.
         :returns: No return value.
 
-        .. note:: This callbackcan also be called by NPC.
+        .. note:: This callback can also be called by NPC.
         """
         return (cls(actorid), Player(forplayerid))
 

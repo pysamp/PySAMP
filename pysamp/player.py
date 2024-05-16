@@ -2542,7 +2542,7 @@ class Player:
         :param str text: The text the player typed.
         :returns: No return value.
 
-        .. note:: This callbackcan also be called by NPC.
+        .. note:: This callback can also be called by NPC.
 
         Example:
 
@@ -2563,7 +2563,7 @@ class Player:
         :param str command_text: The command that was entered (including the forward slash).
         :returns: No return value.
 
-        .. note:: This callbackcan also be called by NPC.
+        .. note:: This callback can also be called by NPC.
 
         Example:
 
@@ -2638,7 +2638,7 @@ class Player:
 
         List of all available player states: https://www.open.mp/docs/scripting/resources/playerstates
 
-        .. note:: This callbackcan also be called by NPC.
+        .. note:: This callback can also be called by NPC.
         """
         return (cls(playerid), newstate, oldstate)
 
@@ -2649,7 +2649,7 @@ class Player:
         :param int playerid: The player who entered the checkpoint.
         :returns: No return value.
 
-        .. note:: This callbackcan also be called by NPC.
+        .. note:: This callback can also be called by NPC.
         """
         return (cls(playerid),)
 
@@ -2661,7 +2661,7 @@ class Player:
         :param int playerid: The ID of the player that left their checkpoint.
         :returns: No return value.
 
-        .. note:: This callbackcan also be called by NPC.
+        .. note:: This callback can also be called by NPC.
         """
         return (cls(playerid),)
 
