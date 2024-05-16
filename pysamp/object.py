@@ -240,7 +240,7 @@ class Object:
 
     @event("OnObjectMoved")
     def on_moved(cls, objectid: int):
-        """This callbackis called when an object stops moving after :meth:`move`.
+        """This callback is called when an object stops moving after :meth:`move`.
 
         :param int objectid: The ID of the object that was moved.
         :returns: No return value.

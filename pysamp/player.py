@@ -2435,7 +2435,7 @@ class Player:
     def on_enter_exit_mod_shop(
         cls, playerid: int, enterexit: int, interiorid: int
     ):
-        """This callbackis called when a player enters or exits a mod shop.
+        """This callback is called when a player enters or exits a mod shop.
 
         :param int playerid: The ID of the player that entered/exited the modshop.
         :param int enterexit: 1 if the player entered or 0 if they exited.
@@ -2449,7 +2449,7 @@ class Player:
 
     @event("OnPlayerConnect")
     def on_connect(cls, playerid: int):
-        """This callbackis called when a player connects to the server.
+        """This callback is called when a player connects to the server.
 
         :param int playerid: The ID of the player that connected.
         :returns: No return value.
@@ -2460,7 +2460,7 @@ class Player:
 
     @event("OnPlayerDisconnect")
     def on_disconnect(cls, playerid: int, reason: int):
-        """This callbackis called when a player disconnects from the server.
+        """This callback is called when a player disconnects from the server.
 
         :param int playerid: The ID of the player that disconnected.
         :param int reason: The reason for the disconnection.
@@ -2497,7 +2497,7 @@ class Player:
 
     @event("OnPlayerSpawn")
     def on_spawn(cls, playerid: int):
-        """This callbackis called when a player spawns.
+        """This callback is called when a player spawns.
         (i.e. after caling :meth:`spawn`)
 
         :param int playerid: The ID of the player that spawned.
@@ -2509,7 +2509,7 @@ class Player:
 
     @event("OnPlayerDeath")
     def on_death(cls, playerid: int, killerid: int, reason: int):
-        """This callbackis called when a player dies.
+        """This callback is called when a player dies.
 
         :param int playerid: The ID of the player that died.
         :param int killerid: The ID of the player that killed
@@ -2536,7 +2536,7 @@ class Player:
 
     @event("OnPlayerText")
     def on_text(cls, playerid: int, text: str):
-        """This callbackis called when a player sends a chat message.
+        """This callback is called when a player sends a chat message.
 
         :param int playerid: The ID of the player who typed the text.
         :param str text: The text the player typed.
@@ -2577,7 +2577,7 @@ class Player:
 
     @event("OnPlayerRequestClass")
     def on_request_class(cls, playerid: int, classid: int):
-        """This callbackis called when a player changes class at class selection
+        """This callback is called when a player changes class at class selection
         (and when class selection first appears).
 
         :param int playerid: The ID of the player that changed class.
@@ -2585,7 +2585,7 @@ class Player:
             (returned by :meth:`add_player_class`).
         :returns: No return value.
 
-        .. note:: This callbackis also called when a player presses F4.
+        .. note:: This callback is also called when a player presses F4.
         """
         return (cls(playerid), classid)
 
@@ -2767,7 +2767,7 @@ class Player:
 
     @event("OnPlayerClickMap")
     def on_click_map(cls, playerid: int, x: float, y: float, z: float):
-        """This callbackis called when a player places a target/waypoint
+        """This callback is called when a player places a target/waypoint
         on the pause menu map (by right-clicking).
 
         :param int playerid: The ID of the player that placed a target/waypoint.

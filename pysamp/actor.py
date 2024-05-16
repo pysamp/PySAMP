@@ -141,7 +141,7 @@ class Actor:
 
     @event("OnActorStreamIn")
     def on_stream_in(cls, actorid: int, forplayerid: int):
-        """This callbackis called when an actor is streamed in\
+        """This callback is called when an actor is streamed in\
         by a player's client.
 
         :param int actorid: The ID of the actor.
@@ -155,7 +155,7 @@ class Actor:
 
     @event("OnActorStreamOut")
     def on_stream_out(cls, actorid: int, forplayerid: int):
-        """This callbackis called when an actor is streamed\
+        """This callback is called when an actor is streamed\
         out by a player's client.
 
         :param int actorid: The ID of the actor.
