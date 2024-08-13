@@ -1,5 +1,5 @@
 #include "logprintf.h"
-#include "PySAMP.h"
+#include "pysamp/pysamp.h"
 
 
 typedef struct
