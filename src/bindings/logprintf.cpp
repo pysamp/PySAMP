@@ -1,4 +1,5 @@
 #include "logprintf.h"
+#include "PySAMP.h"
 
 
 typedef struct
@@ -30,7 +31,7 @@ static PyObject* LogPrintf_write(LogPrintfObject *self, PyObject *args)
 {
 	const char *text = NULL;
 
-	if(!PyArg_ParseTuple(args, "s", &text))
+	if(!PyArg_ParseTuple(args, "es:sys.stdout.write", PySAMP::getEncoding().c_str(), &text))
 		return NULL;
 
 	std::stringstream text_stream(*(self->line_buffer) + text);
