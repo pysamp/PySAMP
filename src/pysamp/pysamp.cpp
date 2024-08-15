@@ -98,9 +98,6 @@ void PySAMP::processTick(unsigned int currentTick)
 
 std::string PySAMP::getEncoding()
 {
-	if(!PySAMP::isLoaded())
-		return std::string("cp1252");
-
 	return std::string(PyBytes_AsString(PyUnicode_AsUTF8String(
 		PySAMP::gamemode->getConfig()["encoding"]
 	)));
