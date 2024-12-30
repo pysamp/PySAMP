@@ -503,18 +503,35 @@ class Vehicle:
         return (cls(vehicle_id),)
 
     @event("OnVehicleStreamIn")
-    def on_stream_in(cls, vehicleid: int, forplayerid: int):
-        return (cls(vehicleid), Player(forplayerid))
+    def on_stream_in(cls, vehicle_id: int, for_player_id: int):
+        """This event is called when a vehicle is streamed for a \
+        player's client.
+
+        :param int vehicle_id: The ID of the vehicle that streamed in \
+        for the player.
+        :param int for_player_id: The ID of the player who the vehicle \
+        streamed in for.
+        :returns: No return value.
+        """
+        return (cls(vehicle_id), Player(for_player_id))
 
     @event("OnVehicleStreamOut")
-    def on_stream_out(cls, vehicleid: int, forplayerid: int):
-        return (cls(vehicleid), Player(forplayerid))
+    def on_stream_out(cls, vehicle_id: int, for_player_id: int):
+        """This event is called when a vehicle is streamed out for a \
+        player's client
+
+        :param int vehicle_id: The ID of the vehicle that streamed out.
+        :param int for_player_id: The ID of the player who is no longer \
+        streaming the vehicle.
+        :returns: No return value.
+        """
+        return (cls(vehicle_id), Player(for_player_id))
 
     @event("OnUnoccupiedVehicleUpdate")
     def on_unoccupied_update(
         cls,
-        vehicleid: int,
-        playerid: int,
+        vehicle_id: int,
+        player_id: int,
         passenger_seat: int,
         new_x: float,
         new_y: float,
@@ -523,9 +540,52 @@ class Vehicle:
         vel_y: float,
         vel_z: float,
     ):
+        """This event is called when a player's client updates / syncs the \
+        position of a vehicle they're not driving.
+        This can happen outside of the vehicle or when the player is a \
+        passenger of a vehicle that has no driver.
+
+        :param int vehicle_id: The ID of the vehicle that's position \
+        was updated.
+        :param int player_id: The ID of the player that sent a vehicle \
+        position sync update.
+        :param int passenget_seat: The ID of the seat if the player \
+        is a passenger.
+        :param float new_x: The new X coordinate of the vehicle.
+        :param float new_y: The new Y coordinate of the vehicle.
+        :param float new_z: The new Z coordinate of the vehicle.
+        :param float vel_x: The new X velocity of the vehicle.
+        :param float vel_y: The new Y velocity of the vehicle.
+        :param float vel_z: The new Z velocity of the vehicle.
+        :returns: No return value.
+
+        .. list-table:: Seats
+            :header-rows: 1
+
+            * - ID
+              - Definition
+            * - 0
+              - Not in vehicle
+            * - 1
+              - Front passenger
+            * - 2
+              - Backleft
+            * - 3
+              - Backright
+            * - 4+
+              - Coach/Bus etc.
+
+        .. warning::
+            This event is called very frequently per second per \
+            unoccupied vehicle.
+            You should refrain from implementing intensive calculations or \
+            intensive file writing/reading operations in this event.
+            :meth:`Vehicle.get_pos()` will return the old coordinates of \
+            the vehicle before this update.
+        """
         return (
-            cls(vehicleid),
-            Player(playerid),
+            cls(vehicle_id),
+            Player(player_id),
             passenger_seat,
             new_x,
             new_y,
