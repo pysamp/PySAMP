@@ -338,8 +338,10 @@ class TextDraw:
     def select(self, player: "Player", hover_color: int) -> bool:
         """Display the cursor and allow the player to select a textdraw.
 
-        :param Player player: The player that should be able to select a textdraw.
-        :param int hover_color: The color of the textdraw when hovering over with mouse (RGBA).
+        :param Player player: The player that should be able to
+        select a textdraw.
+        :param int hover_color: The color of the textdraw when hovering over
+        with mouse (RGBA).
         :return: This method does not return anything.
         """
         return select_text_draw(player.id, hover_color)
@@ -347,7 +349,8 @@ class TextDraw:
     def cancel_select(self, player: "Player") -> bool:
         """Cancel textdraw selection with the mouse.
 
-        :param Player player: The player that should be the textdraw selection disabled.
+        :param Player player: The player that should be the textdraw
+        selection disabled.
         :return: This method does not return anything.
         """
         return cancel_select_text_draw(player.id)
