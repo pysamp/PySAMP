@@ -29,6 +29,7 @@ class PySAMPFinder(FileFinder):
     @classmethod
     def path_hook(cls, *loader_details):
         closure = super().path_hook(*loader_details)
+
         def path_hook_for_PySAMPFinder(path):
             """Path hook for pysamp.callbacks._path_hook.PySAMPFinder."""
             if not any(
