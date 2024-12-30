@@ -2455,7 +2455,7 @@ class Player:
         :param int player_id: The ID of the player that connected.
         :returns: No return value.
 
-        ..note:: This event can also be called by NPC.
+        .. note:: This event can also be called by NPC.
         """
         return (cls(player_id),)
 
