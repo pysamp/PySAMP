@@ -193,7 +193,7 @@ class Vehicle:
         driver: int,
         passenger: int,
         backleft: int,
-        backright: int
+        backright: int,
     ) -> bool:
         """Open and close vehicle doors.
 
@@ -357,7 +357,7 @@ class Vehicle:
         panels: int,
         doors: int,
         lights: int,
-        tires: int
+        tires: int,
     ) -> bool:
         """Set vehicle damage status.
 
