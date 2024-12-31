@@ -155,7 +155,14 @@ class Vehicle:
         return get_vehicle_params_ex(self.id)
 
     def set_params_ex(
-        self, engine: int, lights: int, alarm: int, doors: int, bonnet: int, boot: int, objective: int
+        self,
+        engine: int,
+        lights: int,
+        alarm: int,
+        doors: int,
+        bonnet: int,
+        boot: int,
+        objective: int,
     ) -> bool:
         """Set additional parameters on the vehicle."""
         return set_vehicle_params_ex(
@@ -181,7 +188,13 @@ class Vehicle:
         """
         return get_vehicle_params_car_doors(self.id)
 
-    def set_params_car_doors(self, driver: int, passenger: int, backleft: int, backright: int) -> bool:
+    def set_params_car_doors(
+        self,
+        driver: int,
+        passenger: int,
+        backleft: int,
+        backright: int,
+    ) -> bool:
         """Open and close vehicle doors.
 
         The doors tuple should be in this order:
@@ -339,7 +352,13 @@ class Vehicle:
         """
         return get_vehicle_damage_status(self.id)
 
-    def set_damage_status(self, panels: int, doors: int, lights: int, tires: int) -> bool:
+    def set_damage_status(
+        self,
+        panels: int,
+        doors: int,
+        lights: int,
+        tires: int,
+    ) -> bool:
         """Set vehicle damage status.
 
         Please refer to:
