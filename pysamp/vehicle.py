@@ -162,7 +162,7 @@ class Vehicle:
         doors: int,
         bonnet: int,
         boot: int,
-        objective: int
+        objective: int,
     ) -> bool:
         """Set additional parameters on the vehicle."""
         return set_vehicle_params_ex(
