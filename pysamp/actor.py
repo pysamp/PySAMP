@@ -141,11 +141,11 @@ class Actor:
 
     @event("OnActorStreamIn")
     def on_stream_in(cls, actor_id: int, for_player_id: int):
-        """This event is called when an actor is streamed in by a player's \
+        """This event is called when an actor is streamed in by a player's
         client.
 
         :param int actor_id: The ID of the actor.
-        :param int for_player_id: The ID of the player that streamed the \
+        :param int for_player_id: The ID of the player that streamed the
         actor in.
         :returns: No return value.
 
@@ -155,11 +155,11 @@ class Actor:
 
     @event("OnActorStreamOut")
     def on_stream_out(cls, actor_id: int, for_player_id: int):
-        """This event is called when an actor is streamed out by a \
+        """This event is called when an actor is streamed out by a
         player's client.
 
         :param int actor_id: The ID of the actor.
-        :param int for_player_id: The ID of the player that streamed the \
+        :param int for_player_id: The ID of the player that streamed the
         actor out.
         :returns: No return value.
 

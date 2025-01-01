@@ -391,7 +391,7 @@ class PlayerObject:
 
     @event("OnPlayerObjectMoved")
     def on_moved(cls, player_id: int, object_id: int):
-        """This event is called when a player object is moved after \
+        """This event is called when a player object is moved after
         :meth:`PlayerObject.move()` (when it stops moving).
 
         :param int player_id: The player id the object is assigned to.

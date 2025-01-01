@@ -562,7 +562,7 @@ class Player:
         """Set a new name for the player.
 
         :param name: The name to set. Must be 2-24 characters long and only
-            contain valid characters (0-9, a-z, A-Z, [], (), \\$ @ . _ and =).
+            contain valid characters (0-9, a-z, A-Z, [], (),\$ @ . _ and =).
         :return: This method does not return anything.
 
 
@@ -1387,7 +1387,7 @@ class Player:
                 if player.get_pvar_type(var_name) is not 0:
                     pvar_count = pvar_count + 1
 
-            print(f"You have {pvar_count} player-variables set. \\
+            print(f"You have {pvar_count} player-variables set.\
                 Upper index (highest ID):\\
                 {pvar_upper_index - 1}.")
         """
@@ -2437,10 +2437,10 @@ class Player:
     ):
         """This event is called when a player enters or exits a mod shop.
 
-        :param int player_id: The ID of the player that entered  /exited \
+        :param int player_id: The ID of the player that entered  /exited
         the modshop.
         :param int enter_exit: ``1`` if the player entered or ``0`` if exited.
-        :param int interior_id: The interior ID of the modshop that \
+        :param int interior_id: The interior ID of the modshop that
         the player is entering (or ``0`` if exiting).
         :returns: No return value.
 
@@ -2475,11 +2475,11 @@ class Player:
               - Description
             * - 0
               - Timeout/Crash
-              - The player's connection was lost. \
+              - The player's connection was lost.
                 Either their game crashed or their network had a fault.
             * - 1
               - Quit
-              - The player purposefully quit, either using the /quit (/q) \
+              - The player purposefully quit, either using the /quit (/q)
                 command or via the pause menu.
             * - 2
               - Kick/Ban
@@ -2489,7 +2489,7 @@ class Player:
               - Used by some libraries. Reserved for modes' private uses.
             * - 4
               - Mode End
-              - The current mode is ending so disconnecting all players from \
+              - The current mode is ending so disconnecting all players from
                 it (they are still on the server).
 
         .. warning:: Reasons 3 and 4 were added by the open.mp server.
@@ -2513,25 +2513,25 @@ class Player:
         """This event is called when a player dies.
 
         :param int player_id: The ID of the player that died.
-        :param int killer_id: The ID of the player that killed the player who \
+        :param int killer_id: The ID of the player that killed the player who
         died, or ``INVALID_PLAYER_ID`` if there was none.
-        :param int reason: The ID of the reason (weapon id) for the \
+        :param int reason: The ID of the reason (weapon id) for the
         player's death.
         :returns: No return value.
 
         Weapon IDs: https://www.open.mp/docs/scripting/resources/weapon_ids
 
         .. note:: The reason will return 37 from any fire sources.
-            The reason will return 51 from any weapon that creates an \
+            The reason will return 51 from any weapon that creates an
             explosion (e.g. RPG, grenade).
-            You do not need to check whether killer_id is valid before using \
+            You do not need to check whether killer_id is valid before using
             it in :meth:`Player.send_death_message()`.
-            ``INVALID_PLAYER_ID`` is a valid killer_id ID parameter in that \
+            ``INVALID_PLAYER_ID`` is a valid killer_id ID parameter in that
             function.
-            player_id is the only one who can call the event. \
+            player_id is the only one who can call the event.
             (good to know for anti fake death)
 
-        .. warning:: You MUST check whether ``killer_id`` is valid \
+        .. warning:: You MUST check whether ``killer_id`` is valid
         (not ``INVALID_PLAYER_ID``) before using it anywhere.
         """
         return (
@@ -2563,13 +2563,13 @@ class Player:
 
     @event("OnPlayerCommandText")
     def on_command_text(cls, player_id: int, command_text: str):
-        """This event is called when a player enters a command into the \
+        """This event is called when a player enters a command into the
         client chat window.
 
         Commands are anything that start with a forward slash, e.g. /help.
 
         :param int player_id: The ID of the player that entered a command.
-        :param str command_text: The command that was entered \
+        :param str command_text: The command that was entered
         (including the forward slash).
         :returns: No return value.
 
@@ -2609,20 +2609,20 @@ class Player:
         vehicle_id: int,
         is_passenger: bool,
     ):
-        """This event is called when a player starts to enter a vehicle, \
-        meaning the player is not in vehicle yet at the time this event  \
+        """This event is called when a player starts to enter a vehicle,
+        meaning the player is not in vehicle yet at the time this event
         is called.
 
         :param int player_id: ID of the player who attempts to enter a vehicle.
-        :param int vehicle_id: ID of the vehicle the player is attempting \
+        :param int vehicle_id: ID of the vehicle the player is attempting
         to enter.
-        :param bool is_passenger: ``False`` if entering as driver. ``True`` \
+        :param bool is_passenger: ``False`` if entering as driver. ``True``
         if entering as passenger.
         :returns: No return value.
 
         .. note:: This event is called when a player BEGINS to enter a vehicle,
             not when they HAVE entered it. See :meth:`Player.on_state_change`.
-            This event is still called if the player is denied entry \
+            This event is still called if the player is denied entry
             to the vehicle (e.g. it is locked or full).
         """
         return (cls(player_id), Vehicle(vehicle_id), is_passenger)
@@ -2635,10 +2635,10 @@ class Player:
         :param int vehicle_id: The ID of the vehicle the player is exiting.
         :returns: No return value.
 
-        .. warning:: Not called if the player falls off a bike or is \
+        .. warning:: Not called if the player falls off a bike or is
             removed from a vehicle
             by other means such as using :meth:`Player.set_pos()`.
-            You must use :meth:`Player.on_state_change` and check if their \
+            You must use :meth:`Player.on_state_change` and check if their
             old state is ``PLAYER_STATE_DRIVER`` or ``PLAYER_STATE_PASSENGER``\
             and their new state is ``PLAYER_STATE_ONFOOT``.
         """
@@ -2648,7 +2648,7 @@ class Player:
     def on_state_change(cls, player_id, new_state: int, old_state: int):
         """This event is called when a player changes state.
 
-        For example, when a player changes from being the driver of a vehicle \
+        For example, when a player changes from being the driver of a vehicle
         to being on-foot.
 
         :param int player_id: The ID of the player that changed state.
@@ -2656,7 +2656,7 @@ class Player:
         :param int old_state: The player's previous state.
         :returns: No return value.
 
-        List of all available player states: \
+        List of all available player states:
         https://www.open.mp/docs/scripting/resources/playerstates
 
         .. note:: This event can also be called by NPC.
@@ -2665,7 +2665,7 @@ class Player:
 
     @event("OnPlayerEnterCheckpoint")
     def on_enter_checkpoint(cls, player_id: int):
-        """This event is called when a player enters the checkpoint set for \
+        """This event is called when a player enters the checkpoint set for
         that player.
 
         :param int player_id: The player who entered the checkpoint.
@@ -2677,7 +2677,7 @@ class Player:
 
     @event("OnPlayerLeaveCheckpoint")
     def on_leave_checkpoint(cls, player_id: int):
-        """This event is called when a player leaves the checkpoint set for \
+        """This event is called when a player leaves the checkpoint set for
         him by :meth:`Player.set_checkpoint()`.
 
         Only one checkpoint can be set at a time.
@@ -2713,7 +2713,7 @@ class Player:
 
     @event("OnPlayerRequestSpawn")
     def on_request_spawn(cls, player_id: int):
-        """This event is called when a player attempts to spawn via class \
+        """This event is called when a player attempts to spawn via class
         selection either by pressing SHIFT or clicking the 'Spawn' button.
 
         :param int player_id: The ID of the player that requested to spawn.
@@ -2725,11 +2725,11 @@ class Player:
 
     @event("OnPlayerPickUpPickup")
     def on_pick_up_pickup(cls, player_id, pickup_id: int):
-        """This event is called when a player picks up a pickup created \
+        """This event is called when a player picks up a pickup created
         with :meth:`Pickup.create()`.
 
         :param int player_id: The ID of the player that picked up the pickup.
-        :param int pickup_id: The ID of the pickup, returned \
+        :param int pickup_id: The ID of the pickup, returned
         by :meth:`Pickup.create()`.
         :returns: No return value.
         """
@@ -2740,12 +2740,12 @@ class Player:
         """This event is called when a player selects an item from a menu.
 
         :param int player_id: The ID of the player that selected a menu item.
-        :param int row: The ID of the row that was selected. \
+        :param int row: The ID of the row that was selected.
         The first row is ID 0.
         :returns: No return value.
 
-        .. note:: The menu ID is not passed to this event. \
-        :meth:`Menu.get_player_menu()` must be used to determine which menu \
+        .. note:: The menu ID is not passed to this event.
+        :meth:`Menu.get_player_menu()` must be used to determine which menu
         the player selected an item on.
         """
         return (cls(player_id), row)
@@ -2766,8 +2766,8 @@ class Player:
         new_interior_id: int,
         old_interior_id: int,
     ):
-        """This event is called when a player changes interior. \
-        Can be triggered by :meth:`Player.set_interior()` or when a player \
+        """This event is called when a player changes interior.
+        Can be triggered by :meth:`Player.set_interior()` or when a player
         enter / exits a building.
 
         :param int player_id: The player_id who changed interior.
@@ -2779,15 +2779,15 @@ class Player:
 
     @event("OnPlayerKeyStateChange")
     def on_key_state_change(cls, player_id: int, new_keys: int, old_keys: int):
-        """This event is called when the state of any supported key is \
+        """This event is called when the state of any supported key is
         changed (pressed/released).
 
         Directional keys do not trigger this event (up/down/left/right).
 
-        :param int player_id: The ID of the player that \
+        :param int player_id: The ID of the player that
         pressed or released a key.
         :param int new_interior_id: A map (bitmask) of the keys currently held.
-        :param int old_interior_id: A map (bitmask) of the keys held prior to \
+        :param int old_interior_id: A map (bitmask) of the keys held prior to
         the current change.
         :returns: No return value.
 
@@ -2799,9 +2799,9 @@ class Player:
 
     @event("OnPlayerUpdate")
     def on_update(cls, player_id: int):
-        """This event is called every time a client / player updates the \
-        server with their status. It is often used to create custom events \
-        for client updates that aren't actively tracked by the server, \
+        """This event is called every time a client / player updates the
+        server with their status. It is often used to create custom events
+        for client updates that aren't actively tracked by the server,
         such as health or armor updates or players switching weapons.
 
         :param int player_id: ID of the player sending an update packet.
@@ -2812,19 +2812,19 @@ class Player:
         .. warning::
             This event is called, on average, 30 times per second, per player.
             Only use it when you know what it's meant for.
-            The frequency with which this event is called for \
-            each player varies, depending on what the player is doing. \
+            The frequency with which this event is called for
+            each player varies, depending on what the player is doing.
             Driving or shooting will trigger a lot more updates than idling.
         """
         return (cls(player_id),)
 
     @event("OnPlayerStreamIn")
     def on_stream_in(cls, player_id: int, for_player_id: int):
-        """This event is called when a player is streamed by \
+        """This event is called when a player is streamed by
         some other player's client.
 
         :param int player_id: The ID of the player who has been streamed.
-        :param int for_player_id: The ID of the player that streamed the \
+        :param int for_player_id: The ID of the player that streamed the
         other player in.
         :returns: No return value.
 
@@ -2834,11 +2834,11 @@ class Player:
 
     @event("OnPlayerStreamOut")
     def on_stream_out(cls, player_id: int, for_player_id: int):
-        """This event is called when a player is streamed \
+        """This event is called when a player is streamed
         out from some other player's client.
 
         :param int player_id: The player who has been destreamed.
-        :param int for_player_id: The player who has destreamed the \
+        :param int for_player_id: The player who has destreamed the
         other player.
         :returns: No return value.
 
@@ -2861,9 +2861,9 @@ class Player:
         """This event is called when a player takes damage.
 
         :param int player_id: The ID of the player that took damage.
-        :param int issuer_id: The ID of the player that caused the damage. \
+        :param int issuer_id: The ID of the player that caused the damage.
         ``INVALID_PLAYER_ID`` if self-inflicted.
-        :param float amount: The amount of damage the player took \
+        :param float amount: The amount of damage the player took
         (health and armour combined).
         :param int weapon_id: The ID of the weapon/reason for the damage.
         :param int body_part: The body part that was hit.
@@ -2872,21 +2872,21 @@ class Player:
         Body parts: https://www.open.mp/docs/scripting/resources/bodyparts
 
         .. note::
-            - The weapon_id will return 37 (flame thrower) from any \
+            - The weapon_id will return 37 (flame thrower) from any
             fire sources (e.g. molotov, 18).
-            - The weapon_id will return 51 from any weapon that creates an \
+            - The weapon_id will return 51 from any weapon that creates an
             explosion (e.g. RPG, grenade).
             - player_id is the only one who can call the event.
-            - The amount is always the maximum damage the weaponid can do, \
+            - The amount is always the maximum damage the weaponid can do,
             even when the health left is less than that maximum damage.
-            So when a player has 100.0 health and gets shot with a \
-            Desert Eagle which has a damage value of 46.2, it takes 3 shots \
-            to kill that player. All 3 shots will show an amount of 46.2, \
-            even  though when the last shot hits, the player only has \
+            So when a player has 100.0 health and gets shot with a
+            Desert Eagle which has a damage value of 46.2, it takes 3 shots
+            to kill that player. All 3 shots will show an amount of 46.2,
+            even  though when the last shot hits, the player only has
             7.6 health left.
 
         .. warning::
-            - :meth:`Player.get_health()` and :meth:`Player.get_armour()` \
+            - :meth:`Player.get_health()` and :meth:`Player.get_armour()`
             will return the old amounts of the player before this event.
             - Always check if issuer_id is valid before.
         """
@@ -2911,7 +2911,7 @@ class Player:
 
         :param int player_id: The ID of the player that gave damage.
         :param int damaged_id: The ID of the player that received damage.
-        :param float amount: The amount of health / armour damaged_id has \
+        :param float amount: The amount of health / armour damaged_id has
         lost (combined).
         :param int weapon_id: The reason that caused the damage.
         :param int body_part: The body part that was hit.
@@ -2921,19 +2921,19 @@ class Player:
 
         .. note::
             - Keep in mind this function can be inaccurate in some cases.
-            - If you want to prevent certain players from damaging eachother, \
+            - If you want to prevent certain players from damaging eachother,
             use :meth:`Player.set_team()`.
-            - The weapon_id will return 37 (flame thrower) from any \
+            - The weapon_id will return 37 (flame thrower) from any
             fire sources (e.g. molotov, 18).
-            - The weapon_id will return 51 from any weapon that creates an \
+            - The weapon_id will return 51 from any weapon that creates an
             explosion (e.g. RPG, grenade).
             - player_id is the only one who can call the event.
-            - The amount is always the maximum damage the weaponid can do, \
+            - The amount is always the maximum damage the weaponid can do,
             even when the health left is less than that maximum damage.
-            So when a player has 100.0 health and gets shot with a \
-            Desert Eagle which has a damage value of 46.2, it takes 3 shots \
-            to kill that player. All 3 shots will show an amount of 46.2, \
-            even  though when the last shot hits, the player only has \
+            So when a player has 100.0 health and gets shot with a
+            Desert Eagle which has a damage value of 46.2, it takes 3 shots
+            to kill that player. All 3 shots will show an amount of 46.2,
+            even  though when the last shot hits, the player only has
             7.6 health left.
         """
         return (
@@ -2965,7 +2965,7 @@ class Player:
         Body parts: https://www.open.mp/docs/scripting/resources/bodyparts
 
         .. note::
-            This event does not get called if the actor is set invulnerable \
+            This event does not get called if the actor is set invulnerable
             (WHICH IS BY DEFAULT). See :meth:`Actor.set_invulnerable()`.
         """
         return (
@@ -2978,10 +2978,10 @@ class Player:
 
     @event("OnPlayerClickMap")
     def on_click_map(cls, player_id: int, x: float, y: float, z: float):
-        """This event is called when a player places a target/waypoint \
+        """This event is called when a player places a target/waypoint
         on the pause menu map (by right-clicking).
 
-        :param int player_id: The ID of the player that placed a \
+        :param int player_id: The ID of the player that placed a
         target / waypoint.
         :param float x: The X float coordinate where the player clicked.
         :param float y:	The Y float coordinate where the player clicked.
@@ -2992,19 +2992,19 @@ class Player:
 
     @event("OnPlayerClickTextDraw")
     def on_click_textdraw(cls, player_id: int, clicked_id: int):
-        """This event is called when a player clicks on a textdraw \
+        """This event is called when a player clicks on a textdraw
         or cancels the select mode with the Escape key.
 
         :param int player_id: The ID of the player clicked on the textdraw.
-        :param int clicked_id: The ID of the clicked textdraw. \
+        :param int clicked_id: The ID of the clicked textdraw.
         ``INVALID_TEXT_DRAW`` if selection was cancelled.
         :returns: No return value.
 
         .. warning::
             The clickable area is defined by :meth:`TextDraw.text_size()`.
-            The x and y parameters passed to that function \
+            The x and y parameters passed to that function
             must not be zero or negative.
-            Do not use :meth:`TextDraw.cancel_select()` unconditionally \
+            Do not use :meth:`TextDraw.cancel_select()` unconditionally
             within this event. This results in an infinite loop.
         """
         return (cls(player_id), TextDraw(clicked_id))
@@ -3012,17 +3012,17 @@ class Player:
     @event("OnPlayerClickPlayerTextDraw")
     def on_click_playertextdraw(cls, player_id: int, player_text_id: int):
         """This event is called when a player clicks on a player-textdraw.
-        It is not called when player cancels the select mode (ESC) \
+        It is not called when player cancels the select mode (ESC)
         however, :meth:`Player.on_click_textdraw()` is.
 
         :param int player_id: The ID of the player that selected a textdraw.
-        :param int player_text_id: The ID of the player-textdraw \
+        :param int player_text_id: The ID of the player-textdraw
         that the player selected.
         :returns: No return value.
 
         .. warning::
             When a player presses ESC to cancel selecting a textdraw,\
-            :meth:`Player.on_click_textdraw()` is called with a \
+            :meth:`Player.on_click_textdraw()` is called with a
             textdraw ID of ``INVALID_TEXT_DRAW``.\
             :meth:`Player.on_click_playertextdraw()` won't be called also.
         """
@@ -3030,19 +3030,19 @@ class Player:
 
     @event("OnPlayerClickPlayer")
     def on_click_player(cls, player_id: int, clicked_player_id: int, source: int):
-        """This event is called when a player double-clicks on a player on \
+        """This event is called when a player double-clicks on a player on
         the scoreboard.
 
-        :param int player_id: The ID of the player that clicked on a player \
+        :param int player_id: The ID of the player that clicked on a player
         on the scoreboard.
         :param int clickedplayer_id: The ID of the player that was clicked on.
         :param int source: The source of the player's click.
         :returns: No return value.
 
         .. note::
-            There is currently only one source \
+            There is currently only one source
             (0 - ``CLICK_SOURCE_SCOREBOARD``).
-            The existence of this argument suggests that more sources may be \
+            The existence of this argument suggests that more sources may be
             supported in the future.
         """
         return (cls(player_id), cls(clicked_player_id), source)
@@ -3064,7 +3064,7 @@ class Player:
         """This event is called when a player finishes editing an object.
 
         :param int player_id: The ID of the player that edited an object.
-        :param bool is_player_object: `False` if it is a global object or \
+        :param bool is_player_object: `False` if it is a global object or
         `True` if it is a playerobject.
         :param int object_id: The ID of the edited object.
         :param int response: The type of response.
@@ -3077,9 +3077,9 @@ class Player:
         :returns: No return value.
 
         .. warning::
-            When using ``EDIT_RESPONSE_UPDATE`` be aware that this event will \
-            not be called when releasing an edit in progress resulting in the \
-            last update of ``EDIT_RESPONSE_UPDATE`` being out of sync of the \
+            When using ``EDIT_RESPONSE_UPDATE`` be aware that this event will
+            not be called when releasing an edit in progress resulting in the
+            last update of ``EDIT_RESPONSE_UPDATE`` being out of sync of the
             objects current position.
         """
         return (
@@ -3112,11 +3112,11 @@ class Player:
         scale_y: float,
         scale_z: float,
     ):
-        """This event is called when a player ends attached object \
+        """This event is called when a player ends attached object
         edition mode.
 
         :param int player_id: The ID of the player that ended edition mode.
-        :param int response: ``0`` if cancelled (ESC) \
+        :param int response: ``0`` if cancelled (ESC)
         or ``1`` if clicked the save icon.
         :param int index: The index of the object (0-9).
         :param int model_id: The model of the object that was edited.
@@ -3134,7 +3134,7 @@ class Player:
 
         .. warning::
             Editions should be discarded if response was ``0``' (cancelled).
-            This must be done by storing the offsets etc. \
+            This must be done by storing the offsets etc.
             BEFORE using :meth:`Player.edit_attached_object()`.
         """
         return (
@@ -3214,13 +3214,13 @@ class Player:
 
         Only bullet weapons are supported.
 
-        Only passenger drive-by is supported \
+        Only passenger drive-by is supported
         (not driver drive-by, and not sea sparrow / hunter shots).
 
         :param int player_id: The ID of the player that shot a weapon.
         :param int weapon_id: The ID of the weapon shot by the player.
         :param int hit_type: The type of thing the shot hit.
-        :param int hit_id: The ID of the player, vehicle or object that \
+        :param int hit_id: The ID of the player, vehicle or object that
         was hit.
         :param float x: The X coordinate that the shot hit.
         :param float y: The X coordinate that the shot hit.
@@ -3247,30 +3247,30 @@ class Player:
               - ``BULLET_HIT_TYPE_PLAYER_OBJECT``
 
         .. note::
-            This event is only called when lag compensation is enabled. \
-            If hit_type is: ``BULLET_HIT_TYPE_NONE``: the x, y and z \
-            parameters are normal coordinates, will give 0.0 for coordinates  \
+            This event is only called when lag compensation is enabled.
+            If hit_type is: ``BULLET_HIT_TYPE_NONE``: the x, y and z
+            parameters are normal coordinates, will give 0.0 for coordinates
             if nothing was hit (e.g. far object that the bullet can't reach).
 
             Others: the x, y and z are offsets relative to the hit_id.
 
         .. note::
-            :meth:`Player.get_last_shot_vectors()` can be used in this event \
+            :meth:`Player.get_last_shot_vectors()` can be used in this event
             for more detailed bullet vector information.
 
         .. warning::
             Known Bug(s):
-                Isn't called if you fired in vehicle as driver \
+                Isn't called if you fired in vehicle as driver
                 or if you are looking behind with the aim enabled (air).\
 
-                It is called as ``BULLET_HIT_TYPE_VEHICLE`` with the correct \
-                hit_id (the hit player's vehicle_id) if you are shooting a \
-                player which is in a vehicle. It won't be called as \
+                It is called as ``BULLET_HIT_TYPE_VEHICLE`` with the correct
+                hit_id (the hit player's vehicle_id) if you are shooting a
+                player which is in a vehicle. It won't be called as
                 ``BULLET_HIT_TYPE_PLAYER`` at all.
 
-                Partially fixed in SA-MP 0.3.7: If fake weapon data is sent  \
+                Partially fixed in SA-MP 0.3.7: If fake weapon data is sent
                 by a malicious user, other player clients may freeze or crash.
-                To combat this, check if the reported weapon_id can \
+                To combat this, check if the reported weapon_id can
                 actually fire bullets.
         """
         hit_cls = {
