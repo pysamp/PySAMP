@@ -144,12 +144,14 @@ class Actor:
         """This event is called when an actor is streamed in by a player's
         client.
 
-        :param int actor_id: The ID of the actor.
-        :param int for_player_id: The ID of the player that streamed the
+        :param Actor actor: The instance of the actor class.
+        :param Player for_player: The instance of the player class that streamed the
         actor in.
         :returns: No return value.
 
         .. note:: This event can also be called by NPC.
+
+        Wraps: https://open.mp/docs/scripting/callbacks/OnActorStreamIn
         """
         return (cls(actor_id), Player(for_player_id))
 
@@ -158,12 +160,14 @@ class Actor:
         """This event is called when an actor is streamed out by a
         player's client.
 
-        :param int actor_id: The ID of the actor.
-        :param int for_player_id: The ID of the player that streamed the
+        :param Actor actor: The instance of the actor class.
+        :param Player for_player: The instance of the player class that streamed the
         actor out.
         :returns: No return value.
 
         .. note:: This event can also be called by NPC.
+
+        Wraps: https://open.mp/docs/scripting/callbacks/OnActorStreamOut
         """
         return (cls(actor_id), Player(for_player_id))
 
