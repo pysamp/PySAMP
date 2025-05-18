@@ -2437,7 +2437,7 @@ class Player:
     ):
         """This event is called when a player enters or exits a mod shop.
 
-        :param int player_id: The ID of the player that entered  /exited
+        :param Player player: The instance of the player that entered / exited
         the modshop.
         :param int enter_exit: ``1`` if the player entered or ``0`` if exited.
         :param int interior_id: The interior ID of the modshop that
@@ -2445,6 +2445,8 @@ class Player:
         :returns: No return value.
 
         .. warning:: Players collide when they get into the same mod shop.
+
+        Wraps: https://open.mp/docs/scripting/callbacks/OnEnterExitModShop
         """
         return (cls(player_id), enter_exit, interior_id)
 
@@ -2452,10 +2454,12 @@ class Player:
     def on_connect(cls, player_id: int):
         """This event is called when a player connects to the server.
 
-        :param int player_id: The ID of the player that connected.
+        :param Player player: The instance of the player that connected.
         :returns: No return value.
 
         .. note:: This event can also be called by NPC.
+
+        Wraps: https://open.mp/docs/scripting/callbacks/OnPlayerConnect
         """
         return (cls(player_id),)
 
@@ -2463,7 +2467,7 @@ class Player:
     def on_disconnect(cls, player_id: int, reason: int):
         """This event is called when a player disconnects from the server.
 
-        :param int player_id: The ID of the player that disconnected.
+        :param Player player: The instance of the player that disconnected.
         :param int reason: The reason for the disconnection.
         :returns: No return value.
 
@@ -2493,6 +2497,8 @@ class Player:
                 it (they are still on the server).
 
         .. warning:: Reasons 3 and 4 were added by the open.mp server.
+
+        Wraps: https://open.mp/docs/scripting/callbacks/OnPlayerDisconnect
         """
         return (cls(player_id), reason)
 
@@ -2501,10 +2507,12 @@ class Player:
         """This event is called when a player spawns.
         (i.e. after caling :meth:`Player.spawn()`)
 
-        :param int player_id: The ID of the player that spawned.
+        :param Player player: The instance of the player that spawned.
         :returns: No return value.
 
         .. note:: The game sometimes deducts $100 from players after spawn.
+
+        Wraps: https://open.mp/docs/scripting/callbacks/OnPlayerSpawn
         """
         return (cls(player_id),)
 
@@ -2512,9 +2520,9 @@ class Player:
     def on_death(cls, player_id: int, killer_id: int, reason: int):
         """This event is called when a player dies.
 
-        :param int player_id: The ID of the player that died.
-        :param int killer_id: The ID of the player that killed the player who
-        died, or ``INVALID_PLAYER_ID`` if there was none.
+        :param Player player: The instance of the player that died.
+        :param Player killer: The instance of the player that killed the
+        player who died, or ``INVALID_PLAYER_ID`` if there was none.
         :param int reason: The ID of the reason (weapon id) for the
         player's death.
         :returns: No return value.
@@ -2533,6 +2541,8 @@ class Player:
 
         .. warning:: You MUST check whether ``killer_id`` is valid
         (not ``INVALID_PLAYER_ID``) before using it anywhere.
+
+        Wraps: https://open.mp/docs/scripting/callbacks/OnPlayerDeath
         """
         return (
             cls(player_id),
@@ -2544,7 +2554,7 @@ class Player:
     def on_text(cls, player_id: int, text: str):
         """This event is called when a player sends a chat message.
 
-        :param int player_id: The ID of the player who typed the text.
+        :param Player player: The instance of the player who typed the text.
         :param str text: The text the player typed.
         :returns: No return value.
 
@@ -2558,6 +2568,8 @@ class Player:
             def on_player_text(player: Player, text: str):
                 send_client_message_to_all(-1, f"[Text] {text}")
                 return False # Ignore the default text and send the custom one.
+
+        Wraps: https://open.mp/docs/scripting/callbacks/OnPlayerText
         """
         return (cls(player_id), text)
 
@@ -2568,7 +2580,7 @@ class Player:
 
         Commands are anything that start with a forward slash, e.g. /help.
 
-        :param int player_id: The ID of the player that entered a command.
+        :param Player player: The instance of the player that entered a command.
         :param str command_text: The command that was entered
         (including the forward slash).
         :returns: No return value.
@@ -2585,6 +2597,8 @@ class Player:
                     return player.send_client_message(
                         -1, "SERVER: This is the /help command!"
                     )
+
+        Wraps: https://open.mp/docs/scripting/callbacks/OnPlayerCommandText
         """
         return (cls(player_id), command_text)
 
@@ -2593,12 +2607,14 @@ class Player:
         """This event is called when a player changes class at class selection
         (and when class selection first appears).
 
-        :param int player_id: The ID of the player that changed class.
+        :param Player player: The instance of the player that changed class.
         :param int class_id: The ID of the current class being viewed
             (returned by :meth:`add_player_class`).
         :returns: No return value.
 
         .. note:: This event is also called when a player presses F4.
+
+        Wraps: https://open.mp/docs/scripting/callbacks/OnPlayerRequestClass
         """
         return (cls(player_id), class_id)
 
@@ -2613,9 +2629,10 @@ class Player:
         meaning the player is not in vehicle yet at the time this event
         is called.
 
-        :param int player_id: ID of the player who attempts to enter a vehicle.
-        :param int vehicle_id: ID of the vehicle the player is attempting
-        to enter.
+        :param Player player: The instance of the player who attempts to
+        enter a vehicle.
+        :param Vehicle vehicle: The instance of the vehicle the player is
+        attempting to enter.
         :param bool is_passenger: ``False`` if entering as driver. ``True``
         if entering as passenger.
         :returns: No return value.
@@ -2624,6 +2641,8 @@ class Player:
             not when they HAVE entered it. See :meth:`Player.on_state_change`.
             This event is still called if the player is denied entry
             to the vehicle (e.g. it is locked or full).
+
+        Wraps: https://open.mp/docs/scripting/callbacks/OnPlayerEnterVehicle
         """
         return (cls(player_id), Vehicle(vehicle_id), is_passenger)
 
@@ -2631,8 +2650,10 @@ class Player:
     def on_exit_vehicle(cls, player_id: int, vehicle_id: int):
         """This event is called when a player starts to exit a vehicle.
 
-        :param int player_id: The ID of the player that is exiting a vehicle.
-        :param int vehicle_id: The ID of the vehicle the player is exiting.
+        :param Player player: The instance of the player that is
+        exiting a vehicle.
+        :param Vehicle vehicle: The instance of the vehicle the player is
+        exiting.
         :returns: No return value.
 
         .. warning:: Not called if the player falls off a bike or is
@@ -2641,6 +2662,8 @@ class Player:
             You must use :meth:`Player.on_state_change` and check if their
             old state is ``PLAYER_STATE_DRIVER`` or ``PLAYER_STATE_PASSENGER``\
             and their new state is ``PLAYER_STATE_ONFOOT``.
+
+        Wraps: https://open.mp/docs/scripting/callbacks/OnPlayerExitVehicle
         """
         return (cls(player_id), Vehicle(vehicle_id))
 
@@ -2651,7 +2674,7 @@ class Player:
         For example, when a player changes from being the driver of a vehicle
         to being on-foot.
 
-        :param int player_id: The ID of the player that changed state.
+        :param Player player: The instance of the player that changed state.
         :param int new_state: The player's new state.
         :param int old_state: The player's previous state.
         :returns: No return value.
@@ -2660,6 +2683,8 @@ class Player:
         https://www.open.mp/docs/scripting/resources/playerstates
 
         .. note:: This event can also be called by NPC.
+
+        Wraps: https://open.mp/docs/scripting/callbacks/OnPlayerStateChange
         """
         return (cls(player_id), new_state, old_state)
 
@@ -2668,10 +2693,13 @@ class Player:
         """This event is called when a player enters the checkpoint set for
         that player.
 
-        :param int player_id: The player who entered the checkpoint.
+        :param Player player: The instance of player who entered the
+        checkpoint.
         :returns: No return value.
 
         .. note:: This event can also be called by NPC.
+
+        Wraps: https://open.mp/docs/scripting/callbacks/OnPlayerEnterCheckpoint
         """
         return (cls(player_id),)
 
@@ -2682,10 +2710,13 @@ class Player:
 
         Only one checkpoint can be set at a time.
 
-        :param int player_id: The ID of the player that left their checkpoint.
+        :param Player player: The instance of the player that left their
+        checkpoint.
         :returns: No return value.
 
         .. note:: This event can also be called by NPC.
+
+        Wraps: https://open.mp/docs/scripting/callbacks/OnPlayerLeaveCheckpoint
         """
         return (cls(player_id),)
 
@@ -2693,10 +2724,14 @@ class Player:
     def on_enter_race_checkpoint(cls, player_id: int):
         """This event is called when a player enters a race checkpoint.
 
-        :param int player_id: The ID of the player who entered the checkpoint.
+        :param Player player: The instance of the player who entered the race
+        checkpoint.
         :returns: No return value.
 
         .. note:: This event can also be called by NPC.
+
+        Wraps:
+        https://open.mp/docs/scripting/callbacks/OnPlayerEnterRaceCheckpoint
         """
         return (cls(player_id),)
 
@@ -2704,10 +2739,14 @@ class Player:
     def on_leave_race_checkpoint(cls, player_id: int):
         """This event is called when a player leaves the race checkpoint.
 
-        :param int player_id: The ID of the player that left the checkpoint.
+        :param Player player: The instance of the player that left the race
+        checkpoint.
         :returns: No return value.
 
         .. note:: This event can also be called by NPC.
+
+        Wraps:
+        https://open.mp/docs/scripting/callbacks/OnPlayerLeaveRaceCheckpoint
         """
         return (cls(player_id),)
 
@@ -2716,10 +2755,13 @@ class Player:
         """This event is called when a player attempts to spawn via class
         selection either by pressing SHIFT or clicking the 'Spawn' button.
 
-        :param int player_id: The ID of the player that requested to spawn.
+        :param Player player: The instance of the player that requested to
+        spawn.
         :returns: No return value.
 
         .. note:: This event can also be called by NPC.
+
+        Wraps: https://open.mp/docs/scripting/callbacks/OnPlayerRequestSpawn
         """
         return (cls(player_id),)
 
@@ -2728,10 +2770,12 @@ class Player:
         """This event is called when a player picks up a pickup created
         with :meth:`Pickup.create()`.
 
-        :param int player_id: The ID of the player that picked up the pickup.
-        :param int pickup_id: The ID of the pickup, returned
+        :param Player player: The instance of the player that picked up the pickup.
+        :param Pickup pickup: The instance of the pickup, returned
         by :meth:`Pickup.create()`.
         :returns: No return value.
+
+        Wraps: https://open.mp/docs/scripting/callbacks/OnPlayerPickUpPickup
         """
         return (cls(player_id), Pickup(pickup_id))
 
@@ -2739,7 +2783,8 @@ class Player:
     def on_selected_menu_row(cls, player_id: int, row: int):
         """This event is called when a player selects an item from a menu.
 
-        :param int player_id: The ID of the player that selected a menu item.
+        :param Player player: The instance of the player that selected a
+        menu item.
         :param int row: The ID of the row that was selected.
         The first row is ID 0.
         :returns: No return value.
@@ -2747,6 +2792,8 @@ class Player:
         .. note:: The menu ID is not passed to this event.
         :meth:`Menu.get_player_menu()` must be used to determine which menu
         the player selected an item on.
+
+        Wraps: https://open.mp/docs/scripting/callbacks/OnPlayerSelectedMenuRow
         """
         return (cls(player_id), row)
 
@@ -2754,8 +2801,10 @@ class Player:
     def on_exited_menu(cls, player_id: int):
         """This event is called when a player exits a menu.
 
-        :param int player_id: The ID of the player that exited the menu.
+        :param Player player: The instance of the player that exited the menu.
         :returns: No return value.
+
+        Wraps: https://open.mp/docs/scripting/callbacks/OnPlayerExitedMenu
         """
         return (cls(player_id),)
 
@@ -2770,10 +2819,12 @@ class Player:
         Can be triggered by :meth:`Player.set_interior()` or when a player
         enter / exits a building.
 
-        :param int player_id: The player_id who changed interior.
+        :param Player player: The instance of player who changed interior.
         :param int new_interior_id: The interior the player is now in.
         :param int old_interior_id: The interior the player was in before.
         :returns: No return value.
+
+        Wraps: https://open.mp/docs/scripting/callbacks/OnPlayerInteriorChange
         """
         return (cls(player_id), new_interior_id, old_interior_id)
 
@@ -2784,8 +2835,8 @@ class Player:
 
         Directional keys do not trigger this event (up/down/left/right).
 
-        :param int player_id: The ID of the player that
-        pressed or released a key.
+        :param Player player: The instance of the player that pressed or
+        released a key.
         :param int new_interior_id: A map (bitmask) of the keys currently held.
         :param int old_interior_id: A map (bitmask) of the keys held prior to
         the current change.
@@ -2794,6 +2845,8 @@ class Player:
         List of keys: https://www.open.mp/docs/scripting/resources/keys
 
         .. note:: This event can also be called by NPC.
+
+        Wraps: https://open.mp/docs/scripting/callbacks/OnPlayerKeyStateChange
         """
         return (cls(player_id), new_keys, old_keys)
 
@@ -2804,7 +2857,8 @@ class Player:
         for client updates that aren't actively tracked by the server,
         such as health or armor updates or players switching weapons.
 
-        :param int player_id: ID of the player sending an update packet.
+        :param Player player: The instance of the player sending an
+        update packet.
         :returns: No return value.
 
         .. note:: This event can also be called by NPC.
@@ -2815,6 +2869,8 @@ class Player:
             The frequency with which this event is called for
             each player varies, depending on what the player is doing.
             Driving or shooting will trigger a lot more updates than idling.
+
+        Wraps: https://open.mp/docs/scripting/callbacks/OnPlayerUpdate
         """
         return (cls(player_id),)
 
@@ -2823,12 +2879,14 @@ class Player:
         """This event is called when a player is streamed by
         some other player's client.
 
-        :param int player_id: The ID of the player who has been streamed.
-        :param int for_player_id: The ID of the player that streamed the
+        :param Player player: The instance of the player who has been streamed.
+        :param Player for_player: The instance of the player that streamed the
         other player in.
         :returns: No return value.
 
         .. note:: This event can also be called by NPC.
+
+        Wraps: https://open.mp/docs/scripting/callbacks/OnPlayerStreamIn
         """
         return (cls(player_id), cls(for_player_id))
 
@@ -2837,15 +2895,18 @@ class Player:
         """This event is called when a player is streamed
         out from some other player's client.
 
-        :param int player_id: The player who has been destreamed.
-        :param int for_player_id: The player who has destreamed the
-        other player.
+        :param Player player: The instance of the player who has been
+        destreamed.
+        :param Player for_player: The instance of the player who has
+        destreamed the other player.
         :returns: No return value.
 
         .. note:: This event can also be called by NPC.
 
         .. warning::
             The event is not called for both players when a player disconnects.
+
+        Wraps: https://open.mp/docs/scripting/callbacks/OnPlayerStreamOut
         """
         return (cls(player_id), cls(for_player_id))
 
@@ -2860,8 +2921,9 @@ class Player:
     ):
         """This event is called when a player takes damage.
 
-        :param int player_id: The ID of the player that took damage.
-        :param int issuer_id: The ID of the player that caused the damage.
+        :param Player player: The instance of the player that took damage.
+        :param Player issuer: The instance of the player that caused
+        the damage.
         ``INVALID_PLAYER_ID`` if self-inflicted.
         :param float amount: The amount of damage the player took
         (health and armour combined).
@@ -2889,6 +2951,8 @@ class Player:
             - :meth:`Player.get_health()` and :meth:`Player.get_armour()`
             will return the old amounts of the player before this event.
             - Always check if issuer_id is valid before.
+
+        Wraps: https://open.mp/docs/scripting/callbacks/OnPlayerTakeDamage
         """
         return (
             cls(player_id),
@@ -2909,8 +2973,8 @@ class Player:
     ):
         """This event is called when a player gives damage to another player.
 
-        :param int player_id: The ID of the player that gave damage.
-        :param int damaged_id: The ID of the player that received damage.
+        :param Player player: The instance of the player that gave damage.
+        :param Player damaged: The instance of the player that received damage.
         :param float amount: The amount of health / armour damaged_id has
         lost (combined).
         :param int weapon_id: The reason that caused the damage.
@@ -2935,6 +2999,8 @@ class Player:
             to kill that player. All 3 shots will show an amount of 46.2,
             even  though when the last shot hits, the player only has
             7.6 health left.
+
+        Wraps: https://open.mp/docs/scripting/callbacks/OnPlayerGiveDamage
         """
         return (
             cls(player_id),
@@ -2955,8 +3021,9 @@ class Player:
     ):
         """This event is called when a player gives damage to an actor.
 
-        :param int player_id: The ID of the player that gave damage.
-        :param int damaged_actor_id: The ID of the actor that received damage
+        :param Player player: The instance of the player that gave damage.
+        :param Actor damaged_actor: The instance of the actor that
+        received damage
         :param float amount: The amount of health / armour actor has lost.
         :param int weapon_id: The reason that caused the damage.
         :param int body_part: 	The body part that was hit
@@ -2967,6 +3034,8 @@ class Player:
         .. note::
             This event does not get called if the actor is set invulnerable
             (WHICH IS BY DEFAULT). See :meth:`Actor.set_invulnerable()`.
+
+        Wraps: https://open.mp/docs/scripting/callbacks/OnPlayerGiveDamageActor
         """
         return (
             cls(player_id),
@@ -2981,12 +3050,14 @@ class Player:
         """This event is called when a player places a target/waypoint
         on the pause menu map (by right-clicking).
 
-        :param int player_id: The ID of the player that placed a
+        :param Player player: The instance of the player that placed a
         target / waypoint.
         :param float x: The X float coordinate where the player clicked.
         :param float y:	The Y float coordinate where the player clicked.
         :param float z:	The Z float coordinate where the player clicked.
         :returns: No return value.
+
+        Wraps: https://open.mp/docs/scripting/callbacks/OnPlayerClickMap
         """
         return (cls(player_id), x, y, z)
 
@@ -2995,8 +3066,9 @@ class Player:
         """This event is called when a player clicks on a textdraw
         or cancels the select mode with the Escape key.
 
-        :param int player_id: The ID of the player clicked on the textdraw.
-        :param int clicked_id: The ID of the clicked textdraw.
+        :param Player player: The instance of the player clicked on the
+        textdraw.
+        :param TextDraw clicked: The instance of the clicked textdraw.
         ``INVALID_TEXT_DRAW`` if selection was cancelled.
         :returns: No return value.
 
@@ -3006,6 +3078,8 @@ class Player:
             must not be zero or negative.
             Do not use :meth:`TextDraw.cancel_select()` unconditionally
             within this event. This results in an infinite loop.
+
+        Wraps: https://open.mp/docs/scripting/callbacks/OnPlayerClickTextDraw
         """
         return (cls(player_id), TextDraw(clicked_id))
 
@@ -3015,8 +3089,9 @@ class Player:
         It is not called when player cancels the select mode (ESC)
         however, :meth:`Player.on_click_textdraw()` is.
 
-        :param int player_id: The ID of the player that selected a textdraw.
-        :param int player_text_id: The ID of the player-textdraw
+        :param Player player: The instance of the player that selected a
+        textdraw.
+        :param PlayerTextDraw player_text: The instance of the player-textdraw
         that the player selected.
         :returns: No return value.
 
@@ -3025,6 +3100,9 @@ class Player:
             :meth:`Player.on_click_textdraw()` is called with a
             textdraw ID of ``INVALID_TEXT_DRAW``.\
             :meth:`Player.on_click_playertextdraw()` won't be called also.
+
+        Wraps:
+        https://open.mp/docs/scripting/callbacks/OnPlayerClickPlayerTextDraw
         """
         return (cls(player_id), PlayerTextDraw(player_text_id, cls(player_id)))
 
@@ -3033,9 +3111,10 @@ class Player:
         """This event is called when a player double-clicks on a player on
         the scoreboard.
 
-        :param int player_id: The ID of the player that clicked on a player
+        :param Player player: The instance of the player that clicked on a player
         on the scoreboard.
-        :param int clickedplayer_id: The ID of the player that was clicked on.
+        :param Player clickedplayer: The instance of the player that was
+        clicked on.
         :param int source: The source of the player's click.
         :returns: No return value.
 
@@ -3044,6 +3123,8 @@ class Player:
             (0 - ``CLICK_SOURCE_SCOREBOARD``).
             The existence of this argument suggests that more sources may be
             supported in the future.
+
+        Wraps: https://open.mp/docs/scripting/callbacks/OnPlayerClickPlayer
         """
         return (cls(player_id), cls(clicked_player_id), source)
 
@@ -3063,10 +3144,10 @@ class Player:
     ):
         """This event is called when a player finishes editing an object.
 
-        :param int player_id: The ID of the player that edited an object.
+        :param Player player: The instance of the player that edited an object.
         :param bool is_player_object: `False` if it is a global object or
         `True` if it is a playerobject.
-        :param int object_id: The ID of the edited object.
+        :param PlayerObject / Object object: The instance of the edited object.
         :param int response: The type of response.
         :param float x: The X offset for the object that was edited.
         :param float y: The Y offset for the object that was edited.
@@ -3081,6 +3162,8 @@ class Player:
             not be called when releasing an edit in progress resulting in the
             last update of ``EDIT_RESPONSE_UPDATE`` being out of sync of the
             objects current position.
+
+        Wraps: https://open.mp/docs/scripting/callbacks/OnPlayerEditObject
         """
         return (
             cls(player_id),
@@ -3115,7 +3198,8 @@ class Player:
         """This event is called when a player ends attached object
         edition mode.
 
-        :param int player_id: The ID of the player that ended edition mode.
+        :param Player player: The instance of the player that ended
+        edition mode.
         :param int response: ``0`` if cancelled (ESC)
         or ``1`` if clicked the save icon.
         :param int index: The index of the object (0-9).
@@ -3136,6 +3220,9 @@ class Player:
             Editions should be discarded if response was ``0``' (cancelled).
             This must be done by storing the offsets etc.
             BEFORE using :meth:`Player.edit_attached_object()`.
+
+        Wraps:
+        https://open.mp/docs/scripting/callbacks/OnPlayerEditAttachedObject
         """
         return (
             cls(player_id),
@@ -3167,9 +3254,11 @@ class Player:
     ):
         """This event is called when a player selects an object.
 
-        :param int player_id: The ID of the player that selected an object.
+        :param Player player: The instance of the player that selected an
+        object.
         :param int type: The type of selection.
-        :param int object_id: The ID of the selected object.
+        :param PlayerObject / Object object: The instance of the selected
+        object.
         :param int model_id: The model of the selected object.
         :param float x: The X position of the selected object.
         :param float y: The Y position of the selected object.
@@ -3185,6 +3274,8 @@ class Player:
               - ``SELECT_OBJECT_GLOBAL_OBJECT``
             * - 2
               - ``SELECT_OBJECT_PLAYER_OBJECT``
+
+        Wraps: https://open.mp/docs/scripting/callbacks/OnPlayerSelectObject
         """
         object_cls = {
             SELECT_OBJECT_GLOBAL_OBJECT: Object,
@@ -3217,11 +3308,11 @@ class Player:
         Only passenger drive-by is supported
         (not driver drive-by, and not sea sparrow / hunter shots).
 
-        :param int player_id: The ID of the player that shot a weapon.
+        :param Player player: The instance of the player that shot a weapon.
         :param int weapon_id: The ID of the weapon shot by the player.
         :param int hit_type: The type of thing the shot hit.
-        :param int hit_id: The ID of the player, vehicle or object that
-        was hit.
+        :param Vehicle / Object / PlayerObject hit: The instance of the player,
+        vehicle or object that was hit.
         :param float x: The X coordinate that the shot hit.
         :param float y: The X coordinate that the shot hit.
         :param float z: The X coordinate that the shot hit.
@@ -3272,6 +3363,8 @@ class Player:
                 by a malicious user, other player clients may freeze or crash.
                 To combat this, check if the reported weapon_id can
                 actually fire bullets.
+
+        Wraps: https://open.mp/docs/scripting/callbacks/OnPlayerWeaponShot
         """
         hit_cls = {
             BULLET_HIT_TYPE_NONE: lambda _: None,
