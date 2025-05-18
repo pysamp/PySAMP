@@ -394,9 +394,12 @@ class PlayerObject:
         """This event is called when a player object is moved after
         :meth:`PlayerObject.move()` (when it stops moving).
 
-        :param int player_id: The player id the object is assigned to.
-        :param int object_id: The ID of the player object that was moved.
+        :param Player player: The player instance the object is assigned to.
+        :param PlayerObject object: The instance of the player object that was
+        moved.
         :returns: No return value.
+
+        Wraps: https://open.mp/docs/scripting/callbacks/OnPlayerObjectMoved
         """
         return (cls(object_id, player_id), Player(object_id))
 
