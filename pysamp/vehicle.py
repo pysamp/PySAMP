@@ -361,14 +361,17 @@ class Vehicle:
     def on_trailer_update(cls, player_id: int, trailer_id: int):
         """This event is called when the player sent a trailer update.
 
-        :param int player_id: The ID of the player who sent a trailer update.
-        :param int trailer_id: The trailer being updated.
+        :param Player player: The ID of the player who sent a trailer update.
+        :param Vehicle trailer: The instance of trailer (vehicle)
+        being updated.
         :returns: No return value.
 
         .. warning::
             This event is called very frequently per second per trailer.
             You should refrain from implementing intensive calculations
             or intensive file writing/reading operations in this event.
+
+        Wraps: https://open.mp/docs/scripting/callbacks/OnTrailerUpdate
         """
         return (Player(player_id), cls(trailer_id))
 
@@ -377,13 +380,16 @@ class Vehicle:
         """This event is called when a vehicle element such as
         doors, tyres, panels, or lights change their damage status.
 
-        :param int vehicle_id: The ID of the vehicle that was changed
+        :param Vehicle vehicle: The instance of the vehicle that was changed
         its damage status.
-        :param int player_id: The ID of the player who synced the change in
-        the damage status (who had the car damaged or repaired)
+        :param Player player: The instance of the player who synced the change
+        in the damage status (who had the car damaged or repaired).
         :returns: No return value.
 
         .. note:: This does not include vehicle health changes.
+
+        Wraps:
+        https://open.mp/docs/scripting/callbacks/OnVehicleDamageStatusUpdate
         """
         return (cls(vehicle_id), Player(player_id))
 
@@ -392,17 +398,19 @@ class Vehicle:
         """This event is called when a vehicle is destroyed - either by
         exploding or becoming submerged in water.
 
-        :param int vehicle_id: The ID of the vehicle that was destroyed.
-        :param int killer_id: The ID of the player that reported the
-        vehicle's destruction (name is misleading). Generally the driver or
-        a passenger (if any) or the closest player.
+        :param Vehicle vehicle: The instance of the vehicle that was destroyed.
+        :param Player killer: The instance of the player that reported the
+        vehicle's destruction (name is misleading). Generally the driver or a
+        passenger (if any) or the closest player.
         :returns: No return value.
 
         .. note::
             This event will also be called when a vehicle enters water, but
             the vehicle can be saved by teleportation or driving out.
-            The event won't be called a second time,\
+            The event won't be called a second time,
             and the vehicle may disappear when the driver exits, or after a short time.
+
+        Wraps: https://open.mp/docs/scripting/callbacks/OnVehicleDeath
         """
         return (
             cls(vehicle_id),
@@ -413,13 +421,16 @@ class Vehicle:
     def on_mod(cls, player_id: int, vehicle_id: int, component_id: int):
         """This event is called when a vehicle is modded.
 
-        :param int player_id: The ID of the driver of the vehicle.
-        :param int vehicle_id: The ID of the vehicle which is modded.
+        :param Player player: The instance of the driver (player) of the
+        vehicle.
+        :param Vehicle vehicle: The instance of the vehicle which is modded.
         :param int component_id: The ID of the component which was added to
         the vehicle.
         :returns: No return value.
 
         .. note:: This event is NOT called by :meth:`Vehicle.add_component()`.
+
+        Wraprs: https://open.mp/docs/scripting/callbacks/OnVehicleMod
         """
         return (Player(player_id), cls(vehicle_id), component_id)
 
@@ -429,14 +440,16 @@ class Vehicle:
         inside a mod shop.
         Watch out, this event is NOT called when the player buys the paintjob.
 
-        :param int player_id: The ID of the player that changed the paintjob
+        :param Player player: The instance of the player that changed the paintjob
         of their vehicle.
-        :param int vehicle_id: The ID of the vehicle that had its
+        :param Vehicle vehicle: The instance of the vehicle that had its
         paintjob changed.
         :param int paintjob_id: The ID of the new paintjob.
         :returns: No return value.
 
         .. note:: This event isn't called by :meth:`Vehicle.change_paintjob()`.
+
+        Wraps: https://open.mp/docs/scripting/callbacks/OnVehiclePaintjob
         """
         return (Player(player_id), cls(vehicle_id), paintjob_id)
 
@@ -450,8 +463,9 @@ class Vehicle:
         Watch out, the name is ambiguous, Pay 'n' Spray shops don't call
         this event.
 
-        :param int player_id: The ID of the player that is driving the vehicle.
-        :param int vehicle_id: The ID of the vehicle that was resprayed.
+        :param Player player: The instance of the player that is driving the
+        vehicle.
+        :param Vehicle vehicle: The instance of the vehicle that was resprayed.
         :param int color1: The color that the vehicle's primary color
         was changed to.
         :param int color2: The color that the vehicle's secondary color
@@ -465,6 +479,8 @@ class Vehicle:
         .. warning::
             Known Bug(s): previewing a component inside a mod shop might call
             this event.
+
+        Wraps: https://open.mp/docs/scripting/callbacks/OnVehicleRespray
         """
         return (Player(player_id), cls(vehicle_id), color1, color2)
 
@@ -474,10 +490,10 @@ class Vehicle:
     ):
         """This event is called when a vehicle's siren is toggled.
 
-        :param int player_id: The ID of the player that toggled the
+        :param Player player: The instance of the player that toggled the
         siren (driver).
-        :param int vehicle_id: The ID of the vehicle of which the siren was
-        toggled for.
+        :param Vehicle vehicle: The instance of the vehicle of which the siren
+        was toggled for.
         :param int new_state: ``0`` if siren was turned off, ``1`` if siren
         was turned on.
         :returns: No return value.
@@ -485,6 +501,9 @@ class Vehicle:
         .. note::
             This event is only called when a vehicle's siren is on or off,
             NOT when the alternate siren is in use (holding horn).
+
+        Wraps:
+        https://open.mp/docs/scripting/callbacks/OnVehicleSirenStateChange
         """
         return (Player(player_id), cls(vehicle_id), new_state)
 
@@ -492,13 +511,15 @@ class Vehicle:
     def on_spawn(cls, vehicle_id: int):
         """This event is called when a vehicle respawns.
 
-        :param int vehicle_id: The ID of the vehicle that spawned.
+        :param Vehicle vehicle: The instance of the vehicle that was spawned.
         :returns: No return value.
 
         .. warning::
             This event is called only when vehicle respawns!
             :meth:`Vehicle.create()` and :meth:`add_static_vehicle/ex` won't
             trigger this event.
+
+        Wraps: https://open.mp/docs/scripting/callbacks/OnVehicleSpawn
         """
         return (cls(vehicle_id),)
 
@@ -507,11 +528,13 @@ class Vehicle:
         """This event is called when a vehicle is streamed for a
         player's client.
 
-        :param int vehicle_id: The ID of the vehicle that streamed in
+        :param Vehicle vehicle: The instance of the vehicle that streamed in
         for the player.
-        :param int for_player_id: The ID of the player who the vehicle
+        :param Player for_player: The instance of the player who the vehicle
         streamed in for.
         :returns: No return value.
+
+        Wraps: https://open.mp/docs/scripting/callbacks/OnVehicleStreamIn
         """
         return (cls(vehicle_id), Player(for_player_id))
 
@@ -520,10 +543,12 @@ class Vehicle:
         """This event is called when a vehicle is streamed out for a
         player's client
 
-        :param int vehicle_id: The ID of the vehicle that streamed out.
-        :param int for_player_id: The ID of the player who is no longer
+        :param Vehicle vehicle: The instance of the vehicle that streamed out.
+        :param Player for_player: The instance of the player who is no longer
         streaming the vehicle.
         :returns: No return value.
+
+        Wraps: https://open.mp/docs/scripting/callbacks/OnVehicleStreamOut
         """
         return (cls(vehicle_id), Player(for_player_id))
 
@@ -545,9 +570,9 @@ class Vehicle:
         This can happen outside of the vehicle or when the player is a
         passenger of a vehicle that has no driver.
 
-        :param int vehicle_id: The ID of the vehicle that's position
+        :param Vehicle vehicle: The instance of the vehicle that's position
         was updated.
-        :param int player_id: The ID of the player that sent a vehicle
+        :param Player player: The instance of the player that sent a vehicle
         position sync update.
         :param int passenget_seat: The ID of the seat if the player
         is a passenger.
@@ -582,6 +607,9 @@ class Vehicle:
             intensive file writing/reading operations in this event.
             :meth:`Vehicle.get_pos()` will return the old coordinates of
             the vehicle before this update.
+
+        Wraps:
+        https://open.mp/docs/scripting/callbacks/OnUnoccupiedVehicleUpdate
         """
         return (
             cls(vehicle_id),
