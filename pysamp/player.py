@@ -2920,7 +2920,7 @@ class Player:
         Body parts: https://www.open.mp/docs/scripting/resources/bodyparts
 
         .. note::
-            - Keep in mind this function can be inaccurate in some cases.
+            - Keep in mind this event can be inaccurate in some cases.
             - If you want to prevent certain players from damaging eachother,
             use :meth:`Player.set_team()`.
             - The weapon_id will return 37 (flame thrower) from any
