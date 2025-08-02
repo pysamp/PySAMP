@@ -15,6 +15,12 @@ class ColorCompatibleFormatter(string.Formatter):
 
 dialog_formatter = ColorCompatibleFormatter()
 
+DIALOG_STYLE_MSGBOX = 0
+DIALOG_STYLE_INPUT = 1
+DIALOG_STYLE_LIST = 2
+DIALOG_STYLE_PASSWORD = 3
+DIALOG_STYLE_TABLIST = 4
+DIALOG_STYLE_TABLIST_HEADERS = 5
 
 class Dialog:
     """Class to create and show dialogs.
