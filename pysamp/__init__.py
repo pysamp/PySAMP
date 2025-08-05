@@ -1,5 +1,5 @@
 """Snake case wrappers for PEP8 compatibility."""
-from typing import Tuple, Callable
+from typing import Any, Tuple, Callable
 import functools
 from pysamp.event import registry
 
@@ -2721,7 +2721,7 @@ def set_timer(
     function: Callable,
     interval_ms: int,
     repeating: bool = False,
-    *args: Tuple
+    *args: Any
 ) -> int:
     return SetTimer(function, interval_ms, repeating, *args)
 
