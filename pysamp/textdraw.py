@@ -22,9 +22,8 @@ from pysamp import (
     text_draw_text_size,
     text_draw_use_box,
     select_text_draw,
-    cancel_select_text_draw,
+    cancel_select_text_draw
 )
-from pysamp.event import event
 
 
 class TextDraw:
@@ -37,7 +36,6 @@ class TextDraw:
 
     To create a new textdraw, use :meth:`TextDraw.create`.
     """
-
     def __init__(self, id: int) -> None:
         self.id = id
 
@@ -77,7 +75,9 @@ class TextDraw:
             - If part of the text is off-screen, the color of the text will\
                 not show, only the shadow (if enabled) will.
         """
-        return cls(text_draw_create(x, y, text))
+        return cls(
+            text_draw_create(x, y, text)
+        )
 
     def destroy(self) -> bool:
         """Destroy the textdraw.
@@ -286,7 +286,11 @@ class TextDraw:
         return text_draw_set_preview_model(self.id, model_index)
 
     def set_preview_rotation(
-        self, rotation_x: float, rotation_y: float, rotation_z: float, zoom: float = 1.0
+        self,
+        rotation_x: float,
+        rotation_y: float,
+        rotation_z: float,
+        zoom: float = 1.0
     ) -> bool:
         """Sets the rotation and zoom of a 3D model preview textdraw.
 
@@ -350,29 +354,6 @@ class TextDraw:
         :return: This method does not return anything.
         """
         return cancel_select_text_draw(player.id)
-
-    @event("OnPlayerClickTextDraw")
-    def on_click(cls, player_id: int, clicked_id: int):
-        """This event is called when a player clicks on the instance of the
-        TextDraw.
-
-        :param Player player: The player that clicked on the
-        textdraw.
-        :returns: No return value.
-
-        .. warning::
-            The clickable area is defined by :meth:`TextDraw.text_size()`.
-            The x and y parameters passed to that function
-            must not be zero or negative.
-            Do not use :meth:`TextDraw.cancel_select()` unconditionally
-            within this event. This results in an infinite loop.
-
-        Wraps: https://open.mp/docs/scripting/callbacks/OnPlayerClickTextDraw
-        """
-        if clicked_id != cls.id:
-            return
-
-        return Player(player_id)
 
 
 from .player import Player  # noqa
